@@ -1,0 +1,305 @@
+[
+    {
+        "id": "d4a30d91-8283-eddc-799c-d3131f7cf2d7",
+        "name": "Arthur650 Ortiz186",
+        "email":"arun.kumar3@brillio.com",
+        "cluster_label":"1",
+        "phone":"555-766-3242",
+        "org":
+        [
+            {
+                "id":"24cb4eab-6166-3530-bddc-a5a8a14a4fc1",
+                "provider_name":"MILFORD REGIONAL MEDICAL CENTER",
+                "doctor": "Dr. Kymberly381 Nolan344",
+                "disease":"Sinusitis",
+                "period": {
+                    "start": "2004-02-29",
+                    "end": "2004-02-29"
+                  }
+            },
+            {
+                "id":"15019426-277a-30bd-9d48-3dde152fe519",
+                "provider_name":"HOPEDALE CARDIOVASCULAR ASSOCIATES, LLC",
+                "doctor": "Dr. Zachariah133 Torp761",
+                "disease":"Acute bronchitis",
+                "period": {
+                    "start": "1977-02-21",
+                    "end": "1977-02-21"
+                  }
+            }
+        ]
+    },
+        {
+            "id": "5be71bc3-c641-111b-bc57-2fb9b58eba8d",
+            "name": "Cristy798 Wiegand701",
+            "cluster_label":"0",
+            "email":"lakshmi.shastry@brillio.com",
+            "phone":"555-248-1770",
+            "org":[
+                {
+                    "id":"49318f80-bd8b-3fc7-a096-ac43088b0c12",
+                    "provider_name":"COOLEY DICKINSON HOSPITAL INC,THE",
+                    "doctor": "Dr. Malcolm243 Wilderman619",
+                    "disease":"Child attention deficit disorder",
+                    "period": {
+                        "start": "2008-10-03",
+                        "end": "2008-10-03"
+                      }
+                },
+                {
+                    "id":"37c197b5-110f-339b-942e-272137f770b2",
+                    "provider_name":"CD PRACTICE ASSOCIATES INC",
+                    "doctor": "Dr. Wilbert25 Stark857",
+                    "disease":"Prediabetes",
+                    "period": {
+                        "start": "2009-11-01",
+                        "end": "2009-11-01"
+                      }
+                },
+                {
+                    "id":"108ccece-277a-396f-8bf2-1527f74458eb",
+                    "provider_name":"ON CALL URGENT CARE CENTER",
+                    "doctor": "Dr. Tabatha105 Becker968",
+                    "disease":"Anemia (disorder)",
+                    "period": {
+                        "start": "2009-12-06",
+                        "end": "2009-12-06"
+                      }
+                }
+            ]
+            },
+            {
+            "id": "097d1c93-4142-4c08-86ca-4966c35f83f8",
+            "name": "Aaron697 Brekke496",
+            "cluster_label":"2",
+            "email":"divyamshu.d@brillio.com",
+            "phone":"555-677-3119",
+            "org":[
+                {
+                    "id":"8ad64ecf-c817-3753-bee7-006a8e662e06",
+                    "provider_name":"MORTON HOSPITAL",
+                    "doctor": "Dr. Breitenberg711 Bennett146",
+                    "disease":"Cardiac Arrest",
+                    "period": {
+                        "start": "1965-11-15",
+                        "end": "1965-11-15"
+                    }
+                },
+                {
+                    "id":"78f24216-8805-3436-ae9f-53aa1cb276b7",
+                    "provider_name":"PCP116891",
+                    "doctor": "Dr. Mason910 Quitzon246",
+                    "disease":"General examination of patient (procedure)",
+                    "period": {
+                        "start": "1977-02-21",
+                        "end": "1977-02-21"
+                    }
+                }
+            ]
+            },
+
+    
+
+        {
+            "id": "05170481-01b8-4729-bcec-e81d2c89ea83",
+            "name": "Elouise806 Rolfson709",
+            "email":"komal.kekare@brillio.com",
+            "cluster_label":"1",
+            "phone":"555-281-9500",
+            "org":[
+                {
+                    "id":"a0b6ec0c-e587-3b2a-bf9f-248849f29ee5",
+                    "provider_name":"ST ELIZABETH'S MEDICAL CENTER",
+                    "doctor": "Dr. Jacquelyn628 Pouros728",
+                    "disease":"Perennial allergic rhinitis with seasonal variation",
+                    "period": {
+                        "start": "2000-01-02",
+                        "end": "2000-01-16"
+                      }
+                },
+                {
+                    "id":"21f0e30d-6c39-37cd-a963-1853cb645795",
+                    "provider_name":"PCP126528",
+                    "doctor": "Dr. Kirsten270 Kshlerin58",
+                    "disease":"Closed fracture of hip",
+                    "period": {
+                        "start": "2010-01-15",
+                        "end": "2010-01-15"
+                      }
+                },
+                {
+                    "id":"d733d4a9-080d-3593-b910-2366e652b7e",
+                    "provider_name":"BRIGHAM AND WOMEN'S FAULKNER HOSPITAL",
+                    "doctor": "Dr. Darin74 Hermiston71",
+                    "disease":"Closed fracture of hip",
+                    "period": {
+                        "start": "2017-02-19",
+                        "end": "2017-02-19"
+                      }
+                }
+            ]
+            },
+                {
+                    "id": "3be53a6c-24e8-4e49-b966-f6463c746280",
+                    "name": "Daren950 Wisozk929",
+                    "email":"ashwini.deshpande@brillio.com",
+                    "cluster_label":"0",
+                    "phone":"555-226-4893",
+                    "org":[
+                        {
+                            "id":"60457c13-adb2-3415-82c5-86ab5dab5f93",
+                            "provider_name":"BAYSTATE MEDICAL CENTER",
+                            "doctor": "Dr. Mira443 Pacocha935",
+                            "disease":"Normal pregnancy",
+                            "period": {
+                                "start": "1945-04-23",
+                                "end": "1945-04-23"
+                              }
+                        }
+                    ]
+                    },
+                    {
+                        "id": "e87cba84-30ea-4693-879a-6a6a85ab2c11",
+                        "name": "Tabatha105 Harber290",
+                        "email":"sharanya.kg@brillio.com",
+                        "phone":"555-948-2874",
+                        "org":[
+                            {
+                                "id":"b99591b9-4e95-368c-a797-58d9adc97ac6",
+                                "provider_name":"KHOURY CHIROPRACTC, INC.",
+                                "doctor": "Dr. Monte325 Welch179",
+                                "disease":"Acute bronchitis",
+                                "period": {
+                                    "start": "2007-03-30",
+                                    "end": "2007-03-30"
+                                  }
+                            },
+                            {
+                                "id":"3bd5eda0-16da-3ba5-8500-4dfd6ae118b8",
+                                "provider_name":"NORWOOD HOSPITAL",
+                                "doctor": "Dr. Carmina141 Oberbrunner298",
+                                "disease":"Acute bronchitis",
+                                "period": {
+                                    "start": "2008-02-25",
+                                    "end": "2008-02-25"
+                                  }
+                            }
+                        ]
+                        },
+                        {
+                            "id": "980f0211-1c13-4eed-8528-8e3866ed4bcd",
+                            "name": "Phillis443 Dietrich576",
+                            "email":"sanjana.panda@brillio.com",
+                            "cluster_label":"2",
+                            "phone":"555-191-8714",
+                            "org":[
+                                {
+                                    "id":"ef58ea08-d883-3957-8300-150554edc8fb",
+                                    "provider_name":"HEALTHALLIANCE HOSPITALS, INC",
+                                    "doctor": "Dr. Beatriz277 Ortega866",
+                                    "disease":"Injury of medial collateral ligament of knee",
+                                    "period": {
+                                        "start": "1929-06-29",
+                                        "end": "1929-06-30"
+                                      }
+                                },
+                                {
+                                    "id":"c367410d-28ae-343f-8a79-55b6d6da8d14",
+                                    "provider_name":"SAINT VINCENT PHYSICIAN SERVICES INC",
+                                    "doctor": "Dr. Myles862 Hartmann983",
+                                    "disease":"Hypertension",
+                                    "period": {
+                                        "start": "1932-03-18",
+                                        "end": "1932-03-18"
+                                      }
+                                }
+                            ]
+                            },
+                            {
+                                "id": "2024f4de-f09f-415c-a5a9-e094eb224a21",
+                                "name": "Wade235 Ryan260",
+                                "cluster_label":"2",
+                                "email":"pooja.hj@brillio.com",
+                                "phone":"555-906-9832",
+                                "org":[
+                                    {
+                                        "id":"331f4c11-d298-308b-aaa1-d7825b29b57f",
+                                        "provider_name":"CLINTON HOSPITAL ASSOCIATION",
+                                        "doctor": "Dr. Saul605 Reynolds644",
+                                        "disease":"Whiplash injury to neck",
+                                        "period": {
+                                            "start": "1973-06-15",
+                                            "end": "1973-06-15"
+                                          }
+                                    },
+                                    {
+                                        "id":"68cee1fa-8311-3f11-b2b5-07aae9231c35",
+                                        "provider_name":"GREENDALE PHYSICAL THERAPY LLC",
+                                        "doctor": "Dr. Rosario163 Vergara204",
+                                        "disease":"Diabetes",
+                                        "period": {
+                                            "start": "1991-03-28",
+                                            "end": "1991-03-28"
+                                          }
+                                    }
+                                ]
+                                },
+                                {
+                                    "id": "18d51d20-eb0c-4c0d-aaac-e81f10cea9ff",
+                                    "name": "Rowena286 Schiller186",
+                                    "cluster_label":"0",
+                                    "email":"tanvee.rathi@brillio.com",
+                                    "phone":"555-663-1686",
+                                    "org":[
+                                        {
+                                            "id":"ed2f8c70-8b6c-3d0b-938e-497000cc4b85",
+                                            "provider_name":"JORDAN PHYSICIAN ASSOCIATES INC.",
+                                            "doctor": "Dr. Esta787 Smith67",
+                                            "disease":"Hypertension",
+                                            "period": {
+                                                "start": "2001-05-23",
+                                                "end": "2001-05-24"
+                                              }
+                                        },
+                                        {
+                                            "id":"b1ddf812-1fdd-3adf-b1d5-32cc8bd07ebb",
+                                            "provider_name":"BETH ISRAEL DEACONESS HOSPITAL - PLYMOUTH",
+                                            "doctor": "Dr. César846 Serrato62",
+                                            "disease":"Viral sinusitis (disorder)",
+                                            "period": {
+                                                "start": "2001-06-22",
+                                                "end": "2001-06-23"
+                                              }
+                                        }
+                                    ]
+                                    },
+                                    {
+                                        "id": "11261f38-012d-49ff-995c-c0c2663ea644",
+                                        "name": "Patrick786 Moore224",
+                                        "cluster_label":"1",
+                                        "email":"palanisamy.c@brillio.com",
+                                        "phone":"555-775-7620",
+                                        "org":[
+                                            {
+                                                "id":"6f122869-a856-3d65-8db9-099bf4f5bbb8",
+                                                "provider_name":"LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON",
+                                                "doctor": "Dr. Charolette797 Schaden604",
+                                                "disease":"Whiplash injury to neck",
+                                                "period": {
+                                                    "start": "1962-07-24",
+                                                    "end": "1962-07-24"
+                                                  }
+                                            },
+                                            {
+                                                "id":"bf5f5606-a2e5-3c09-b265-c780c6f9411f",
+                                                "provider_name":"BURLINGTON ORAL AND FACIAL SURGERY CENTER LLC",
+                                                "doctor": "Dr. Allyn942 Wisoky380",
+                                                "disease":"Familial Alzheimer's disease of early onset (disorder)",
+                                                "period": {
+                                                    "start": "2010-06-14",
+                                                    "end": "2010-06-14"
+                                                  }
+                                            }
+                                        ]
+                                        }
+]
