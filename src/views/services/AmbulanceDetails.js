@@ -167,7 +167,7 @@ export default function PatientDetails(props) {
         return (
             <React.Fragment>
 			<section className="content" style={{ padding: '10px 10px 10px 10px', margin: '0px 0px 0px 0px', width: '100%', minHeight: 'calc(70vh - 65px)' }}>
-					<LoadingOverlay
+					{/* <LoadingOverlay
 						active={false}
 						spinner
 						text='Loading the content...'
@@ -182,7 +182,7 @@ export default function PatientDetails(props) {
 							})
 						}}
 					>
-					</LoadingOverlay>
+					</LoadingOverlay> */}
 			
             
 			<h4 style={{ fontSize: '18px', fontWeight: 'bold',padding: '15px' }}>
