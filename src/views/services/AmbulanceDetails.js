@@ -189,7 +189,7 @@ export default function PatientDetails(props) {
 				Ambulance Details : 
             </h4>
             <div>
-                <Maps/>
+                {/* <Maps/> */}
             </div>
 		</section>
             
