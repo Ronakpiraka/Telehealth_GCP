@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import {useLocation} from "react-router-dom";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import LoadingOverlay from 'react-loading-overlay';
+// import LoadingOverlay from 'react-loading-overlay';
 import {Link} from "react-router-dom";
 // import "./dashboard.scss";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
