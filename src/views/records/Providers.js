@@ -135,11 +135,12 @@ export default function ProviderInform() {
               method: 'GET'
             };
       
-            fetch("https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=providerinformation.json", requestOptions)
+            fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchproviderdata", requestOptions)
             .then((resp) => resp.json())
             .then((response) => {
-              setdata(response.data)
+              setdata(response)
               console.log(data)
+              
             })
             .catch(error => console.log('error', error));
           }
@@ -267,11 +268,11 @@ export default function ProviderInform() {
                     return(
                       <StyledTableRow>
                         {/* <TableCell align="left">{row.id}</TableCell> */}
-                        <StyledTableCell align="left">{row.name}</StyledTableCell>
-                        <StyledTableCell align="left">{row.phone}</StyledTableCell>
-                        <StyledTableCell align="left">{row.address}</StyledTableCell>
-                        <StyledTableCell align="left">{row.special}</StyledTableCell>
-                        <StyledTableCell align="left">{row.specialist}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Provider_name}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
                       </StyledTableRow>
                     )
                   })

@@ -58,6 +58,7 @@ const Dashboard = () => {
           <MainChartExample style={{height: '300px', marginTop: '40px'}}/>
         </CCardBody>
       <CCardGroup className="mb-4">
+
         <CWidgetProgressIcon
           header="850"
           text="New Patients"
@@ -100,7 +101,7 @@ const Dashboard = () => {
         </CWidgetProgressIcon>
       </CCardGroup>
       </CCard>
-    </>
+      </>
   )
 }
 

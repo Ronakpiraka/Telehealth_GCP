@@ -104,11 +104,13 @@ export default function PatientInform() {
         method: 'GET'
       };
 
-      fetch("https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json", requestOptions)
+      fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata", requestOptions)
       .then((resp) => resp.json())
       .then((response) => {
-        setdata(response.data)
+        setdata(response)
         console.log(data)
+        
+        // console.log( eval(JSON.stringify(data)));
       })
       .catch(error => console.log('error', error));
     }

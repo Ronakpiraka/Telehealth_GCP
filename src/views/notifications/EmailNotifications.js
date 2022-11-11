@@ -29,7 +29,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import {
     CBadge
   } from '@coreui/react'
-import config from '../../config.js';
+//  import config from '../../config.js';
 var AWS = require('aws-sdk');
 
 export default function EmailNotify() {
@@ -140,36 +140,36 @@ export default function EmailNotify() {
       };
 
         const sendemail=(patient, doctor, risk)=>{
-          AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
+          // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
+// change it to GCP
+          // var params = {
+          //   Message: `Dear ${patient}/${doctor}
+          //               As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${patient} is continuously recorded.
+          //               As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
+          //               Oxygen level-80
+          //               Temperature-100
+          //               Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
+          //               As preliminary, please take notice of below critical parameters for discussion with doctor.
+          //               A bluish tint to fingernails, lips and skin
+          //               Chest congestion
+          //               shortness of breath
+          //               persistent cough
+          //               Thanking You
+          //               Hospital Management `, 
+          //   Subject: `Connect with ${doctor}`,
+          //   TopicArn: config.snsemail.topic
+          // };
 
-          var params = {
-            Message: `Dear ${patient}/${doctor}
-                        As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${patient} is continuously recorded.
-                        As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
-                        Oxygen level-80
-                        Temperature-100
-                        Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
-                        As preliminary, please take notice of below critical parameters for discussion with doctor.
-                        A bluish tint to fingernails, lips and skin
-                        Chest congestion
-                        shortness of breath
-                        persistent cough
-                        Thanking You
-                        Hospital Management `, 
-            Subject: `Connect with ${doctor}`,
-            TopicArn: config.snsemail.topic
-          };
+          // var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
 
-          var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-
-          publishTextPromise.then(
-            function(data) {
-              // console.log("MessageID is " + data.MessageId);
-              toast.success("Email sent successfully, Please check your inbox");
-            }).catch(
-              function(err) {
-              console.error(err, err.stack);
-            });
+          // publishTextPromise.then(
+          //   function(data) {
+          //     // console.log("MessageID is " + data.MessageId);
+          //     toast.success("Email sent successfully, Please check your inbox");
+          //   }).catch(
+          //     function(err) {
+          //     console.error(err, err.stack);
+          //   });
 
         }
 

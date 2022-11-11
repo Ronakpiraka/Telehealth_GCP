@@ -82,14 +82,14 @@ export default function Row(props) {
             onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
             onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
           >
-            {row.name}
+            {row.Full_name}
         </a>
       </TableCell>
-      <StyledTableCell align="left" >{row.address},{row.state},{row.postalCode},{row.country}</StyledTableCell>
-      <StyledTableCell align="left">{row.age}</StyledTableCell>
-      <StyledTableCell align="left" style={{width:'150px'}}>{row.phone}</StyledTableCell>
-      <StyledTableCell align="left">{displayCheckedBox(row.id)}</StyledTableCell>
-      <StyledTableCell align="left">{displayCheckedBox(row.id)}</StyledTableCell>
+      <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
+      <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
+      <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
+      <StyledTableCell align="left">{displayCheckedBox(row.Patient_id)}</StyledTableCell>
+      <StyledTableCell align="left">{displayCheckedBox(row.Patient_id)}</StyledTableCell>
     </TableRow>
     
     <StyledTableRow>
@@ -112,7 +112,7 @@ export default function Row(props) {
               </TableHead>
               <TableBody>
                {/* {console.log(data.org)} */}
-                {row.org.length > 0 && row.org.map((item) => {
+                {row.length > 0 && row.map((item) => {
                 return(
                   
                   <StyledTableRow key={item.id}>

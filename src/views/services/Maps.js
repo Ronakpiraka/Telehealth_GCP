@@ -1,6 +1,6 @@
 import React, { } from "react";
 import { GoogleApiWrapper } from 'google-maps-react';
-import ttConfig from '../../config.js'
+// import ttConfig from '../../config.js'
 import Polyline from './Map/Polyline';
 
 class TraceOrder extends React.Component {
@@ -27,11 +27,11 @@ class TraceOrder extends React.Component {
     this.location = this.location.bind(this);
     this.toggless = this.toggless.bind(this);
   }
-  path = [
-    { lat: ttConfig.roleassign.mcoordinates.lat, lng: ttConfig.roleassign.mcoordinates.lng },
-    { lat: ttConfig.roleassign.dcoordinates.lat, lng: ttConfig.roleassign.dcoordinates.lng },
-    { lat: ttConfig.roleassign.scoordinates.lat, lng: ttConfig.roleassign.scoordinates.lng }
-  ];
+  // path = [
+  //   { lat: ttConfig.roleassign.mcoordinates.lat, lng: ttConfig.roleassign.mcoordinates.lng },
+  //   { lat: ttConfig.roleassign.dcoordinates.lat, lng: ttConfig.roleassign.dcoordinates.lng },
+  //   { lat: ttConfig.roleassign.scoordinates.lat, lng: ttConfig.roleassign.scoordinates.lng }
+  // ];
 
   componentDidMount() {
       console.log('-------------------------------store--------------------------------------------')
@@ -137,40 +137,40 @@ class TraceOrder extends React.Component {
     )
   }
 
-  getMapGeoLocation(address) {
-    let url = ttConfig.secretkey.mapQuestGeoCodeUrl + '&location=' + address
-    let latlang = {};
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then((response) => {
-      return response.json();
-    }).then((geoData) => {
-        let latlang = geoData.results[0]
-        if(latlang.locations[0].latLng) {
-          console.log(latlang);
-          latlang = latlang.locations[0].latLng;
-        }
-    });
-    return latlang;
-  }
+  // getMapGeoLocation(address) {
+  //   let url = ttConfig.secretkey.mapQuestGeoCodeUrl + '&location=' + address
+  //   let latlang = {};
+  //   fetch(url, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   }).then((response) => {
+  //     return response.json();
+  //   }).then((geoData) => {
+  //       let latlang = geoData.results[0]
+  //       if(latlang.locations[0].latLng) {
+  //         console.log(latlang);
+  //         latlang = latlang.locations[0].latLng;
+  //       }
+  //   });
+  //   return latlang;
+  // }
 
  
   render() {
-    const { posts } = this.state;
-    console.log(this.state.orderDetails)
+    // const { posts } = this.state;
+    // console.log(this.state.orderDetails)
 
-    let storeAddress = ttConfig.location.store;
-    let distAddress = ttConfig.location.distributor;
-    let manufacturerAddress = ttConfig.location.manufacturer;
+    // let storeAddress = ttConfig.location.store;
+    // let distAddress = ttConfig.location.distributor;
+    // let manufacturerAddress = ttConfig.location.manufacturer;
 
-    let mapUrl = ttConfig.secretkey.mapQuestStaticMapUrl + manufacturerAddress + '|marker-sm-F8E71C-417505-A||' + distAddress + '|marker-sm-F8E71C-000000-B||' + storeAddress + '|marker-sm-F8E71C-c20000-C&shape=' + manufacturerAddress + '|' + distAddress + '|' + storeAddress + '&type=map&size=900,200@2x';
-    console.log(mapUrl);
+    // let mapUrl = ttConfig.secretkey.mapQuestStaticMapUrl + manufacturerAddress + '|marker-sm-F8E71C-417505-A||' + distAddress + '|marker-sm-F8E71C-000000-B||' + storeAddress + '|marker-sm-F8E71C-c20000-C&shape=' + manufacturerAddress + '|' + distAddress + '|' + storeAddress + '&type=map&size=900,200@2x';
+    // console.log(mapUrl);
     return (
       <div >
-              <img src={mapUrl} alt="Trace Map" style={{width: '100%', height: '350px'}} />
+              {/* <img src={mapUrl} alt="Trace Map" style={{width: '100%', height: '350px'}} /> */}
       </div>
     );
   }
@@ -185,6 +185,6 @@ TraceOrder.defaultProps = {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ttConfig.secretkey.mapkey
+  // apiKey: ttConfig.secretkey.mapkey
 })(TraceOrder);
 
