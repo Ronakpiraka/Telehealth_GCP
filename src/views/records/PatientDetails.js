@@ -104,7 +104,7 @@ export default function PatientDetails() {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
+// single patient details
     useEffect(() => {
 		// console.log(this.props.location)
 		flags = location.search.split('^')[1];
@@ -117,7 +117,7 @@ export default function PatientDetails() {
 		// times=location.search.split('"')[1]	
 		stat = location.search.split(':')[1]	// console.log(stat)
 		// datess=location.search.split('}')[1]
-		let singlepatientURL = 'https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json'
+		let singlepatientURL = 'https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata'
 		
 		console.log('---------------------patientDetailsUrl----------------------------------')
 		console.log(singlepatientURL)
@@ -132,10 +132,10 @@ export default function PatientDetails() {
 			// setisLoading(false);
 		}).then((patientdetails) => {
 			console.log('-----------------------------patientdetails--------------------------')
-			console.log(patientdetails.data)
+			console.log(patientdetails)
 			console.log('**********************')
-			console.log(patientdetails.data.find(val => val.id === singlepatientid))
-			setOrderDetails(patientdetails.data.find(val => val.id === singlepatientid))
+			console.log(patientdetails.find(val => val.Patient_id=== singlepatientid))
+			setOrderDetails(patientdetails.find(val => val.Patient_id === singlepatientid))
 			console.log('-------------------------------------------------------')
 			setAllPurchaseOrderDetails(patientdetails)
 
@@ -157,7 +157,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Patient Name</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.name}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Full_name}</td>
 				</tr>
 			)
 		}
@@ -166,8 +166,8 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Patient id</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.id}</td>
+					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Patient Id</b></th>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Patient_id}</td>
 				</tr>
 			)
 		}
@@ -200,7 +200,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Marital Status</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Marital_Status}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.display}</td>
 				</tr>
 			)
 		}
@@ -211,7 +211,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Social Security Number{displayInfo()}</b></th>
-					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.ssn}</td>
+					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Social_Security_Number}</td>
 				</tr>
 			)
 		}
@@ -233,7 +233,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Medical Record Number</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.mrn}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Medical_Record_Number}</td>
 				</tr>
 			)
 		}
@@ -244,7 +244,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Passport Number{displayInfo()}</b></th>
-					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.ppn}    </td>
+					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Passport_Number}    </td>
 				</tr>
 			)
 		}
@@ -255,7 +255,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Driving Liscense{displayInfo()}</b></th>
-					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Driver_License}</td>
+					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Driver_License_Number}</td>
 				</tr>
 			)
 		}
@@ -266,24 +266,24 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Address</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.address},{orderDetails && orderDetails.city},{orderDetails && orderDetails.state},{orderDetails && orderDetails.country},{orderDetails && orderDetails.postalCode}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Patient_Address},</td>
 				</tr>
 			)
 		}
 	}
 
-	const redirectToPatientDetails = (e, id) => {
-        var url = `/insights?id=${id}`;
+	const redirectToPatientDetails = (e, Patient_id) => {
+        var url = `/insights?id=${Patient_id}`;
         history.push(`${url}`);
     }
 
-	const redirectToConsultDetails = (e, id) => {
-        var url = `/notifications?id=${id}`;
+	const redirectToConsultDetails = (e, Patient_id) => {
+        var url = `/notifications?id=${Patient_id}`;
         history.push(`${url}`);
     }
 
-	const displayViewInsights = (id) => {
-		  if(id === "d4a30d91-8283-eddc-799c-d3131f7cf2d7")
+	const displayViewInsights = (Patient_id) => {
+		  if(Patient_id.ConsentFormStatus)
 		  {
 			return (
 				<span>
@@ -300,8 +300,8 @@ export default function PatientDetails() {
 		  }
 		}	
 
-	const displayNotification = (id) => {	
-		if(id === "d4a30d91-8283-eddc-799c-d3131f7cf2d7")
+	const displayNotification = (Patient_id) => {	
+		if(Patient_id.ConsentFormStatus)
 		{
 		  return (
 			<span>
@@ -341,8 +341,8 @@ export default function PatientDetails() {
 			setshowMessage2(false)
 		}
 
-	const displayfhirdetails = (id) => {	
-		if(id === "d4a30d91-8283-eddc-799c-d3131f7cf2d7")
+	const displayfhirdetails = (Patient_id) => {	
+		if(Patient_id.ConsentFormStatus)
 		{
 		  return (
 			  <div>

@@ -48,7 +48,7 @@ export default function Row(props) {
   const displayCheckedBox = (row) => {
     console.log("--------------row")
     console.log(row);
-      if(row === "d4a30d91-8283-eddc-799c-d3131f7cf2d7")
+      if(row.RemoteCareStatus)//change the logic here
       // if(row) 
       {
         return (
@@ -88,8 +88,8 @@ export default function Row(props) {
       <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
       <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
       <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
-      <StyledTableCell align="left">{displayCheckedBox(row.Patient_id)}</StyledTableCell>
-      <StyledTableCell align="left">{displayCheckedBox(row.Patient_id)}</StyledTableCell>
+      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
+      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
     </TableRow>
     
     <StyledTableRow>
@@ -114,7 +114,7 @@ export default function Row(props) {
                {/* {console.log(data.org)} */}
                 {row.length > 0 && row.map((item) => {
                 return(
-                  
+                  // patient visit details
                   <StyledTableRow key={item.id}>
                     {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
                     <StyledTableCell style={{width:"25%"}}> {item.provider_name}</StyledTableCell>
