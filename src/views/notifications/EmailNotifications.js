@@ -109,8 +109,8 @@ export default function EmailNotify() {
         const [collapsed, setcollapsed]=React.useState(false);
         const [searchTerm, setsearchTerm]=React.useState('');
         const [page, setpage]=React.useState(0);
-        const [rowsPerPage, setRowsPerPage] = React.useState(5);
-        const [ordPlaced, setordPlaced]=React.useState(2);
+        const [rowsPerPage, setRowsPerPage] = React.useState(10);
+        const [ordPlaced, setordPlaced]=React.useState(5);
         const classes = useStyles();
     
         const { Header, Sider, Content } = Layout;
@@ -118,11 +118,11 @@ export default function EmailNotify() {
 
 
         useEffect(() => { 
-          const res= fetch("https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json", {
+          const res= fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata", {
             method: 'GET',
           }).then(resp => resp.json()
           ).then(resp=>{
-              setdata(resp.data)
+              setdata(resp)
               console.log(data)  
           }).catch(error => {
               console.log(error)
@@ -247,8 +247,8 @@ export default function EmailNotify() {
                   .map((row, index) => {
                     return(
                       <StyledTableRow>
-                        <StyledTableCell align="left">{row.id}</StyledTableCell>
-                        <StyledTableCell align="left">{row.name}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Patient_id}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Full_name}</StyledTableCell>
                         {/* <StyledTableCell align="left">{row.email}</StyledTableCell> */}
                         <StyledTableCell align="left">{row.doctor}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.cluster_label)}</StyledTableCell>
@@ -263,7 +263,7 @@ export default function EmailNotify() {
         </Paper>
 
         <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 component="div"
                 count={ordPlaced}
                 rowsPerPage={rowsPerPage}

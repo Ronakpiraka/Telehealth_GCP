@@ -98,7 +98,7 @@ export default function PatientInform() {
     const { Search } = Input;
 
     const fetchpatientdata = () => {
-      console.log("hello fpd")
+      console.log("check function")
 
       var requestOptions = {
         method: 'GET'
