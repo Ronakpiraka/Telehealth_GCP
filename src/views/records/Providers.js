@@ -102,8 +102,8 @@ export default function ProviderInform() {
         const [collapsed, setcollapsed]=React.useState(false);
         const [searchTerm, setsearchTerm]=React.useState('');
         const [page, setpage]=React.useState(0);
-        const [rowsPerPage, setRowsPerPage] = React.useState(5);
-        const [ordPlaced, setordPlaced]=React.useState(2);
+        const [rowsPerPage, setRowsPerPage] = React.useState(10);
+        const [ordPlaced, setordPlaced]=React.useState(5);
         const classes = useStyles();
     
         const { Header, Sider, Content } = Layout;
@@ -283,7 +283,7 @@ export default function ProviderInform() {
         </Paper>
 
         <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 component="div"
                 count={ordPlaced}
                 rowsPerPage={rowsPerPage}
