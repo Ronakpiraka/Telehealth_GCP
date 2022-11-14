@@ -11,7 +11,7 @@ const Reports = React.lazy(() => import('./views/reports/Reports.js'));
 // const Reports5 = React.lazy(() => import('./views/reports/Report5'));
 // const Upload = React.lazy(() => import('./views/records/upload'));
 const Continuous = React.lazy(() => import('./views/insights/continuous'));
-const Preventive = React.lazy(() => import('./views/insights/preventive'));
+const Preventive = React.lazy(() => import('./views/insights/preventiveFrame'));
 const Device = React.lazy(() => import('./views/device/Device'));
 const Notification = React.lazy(() => import('./views/notifications/calendar.jsx'));
 const AmbulanceService = React.lazy(() => import('./views/services/AmbulanceService'));
@@ -27,7 +27,7 @@ const routes = [
   { path: '/records/providers', name: 'Providers', component: Providers, exact: true },
   { path: '/records/patientdetails', name: 'Patientdetails', component: PatientDetails, exact: true },
   { path: '/insights', name: 'insights', component: Continuous, exact: true },
-  // { path: '/insights/preventive', name: 'insights', component: Preventive, exact: true },
+  { path: '/insights/preventive', name: 'PreventiveCare', component: Preventive, exact: true },
   { path: '/device/devices', name: 'Devices', component: Device, exact: true },
   // { path: '/reports', name: 'Reports', component: Reports, exact: true },
   // { path: '/Modal', name: 'Modal', component: Modal },

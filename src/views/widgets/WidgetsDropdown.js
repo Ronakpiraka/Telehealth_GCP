@@ -11,7 +11,6 @@ import {
 import CIcon from '@coreui/icons-react'
 import ChartLineSimple from '../charts/ChartLineSimple'
 import ChartBarSimple from '../charts/ChartBarSimple'
-
 const WidgetsDropdown = () => {
   // render
   return (
@@ -35,7 +34,6 @@ const WidgetsDropdown = () => {
         >
         </CWidgetDropdown>
       </CCol>
-
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-info"
@@ -56,7 +54,6 @@ const WidgetsDropdown = () => {
         >
         </CWidgetDropdown>
       </CCol>
-
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-warning"
@@ -77,7 +74,6 @@ const WidgetsDropdown = () => {
         >
         </CWidgetDropdown>
       </CCol>
-
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-danger"
@@ -98,5 +94,4 @@ const WidgetsDropdown = () => {
     </CRow>
   )
 }
-
 export default WidgetsDropdown

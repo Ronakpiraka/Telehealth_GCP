@@ -1,4 +1,7 @@
 import React, {useEffect} from 'react'
+import Iframe from 'react-iframe'
+import Preventive from "../insights/preventiveFrame"
+import {HashRouter as Router, Link } from 'react-router-dom';
 import {
   CCard,
   CCardBody,
@@ -19,43 +22,44 @@ const Charts = () => {
   const [data, setdata]=React.useState([]);
   const [p_data, setp_data]=React.useState([]);
 
-  const fetchQSDashboard = () => {
-    var requestOptions = {
-      method: 'GET'
-    };
+  // const fetchQSDashboard = () => {
+  //   var requestOptions = {
+  //     method: 'GET'
+  //   };
 
-    fetch("https://cvzg49w5bc.execute-api.us-east-1.amazonaws.com/test-QS/qsresource-sample?mode=getUrl", requestOptions)
-    .then((resp) => resp.json())
-    .then((response) => {
-      setdata(response.EmbedUrl)
-      console.log(data)
-    })
-    .catch(error => console.log('error', error));
-  }
+  //   fetch("https://cvzg49w5bc.execute-api.us-east-1.amazonaws.com/test-QS/qsresource-sample?mode=getUrl", requestOptions)
+  //   .then((resp) => resp.json())
+  //   .then((response) => {
+  //     setdata(response.EmbedUrl)
+  //     console.log(data)
+  //   })
+  //   .catch(error => console.log('error', error));
+  // }
 
-  const fetchQSPrevData = () => {
-    var requestOptions = {
-      method: 'GET'
-    };
+//   const fetchQSPrevData = () => {
+//     var requestOptions = {
+//       method: 'GET'
+//     };
 
-    fetch("https://ev5we6ai81.execute-api.us-east-1.amazonaws.com/test-QS/anonymous-embed-sample2?mode=getUrl", requestOptions)
-    .then((resp) => resp.json())
-    .then((response) => {
-      setp_data(response.EmbedUrl)
-      console.log(p_data)
-    })
-    .catch(error => console.log('error', error));
-  }
+//     fetch("https://ev5we6ai81.execute-api.us-east-1.amazonaws.com/test-QS/anonymous-embed-sample2?mode=getUrl", requestOptions)
+//     .then((resp) => resp.json())
+//     .then((response) => {
+//       setp_data(response.EmbedUrl)
+//       console.log(p_data)
+//     })
+//     .catch(error => console.log('error', error));
+//   }
 
-  useEffect(() => { 
-    fetchQSDashboard();
-    fetchQSPrevData();
- },[])
+//   useEffect(() => { 
+//     fetchQSDashboard();
+//     fetchQSPrevData();
+//  },[])
 
- console.log(data)
- console.log(p_data)
+//  console.log(data)
+//  console.log(p_data)
 
   return (
+    <Router>
     <CCardGroup columns className="cols-2">
       {/* <CCard>
         <CCardHeader>
@@ -88,7 +92,8 @@ const Charts = () => {
           </CCardHeader>
         </a>
         <CCardBody style={{backgroundColor:'#0A2533', color:'white'}}>
-          <CChartLine
+        <Iframe width="420" height="251" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+          {/* <CChartLine
             datasets={[
               {
                 label: 'Oxygen',
@@ -109,18 +114,22 @@ const Charts = () => {
               }
             }}
             labels={['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']}
-          />
+          /> */}
+          
         </CCardBody>
       </CCard>
 
       <CCard>
-        <a href={p_data} target="_blank">
-          <CCardHeader style={{backgroundColor:'#0A2533', color:'white'}}>
-          <h3 style={{ color:'white'}}>Preventive Care</h3> 
-          </CCardHeader>
-        </a>
+        {/* <a href="/insights/preventivef" > */}
+          <Link to={"/insights/preventive"}>
+            <CCardHeader style={{backgroundColor:'#0A2533', color:'white'}}>
+              <h3 style={{ color:'white'}}>Preventive Care</h3> 
+            </CCardHeader>
+          </Link> 
+        {/* </a> */}
         <CCardBody style={{backgroundColor:'#0A2533', color:'white'}}>
-          <CChartDoughnut
+        <Iframe width="420" height="251" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+          {/* <CChartDoughnut
             datasets={[
               {
                 backgroundColor: [
@@ -137,7 +146,7 @@ const Charts = () => {
                 enabled: true
               }
             }}
-          />
+          /> */}
         </CCardBody>
       </CCard>
 
@@ -235,8 +244,8 @@ const Charts = () => {
         </CCardBody>
       </CCard> */}
 
-      {/* <CCard>
-        <CCardHeader>
+      <CCard>
+        {/* <CCardHeader>
           Radar Chart
         </CCardHeader>
         <CCardBody>
@@ -276,9 +285,11 @@ const Charts = () => {
               'Coding', 'Cycling', 'Running'
             ]}
           />
-        </CCardBody>
-      </CCard> */}
+        </CCardBody> */}
+        {/* <Iframe width="400" height="251" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/> */}
+      </CCard>
     </CCardGroup>
+    </Router>
   )
 }
 

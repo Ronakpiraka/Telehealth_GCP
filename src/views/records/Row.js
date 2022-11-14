@@ -48,7 +48,7 @@ export default function Row(props) {
   const displayCheckedBox = (row) => {
     console.log("--------------row")
     console.log(row);
-      if(row === "d4a30d91-8283-eddc-799c-d3131f7cf2d7")
+      if(row.RemoteCareStatus)//change the logic here
       // if(row) 
       {
         return (
@@ -82,14 +82,14 @@ export default function Row(props) {
             onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
             onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
           >
-            {row.name}
+            {row.Full_name}
         </a>
       </TableCell>
-      <StyledTableCell align="left" >{row.address},{row.state},{row.postalCode},{row.country}</StyledTableCell>
-      <StyledTableCell align="left">{row.age}</StyledTableCell>
-      <StyledTableCell align="left" style={{width:'150px'}}>{row.phone}</StyledTableCell>
-      <StyledTableCell align="left">{displayCheckedBox(row.id)}</StyledTableCell>
-      <StyledTableCell align="left">{displayCheckedBox(row.id)}</StyledTableCell>
+      <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
+      <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
+      <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
+      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
+      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
     </TableRow>
     
     <StyledTableRow>
@@ -112,9 +112,9 @@ export default function Row(props) {
               </TableHead>
               <TableBody>
                {/* {console.log(data.org)} */}
-                {row.org.length > 0 && row.org.map((item) => {
+                {row.length > 0 && row.map((item) => {
                 return(
-                  
+                  // patient visit details
                   <StyledTableRow key={item.id}>
                     {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
                     <StyledTableCell style={{width:"25%"}}> {item.provider_name}</StyledTableCell>

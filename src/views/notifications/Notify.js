@@ -17,7 +17,7 @@ export default function Notify(){
             redirect: 'follow'
           };
           
-          fetch("https://bgdpfd2q19.execute-api.us-east-1.amazonaws.com/notification", requestOptions)
+          fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata", requestOptions)
           .then((resp) => resp.json())
           .then((response) => {
             setdata(response)
