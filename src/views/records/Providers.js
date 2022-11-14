@@ -103,7 +103,7 @@ export default function ProviderInform() {
         const [searchTerm, setsearchTerm]=React.useState('');
         const [page, setpage]=React.useState(0);
         const [rowsPerPage, setRowsPerPage] = React.useState(10);
-        const [ordPlaced, setordPlaced]=React.useState(5);
+        const [ordPlaced, setordPlaced]=React.useState(10);
         const classes = useStyles();
     
         const { Header, Sider, Content } = Layout;
@@ -240,7 +240,7 @@ export default function ProviderInform() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Code</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Provider Code</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Contact No</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Specialization</TableCell>
@@ -254,12 +254,11 @@ export default function ProviderInform() {
                   {
                     return val;
                   }
-                  else if((val.id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.address.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.special.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.specialist.toLowerCase().includes(searchTerm.toLowerCase()))
+                  else if((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Provider_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Provider_Address.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Specialization.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
@@ -272,7 +271,7 @@ export default function ProviderInform() {
                         <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
                         <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
                         <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Practitioner_name}</StyledTableCell>
                       </StyledTableRow>
                     )
                   })

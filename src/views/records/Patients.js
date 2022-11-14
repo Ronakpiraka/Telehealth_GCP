@@ -269,10 +269,8 @@ export default function PatientInform() {
                   {
                     return val;
                   }
-                  else if ((val.address.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.age.toLowerCase().includes(searchTerm.toLowerCase()))
+                  else if ((val.Patient_Address.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Full_name.toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }

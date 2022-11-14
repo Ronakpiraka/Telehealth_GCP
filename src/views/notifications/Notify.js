@@ -7,9 +7,9 @@ export default function Notify(){
 
     const [data, setdata] = useState([]);
 
-    const notify = ()=>{
-        toast.warning("Meeting with Patient Abigail677_Harvey63");
-    }
+    // const notify = ()=>{
+    //     toast.warning("Meeting with Patient Abigail677_Harvey63");
+    // }
 
     useEffect(()=>{
         var requestOptions = {
@@ -25,7 +25,7 @@ export default function Notify(){
           })
           .catch(error => console.log('error', error));
         
-        notify()
+        // notify()
     },[])
     return (
         <div className="notify">

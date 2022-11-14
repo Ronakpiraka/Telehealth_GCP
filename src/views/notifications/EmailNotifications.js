@@ -1,4 +1,4 @@
-import React, {useEffect } from 'react'
+import React, {useEffect, useRef  } from 'react'
 import { Layout, Menu, Input  } from 'antd';
 import Avatar from '@material-ui/core/Avatar';
 import {Link} from "react-router-dom";
@@ -26,6 +26,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import emailjs from '@emailjs/browser';
 import {
     CBadge
   } from '@coreui/react'
@@ -112,6 +113,7 @@ export default function EmailNotify() {
         const [rowsPerPage, setRowsPerPage] = React.useState(10);
         const [ordPlaced, setordPlaced]=React.useState(5);
         const classes = useStyles();
+        const form = useRef();
     
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
@@ -137,41 +139,54 @@ export default function EmailNotify() {
         const handleChangeRowsPerPage = event => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setpage(0);
-      };
+        };
 
-        const sendemail=(patient, doctor, risk)=>{
-          // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
-// change it to GCP
-          // var params = {
-          //   Message: `Dear ${patient}/${doctor}
-          //               As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${patient} is continuously recorded.
-          //               As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
-          //               Oxygen level-80
-          //               Temperature-100
-          //               Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
-          //               As preliminary, please take notice of below critical parameters for discussion with doctor.
-          //               A bluish tint to fingernails, lips and skin
-          //               Chest congestion
-          //               shortness of breath
-          //               persistent cough
-          //               Thanking You
-          //               Hospital Management `, 
-          //   Subject: `Connect with ${doctor}`,
-          //   TopicArn: config.snsemail.topic
-          // };
+        const sendemail = (e) => {
+          e.preventDefault();
+      
+          emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
+            .then((result) => {
+                console.log(result.text);
+            }, (error) => {
+                console.log(error.text);
+            });
+        };
 
-          // var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+        
 
-          // publishTextPromise.then(
-          //   function(data) {
-          //     // console.log("MessageID is " + data.MessageId);
-          //     toast.success("Email sent successfully, Please check your inbox");
-          //   }).catch(
-          //     function(err) {
-          //     console.error(err, err.stack);
-          //   });
+        // const sendemail=(patient, doctor, risk)=>{
+        //   // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
+        // // change it to GCP
+        //   // var params = {
+        //   //   Message: `Dear ${patient}/${doctor}
+        //   //               As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${patient} is continuously recorded.
+        //   //               As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
+        //   //               Oxygen level-80
+        //   //               Temperature-100
+        //   //               Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
+        //   //               As preliminary, please take notice of below critical parameters for discussion with doctor.
+        //   //               A bluish tint to fingernails, lips and skin
+        //   //               Chest congestion
+        //   //               shortness of breath
+        //   //               persistent cough
+        //   //               Thanking You
+        //   //               Hospital Management `, 
+        //   //   Subject: `Connect with ${doctor}`,
+        //   //   TopicArn: config.snsemail.topic
+        //   // };
 
-        }
+        //   // var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
+
+        //   // publishTextPromise.then(
+        //   //   function(data) {
+        //   //     // console.log("MessageID is " + data.MessageId);
+        //   //     toast.success("Email sent successfully, Please check your inbox");
+        //   //   }).catch(
+        //   //     function(err) {
+        //   //     console.error(err, err.stack);
+        //   //   });
+
+        // }
 
         const riskscore=(cluster_label)=>{
           if(cluster_label === '0')

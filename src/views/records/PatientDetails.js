@@ -106,7 +106,6 @@ export default function PatientDetails() {
   const id = open ? 'simple-popover' : undefined;
 // single patient details
     useEffect(() => {
-		// console.log(this.props.location)
 		flags = location.search.split('^')[1];
 		console.log(flags)
 		let singlepatientid = location.search.split('=')[1];
@@ -141,7 +140,6 @@ export default function PatientDetails() {
 
 			setPosts({ ...patientdetails[0] });
 			// isLoading = false;
-			console.log('------------------posts-------------------------------------')
 
 			console.log(posts);
 			console.log('------------------posts***-------------------------------------')
@@ -282,8 +280,8 @@ export default function PatientDetails() {
         history.push(`${url}`);
     }
 
-	const displayViewInsights = (Patient_id) => {
-		  if(Patient_id)
+	const displayViewInsights = (row) => {
+		  if(row.RemoteCareStatus != null)
 		  {
 			return (
 				<span>
@@ -300,8 +298,8 @@ export default function PatientDetails() {
 		  }
 		}	
 
-	const displayNotification = (Patient_id) => {	
-		if(Patient_id)
+	const displayNotification = (row) => {	
+		if(row.RemoteCareStatus != null)
 		{
 		  return (
 			<span>
@@ -342,7 +340,7 @@ export default function PatientDetails() {
 		}
 
 	const displayfhirdetails = (row) => {	
-		if(row)
+		if(row.RemoteCareStatus != null)
 		{
 		  return (
 			  <div>
@@ -381,9 +379,8 @@ export default function PatientDetails() {
 		
 
 	const displayCheckedBox = (row) => {
-		// console.log("--------------row")
-		// console.log(row);
-		  if(row)
+		// console.log(row.RemoteCareStatus);
+		  if(row.RemoteCareStatus != null)
 		  {
 			return (
 				<p style={{marginLeft: '5px', width: '400px'}}>
@@ -427,9 +424,9 @@ export default function PatientDetails() {
 			<span class="navbar justify-content-between">
 				<p class="navbar-brand">Patient Details :</p>
 				<form class="form-inline">
-					{displayfhirdetails(singlepatientid)}
-					{displayNotification(singlepatientid)}
-					{displayViewInsights(singlepatientid)}
+					{displayfhirdetails(orderDetails)}
+					{displayNotification(orderDetails)}
+					{displayViewInsights(orderDetails)}
 				</form>
 			</span>
 			
@@ -449,7 +446,7 @@ export default function PatientDetails() {
 							{orderDetails && displayPPN()}
 							{orderDetails && displayMRN()}
 							{orderDetails && displayDL()}
-							{orderDetails && displayCheckedBox(singlepatientid)}
+							{orderDetails && displayCheckedBox(orderDetails)}
                         </tbody>
                     </Table>	
                 </div>
