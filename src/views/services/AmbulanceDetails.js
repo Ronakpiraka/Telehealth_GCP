@@ -1,7 +1,7 @@
 import React , {useEffect, useState} from 'react';
 import {useLocation} from "react-router-dom";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import LoadingOverlay from 'react-loading-overlay';
+// import LoadingOverlay from 'react-loading-overlay';
 import {Link} from "react-router-dom";
 // import "./dashboard.scss";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -167,7 +167,7 @@ export default function PatientDetails(props) {
         return (
             <React.Fragment>
 			<section className="content" style={{ padding: '10px 10px 10px 10px', margin: '0px 0px 0px 0px', width: '100%', minHeight: 'calc(70vh - 65px)' }}>
-					<LoadingOverlay
+					{/* <LoadingOverlay
 						active={false}
 						spinner
 						text='Loading the content...'
@@ -182,14 +182,14 @@ export default function PatientDetails(props) {
 							})
 						}}
 					>
-					</LoadingOverlay>
+					</LoadingOverlay> */}
 			
             
 			<h4 style={{ fontSize: '18px', fontWeight: 'bold',padding: '15px' }}>
 				Ambulance Details : 
             </h4>
             <div>
-                <Maps/>
+                {/* <Maps/> */}
             </div>
 		</section>
             
