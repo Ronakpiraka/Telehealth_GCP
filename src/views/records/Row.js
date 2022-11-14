@@ -41,7 +41,7 @@ export default function Row(props) {
     var url;
 
     const redirectToPatientDetails = (e, id) => {
-      url = `/records/patientdetails?id=${id}`;
+      url = `/records/patientdetails?Patient_id=${id}`;
       history.push(`${url}`);
   }
 
@@ -76,7 +76,7 @@ export default function Row(props) {
       <TableCell align="left" component="th" scope="row" style={{width:"25%"}}>
       <BsFillPersonFill size={25}/> &nbsp;&nbsp;
         <a
-            onClick={(e) => { redirectToPatientDetails(e, row.id)}}
+            onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
             target="_blank"
             style={{ padding: '0px 0px 0px 0px' }}
             onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}

@@ -1,5 +1,5 @@
 import React, { } from "react";
-// import { GoogleApiWrapper } from 'google-maps-react';
+import { GoogleApiWrapper } from 'google-maps-react';
 import ttConfig from '../../config.js'
 import Polyline from './Map/Polyline';
 

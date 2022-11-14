@@ -2,7 +2,7 @@ import React , {useEffect, useState} from 'react';
 import {useHistory, useLocation} from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import LoadingOverlay from 'react-loading-overlay';
+import LoadingOverlay from 'react-loading-overlay';
 import {Link} from "react-router-dom";
 // import { Button} from 'antd';
 import Upload from './upload'
@@ -123,10 +123,10 @@ export default function PatientDetails() {
 		console.log(singlepatientURL)
 		console.log('-------------------------------------------------------')
 		fetch(singlepatientURL, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
+			// method: 'GET',
+			// headers: {
+			// 	'Content-Type': 'application/json'
+			// }
 		}).then((response) => {
 			return response.json();
 			// setisLoading(false);
@@ -273,17 +273,17 @@ export default function PatientDetails() {
 	}
 
 	const redirectToPatientDetails = (e, Patient_id) => {
-        var url = `/insights?id=${Patient_id}`;
+        var url = `/insights?Patient_id=${Patient_id}`;
         history.push(`${url}`);
     }
 
 	const redirectToConsultDetails = (e, Patient_id) => {
-        var url = `/notifications?id=${Patient_id}`;
+        var url = `/notifications?Patient_id=${Patient_id}`;
         history.push(`${url}`);
     }
 
 	const displayViewInsights = (Patient_id) => {
-		  if(Patient_id.ConsentFormStatus)
+		  if(Patient_id)
 		  {
 			return (
 				<span>
@@ -301,7 +301,7 @@ export default function PatientDetails() {
 		}	
 
 	const displayNotification = (Patient_id) => {	
-		if(Patient_id.ConsentFormStatus)
+		if(Patient_id)
 		{
 		  return (
 			<span>
@@ -341,8 +341,8 @@ export default function PatientDetails() {
 			setshowMessage2(false)
 		}
 
-	const displayfhirdetails = (Patient_id) => {	
-		if(Patient_id.ConsentFormStatus)
+	const displayfhirdetails = (row) => {	
+		if(row)
 		{
 		  return (
 			  <div>
@@ -383,7 +383,7 @@ export default function PatientDetails() {
 	const displayCheckedBox = (row) => {
 		// console.log("--------------row")
 		// console.log(row);
-		  if(row === "d4a30d91-8283-eddc-799c-d3131f7cf2d7")
+		  if(row)
 		  {
 			return (
 				<p style={{marginLeft: '5px', width: '400px'}}>
@@ -406,7 +406,7 @@ export default function PatientDetails() {
         <div>
             <React.Fragment>
 			<section className="content" style={{ padding: '10px 10px 10px 10px', margin: '0px 0px 0px 0px', width: '100%' }}>
-					{/* <LoadingOverlay
+					<LoadingOverlay
 						active={true}
 						spinner
 						text='Loading the content...'
@@ -421,7 +421,7 @@ export default function PatientDetails() {
 							})
 						}}
 					>
-					</LoadingOverlay> */}
+					</LoadingOverlay>
 			
             
 			<span class="navbar justify-content-between">
