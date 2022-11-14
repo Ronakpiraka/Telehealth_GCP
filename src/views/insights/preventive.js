@@ -1,6 +1,7 @@
 import React, {useEffect } from 'react'
 import Charts from '../charts/Charts';
 import DoughnutChart from '../charts/DoughnutChart'
+import Iframe from 'react-iframe'
 
 export default function Insights() {
   var dashboard;
@@ -8,29 +9,29 @@ export default function Insights() {
 
   const [data, setdata]=React.useState([]);
 
-  const fetchQSPrevData = () => {
-    var requestOptions = {
-      method: 'GET'
-    };
+//   const fetchQSPrevData = () => {
+//     var requestOptions = {
+//       method: 'GET'
+//     };
 
-    fetch("https://ev5we6ai81.execute-api.us-east-1.amazonaws.com/test-QS/anonymous-embed-sample2?mode=getUrl", requestOptions)
-    .then((resp) => resp.json())
-    .then((response) => {
-      setdata(response.EmbedUrl)
-      console.log(data)
-    })
-    .catch(error => console.log('error', error));
-  }
+//     fetch("https://ev5we6ai81.execute-api.us-east-1.amazonaws.com/test-QS/anonymous-embed-sample2?mode=getUrl", requestOptions)
+//     .then((resp) => resp.json())
+//     .then((response) => {
+//       setdata(response.EmbedUrl)
+//       console.log(data)
+//     })
+//     .catch(error => console.log('error', error));
+//   }
 
-  useEffect(() => { 
-    fetchQSPrevData();
- },[])
+//   useEffect(() => { 
+//     fetchQSPrevData();
+//  },[])
 
- console.log(data)
+//  console.log(data)
 
   return (
     <div>
-   <a href={data} target="_blank"><DoughnutChart/></a>
+   {/* <a href={data} target="_blank"><DoughnutChart/></a> */}
      {/* <img width="100%" height="450px" src={continuousimg}/> */}
      {/* <div id="embeddingContainer">{embedDashboard}</div>  */}
   
@@ -41,7 +42,7 @@ export default function Insights() {
         <DoughnutChart/>
     </div> */}
     {/* <iframe width="100%" height="450px" url="https://cvzg49w5bc.execute-api.us-east-1.amazonaws.com/test-QS/qsresource-sample"></iframe>  */}
-    
+      <Iframe width="100%" height="380px" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
     </div>
   )
 }
