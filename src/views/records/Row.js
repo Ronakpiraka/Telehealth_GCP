@@ -47,8 +47,8 @@ export default function Row(props) {
 
   const displayCheckedBox = (row) => {
     console.log("--------------row")
-    console.log(row);
-      if(row.RemoteCareStatus)//change the logic here
+    console.log(row.RemoteCareStatus);
+      if(row.RemoteCareStatus)
       // if(row) 
       {
         return (
@@ -112,19 +112,30 @@ export default function Row(props) {
               </TableHead>
               <TableBody>
                {/* {console.log(data.org)} */}
-                {row.length > 0 && row.map((item) => {
-                return(
-                  // patient visit details
-                  <StyledTableRow key={item.id}>
-                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
+                {/* { row.map((item) => { */}
+               
+                  
+                  {/* <StyledTableRow key={item.id}>
+                    <TableCell component="th" scope="row">{item.id}</TableCell>
                     <StyledTableCell style={{width:"25%"}}> {item.provider_name}</StyledTableCell>
                     <StyledTableCell>{item.doctor}</StyledTableCell>
                     <StyledTableCell>{item.disease}</StyledTableCell>
                     <StyledTableCell style={{width:"15%"}}>{item.period.start}</StyledTableCell>
                     <StyledTableCell style={{width:"15%"}}>{item.period.end}</StyledTableCell>
+                  </StyledTableRow> */}
+
+                  <StyledTableRow key={row.Patient_id}>
+                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
+                    <StyledTableCell style={{width:"25%"}}> {row.Full_name}</StyledTableCell>
+                    <StyledTableCell>{row.Patient_id}</StyledTableCell>
+                    <StyledTableCell>{row.Patient_id}</StyledTableCell>
+                    <StyledTableCell style={{width:"15%"}}>{row.Patient_id}</StyledTableCell>
+                    <StyledTableCell style={{width:"15%"}}>{row.Patient_id}</StyledTableCell>
                   </StyledTableRow>
-                )
-                 })}   
+                
+                 {/* } */}
+                 {/* ) */}
+                 {/* }    */}
               </TableBody>
             </Table>
           </Box>

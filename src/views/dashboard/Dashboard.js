@@ -18,7 +18,7 @@ import {
   CWidgetSimple
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
+import Iframe from 'react-iframe'
 import MainChartExample from '../charts/MainChartExample.js'
 
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
@@ -33,7 +33,7 @@ const Dashboard = () => {
           <CRow>
             <CCol sm="5">
               <h3 id="traffic" className="card-title mb-0">Preventive Care</h3>
-              <div className="small text-muted">September 2021</div>
+              {/* <div className="small text-muted">September 2021</div> */}
             </CCol>
             <CCol sm="7" className="d-none d-md-block">
               {/* <CButton color="primary" className="float-right">
@@ -55,7 +55,8 @@ const Dashboard = () => {
               </CButtonGroup> */}
             </CCol>
           </CRow>
-          <MainChartExample style={{height: '300px', marginTop: '40px'}}/>
+          {/* <MainChartExample style={{height: '300px', marginTop: '40px'}}/> */}
+          <Iframe width="100%" height="380px" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
         </CCardBody>
       <CCardGroup className="mb-4">
 

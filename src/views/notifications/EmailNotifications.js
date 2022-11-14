@@ -26,7 +26,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import emailjs from '@emailjs/browser';
+// import emailjs from '@emailjs/browser';
 import {
     CBadge
   } from '@coreui/react'
@@ -141,16 +141,17 @@ export default function EmailNotify() {
           setpage(0);
         };
 
-        const sendemail = (e) => {
-          e.preventDefault();
+        // const sendemail = (e) => {
+        //   e.preventDefault();
       
-          emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-            .then((result) => {
-                console.log(result.text);
-            }, (error) => {
-                console.log(error.text);
-            });
-        };
+        // //   emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
+        // //     .then((result) => {
+        // //         console.log(result.text);
+        // //     }, (error) => {
+        // //         console.log(error.text);
+        // //     });
+        // // };
+        // }
 
         
 
@@ -267,7 +268,7 @@ export default function EmailNotify() {
                         {/* <StyledTableCell align="left">{row.email}</StyledTableCell> */}
                         <StyledTableCell align="left">{row.doctor}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.cluster_label)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
+                        {/* <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell> */}
                       </StyledTableRow>
                     )
                   })
@@ -292,4 +293,4 @@ export default function EmailNotify() {
 
      
     )
-}
+                }

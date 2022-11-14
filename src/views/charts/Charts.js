@@ -244,8 +244,8 @@ const Charts = () => {
         </CCardBody>
       </CCard> */}
 
-      <CCard>
-        {/* <CCardHeader>
+      {/* <CCard>
+         <CCardHeader>
           Radar Chart
         </CCardHeader>
         <CCardBody>
@@ -285,9 +285,9 @@ const Charts = () => {
               'Coding', 'Cycling', 'Running'
             ]}
           />
-        </CCardBody> */}
-        {/* <Iframe width="400" height="251" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/> */}
-      </CCard>
+        </CCardBody> 
+        <Iframe width="400" height="251" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+      </CCard> */}
     </CCardGroup>
     </Router>
   )

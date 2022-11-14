@@ -115,6 +115,24 @@ export default function PatientInform() {
       .catch(error => console.log('error', error));
     }
 
+    const fetchPatientVisits = () => {
+      console.log("check function")
+
+      var requestOptions = {
+        method: 'GET'
+      };
+
+      fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchPatientVisits", requestOptions)
+      .then((resp) => resp.json())
+      .then((response) => {
+        setdata(response)
+        console.log(data)
+        
+        // console.log( eval(JSON.stringify(data)));
+      })
+      .catch(error => console.log('error', error));
+    }
+
     useEffect(() => { 
       console.log("hello useeffect")
       // this.setState({isLoading:true})
@@ -132,6 +150,7 @@ export default function PatientInform() {
       // })
 
       fetchpatientdata();
+      // fetchPatientVisits();
   })
 
   console.log(data)
