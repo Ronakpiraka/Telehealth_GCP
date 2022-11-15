@@ -135,7 +135,7 @@ export default function ProviderInform() {
               method: 'GET'
             };
       
-            fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchproviderdata", requestOptions)
+            fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
             .then((resp) => resp.json())
             .then((response) => {
               setdata(response)
@@ -240,11 +240,11 @@ export default function ProviderInform() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Provider Code</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Provider Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Contact No</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Specialization</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Specialist</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Practioner Name</TableCell>
                 </TableRow>
               </TableHead>
 
