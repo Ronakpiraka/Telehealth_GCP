@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Table from '@material-ui/core/Table';
@@ -17,8 +17,11 @@ import {withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { BsFillPersonFill } from "react-icons/bs";
 
-export default function Row(props) {
 
+
+
+export default function Row(props) {
+  
   const StyledTableCell = withStyles((theme) => ({
     body: {
       fontSize: 14,
@@ -34,22 +37,72 @@ export default function Row(props) {
   }))(TableRow);
 
     const { row } = props;
-    console.log(row);
+    // console.log(row);
     const [open, setopen] = React.useState(false);
     const history = useHistory();
 
     var url;
 
-    const redirectToPatientDetails = (e, id) => {
-      url = `/records/patientdetails?Patient_id=${id}`;
+    const redirectToPatientDetails = (e, Patient_id) => {
+      url = `/records/patientdetails?Patient_id=${Patient_id}`;
       history.push(`${url}`);
   }
+  const [visits, setvisits] = React.useState([]);
+  const fetchvisitsdata = () => {
+    console.log("check function")
+  var requestOptions = {
+    method: 'GET'
+  };
 
+  fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchPatientVisits", requestOptions)
+  .then((resp) => resp.json())
+  .then((response) => {
+    setvisits(response)
+    console.log(visits)
+    
+    // console.log( eval(JSON.stringify(data)));
+  })
+  .catch(error => console.log('error', error));
+  }
+  useEffect(() => { 
+    console.log("hello useeffect")
+    // this.setState({isLoading:true})
+    // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             // 'Access-Control-Allow-Methods': 'GET',
+    //             // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+    //             // 'Access-Control-Allow-Origin' : '*'
+    //         },
+    //     }).then((data) => data.json()).then((resp) => {
+    //   setdata(resp)
+    //   console.log(data)
+    // })
+
+    fetchvisitsdata();
+  })
+
+  const idMatch = (item) => {
+    // console.log("--------------row")
+    // console.log(row);
+      if(row.Patient_id == item.patientId)//change the logic here
+      {
+        return (
+          item
+        )
+      }
+      else{
+        return(
+          <></>
+        )
+      }
+  }   
+  
   const displayCheckedBox = (row) => {
-    console.log("--------------row")
-    console.log(row);
+    // console.log("--------------row")
+    // console.log(row);
       if(row.RemoteCareStatus)//change the logic here
-      // if(row) 
       {
         return (
           <FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color:'#1890ff'}}/>}/>
@@ -61,7 +114,7 @@ export default function Row(props) {
         )
       }
   }   
-  
+
     return (
       <React.Fragment>
       {/* <Row row={data}/> */}
@@ -82,6 +135,7 @@ export default function Row(props) {
             onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
             onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
           >
+            {/* main patient data */}
             {row.Full_name}
         </a>
       </TableCell>
@@ -111,20 +165,20 @@ export default function Row(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-               {/* {console.log(data.org)} */}
-                {row.length > 0 && row.map((item) => {
-                return(
-                  // patient visit details
-                  <StyledTableRow key={item.id}>
-                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                    <StyledTableCell style={{width:"25%"}}> {item.provider_name}</StyledTableCell>
-                    <StyledTableCell>{item.doctor}</StyledTableCell>
-                    <StyledTableCell>{item.disease}</StyledTableCell>
-                    <StyledTableCell style={{width:"15%"}}>{item.period.start}</StyledTableCell>
-                    <StyledTableCell style={{width:"15%"}}>{item.period.end}</StyledTableCell>
-                  </StyledTableRow>
-                )
-                 })}   
+               {/* {console.log(data.org)} row.Patient_id*/}
+                {visits.length > 0 && visits.map((row.Patient_id) => {
+                   <StyledTableRow key={item.patientId}>
+                   {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
+                   <StyledTableCell style={{width:"25%"}}>{item.Provider_name}</StyledTableCell>
+                   <StyledTableCell style={{width:"20%"}}>{item.Practitioner_name}</StyledTableCell>
+                   <StyledTableCell style={{width:"25%"}}>{item.Reason_name}</StyledTableCell>
+                   <StyledTableCell style={{width:"15%"}}>{item.Encounter_start}</StyledTableCell>
+                   <StyledTableCell style={{width:"15%"}}>{item.Encounter_end}</StyledTableCell>
+                   </StyledTableRow>
+                
+                 })
+                 }
+                    
               </TableBody>
             </Table>
           </Box>

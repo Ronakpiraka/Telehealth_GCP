@@ -26,7 +26,7 @@ import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import emailjs from '@emailjs/browser';
+// import emailjs from '@emailjs/browser';
 import {
     CBadge
   } from '@coreui/react'
@@ -144,12 +144,12 @@ export default function EmailNotify() {
         const sendemail = (e) => {
           e.preventDefault();
       
-          emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-            .then((result) => {
-                console.log(result.text);
-            }, (error) => {
-                console.log(error.text);
-            });
+          // emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
+          //   .then((result) => {
+          //       console.log(result.text);
+          //   }, (error) => {
+          //       console.log(error.text);
+          //   });
         };
 
         
