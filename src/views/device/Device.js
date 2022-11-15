@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React , {useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Layout, Menu, Input} from 'antd';
 import Table from '@material-ui/core/Table';
@@ -45,16 +45,71 @@ export default function Device() {
         },
       }));
       const classes = useStyles();
-      
+      const [data, setdata]=React.useState([]);
 
-    function createData(device, name) {
-        
-        return { device, name, };
+      const fetchpatientdata = () => {
+        console.log("check function")
+  
+        var requestOptions = {
+          method: 'GET'
+        };
+  
+        fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata", requestOptions)
+        .then((resp) => resp.json())
+        .then((response) => {
+          setdata(response)
+          console.log(data)
+          
+          // console.log( eval(JSON.stringify(data)));
+        })
+        .catch(error => console.log('error', error));
       }
 
-    const rows = [
-        createData('Oxygen and Temperature',"Arthur650_Ortiz186")
-      ]
+      useEffect(() => {   
+        fetchpatientdata();
+    })
+
+    const displayCheckedBox = (row) => {
+      console.log("--------------row")
+      console.log(row);
+        if(row.RemoteCareStatus)//change the logic here
+        // if(row) 
+        {
+          return (
+            <>
+            <FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color:'#1890ff'}}/>}/>
+            </>
+          )
+        }
+        else{
+          return(
+            <FormControlLabel disabled control={<Checkbox name="checkedEvent" />}/>
+          )
+        }
+    }   
+
+    const displayName = (row) => {
+      console.log("--------------row")
+      console.log(row);
+        if(row.RemoteCareStatus)//change the logic here
+        // if(row) 
+        {
+          return (
+            <>
+            <TableCell>Device101</TableCell>
+            <TableCell>Oxygen and Temperature</TableCell>
+            <TableCell>{row.Full_name}</TableCell>
+            <TableCell>Oxygen level goes below the threshold</TableCell>
+            <TableCell style={{textAlign:"center"}}>{displayCheckedBox(row)}</TableCell>
+            </>
+          )
+        }
+        else{
+          return(
+            <></>
+          )
+        }
+    }   
 
     return (
         <Layout style={{backgroundColor:'black'}}>
@@ -140,20 +195,18 @@ export default function Device() {
                 <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
-                <TableCell style={{fontWeight: 'bold'}}>Device</TableCell>
+                <TableCell style={{fontWeight: 'bold'}}>Device ID</TableCell>
+                <TableCell style={{fontWeight: 'bold'}}>Device Name</TableCell>
                 <TableCell style={{fontWeight: 'bold'}}>Patient Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Remote Care</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Consent Form</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Message</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Remote Care & Consent Form</TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                <TableCell>{row.device}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell><FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color:'#1890ff'}}/>}/></TableCell>
-                <TableCell><FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color:'#1890ff'}}/>}/></TableCell>
+              {data.map((row) => (
+                <TableRow key={row.Patient_id}>
+                  {displayName(row)}
                 </TableRow>
                 ))}
                 </TableBody>

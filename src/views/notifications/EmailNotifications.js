@@ -141,16 +141,42 @@ export default function EmailNotify() {
           setpage(0);
         };
 
-        const sendemail = (e) => {
-          e.preventDefault();
+        const sendemail = (e, name, doctor, risk) => {
+          // e.preventDefault();
+
+          var params = {
+            name: 'Care Service Admin',
+            from_name: 'kekarekomal@gmail.com',
+            message_html: 'Please Find out the attached file'
+          };
+
+          // var params = {
+          //       Message: `Dear ${name}/${doctor}
+          //                   As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${name} is continuously recorded.
+          //                   As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
+          //                   Oxygen level-80
+          //                   Temperature-100
+          //                   Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
+          //                   As preliminary, please take notice of below critical parameters for discussion with doctor.
+          //                   A bluish tint to fingernails, lips and skin
+          //                   Chest congestion
+          //                   shortness of breath
+          //                   persistent cough
+          //                   Thanking You
+          //                   Hospital Management `, 
+          //       Subject: `Connect with ${doctor}`
+          //     };
+
       
-          emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-            .then((result) => {
-                console.log(result.text);
-            }, (error) => {
-                console.log(error.text);
-            });
-        };
+              emailjs.sendForm('service_yjt5xpr', 'template_jt5dkn9', '#myform', params, 'aeab5d53d5705aa81b1d9fdb5c13077f')
+                .then(function(response) {
+                  console.log('SUCCESS!', response.status, response.text);
+                  alert('sent')
+              }, function(error) {
+                  console.log('FAILED...', error);
+                  alert(error)
+              });
+            };
 
         
 
@@ -261,6 +287,8 @@ export default function EmailNotify() {
                 })
                   .map((row, index) => {
                     return(
+                      <>
+                      <form id="myform"></form>
                       <StyledTableRow>
                         <StyledTableCell align="left">{row.Patient_id}</StyledTableCell>
                         <StyledTableCell align="left">{row.Full_name}</StyledTableCell>
@@ -269,6 +297,7 @@ export default function EmailNotify() {
                         <StyledTableCell>{riskscore(row.cluster_label)}</StyledTableCell>
                         <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
                       </StyledTableRow>
+                      </>
                     )
                   })
                  }
