@@ -244,7 +244,7 @@ export default function ProviderInform() {
                 <TableCell style={{ fontWeight: 'bold'}}>Contact No</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Specialization</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Specialist</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Practioner Name</TableCell>
                 </TableRow>
               </TableHead>
 

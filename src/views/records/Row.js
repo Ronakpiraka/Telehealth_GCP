@@ -83,21 +83,6 @@ export default function Row(props) {
     fetchvisitsdata();
   })
 
-  const idMatch = (item) => {
-    // console.log("--------------row")
-    // console.log(row);
-      if(row.Patient_id == item.patientId)//change the logic here
-      {
-        return (
-          item
-        )
-      }
-      else{
-        return(
-          <></>
-        )
-      }
-  }   
   
   const displayCheckedBox = (row) => {
     // console.log("--------------row")
@@ -115,8 +100,18 @@ export default function Row(props) {
       }
   }   
 
+
+    const visits_new = visits.filter(function(item) {
+      if (item.patientId == row.Patient_id){
+        return item
+      }
+    })
+
     return (
       <React.Fragment>
+
+
+
       {/* <Row row={data}/> */}
        <TableRow>
         <TableCell>
@@ -155,18 +150,20 @@ export default function Row(props) {
             </Typography>
             <Table size="small" aria-label="provider">
               <TableHead>
-                <TableRow >
-                  {/* <TableCell style={{ fontWeight: 'bold'}}>Provider Id</TableCell> */}
-                  <TableCell style={{ fontWeight: 'bold'}}>Name</TableCell>
-                  <TableCell style={{ fontWeight: 'bold'}}>Practitioner</TableCell>
-                  <TableCell style={{ fontWeight: 'bold'}}>Reason</TableCell>
-                  <TableCell style={{ fontWeight: 'bold'}}>Start Date</TableCell>
-                  <TableCell style={{ fontWeight: 'bold'}}>End Date</TableCell>
-                </TableRow>
+
               </TableHead>
               <TableBody>
+                <TableRow key="{item.patientId}">
+                   {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
+                   <TableCell style={{ fontWeight: 'bold'}}>item.Provider_name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>item.Practitioner_name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>item.Reason_name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>item.Encounter_start</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>item.Encounter_end</TableCell>
+                   </TableRow>
                {/* {console.log(data.org)} row.Patient_id*/}
-                {visits.length > 0 && visits.map((row.Patient_id) => {
+                {visits_new.length > 0 && visits_new.map((item) => 
+                  
                    <StyledTableRow key={item.patientId}>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
                    <StyledTableCell style={{width:"25%"}}>{item.Provider_name}</StyledTableCell>
@@ -175,8 +172,7 @@ export default function Row(props) {
                    <StyledTableCell style={{width:"15%"}}>{item.Encounter_start}</StyledTableCell>
                    <StyledTableCell style={{width:"15%"}}>{item.Encounter_end}</StyledTableCell>
                    </StyledTableRow>
-                
-                 })
+                 )
                  }
                     
               </TableBody>
