@@ -250,10 +250,10 @@ export default function EmailNotify() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Patient ID</TableCell>
+                {/* <TableCell style={{ fontWeight: 'bold'}}>Patient ID</TableCell> */}
                 <TableCell style={{ fontWeight: 'bold'}}>Patient Name</TableCell>
-                {/* <TableCell style={{ fontWeight: 'bold'}}>Patient Email</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Specialist</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Patient/Guardian Email</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Practitioner Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Risk Score</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Email Notifications</TableCell>
                 </TableRow>
@@ -278,9 +278,9 @@ export default function EmailNotify() {
                       <>
                       <form id="myform"></form>
                       <StyledTableRow>
-                        <StyledTableCell align="left">{row.Patient_id}</StyledTableCell>
+                        {/* <StyledTableCell align="left">{row.Patient_id}</StyledTableCell> */}
                         <StyledTableCell align="left">{row.Patient_name}</StyledTableCell>
-                        {/* <StyledTableCell align="left">{row.email}</StyledTableCell> */}
+                        <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
                         <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
                         <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
@@ -297,7 +297,7 @@ export default function EmailNotify() {
         <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 component="div"
-                count={ordPlaced}
+                count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}
