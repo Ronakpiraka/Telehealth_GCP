@@ -272,6 +272,7 @@ export default function PatientDetails() {
 
 	const redirectToPatientDetails = (e, Patient_id) => {
         var url = `/insights?Patient_id=${Patient_id}`;
+		var insighturl = `https://datastudio.google.com/embed/reporting/6c7c00fb-a5f6-4acb-9a03-6de6b6b499f3/page/tEnnC?params=%7B%22df4%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580${Patient_id}%25EE%2580%258063cb4d95-04a9-3a35-b5d9-f89e0377a48d%22%7D`
         history.push(`${url}`);
     }
 

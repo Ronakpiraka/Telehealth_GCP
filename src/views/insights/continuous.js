@@ -34,37 +34,37 @@ export default function Insights() {
   const [data, setdata]=React.useState([]);
   const [p_data, setp_data]=React.useState([]);
 
-  const fetchQSDashboard = () => {
-    var requestOptions = {
-      method: 'GET'
-    };
+  // const fetchQSDashboard = () => {
+  //   var requestOptions = {
+  //     method: 'GET'
+  //   };
 
-    fetch("https://cvzg49w5bc.execute-api.us-east-1.amazonaws.com/test-QS/qsresource-sample?mode=getUrl", requestOptions)
-    .then((resp) => resp.json())
-    .then((response) => {
-      setdata(response.EmbedUrl)
-      console.log(data)
-    })
-    .catch(error => console.log('error', error));
-  }
+  //   fetch("https://cvzg49w5bc.execute-api.us-east-1.amazonaws.com/test-QS/qsresource-sample?mode=getUrl", requestOptions)
+  //   .then((resp) => resp.json())
+  //   .then((response) => {
+  //     setdata(response.EmbedUrl)
+  //     console.log(data)
+  //   })
+  //   .catch(error => console.log('error', error));
+  // }
 
-  const fetchQSPrevData = () => {
-    var requestOptions = {
-      method: 'GET'
-    };
+  // const fetchQSPrevData = () => {
+  //   var requestOptions = {
+  //     method: 'GET'
+  //   };
 
-    fetch("https://5aq1ubfm45.execute-api.us-east-1.amazonaws.com/test-QS/qs-embed-sample2?mode=getUrl", requestOptions)
-    .then((resp) => resp.json())
-    .then((response) => {
-      setp_data(response.EmbedUrl)
-      console.log(data)
-    })
-    .catch(error => console.log('error', error));
-  }
+  //   fetch("https://5aq1ubfm45.execute-api.us-east-1.amazonaws.com/test-QS/qs-embed-sample2?mode=getUrl", requestOptions)
+  //   .then((resp) => resp.json())
+  //   .then((response) => {
+  //     setp_data(response.EmbedUrl)
+  //     console.log(data)
+  //   })
+  //   .catch(error => console.log('error', error));
+  // }
 
   useEffect(() => { 
-    fetchQSDashboard();
-    fetchQSPrevData();
+    // fetchQSDashboard();
+    // fetchQSPrevData();
  },[])
 
  console.log(data)

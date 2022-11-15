@@ -1,7 +1,8 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import Iframe from 'react-iframe'
 import Preventive from "../insights/preventiveFrame"
 import {HashRouter as Router, Link } from 'react-router-dom';
+import {useHistory, useLocation} from "react-router-dom";
 import {
   CCard,
   CCardBody,
@@ -21,6 +22,21 @@ import {
 const Charts = () => {
   const [data, setdata]=React.useState([]);
   const [p_data, setp_data]=React.useState([]);
+  const [singlepatientid, setsinglepatientid] = useState('');
+  const location = useLocation();
+  var stat, flags;
+  var url="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC?params=%7B%22df2%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580" + singlepatientid + "%22%7D"
+
+  useEffect(() => {
+		flags = location.search.split('^')[1];
+		console.log(flags)
+		let singlepatientid = location.search.split('=')[1];
+		console.log('-----------------singleorderid--------------------------------------')
+		console.log(singlepatientid)
+		console.log('-------------------------------------------------------')
+		setsinglepatientid(singlepatientid)
+
+  })
 
   // const fetchQSDashboard = () => {
   //   var requestOptions = {
@@ -92,7 +108,7 @@ const Charts = () => {
           </CCardHeader>
         </a>
         <CCardBody style={{backgroundColor:'#0A2533', color:'white'}}>
-        <Iframe width="420" height="251" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+        <Iframe width="420" height="251" src={url}/>
           {/* <CChartLine
             datasets={[
               {
@@ -128,7 +144,7 @@ const Charts = () => {
           </Link> 
         {/* </a> */}
         <CCardBody style={{backgroundColor:'#0A2533', color:'white'}}>
-        <Iframe width="420" height="251" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+        <Iframe width="420" height="251" src={url} frameborder="0" style="border:0" allowfullscreen/>
           {/* <CChartDoughnut
             datasets={[
               {
