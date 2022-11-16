@@ -98,7 +98,7 @@ export default function PatientInform() {
     const { Search } = Input;
 
     const fetchpatientdata = () => {
-      console.log("check function")
+      // console.log("check function")
 
       var requestOptions = {
         method: 'GET'
@@ -108,7 +108,7 @@ export default function PatientInform() {
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)
-        console.log(data)
+        // console.log(data)
         
         // console.log( eval(JSON.stringify(data)));
       })
@@ -116,7 +116,7 @@ export default function PatientInform() {
     }
 
     useEffect(() => { 
-      console.log("hello useeffect")
+      // console.log("hello useeffect")
       // this.setState({isLoading:true})
       // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
       //         method: 'GET',
@@ -134,7 +134,7 @@ export default function PatientInform() {
       fetchpatientdata();
   })
 
-  console.log(data)
+  // console.log(data)
 
     const menu = (
         <Menu onClick={handleMenuClick}>
@@ -251,13 +251,13 @@ export default function PatientInform() {
             <TableContainer>
             <Table aria-label="collapsible table">
                 <TableHead>
-                <TableRow style={{ padding: '0px' }}>
+                <TableRow style={{ padding: '0px'}}>
                 <TableCell/>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
                 <TableCell style={{ fontWeight: 'bold'}}>Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Age</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Contact No</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Phone Number</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Remote Care</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Consent Form</TableCell>
                 </TableRow>
