@@ -15,7 +15,7 @@ import InputBase from '@material-ui/core/InputBase';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-// import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import {
     CBadge
   } from '@coreui/react'
