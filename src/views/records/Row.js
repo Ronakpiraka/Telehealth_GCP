@@ -16,9 +16,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import {withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { BsFillPersonFill } from "react-icons/bs";
-
-
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
 
 export default function Row(props) {
   
@@ -100,7 +99,21 @@ export default function Row(props) {
       }
   }   
 
+  const ShowStatus = (status) => {
+      if(status == "finished")
+      {
+        return (
+          <CheckCircleIcon style={{color:'green'}}/>
+        )
+      }
+      else{
+        return(
+          <PendingIcon style={{color:'yellow'}}/>
+        )
+      }
+  }   
 
+  
     const visits_new = visits.filter(function(item) {
       if (item.patientId == row.Patient_id){
         return item
@@ -149,19 +162,18 @@ export default function Row(props) {
               Patient Visits
             </Typography>
             <Table size="small" aria-label="provider">
-              <TableHead position = "sticky">
-                <TableRow key="{item.patientId}">
-                   {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                   <TableCell style={{ fontWeight: 'bold'}}>Provider Name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Practitioner Name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Reason of Visit</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Visit Start Date</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Visit End Date</TableCell>
-                   </TableRow>
-
+              <TableHead>
               </TableHead>
               <TableBody>
-                
+                <TableRow key="{item.patientId}">
+                   {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
+                   <TableCell style={{ fontWeight: 'bold'}}>Provider name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Practitioner name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Reason name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Encounter start</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Encounter end</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Status</TableCell>
+                   </TableRow>
                {/* {console.log(data.org)} row.Patient_id*/}
                 {visits_new.length > 0 && visits_new.map((item) => 
                   

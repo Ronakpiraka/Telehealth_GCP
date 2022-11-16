@@ -1,11 +1,7 @@
 import React, {useEffect, useRef  } from 'react'
 import { Layout, Menu, Input  } from 'antd';
-import Avatar from '@material-ui/core/Avatar';
-import {Link} from "react-router-dom";
 import './PatientInfo.css';
 import 'antd/dist/antd.css';
-import {TableOutlined,UserOutlined,AreaChartOutlined} from '@ant-design/icons';
-import { Dropdown, message } from 'antd';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Table from '@material-ui/core/Table';
@@ -15,14 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import VideocamIcon from '@material-ui/icons/Videocam';
-import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import {MenuUnfoldOutlined,MenuFoldOutlined} from '@ant-design/icons';
 import InputBase from '@material-ui/core/InputBase';
-import {toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -31,7 +20,7 @@ import {
     CBadge
   } from '@coreui/react'
 //  import config from '../../config.js';
-var AWS = require('aws-sdk');
+// var AWS = require('aws-sdk');
 
 export default function EmailNotify() {
     const useStyles = makeStyles((theme) => ({
@@ -120,7 +109,7 @@ export default function EmailNotify() {
 
 
         useEffect(() => { 
-          const res= fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata", {
+          const res= fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchEmailNotificationData", {
             method: 'GET',
           }).then(resp => resp.json()
           ).then(resp=>{
@@ -141,16 +130,42 @@ export default function EmailNotify() {
           setpage(0);
         };
 
-        const sendemail = (e) => {
-          e.preventDefault();
+        const sendemail = (e, name, doctor, risk) => {
+          // e.preventDefault();
+
+          var params = {
+            name: 'Care Service Admin',
+            from_name: 'kekarekomal@gmail.com',
+            message_html: 'Please Find out the attached file'
+          };
+
+          // var params = {
+          //       Message: `Dear ${name}/${doctor}
+          //                   As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${name} is continuously recorded.
+          //                   As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
+          //                   Oxygen level-80
+          //                   Temperature-100
+          //                   Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
+          //                   As preliminary, please take notice of below critical parameters for discussion with doctor.
+          //                   A bluish tint to fingernails, lips and skin
+          //                   Chest congestion
+          //                   shortness of breath
+          //                   persistent cough
+          //                   Thanking You
+          //                   Hospital Management `, 
+          //       Subject: `Connect with ${doctor}`
+          //     };
+
       
-          // emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-          //   .then((result) => {
-          //       console.log(result.text);
-          //   }, (error) => {
-          //       console.log(error.text);
-          //   });
-        };
+              emailjs.sendForm('service_yjt5xpr', 'template_jt5dkn9', '#myform', params, 'aeab5d53d5705aa81b1d9fdb5c13077f')
+                .then(function(response) {
+                  console.log('SUCCESS!', response.status, response.text);
+                  alert('sent')
+              }, function(error) {
+                  console.log('FAILED...', error);
+                  alert(error)
+              });
+            };
 
         
 
@@ -213,7 +228,6 @@ export default function EmailNotify() {
 
     return (
       <div>
-
         <p style={{fontSize:'22px', textAlign:'center'}}><strong>Risk Patient Details</strong></p>
 
           <Paper>
@@ -236,10 +250,10 @@ export default function EmailNotify() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Patient ID</TableCell>
+                {/* <TableCell style={{ fontWeight: 'bold'}}>Patient ID</TableCell> */}
                 <TableCell style={{ fontWeight: 'bold'}}>Patient Name</TableCell>
-                {/* <TableCell style={{ fontWeight: 'bold'}}>Patient Email</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Specialist</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Patient/Guardian Email</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Practitioner Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Risk Score</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Email Notifications</TableCell>
                 </TableRow>
@@ -261,14 +275,17 @@ export default function EmailNotify() {
                 })
                   .map((row, index) => {
                     return(
+                      <>
+                      <form id="myform"></form>
                       <StyledTableRow>
-                        <StyledTableCell align="left">{row.Patient_id}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Full_name}</StyledTableCell>
-                        {/* <StyledTableCell align="left">{row.email}</StyledTableCell> */}
-                        <StyledTableCell align="left">{row.doctor}</StyledTableCell>
-                        <StyledTableCell>{riskscore(row.cluster_label)}</StyledTableCell>
+                        {/* <StyledTableCell align="left">{row.Patient_id}</StyledTableCell> */}
+                        <StyledTableCell align="left">{row.Patient_name}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
+                        <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
                         <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
                       </StyledTableRow>
+                      </>
                     )
                   })
                  }
@@ -280,7 +297,7 @@ export default function EmailNotify() {
         <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 component="div"
-                count={ordPlaced}
+                count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

@@ -1,11 +1,6 @@
 import React, {useEffect } from 'react'
-import { Layout, Menu, Input  } from 'antd';
-import Avatar from '@material-ui/core/Avatar';
-import {Link} from "react-router-dom";
 import './PatientInfo.css';
 import 'antd/dist/antd.css';
-import {TableOutlined,UserOutlined,AreaChartOutlined} from '@ant-design/icons';
-import { Dropdown, message } from 'antd';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Table from '@material-ui/core/Table';
@@ -15,12 +10,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import VideocamIcon from '@material-ui/icons/Videocam';
-import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import {MenuUnfoldOutlined,MenuFoldOutlined} from '@ant-design/icons';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -106,20 +95,6 @@ export default function ProviderInform() {
         const [ordPlaced, setordPlaced]=React.useState(10);
         const classes = useStyles();
     
-        const { Header, Sider, Content } = Layout;
-        const { Search } = Input;
-
-          // const menu = (
-          //   <Menu onClick={handleMenuClick}>
-          //     <Menu.Item icon={<UserOutlined/>}>
-          //         <Link to="/">Logout</Link>
-          //     </Menu.Item>
-          // </Menu>
-          //   );
-      
-          // function handleMenuClick(e) {
-          //     message.info('Logout Successful');
-          //   }
     
           const handleChangePage = (event, newPage) => {
             setpage(newPage);
@@ -152,75 +127,10 @@ export default function ProviderInform() {
 
     return (
       <>
-        {/* <Sider width={230} trigger={null} collapsible collapsed={collapsed}>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['3']}>
-          <Menu.Item key="1" icon={<DashboardIcon style={{fontSize:'24px'}}/>} >
-            <Link to="/dashboard">Dashboard </Link>
-            </Menu.Item>
-
-            <Menu.Item key="2" icon={<TableOutlined style={{fontSize:'24px'}}/>}>
-            <Link to="/patientinfo">Patients</Link>
-            </Menu.Item>
-            
-            <Menu.Item key="3" icon={<TableOutlined style={{fontSize:'24px'}}/>} >
-              <Link to="/providerinfo">Providers</Link>
-            </Menu.Item>
-
-            <Menu.Item key="4" icon={<AreaChartOutlined style={{fontSize:'24px'}}/>}>
-              <Link to ="/insights">Care Insights</Link>
-            </Menu.Item>
-
-            <Menu.Item key="5" icon={<DevicesOtherIcon style={{fontSize:'24px'}}/>}>
-            <Link to="/device">Device Management</Link>
-            </Menu.Item>
-
-            <Menu.Item key="6" icon={<VideocamIcon style={{fontSize:'24px'}}/>}>
-              <Link to ="/consultation">Video Consultations</Link>
-            </Menu.Item>
-
-            <Menu.Item key="7" icon={<AssessmentRoundedIcon style={{fontSize:'24px'}}/>}>
-            <Link to="/reports">Reports</Link>
-            </Menu.Item>
-
-            <Menu.Item key="8" icon={<AirportShuttleIcon style={{fontSize:'24px'}}/>}>
-                <Link to ="/ambulanceservices">Ambulance Services</Link>
-            </Menu.Item>
-          </Menu>
-    </Sider> */}
-
-        {/* <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
-          <div style={{float:"left", marginLeft:"5px", fontWeight:"bolder"}}>
-            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                  className: 'trigger',
-                  onClick: toggle,
-                })}
-            </div>
-             <p style={{fontSize:'26px', color:"#1890ff", marginLeft:"200px"}}>Remote Patient Monitoring
-             <div style={{float:"right", margin:'8px'}}>
-              <Dropdown overlay={menu} >
-                <a className="ant-dropdown-link" > 
-                <Avatar src="/broken-image.jpg" className={classes.large} style={{backgroundColor: '#1890ff'}}/>
-                </a>
-              </Dropdown>
-            </div>
-            <h6 style={{fontSize:"16px", color:"black", float:"right", marginRight:"5px"}}>Welcome Steve</h6>
-            <span style={{float: "right", display: "inline-block", margin: "20px -120px", fontSize: "16px"}}>Care Services Admin</span>
-             </p>
-          </Header>
-        
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              minHeight: 500,
-            }}
-          >  */}
 
             <p style={{fontSize:'22px', textAlign:'center'}}><strong>Provider Details</strong></p>
 
-          <Paper>
+          <Paper  style={{ height: 400, width: '100%', overflowY: 'auto' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -240,7 +150,7 @@ export default function ProviderInform() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Provider Code</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Provider Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Contact No</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Specialization</TableCell>
@@ -284,7 +194,7 @@ export default function ProviderInform() {
         <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 component="div"
-                count={ordPlaced}
+                count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

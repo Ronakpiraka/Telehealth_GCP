@@ -10,8 +10,14 @@ const Reports = React.lazy(() => import('./views/reports/Reports.js'));
 // const Reports4 = React.lazy(() => import('./views/reports/Report4'));
 // const Reports5 = React.lazy(() => import('./views/reports/Report5'));
 // const Upload = React.lazy(() => import('./views/records/upload'));
-const Continuous = React.lazy(() => import('./views/insights/continuous'));
+const Insights = React.lazy(() => import('./views/insights/continuous'));
+const Continuous = React.lazy(() => import('./views/insights/continuousFrame'));
 const Preventive = React.lazy(() => import('./views/insights/preventiveFrame'));
+const ProviderInsights = React.lazy(() => import('./views/reports/ProviderInsights'));
+const PractitionerEngagements = React.lazy(() => import('./views/reports/PractitionerEngagements'));
+const PractitionerInsights = React.lazy(() => import('./views/reports/PractitionerInsights'));
+const PatientCare = React.lazy(() => import('./views/reports/PatientCare'));
+const PatientDemography = React.lazy(() => import('./views/reports/PatientDemography'));
 const Device = React.lazy(() => import('./views/device/Device'));
 const Notification = React.lazy(() => import('./views/notifications/calendar.jsx'));
 const AmbulanceService = React.lazy(() => import('./views/services/AmbulanceService'));
@@ -26,11 +32,17 @@ const routes = [
   { path: '/records/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/records/providers', name: 'Providers', component: Providers, exact: true },
   { path: '/records/patientdetails', name: 'Patientdetails', component: PatientDetails, exact: true },
-  { path: '/insights', name: 'insights', component: Continuous, exact: true },
+  { path: '/insights', name: 'insights', component: Insights, exact: true },
   { path: '/insights/preventive', name: 'PreventiveCare', component: Preventive, exact: true },
+  { path: '/insights/continuous', name: 'ContinuousCare', component: Continuous, exact: true },
   { path: '/device/devices', name: 'Devices', component: Device, exact: true },
   // { path: '/reports', name: 'Reports', component: Reports, exact: true },
   // { path: '/Modal', name: 'Modal', component: Modal },
+  { path: '/reports/ProviderInsights', name: 'ProviderInsights', component: ProviderInsights, exact: true },
+  { path: '/reports/PractitionerEngagements', name: 'PractitionerEngagements', component: PractitionerEngagements, exact: true },
+  { path: '/reports/PatientDemography', name: 'PatientDemography', component: PatientDemography, exact: true },
+  { path: '/reports/PractitionerInsights', name: 'PractitionerInsights', component: PractitionerInsights, exact: true },
+  { path: '/reports/PatientCare', name: 'PatientCare', component: PatientCare, exact: true },
   { path: '/notifications/email', name: 'Email', component: EmailNotification, exact: true },
   { path: '/notifications', name: 'Notifications', component: Notification, exact: true },
   { path: '/services/ambulance', name: 'AmbulanceService', component: AmbulanceService, exact: true },

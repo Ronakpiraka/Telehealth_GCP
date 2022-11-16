@@ -29,12 +29,12 @@ const _nav =  [
           {
             _tag: 'CSidebarNavItem',
             name: 'Continuous care',
-            to: '/insights/continuous-care',
+            to: '/insights/continuous',
           },
           {
             _tag: 'CSidebarNavItem',
             name: 'Preventive Care',
-            to: '/insights/preventive-care'
+            to: '/insights/preventive'
           }
         ]
 
@@ -47,28 +47,28 @@ const _nav =  [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'Hospital Insights',
-        to: '/reports/report1',
+        name: 'Provider Insights',
+        to: '/reports/ProviderInsights',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Doctor Engagements',
-        to: '/reports/report2',
+        name: 'Practitioner Engagements',
+        to: '/reports/PractitionerEngagements',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Patient Demography',
-        to: '/reports/report3',
+        to: '/reports/PatientDemography',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Doctor Insights',
-        to: '/reports/report4',
+        name: 'Practitioner Insights',
+        to: '/reports/PractitionerInsights',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Patient Care',
-        to: '/reports/report5',
+        to: '/reports/PatientCare',
       }
     ]
   },
