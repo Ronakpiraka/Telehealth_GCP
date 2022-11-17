@@ -195,7 +195,7 @@ export default function ProviderInform() {
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
               />
          {/* </Content> */}
          </>
