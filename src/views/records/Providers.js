@@ -13,6 +13,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import prow from './prow';
 
 export default function ProviderInform() {
     const useStyles = makeStyles((theme) => ({
@@ -73,6 +74,14 @@ export default function ProviderInform() {
         },
       }));
       
+      const [data, setdata]=React.useState([]);
+      const [collapsed, setcollapsed]=React.useState(false);
+      const [searchTerm, setsearchTerm]=React.useState('');
+      const [page, setpage]=React.useState(0);
+      const [rowsPerPage, setRowsPerPage] = React.useState(10);
+      const [ordPlaced, setordPlaced]=React.useState(10);
+      const classes = useStyles();
+      
       const StyledTableCell = withStyles((theme) => ({
         body: {
           fontSize: 14,
@@ -87,47 +96,43 @@ export default function ProviderInform() {
         },
       }))(TableRow);
     
-        const [data, setdata]=React.useState([]);
-        const [collapsed, setcollapsed]=React.useState(false);
-        const [searchTerm, setsearchTerm]=React.useState('');
-        const [page, setpage]=React.useState(0);
-        const [rowsPerPage, setRowsPerPage] = React.useState(10);
-        const [ordPlaced, setordPlaced]=React.useState(10);
-        const classes = useStyles();
     
     
-          const handleChangePage = (event, newPage) => {
-            setpage(newPage);
-          };
+    const handleChangePage = (event, newPage) => {
+      setpage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = event => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setpage(0);
+    };
+
+    function toggle(){
+      setcollapsed(!collapsed)
+    };
+
+    const fetchproviderdata = () => {
+      var requestOptions = {
+        method: 'GET'
+      };
+
+      fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
+      .then((resp) => resp.json())
+      .then((response) => {
+        setdata(response)
+        console.log(data)
         
-          const handleChangeRowsPerPage = event => {
-            setRowsPerPage(parseInt(event.target.value, 10));
-            setpage(0);
-          };
+      })
+      .catch(error => console.log('error', error));
+    }
 
-          const fetchproviderdata = () => {
-            var requestOptions = {
-              method: 'GET'
-            };
-      
-            fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
-            .then((resp) => resp.json())
-            .then((response) => {
-              setdata(response)
-              console.log(data)
-              
-            })
-            .catch(error => console.log('error', error));
-          }
-    
-        useEffect(() => { 
+    useEffect(() => { 
 
-           fetchproviderdata();
-        })
+      fetchproviderdata();
+    })
 
     return (
       <>
-
             <p style={{fontSize:'22px', textAlign:'center'}}><strong>Provider Details</strong></p>
 
           <Paper  style={{ height: 400, width: '100%', overflowY: 'auto' }}>
@@ -145,16 +150,20 @@ export default function ProviderInform() {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
-          <TableContainer>
-            <Table>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
+                <TableCell/>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold' , width:"25%"}}>Provider Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold' , width:"20%"}}>Practioner Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Specialization</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact No</TableCell>
+                <TableCell style={{ fontWeight: 'bold' , width:"25%"}}>Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold' , width:"25%"}}>Code</TableCell>
+                <TableCell style={{ fontWeight: 'bold' , width:"20%"}}>Address</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Conatct Number</TableCell>
+                {/* <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Specialisation</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Conatct Number</TableCell>
+                <TableCell style={{ fontWeight: 'bold' , width:"20%"}}>Email</TableCell> */}
                 </TableRow>
               </TableHead>
 
@@ -173,18 +182,26 @@ export default function ProviderInform() {
                      return val  
                   }
                 })
-                  .map((row, index) => {
+                  .map((prow, index) => {
                     return(
-                      <StyledTableRow>
-                        {/* <TableCell align="left">{row.id}</TableCell> */}
-                        <StyledTableCell align="left">{row.Provider_name}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Practitioner_name}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
+                      // <StyledTableRow>
+                      //   {/* <TableCell align="left">{row.id}</TableCell> */}
+                      //   <StyledTableCell align="left">{row.Provider_name}</StyledTableCell>
+                      //   <StyledTableCell align="left">{row.Provider_code}</StyledTableCell>
+                      //   <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
+                      //   <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
+
+                      //   <StyledTableCell align="left">{row.Practitioner_name}</StyledTableCell>
+                      //   <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
+                      //   <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
+                      //   <StyledTableCell align="left">{row.Provider_Contact_Email}</StyledTableCell>
+                      //   {/* <StyledTableCell align="left">{row.Provider_number}</StyledTableCell> */}
                         
-                      </StyledTableRow>
-                    )
+                      // </StyledTableRow>
+                      <prow key={prow.Provider_code} prow={prow} />
+                       
+
+                    );
                   })
                  }
               </TableBody>
