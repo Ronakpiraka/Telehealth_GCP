@@ -20,7 +20,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import { useState } from 'react';
 
-export default function prow(props) {
+export default function Prow(props) {
 
   const StyledTableCell = withStyles((theme) => ({
     body: {
@@ -36,79 +36,46 @@ export default function prow(props) {
     },
   }))(TableRow);
 
-    const { row } = props;
-    // console.log(row);
+    const { prow } = props;
+    console.log(prow);
     const [open, setopen] = React.useState(false);
-    const history = useHistory();
+    const [Practdetails, setPractdetails] = React.useState([]);
 
     var url;
 
-    const redirectToProviderDetails = (e, Provider_code) => {
-      url = `/records/patientdetails?Provider_code=${Provider_code}`;
-      history.push(`${url}`);
-  }
-  const [Practdetails, setPractdetails] = React.useState([]);
-  const fetchPractdetailsdata = () => {
-    console.log("check function")
-  var requestOptions = {
-    method: 'GET'
-  };
+    // const redirectToProviderDetails = (e, Provider_code) => {
+    //   url = `/records/patientdetails?Provider_code=${Provider_code}`;
+    //   history.push(`${url}`);
+    // }
+  
+    // const fetchPractdetailsdata = () => {
+    //   console.log("check function")
+    //   var requestOptions = {
+    //     method: 'GET'
+    // };
 
-  fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
-  .then((resp) => resp.json())
-  .then((response) => {
-    setPractdetails(response)
-    console.log(Practdetails)
-    
-    // console.log( eval(JSON.stringify(data)));
-  })
-  .catch(error => console.log('error', error));
-  }
-  useEffect(() => { 
-    // console.log("hello useeffect")
-    fetchPractdetailsdata();
-  })
+    //   fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
+    //   .then((resp) => resp.json())
+    //   .then((response) => {
+    //     setPractdetails(response)
+    //     console.log(Practdetails)
+    //   })
+    //   .catch(error => console.log('error', error));
+    // }
+
+    // useEffect(() => { 
+    //   fetchPractdetailsdata();
+    // })
 
   
-  const displayCheckedBox = (row) => {
-       if(row.RemoteCareStatus)//change the logic here
-      {
-        return (
-          <FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color:'#1890ff'}}/>}/>
-        )
-      }
-      else{
-        return(
-          <FormControlLabel disabled control={<Checkbox name="checkedEvent" />}/>
-        )
-      }
-  }   
-
-  const ShowStatus = (status) => {
-      if(status == "finished")
-      {
-        return (
-          <CheckCircleIcon style={{color:'green'}}/>
-        )
-      }
-      else{
-        return(
-          <PendingIcon style={{color:'yellow'}}/>
-        )
-      }
-  }   
-
-  
-    const Practdetails_new = Practdetails.filter(function(item) {
-      if (item.Provider_code == prow.Provider_code){
-        return item
-      }
-    })
+    // const Practdetails_new = Practdetails.filter(function(item) {
+    //   if (item.Provider_code == prow.Provider_code){
+    //     return item
+    //   }
+    // })
 
     return (
       <React.Fragment>
-
-    
       {/* <Row row={data}/> */}
        <TableRow>
         <TableCell>
@@ -118,24 +85,9 @@ export default function prow(props) {
       </TableCell> 
       
       <StyledTableCell align="left">{prow.Provider_code}</StyledTableCell>
-      {/* <TableCell>{row.id}</TableCell> */}
-      <TableCell align="left" component="th" scope="row" style={{width:"25%"}}>
-      <BsFillPersonFill size={25}/> &nbsp;&nbsp;
-        <a
-            onClick={(e) => { redirectToProviderDetails(e, prow.Provider_code)}}
-            target="_blank"
-            style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: 'blue'}}
-            onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
-            onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
-          >
-            {/* main patient data */}
-            {prow.Provider_name}
-        </a>
-      </TableCell>
+      <StyledTableCell align="left" >{prow.Provider_name}</StyledTableCell>
       <StyledTableCell align="left">{prow.Provider_Address}</StyledTableCell>
       <StyledTableCell align="left" style={{width:'150px'}}>{prow.Provider_number}</StyledTableCell>
-      {/* <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
-      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell> */}
     </TableRow>
     
     <StyledTableRow>
@@ -148,31 +100,23 @@ export default function prow(props) {
             <Table size="small" aria-label="provider">
               <TableHead>
               <TableCell style={{ fontWeight: 'bold'}}>Practioner Details: </TableCell>
-                   
               </TableHead>
               <TableBody>
-                <TableRow key="{item.Provider_code}">
+                <TableRow>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                   <TableCell style={{ fontWeight: 'bold'}}>Name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Specialisation</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Contact details</TableCell>
-                   {/* <TableCell style={{ fontWeight: 'bold'}}>Encounter start</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Encounter end</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Status</TableCell> */}
-                   </TableRow>
-               {/* {console.log(data.org)} row.Provider_code*/}
-                {Practdetails_new.length > 0 && Practdetails_new.map((item) => 
-                  
-                   <StyledTableRow key={item.Provider_code}>
-                   {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                   <StyledTableCell style={{width:"35%"}}>{item.Practitioner_name}</StyledTableCell>
-                   <StyledTableCell style={{width:"25%"}}>{item.Specialization}</StyledTableCell>
-                   <StyledTableCell style={{width:"20%"}}>{item.Practitioner_Email}</StyledTableCell>
-                   {/* <StyledTableCell style={{width:"15%"}}>{item.Encounter_start}</StyledTableCell>
-                   <StyledTableCell style={{width:"15%"}}>{item.Encounter_end}</StyledTableCell> */}
+                  <TableCell style={{ fontWeight: 'bold'}}>Practitioner Name</TableCell>
+                  <TableCell style={{ fontWeight: 'bold'}}>Specialisation</TableCell>
+                  <TableCell style={{ fontWeight: 'bold'}}>Email ID</TableCell>
+                </TableRow>
+                  {/* {Practdetails_new.length > 0 && Practdetails_new.map((item) => 
+                  { */}
+                   <StyledTableRow key={prow.Provider_code}>
+                   <StyledTableCell style={{width:"35%"}}>{prow.Practitioner_name}</StyledTableCell>
+                   <StyledTableCell style={{width:"25%"}}>{prow.Specialization}</StyledTableCell>
+                   <StyledTableCell style={{width:"20%"}}>{prow.Practitioner_Email}</StyledTableCell>
                    </StyledTableRow>
-                 )
-                 }
+                  {/* })
+                 } */}
                     
               </TableBody>
             </Table>

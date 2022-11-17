@@ -159,7 +159,7 @@ export default function PatientInform() {
     <>
         <p style={{fontSize:'22px', textAlign:'center'}}><strong>Patient Engagement</strong></p>
 
-          <Paper style={{ height: 400, width: '100%', overflowY: 'auto' }}>
+          <Paper>
           <div className={classes.search}>
                   <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -217,7 +217,7 @@ export default function PatientInform() {
                 count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onChangePage={handleChangePage}
+                onPageChange={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
               />
       {/*  </Content> */}

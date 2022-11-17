@@ -13,7 +13,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import prow from './prow';
+import Prow from './Prow';
 
 export default function ProviderInform() {
     const useStyles = makeStyles((theme) => ({
@@ -135,7 +135,7 @@ export default function ProviderInform() {
       <>
             <p style={{fontSize:'22px', textAlign:'center'}}><strong>Provider Details</strong></p>
 
-          <Paper  style={{ height: 400, width: '100%', overflowY: 'auto' }}>
+          <Paper>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -155,15 +155,10 @@ export default function ProviderInform() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 <TableCell/>
-                {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold' , width:"25%"}}>Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold' , width:"25%"}}>Code</TableCell>
-                <TableCell style={{ fontWeight: 'bold' , width:"20%"}}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Conatct Number</TableCell>
-                {/* <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Specialisation</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Conatct Number</TableCell>
-                <TableCell style={{ fontWeight: 'bold' , width:"20%"}}>Email</TableCell> */}
+                <TableCell style={{ fontWeight: 'bold'}}>Code</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Contact Number</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -184,23 +179,7 @@ export default function ProviderInform() {
                 })
                   .map((prow, index) => {
                     return(
-                      // <StyledTableRow>
-                      //   {/* <TableCell align="left">{row.id}</TableCell> */}
-                      //   <StyledTableCell align="left">{row.Provider_name}</StyledTableCell>
-                      //   <StyledTableCell align="left">{row.Provider_code}</StyledTableCell>
-                      //   <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
-                      //   <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
-
-                      //   <StyledTableCell align="left">{row.Practitioner_name}</StyledTableCell>
-                      //   <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
-                      //   <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
-                      //   <StyledTableCell align="left">{row.Provider_Contact_Email}</StyledTableCell>
-                      //   {/* <StyledTableCell align="left">{row.Provider_number}</StyledTableCell> */}
-                        
-                      // </StyledTableRow>
-                      <prow key={prow.Provider_code} prow={prow} />
-                       
-
+                      <Prow key={prow.Provider_code} prow={prow} />
                     );
                   })
                  }
@@ -215,7 +194,7 @@ export default function ProviderInform() {
                 count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onChangePage={handleChangePage}
+                onPageChange={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
               />
          {/* </Content> */}
