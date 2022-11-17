@@ -20,7 +20,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import { useState } from 'react';
 
-
 export default function Row(props) {
 
   // const [inputValue, setInputValue] = useState('');
@@ -56,10 +55,10 @@ export default function Row(props) {
   }))(TableRow);
 
     const { row } = props;
-    console.log(row);
+    // console.log(row);
     const [open, setopen] = React.useState(false);
     const history = useHistory();
-    const [searchTerm, setsearchTerm]=React.useState('');
+
     var url;
 
     const redirectToPatientDetails = (e, Patient_id) => {
@@ -178,31 +177,19 @@ export default function Row(props) {
                    <TableCell style={{ fontWeight: 'bold'}}>Status</TableCell>
                    </TableRow>
                {/* {console.log(data.org)} row.Patient_id*/}
-               {visits.filter(val=>{
-                  if(searchTerm === "")
-                  {
-                    return val;
-                  }
-                  else if ((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Encounter_end.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                 ((val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Reason_name.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Encounter_start.toLowerCase().includes(searchTerm.toLowerCase()))
-                 )){
-                     return val  
-                  }
-                })
-                  .map((item,index)=> {
+                {visits_new.length > 0 && visits_new.map((item) => 
+                  
                    <StyledTableRow key={item.patientId}>
+                   {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
                    <StyledTableCell style={{width:"25%"}}>{item.Provider_name}</StyledTableCell>
                    <StyledTableCell style={{width:"25%"}}>{item.Practitioner_name}</StyledTableCell>
                    <StyledTableCell style={{width:"20%"}}>{item.Reason_name}</StyledTableCell>
                    <StyledTableCell style={{width:"15%"}}>{item.Encounter_start}</StyledTableCell>
                    <StyledTableCell style={{width:"15%"}}>{item.Encounter_end}</StyledTableCell>
                    </StyledTableRow>
-                  })
-                 
-                }
+                 )
+                 }
+                    
               </TableBody>
             </Table>
           </Box>
