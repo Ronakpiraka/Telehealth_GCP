@@ -150,11 +150,11 @@ export default function ProviderInform() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Provider Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Contact No</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Specialization</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Practioner Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold' , width:"25%"}}>Provider Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold' , width:"20%"}}>Practioner Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Specialization</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Address</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact No</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -178,10 +178,11 @@ export default function ProviderInform() {
                       <StyledTableRow>
                         {/* <TableCell align="left">{row.id}</TableCell> */}
                         <StyledTableCell align="left">{row.Provider_name}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
                         <StyledTableCell align="left">{row.Practitioner_name}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Specialization}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
+                        <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
+                        
                       </StyledTableRow>
                     )
                   })
