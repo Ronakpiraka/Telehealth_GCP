@@ -282,7 +282,7 @@ export default function PatientDetails() {
     }
 
 	const displayViewInsights = (row) => {
-		  if(row.RemoteCareStatus != null)
+		  if(row)
 		  {
 			return (
 				<span>
@@ -300,7 +300,7 @@ export default function PatientDetails() {
 		}	
 
 	const displayNotification = (row) => {	
-		if(row.RemoteCareStatus != null)
+		if(row)
 		{
 		  return (
 			<span>
