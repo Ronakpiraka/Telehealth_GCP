@@ -117,7 +117,7 @@ export default function PatientInform() {
         method: 'GET'
       };
 
-      fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata", requestOptions)
+      fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)

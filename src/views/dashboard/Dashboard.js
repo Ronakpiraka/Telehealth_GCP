@@ -27,7 +27,7 @@ const Dashboard = () => {
         method: 'GET'
       };
 
-      const res = await fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchDashboard", requestOptions)
+      const res = await fetch("https://dashboarddata-sh4iojyb3q-uc.a.run.app", requestOptions)
       const result = await res.json()
       console.log(result);
       // .then((resp) => resp.json())
