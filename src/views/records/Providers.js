@@ -13,7 +13,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Prow from './Prow';
+import Prow from './prow';
 
 export default function ProviderInform() {
     const useStyles = makeStyles((theme) => ({
@@ -177,9 +177,9 @@ export default function ProviderInform() {
                      return val  
                   }
                 })
-                  .map((prow, index) => {
+                  .map((Prow, index) => {
                     return(
-                      <Prow key={prow.Provider_code} prow={prow} />
+                      <Prow key={Prow.Provider_code} Prow={Prow} />
                     );
                   })
                  }

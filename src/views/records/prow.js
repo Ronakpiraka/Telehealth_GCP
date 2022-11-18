@@ -19,15 +19,12 @@ import { BsFillPersonFill } from "react-icons/bs";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import { useState } from 'react';
-
 export default function Prow(props) {
-
   const StyledTableCell = withStyles((theme) => ({
     body: {
       fontSize: 14,
     },
   }))(TableCell);
-  
   const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
@@ -35,25 +32,20 @@ export default function Prow(props) {
       },
     },
   }))(TableRow);
-
     const { prow } = props;
     console.log(prow);
     const [open, setopen] = React.useState(false);
     const [Practdetails, setPractdetails] = React.useState([]);
-
     var url;
-
     // const redirectToProviderDetails = (e, Provider_code) => {
     //   url = `/records/patientdetails?Provider_code=${Provider_code}`;
     //   history.push(`${url}`);
     // }
-  
     // const fetchPractdetailsdata = () => {
     //   console.log("check function")
     //   var requestOptions = {
     //     method: 'GET'
     // };
-
     //   fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
     //   .then((resp) => resp.json())
     //   .then((response) => {
@@ -62,18 +54,14 @@ export default function Prow(props) {
     //   })
     //   .catch(error => console.log('error', error));
     // }
-
     // useEffect(() => { 
     //   fetchPractdetailsdata();
     // })
-
-  
     // const Practdetails_new = Practdetails.filter(function(item) {
     //   if (item.Provider_code == prow.Provider_code){
     //     return item
     //   }
     // })
-
     return (
       <React.Fragment>
       {/* <Row row={data}/> */}
@@ -82,14 +70,12 @@ export default function Prow(props) {
         <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
-      </TableCell> 
-      
+      </TableCell>
       <StyledTableCell align="left">{prow.Provider_code}</StyledTableCell>
       <StyledTableCell align="left" >{prow.Provider_name}</StyledTableCell>
       <StyledTableCell align="left">{prow.Provider_Address}</StyledTableCell>
       <StyledTableCell align="left" style={{width:'150px'}}>{prow.Provider_number}</StyledTableCell>
     </TableRow>
-    
     <StyledTableRow>
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
         <Collapse in={open} timeout="auto" unmountOnExit>
@@ -108,7 +94,7 @@ export default function Prow(props) {
                   <TableCell style={{ fontWeight: 'bold'}}>Specialisation</TableCell>
                   <TableCell style={{ fontWeight: 'bold'}}>Email ID</TableCell>
                 </TableRow>
-                  {/* {Practdetails_new.length > 0 && Practdetails_new.map((item) => 
+                  {/* {Practdetails_new.length > 0 && Practdetails_new.map((item) =>
                   { */}
                    <StyledTableRow key={prow.Provider_code}>
                    <StyledTableCell style={{width:"35%"}}>{prow.Practitioner_name}</StyledTableCell>
@@ -117,7 +103,6 @@ export default function Prow(props) {
                    </StyledTableRow>
                   {/* })
                  } */}
-                    
               </TableBody>
             </Table>
           </Box>
@@ -127,4 +112,3 @@ export default function Prow(props) {
   </React.Fragment>
     );
   }
-
