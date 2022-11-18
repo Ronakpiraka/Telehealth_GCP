@@ -13,7 +13,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Prow from './Prow';
+import Prow from './prow';
 export default function ProviderInform() {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -105,7 +105,7 @@ export default function ProviderInform() {
       var requestOptions = {
         method: 'GET'
       };
-      fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
+      fetch("https://providerdata-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)

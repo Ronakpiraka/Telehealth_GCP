@@ -109,7 +109,7 @@ export default function EmailNotify() {
 
 
         useEffect(() => { 
-          const res= fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchEmailNotificationData", {
+          const res= fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
             method: 'GET',
           }).then(resp => resp.json()
           ).then(resp=>{
