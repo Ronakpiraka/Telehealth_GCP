@@ -84,19 +84,17 @@ export default function Prow(props) {
               Patient Practdetails
             </Typography> */}
             <Table size="small" aria-label="provider">
-              <TableHead>
-              <TableCell style={{ fontWeight: 'bold'}}>Practioner Details: </TableCell>
-              </TableHead>
+              <TableHead style={{ fontWeight: 'bold', color:"blue"}}>Practitioner Details:  </TableHead>
               <TableBody>
                 <TableRow>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                  <TableCell style={{ fontWeight: 'bold'}}>Practitioner Name</TableCell>
-                  <TableCell style={{ fontWeight: 'bold'}}>Specialisation</TableCell>
-                  <TableCell style={{ fontWeight: 'bold'}}>Email ID</TableCell>
+                  <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Practitioner Name</TableCell>
+                  <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Specialisation</TableCell>
+                  <TableCell style={{ fontWeight: 'bold', width:"40%"}}>Email ID</TableCell>
                 </TableRow>
                   {/* {Practdetails_new.length > 0 && Practdetails_new.map((item) =>
                   { */}
-                   <StyledTableRow key={prow.Provider_code}>
+                   <StyledTableRow key={prow.Practitioner_name}>
                    <StyledTableCell style={{width:"35%"}}>{prow.Practitioner_name}</StyledTableCell>
                    <StyledTableCell style={{width:"25%"}}>{prow.Specialization}</StyledTableCell>
                    <StyledTableCell style={{width:"20%"}}>{prow.Practitioner_Email}</StyledTableCell>

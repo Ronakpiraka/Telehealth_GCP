@@ -121,7 +121,7 @@ export default function PatientInform() {
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)
-        // console.log(data)
+        console.log(data)
         
         // console.log( eval(JSON.stringify(data)));
       })
@@ -211,18 +211,20 @@ export default function PatientInform() {
               </TableHead>
 
               <TableBody>
-                {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter(val=>{
+                {data.filter(val=>{
                   if(searchTerm === "")
                   {
                     return val;
                   }
-                  else if ((val.Patient_Address.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Full_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                  else if ((val.Full_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Patient_Address.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
                 })
-                  .map((row, index) => {
+                  .map((row) => {
                     return(
                     <TableRow>
                       <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}}>
@@ -232,7 +234,7 @@ export default function PatientInform() {
                             target="_blank"
                             style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: 'blue'}}
                             onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
-                            onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
+                            onMouseOut={function (event) { let target = event.target; target.style.color = 'blue'; }}
                           >
                             {/* main patient data */}
                             {row.Full_name}
@@ -245,7 +247,8 @@ export default function PatientInform() {
                       <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
                     </TableRow>
                        );
-                      })}
+                      }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      }
                      
                  </TableBody>   
               </Table>

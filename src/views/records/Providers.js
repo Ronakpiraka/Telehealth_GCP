@@ -13,8 +13,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Prow from './prow';
-
+import Prow from './Prow';
 export default function ProviderInform() {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -73,7 +72,6 @@ export default function ProviderInform() {
           },
         },
       }));
-      
       const [data, setdata]=React.useState([]);
       const [collapsed, setcollapsed]=React.useState(false);
       const [searchTerm, setsearchTerm]=React.useState('');
@@ -81,13 +79,11 @@ export default function ProviderInform() {
       const [rowsPerPage, setRowsPerPage] = React.useState(10);
       const [ordPlaced, setordPlaced]=React.useState(10);
       const classes = useStyles();
-      
       const StyledTableCell = withStyles((theme) => ({
         body: {
           fontSize: 14,
         },
       }))(TableCell);
-      
       const StyledTableRow = withStyles((theme) => ({
         root: {
           '&:nth-of-type(odd)': {
@@ -95,46 +91,34 @@ export default function ProviderInform() {
           },
         },
       }))(TableRow);
-    
-    
-    
     const handleChangePage = (event, newPage) => {
       setpage(newPage);
     };
-  
     const handleChangeRowsPerPage = event => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setpage(0);
     };
-
     function toggle(){
       setcollapsed(!collapsed)
     };
-
     const fetchproviderdata = () => {
       var requestOptions = {
         method: 'GET'
       };
-
       fetch("https://fetchproviderdata21-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)
         console.log(data)
-        
       })
       .catch(error => console.log('error', error));
     }
-
     useEffect(() => { 
-
       fetchproviderdata();
     })
-
     return (
       <>
             <p style={{fontSize:'22px', textAlign:'center'}}><strong>Provider Details</strong></p>
-
           <Paper>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -155,15 +139,14 @@ export default function ProviderInform() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 <TableCell/>
-                <TableCell style={{ fontWeight: 'bold'}}>Code</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Contact Number</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"27%"}}>Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"32%"}}>Address</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact Number</TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
-                {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter(val=>{
+                {data.filter(val=>{
                   if(searchTerm === "")
                   {
                     return val;
@@ -172,14 +155,16 @@ export default function ProviderInform() {
                   (val.Provider_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Provider_Address.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Specialization.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.Provider_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Practitioner_Email.toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
-                })
-                  .map((Prow, index) => {
+                }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((prow, index) => {
                     return(
-                      <Prow key={Prow.Provider_code} Prow={Prow} />
+                      <Prow key={prow.Provider_code} prow={prow} />
                     );
                   })
                  }
@@ -187,9 +172,8 @@ export default function ProviderInform() {
             </Table>
           </TableContainer>
         </Paper>
-
         <TablePagination
-                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                rowsPerPageOptions={[5, 10, 25, 50, 100, 200]}
                 component="div"
                 count={data.length}
                 rowsPerPage={rowsPerPage}
@@ -199,8 +183,6 @@ export default function ProviderInform() {
               />
          {/* </Content> */}
          </>
-        // </Layout> 
-
-     
+        // </Layout>
     )
 }
