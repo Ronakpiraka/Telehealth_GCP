@@ -260,15 +260,16 @@ export default function EmailNotify() {
               </TableHead>
 
               <TableBody>
-                {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter(val=>{
+                {data.filter(val=>{
                   if(searchTerm === "")
                   {
                     return val;
                   }
-                  else if((val.id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.doctor.toLowerCase().includes(searchTerm.toLowerCase()))
+                  else if((val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Guardian_Email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Practitioner.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Risk_Category.toString().toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
@@ -287,7 +288,7 @@ export default function EmailNotify() {
                       </StyledTableRow>
                       </>
                     )
-                  })
+                  }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                  }
               </TableBody>
             </Table>
