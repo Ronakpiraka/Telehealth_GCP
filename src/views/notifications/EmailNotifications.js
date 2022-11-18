@@ -130,14 +130,14 @@ export default function EmailNotify() {
           setpage(0);
         };
 
-        const sendemail = (e, name, doctor, risk) => {
-          // e.preventDefault();
+        // const sendemail = (e, name, doctor, risk) => {
+        //   // e.preventDefault();
 
-          var params = {
-            name: 'Care Service Admin',
-            from_name: 'kekarekomal@gmail.com',
-            message_html: 'Please Find out the attached file'
-          };
+        //   var params = {
+        //     name: 'Care Service Admin',
+        //     from_name: 'kekarekomal@gmail.com',
+        //     message_html: 'Please Find out the attached file'
+        //   };
 
           // var params = {
           //       Message: `Dear ${name}/${doctor}
@@ -157,15 +157,15 @@ export default function EmailNotify() {
           //     };
 
       
-              emailjs.sendForm('service_yjt5xpr', 'template_jt5dkn9', '#myform', params, 'aeab5d53d5705aa81b1d9fdb5c13077f')
-                .then(function(response) {
-                  console.log('SUCCESS!', response.status, response.text);
-                  alert('sent')
-              }, function(error) {
-                  console.log('FAILED...', error);
-                  alert(error)
-              });
-            };
+            //   emailjs.sendForm('service_yjt5xpr', 'template_jt5dkn9', '#myform', params, 'aeab5d53d5705aa81b1d9fdb5c13077f')
+            //     .then(function(response) {
+            //       console.log('SUCCESS!', response.status, response.text);
+            //       alert('sent')
+            //   }, function(error) {
+            //       console.log('FAILED...', error);
+            //       alert(error)
+            //   });
+            // };
 
         
 
@@ -202,6 +202,27 @@ export default function EmailNotify() {
         //   //   });
 
         // }
+
+        const sendEmail = (e) => {
+          e.preventDefault();
+      
+          emailjs
+            .sendForm(
+              "service_cojz94j",
+              "template_dibq77p",
+              form.current,
+              "user_jhGso3EKVsW92UEEuze6z"
+            )
+            .then(
+              (result) => {
+                console.log(result.text);
+                console.log("message sent");
+              },
+              (error) => {
+                console.log(error.text);
+              }
+            );
+        };
 
         const riskscore=(cluster_label)=>{
           if(cluster_label === 0)
@@ -277,14 +298,24 @@ export default function EmailNotify() {
                   .map((row, index) => {
                     return(
                       <>
-                      <form id="myform"></form>
+                        <>
+                        <form ref={form} onSubmit={sendEmail}>
+                          <label>Name</label>
+                          <input type="text" name="user_name" />
+                          <label>Email</label>
+                          <input type="email" name="user_email" />
+                          <label>Message</label>
+                          <textarea name="message" />
+                          <input type="submit" value="Send" />
+                        </form>
+                      </>
                       <StyledTableRow>
                         {/* <StyledTableCell align="left">{row.Patient_id}</StyledTableCell> */}
                         <StyledTableCell align="left">{row.Patient_name}</StyledTableCell>
                         <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
                         <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
+                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendEmail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
                       </StyledTableRow>
                       </>
                     )
