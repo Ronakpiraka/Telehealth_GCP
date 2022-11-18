@@ -9,11 +9,15 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableContainer from '@material-ui/core/TableContainer';
 import {TableOutlined,UserOutlined, AreaChartOutlined} from '@ant-design/icons';
 import { Layout, Menu} from 'antd';
+import { BsFillPersonFill } from "react-icons/bs";
 import Input from '@material-ui/core/Input';
 import {Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import { Dropdown, message } from 'antd';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Row from './Row';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -76,6 +80,20 @@ export default function PatientInform() {
       },
     },
   }));
+
+  const StyledTableCell = withStyles((theme) => ({
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+  
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
   
 
 
@@ -86,9 +104,11 @@ export default function PatientInform() {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [ordPlaced, setordPlaced]=React.useState(5);
     const classes = useStyles();
+    const history = useHistory();
 
     const { Header, Sider, Content } = Layout;
     const { Search } = Input;
+    var url;
 
     const fetchpatientdata = () => {
       // console.log("check function")
@@ -109,25 +129,28 @@ export default function PatientInform() {
     }
 
     useEffect(() => { 
-      console.log("hello useeffect")
-      // this.setState({isLoading:true})
-      // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
-      //         method: 'GET',
-      //         headers: {
-      //             'Content-Type': 'application/json',
-      //             // 'Access-Control-Allow-Methods': 'GET',
-      //             // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-      //             // 'Access-Control-Allow-Origin' : '*'
-      //         },
-      //     }).then((data) => data.json()).then((resp) => {
-      //   setdata(resp)
-      //   console.log(data)
-      // })
-
+      //console.log("hello useeffect")
       fetchpatientdata();
-  })
+    })
 
-  // console.log(data)
+    const redirectToPatientDetails = (e, Patient_id) => {
+      url = `/records/patientdetails?Patient_id=${Patient_id}`;
+      history.push(`${url}`);
+    }
+
+    const displayCheckedBox = (row) => {
+      if(row.RemoteCareStatus)//change the logic here
+     {
+       return (
+         <FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color:'#1890ff'}}/>}/>
+       )
+     }
+     else{
+       return(
+         <FormControlLabel disabled control={<Checkbox name="checkedEvent" />}/>
+       )
+     }
+    }   
 
     const menu = (
         <Menu onClick={handleMenuClick}>
@@ -159,7 +182,7 @@ export default function PatientInform() {
     <>
         <p style={{fontSize:'22px', textAlign:'center'}}><strong>Patient Engagement</strong></p>
 
-          <Paper style={{ height: 400, width: '100%', overflowY: 'auto' }}>
+          <Paper>
           <div className={classes.search}>
                   <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -178,8 +201,7 @@ export default function PatientInform() {
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                 <TableRow style={{ padding: '0px' }}>
-                <TableCell/>
-                <TableCell style={{ fontWeight: 'bold'}}>Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Full Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Age</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Phone Number</TableCell>
@@ -202,7 +224,26 @@ export default function PatientInform() {
                 })
                   .map((row, index) => {
                     return(
-                      <Row key={row.name} row={row} />
+                    <TableRow>
+                      <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}}>
+                      <BsFillPersonFill size={25}/> &nbsp;&nbsp;
+                        <a
+                            onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
+                            target="_blank"
+                            style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: 'blue'}}
+                            onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
+                            onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
+                          >
+                            {/* main patient data */}
+                            {row.Full_name}
+                        </a>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">{row.Patient_Address}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
+                      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
+                      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
+                    </TableRow>
                        );
                       })}
                      
@@ -217,8 +258,8 @@ export default function PatientInform() {
                 count={data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
               />
       {/*  </Content> */}
          </>

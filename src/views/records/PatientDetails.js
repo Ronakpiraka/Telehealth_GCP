@@ -91,10 +91,6 @@ export default function PatientDetails() {
 		anchorOrigin={{
 		vertical: 'bottom',
 		horizontal: 'center',
-		}}
-		transformOrigin={{
-		vertical: 'top',
-		horizontal: 'center',
 		}}>
     	<Typography className={classes.typography}>Do not have the access.</Typography>
     </Popover>
@@ -102,25 +98,36 @@ export default function PatientDetails() {
 	  )
   }
 
+//   const [passwordShown, setPasswordShown] = useState(false);
+//   const togglePassword = () => {
+//     setPasswordShown(!passwordShown);
+  
+//   return (
+//     <div>
+//       <input type={passwordShown ? "text" : "password"} />
+//       <button onClick={togglePassword}>Show Password</button>
+//     </div>
+//   );
+// };
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 // single patient details
     useEffect(() => {
 		flags = location.search.split('^')[1];
-		console.log(flags)
+		// console.log(flags)
 		let singlepatientid = location.search.split('=')[1];
-		console.log('-----------------singleorderid--------------------------------------')
-		console.log(singlepatientid)
-		console.log('-------------------------------------------------------')
+		// console.log('-----------------singleorderid--------------------------------------')
+		// console.log(singlepatientid)
+		// console.log('-------------------------------------------------------')
 		setsinglepatientid(singlepatientid)
 		// times=location.search.split('"')[1]	
 		stat = location.search.split(':')[1]	// console.log(stat)
 		// datess=location.search.split('}')[1]
-		let singlepatientURL = 'https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata'
+		let singlepatientURL = 'https://fetchpatientdata21-sh4iojyb3q-uc.a.run.app'
 		
-		console.log('---------------------patientDetailsUrl----------------------------------')
-		console.log(singlepatientURL)
-		console.log('-------------------------------------------------------')
+		// console.log('---------------------patientDetailsUrl----------------------------------')
+		// console.log(singlepatientURL)
+		// console.log('-------------------------------------------------------')
 		fetch(singlepatientURL, {
 			// method: 'GET',
 			// headers: {
@@ -130,19 +137,19 @@ export default function PatientDetails() {
 			return response.json();
 			// setisLoading(false);
 		}).then((patientdetails) => {
-			console.log('-----------------------------patientdetails--------------------------')
-			console.log(patientdetails)
-			console.log('**********************')
-			console.log(patientdetails.find(val => val.Patient_id=== singlepatientid))
+			// console.log('-----------------------------patientdetails--------------------------')
+			// console.log(patientdetails)
+			// console.log('**********************')
+			// console.log(patientdetails.find(val => val.Patient_id=== singlepatientid))
 			setOrderDetails(patientdetails.find(val => val.Patient_id === singlepatientid))
-			console.log('-------------------------------------------------------')
+			// console.log('-------------------------------------------------------')
 			setAllPurchaseOrderDetails(patientdetails)
 
 			setPosts({ ...patientdetails[0] });
 			// isLoading = false;
 
-			console.log(posts);
-			console.log('------------------posts***-------------------------------------')
+			// console.log(posts);
+			// console.log('------------------posts***-------------------------------------')
 			document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
 		}).catch((error) => {
 			console.log('order error', error);
@@ -154,7 +161,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Patient Name</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Patient Name</b></th>
 					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Full_name}</td>
 				</tr>
 			)
@@ -164,7 +171,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Patient Id</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Patient Id</b></th>
 					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Patient_id}</td>
 				</tr>
 			)
@@ -175,7 +182,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Birthdate{displayInfo()}</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Birth Date{displayInfo()}</b></th>
 					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.birthDate}</td>
 				</tr>
 			)
@@ -186,7 +193,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Gender</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold' , width: "30%"}}><b>Gender</b></th>
 					<td style={{ height: '0px' }}>{orderDetails && orderDetails.gender}</td>
 				</tr>
 			)
@@ -197,7 +204,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Marital Status</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Marital Status</b></th>
 					<td style={{ height: '0px' }}>{orderDetails && orderDetails.display}</td>
 				</tr>
 			)
@@ -208,7 +215,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Social Security Number{displayInfo()}</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Social Security Number{displayInfo()}</b></th>
 					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Social_Security_Number}</td>
 				</tr>
 			)
@@ -219,7 +226,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Guardian Email</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Guardian Email</b></th>
 					<td style={{ height: '0px' }}>{orderDetails && orderDetails.email}</td>
 				</tr>
 			)
@@ -230,7 +237,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Medical Record Number</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Medical Record Number</b></th>
 					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Medical_Record_Number}</td>
 				</tr>
 			)
@@ -241,7 +248,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Passport Number{displayInfo()}</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold' , width: "30%"}}><b>Passport Number{displayInfo()}</b></th>
 					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Passport_Number}    </td>
 				</tr>
 			)
@@ -252,7 +259,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Driving Liscense{displayInfo()}</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Driving Liscense{displayInfo()}</b></th>
 					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Driver_License_Number}</td>
 				</tr>
 			)
@@ -272,8 +279,9 @@ export default function PatientDetails() {
 
 	const redirectToPatientDetails = (e, Patient_id) => {
         var url = `/insights?Patient_id=${Patient_id}`;
-		var insighturl = `https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC/edit?params=%7B%22df2%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580${Patient_id}%7D`
-        history.push(`${url}`);
+		// var insighturl = `https://datastudio.google.com/embed/reporting/6c7c00fb-a5f6-4acb-9a03-6de6b6b499f3/page/tEnnC?params=%7B%22df4%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580${Patient_id}%25EE%2580%258063cb4d95-04a9-3a35-b5d9-f89e0377a48d%22%7D`
+        var insighturl = `https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC/edit?params=%7B%22df2%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580${Patient_id}%7D`
+		history.push(`${url}`);
     }
 
 	const redirectToConsultDetails = (e, Patient_id) => {
@@ -282,7 +290,7 @@ export default function PatientDetails() {
     }
 
 	const displayViewInsights = (row) => {
-		  if(row.RemoteCareStatus != null)
+		  if(row)
 		  {
 			return (
 				<span>
@@ -300,7 +308,7 @@ export default function PatientDetails() {
 		}	
 
 	const displayNotification = (row) => {	
-		if(row.RemoteCareStatus != null)
+		if(row)
 		{
 		  return (
 			<span>
@@ -384,7 +392,7 @@ export default function PatientDetails() {
 		  if(row.RemoteCareStatus != null)
 		  {
 			return (
-				<p style={{marginLeft: '5px', width: '400px'}}>
+				<p style={{marginLeft: '5px'}}>
 			  		<FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color: '#1890ff'}} />} style={{float: 'left'}} label="Remote Care"/>
 			  		<FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color: '#1890ff'}} />} style={{float: 'left'}} label="Consent Form"/>
 				</p>
@@ -392,7 +400,7 @@ export default function PatientDetails() {
 		  }
 		  else{
 			return(
-			  	<p style={{marginLeft: '5px', width: '400px'}}>
+			  	<p style={{marginLeft: '5px'}}>
 					<FormControlLabel disabled control={<Checkbox name="checkedEvent"/>} style={{float: 'left'}} label="Remote Care"/>
 			  		<FormControlLabel disabled control={<Checkbox name="checkedEvent"/>} style={{float: 'left'}} label="Consent Form"/>
 				</p>
@@ -423,7 +431,7 @@ export default function PatientDetails() {
 			
             
 			<span class="navbar justify-content-between">
-				<p class="navbar-brand">Patient Details :</p>
+				<p class="navbar-brand"><b>Patient Details :</b></p>
 				<form class="form-inline">
 					{displayfhirdetails(orderDetails)}
 					{displayNotification(orderDetails)}
@@ -432,7 +440,7 @@ export default function PatientDetails() {
 			</span>
 			
 
-            <div className="col-lg-12 col-md-12 place-order" style={{textAlign:'left'}}>
+            <div className="col-lg-12 col-md-12 place-order" style={{textAlign:'left' }}>
                 <div className="padding-bottom20">
                     <Table striped bordered hover>
                         <tbody>

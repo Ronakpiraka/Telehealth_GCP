@@ -18,9 +18,28 @@ import Avatar from '@material-ui/core/Avatar';
 import { BsFillPersonFill } from "react-icons/bs";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
+import { useState } from 'react';
 
 export default function Row(props) {
+
+  // const [inputValue, setInputValue] = useState('');
+  // const handleInput = e => {
+  //   const formattedPhoneNumber = formattedPhoneNumber(e.target.value);
+  //   setInputValue(formattedPhoneNumber);
+  // };
+  // return <input onChange = {e => handleInput(e)} value = {inputValue} />;
   
+  // function formattedPhoneNumber(value){
+  //   if (!value) return value;
+  //   const phoneNumber = value.replace(/[^\d]/g,'');
+  //   const phoneNumberLength = phoneNumber.length;
+  //   if (phoneNumberLength < 4) return phoneNumber;
+  //   if (phoneNumberLength < 7) {
+  //     return '${phoneNumber.slice(0,3)}-${phoneNumber.slice(3)}';
+  //   }
+  //   return '${phoneNumber.slice(0,3)}-${phoneNumber.slice(3,6)}-${phoneNumber.slice(6,10)}';  
+  // }
+
   const StyledTableCell = withStyles((theme) => ({
     body: {
       fontSize: 14,
@@ -64,29 +83,13 @@ export default function Row(props) {
   .catch(error => console.log('error', error));
   }
   useEffect(() => { 
-    console.log("hello useeffect")
-    // this.setState({isLoading:true})
-    // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             // 'Access-Control-Allow-Methods': 'GET',
-    //             // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-    //             // 'Access-Control-Allow-Origin' : '*'
-    //         },
-    //     }).then((data) => data.json()).then((resp) => {
-    //   setdata(resp)
-    //   console.log(data)
-    // })
-
+    // console.log("hello useeffect")
     fetchvisitsdata();
   })
 
   
   const displayCheckedBox = (row) => {
-    // console.log("--------------row")
-    // console.log(row);
-      if(row.RemoteCareStatus)//change the logic here
+       if(row.RemoteCareStatus)//change the logic here
       {
         return (
           <FormControlLabel disabled control={<Checkbox checked name="checkedEvent" style={{color:'#1890ff'}}/>}/>
@@ -123,8 +126,7 @@ export default function Row(props) {
     return (
       <React.Fragment>
 
-
-
+    
       {/* <Row row={data}/> */}
        <TableRow>
         <TableCell>
@@ -139,7 +141,7 @@ export default function Row(props) {
         <a
             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
             target="_blank"
-            style={{ padding: '0px 0px 0px 0px' }}
+            style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: 'blue'}}
             onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
             onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
           >
@@ -147,7 +149,7 @@ export default function Row(props) {
             {row.Full_name}
         </a>
       </TableCell>
-      <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
+      <StyledTableCell align="left">{row.Patient_Address}</StyledTableCell>
       <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
       <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
       <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
@@ -158,9 +160,9 @@ export default function Row(props) {
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box margin={1}>
-            <Typography variant="h6" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}>
+            {/* <Typography variant="h6" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}>
               Patient Visits
-            </Typography>
+            </Typography> */}
             <Table size="small" aria-label="provider">
               <TableHead>
               </TableHead>
@@ -169,7 +171,7 @@ export default function Row(props) {
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
                    <TableCell style={{ fontWeight: 'bold'}}>Provider name</TableCell>
                    <TableCell style={{ fontWeight: 'bold'}}>Practitioner name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Reason name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Condition name</TableCell>
                    <TableCell style={{ fontWeight: 'bold'}}>Encounter start</TableCell>
                    <TableCell style={{ fontWeight: 'bold'}}>Encounter end</TableCell>
                    <TableCell style={{ fontWeight: 'bold'}}>Status</TableCell>

@@ -204,13 +204,13 @@ export default function EmailNotify() {
         // }
 
         const riskscore=(cluster_label)=>{
-          if(cluster_label === '0')
+          if(cluster_label === 0)
           {
             return(
               <CBadge color="warning" className="mfs-auto">Low Risk</CBadge>
             )
           }
-          else if(cluster_label === '1')
+          else if(cluster_label === 2)
           {
             return(
               <CBadge color="danger" className="mfs-auto">High Risk</CBadge>
