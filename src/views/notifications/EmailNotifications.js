@@ -130,14 +130,13 @@ export default function EmailNotify() {
           setpage(0);
         };
 
-        const sendemail = (e, name, doctor, risk) => {
+        const sendemail = (name, doctor,guardian_email) => {
           // e.preventDefault();
 
-          var params = {
-            name: 'Care Service Admin',
-            from_name: 'kekarekomal@gmail.com',
-            message_html: 'Please Find out the attached file'
-          };
+          // var params = {
+          //   to_name : name,
+          //   Doctor:doctor
+          // };
 
           // var params = {
           //       Message: `Dear ${name}/${doctor}
@@ -157,7 +156,11 @@ export default function EmailNotify() {
           //     };
 
       
-              emailjs.sendForm('service_yjt5xpr', 'template_jt5dkn9', '#myform', params, 'aeab5d53d5705aa81b1d9fdb5c13077f')
+              emailjs.send(
+                "service_jo0oe0n",
+                "template_bqrgux5",
+                {to_name : name, Doctor:doctor,email:guardian_email}, 
+                'l7yMNcNURVQaRrVQG')
                 .then(function(response) {
                   console.log('SUCCESS!', response.status, response.text);
                   alert('sent')
@@ -277,14 +280,18 @@ export default function EmailNotify() {
                   .map((row, index) => {
                     return(
                       <>
-                      <form id="myform"></form>
+                      {/* <form ref={form}>
+                      <input type="text" name="name" value = {row.Patient_name}/>
+                      <input type="text" name="doctor" value = {row.Practitioner}/>
+                      </form> */}
                       <StyledTableRow>
                         {/* <StyledTableCell align="left">{row.Patient_id}</StyledTableCell> */}
                         <StyledTableCell align="left">{row.Patient_name}</StyledTableCell>
                         <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
                         <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
+                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send</button></StyledTableCell>
+                        
                       </StyledTableRow>
                       </>
                     )
