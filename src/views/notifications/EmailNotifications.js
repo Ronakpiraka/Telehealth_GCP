@@ -1,5 +1,5 @@
 import React, {useEffect, useRef  } from 'react'
-import { Layout, Menu, Input  } from 'antd';
+import { Layout, Menu, Input, Calendar  } from 'antd';
 import './PatientInfo.css';
 import 'antd/dist/antd.css';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,9 +19,11 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import emailjs from '@emailjs/browser';
 import {toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
+import Calender from '../notifications/calendar';
+import {useHistory, useLocation} from "react-router-dom";
 import {
     CBadge
-  } from '@coreui/react'
+  } from '@coreui/react';
 //  import config from '../../config.js';
 // var AWS = require('aws-sdk');
 export default function EmailNotify() {
@@ -101,6 +103,7 @@ export default function EmailNotify() {
         const [rowsPerPage, setRowsPerPage] = React.useState(10);
         const [ordPlaced, setordPlaced]=React.useState(5);
         const classes = useStyles();
+        const history = useHistory();
         const form = useRef();
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
@@ -122,7 +125,12 @@ export default function EmailNotify() {
           setRowsPerPage(parseInt(event.target.value, 10));
           setpage(0);
         };
-        
+
+        const senddata = (name, doctor,guardian_email) =>{
+          var url =  `/notifications?Patient_name=${name}&doctor=${doctor}`;
+          history.push(`${url}`);
+        }
+
         const sendemail = (name, doctor,guardian_email) => {
               emailjs.send(
                 "service_jo0oe0n",
@@ -132,10 +140,14 @@ export default function EmailNotify() {
                 .then(function(response) {
                   console.log('SUCCESS!', response.status, response.text);
                   toast.success("Meeting with Patient "+ name+" is Scheduled");
+                 
+                  senddata(name, doctor,guardian_email);
               }, function(error) {
                   console.log('FAILED...', error);
                   alert(error)
               });
+
+              
             };
         // const sendemail=(patient, doctor, risk)=>{
         //   // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
