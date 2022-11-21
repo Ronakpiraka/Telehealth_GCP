@@ -99,17 +99,6 @@ export default function PatientDetails() {
 	  )
   }
 
-//   const [passwordShown, setPasswordShown] = useState(false);
-//   const togglePassword = () => {
-//     setPasswordShown(!passwordShown);
-  
-//   return (
-//     <div>
-//       <input type={passwordShown ? "text" : "password"} />
-//       <button onClick={togglePassword}>Show Password</button>
-//     </div>
-//   );
-// };
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 // single patient details
