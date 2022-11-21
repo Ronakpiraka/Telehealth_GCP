@@ -15,7 +15,10 @@ import InputBase from '@material-ui/core/InputBase';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import TelegramIcon from '@mui/icons-material/Telegram';
 import emailjs from '@emailjs/browser';
+import {toast} from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 import {
     CBadge
   } from '@coreui/react'
@@ -119,6 +122,7 @@ export default function EmailNotify() {
           setRowsPerPage(parseInt(event.target.value, 10));
           setpage(0);
         };
+        
         const sendemail = (name, doctor,guardian_email) => {
               emailjs.send(
                 "service_jo0oe0n",
@@ -127,7 +131,7 @@ export default function EmailNotify() {
                 'l7yMNcNURVQaRrVQG')
                 .then(function(response) {
                   console.log('SUCCESS!', response.status, response.text);
-                  alert('sent')
+                  toast.success("Meeting with Patient "+ name+" is Scheduled");
               }, function(error) {
                   console.log('FAILED...', error);
                   alert(error)
@@ -242,7 +246,7 @@ export default function EmailNotify() {
                         <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
                         <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send</button></StyledTableCell>
+                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
                       </StyledTableRow>
                       </>
                     )
