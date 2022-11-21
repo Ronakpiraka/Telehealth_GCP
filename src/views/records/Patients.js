@@ -219,7 +219,9 @@ export default function PatientInform() {
                   else if ((val.Full_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Patient_Address.toLowerCase().includes(searchTerm.toLowerCase()))||
                   (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase()))
+                  (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.RemoteCareText.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.ConsentFormText.toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
@@ -243,8 +245,8 @@ export default function PatientInform() {
                       <StyledTableCell align="left">{row.Patient_Address}</StyledTableCell>
                       <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
                       <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
-                      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
-                      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
+                      <StyledTableCell align="left">{row.RemoteCareText}</StyledTableCell>
+                      <StyledTableCell align="left">{row.ConsentFormText}</StyledTableCell>
                     </TableRow>
                        );
                       }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
