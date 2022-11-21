@@ -21,7 +21,6 @@ import {
   } from '@coreui/react'
 //  import config from '../../config.js';
 // var AWS = require('aws-sdk');
-
 export default function EmailNotify() {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -80,13 +79,11 @@ export default function EmailNotify() {
           },
         },
       }));
-      
       const StyledTableCell = withStyles((theme) => ({
         body: {
           fontSize: 14,
         },
       }))(TableCell);
-      
       const StyledTableRow = withStyles((theme) => ({
         root: {
           '&:nth-of-type(odd)': {
@@ -94,7 +91,6 @@ export default function EmailNotify() {
           },
         },
       }))(TableRow);
-    
         const [data, setdata]=React.useState([]);
         const [collapsed, setcollapsed]=React.useState(false);
         const [searchTerm, setsearchTerm]=React.useState('');
@@ -103,11 +99,8 @@ export default function EmailNotify() {
         const [ordPlaced, setordPlaced]=React.useState(5);
         const classes = useStyles();
         const form = useRef();
-    
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
-
-
         useEffect(() => { 
           const res= fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
             method: 'GET',
@@ -118,57 +111,28 @@ export default function EmailNotify() {
           }).catch(error => {
               console.log(error)
               });
-            
         },[])
-    
         const handleChangePage = (event, newPage) => {
             setpage(newPage);
         };
-
         const handleChangeRowsPerPage = event => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setpage(0);
         };
-
-        // const sendemail = (e, name, doctor, risk) => {
-        //   // e.preventDefault();
-
-        //   var params = {
-        //     name: 'Care Service Admin',
-        //     from_name: 'kekarekomal@gmail.com',
-        //     message_html: 'Please Find out the attached file'
-        //   };
-
-          // var params = {
-          //       Message: `Dear ${name}/${doctor}
-          //                   As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${name} is continuously recorded.
-          //                   As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
-          //                   Oxygen level-80
-          //                   Temperature-100
-          //                   Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
-          //                   As preliminary, please take notice of below critical parameters for discussion with doctor.
-          //                   A bluish tint to fingernails, lips and skin
-          //                   Chest congestion
-          //                   shortness of breath
-          //                   persistent cough
-          //                   Thanking You
-          //                   Hospital Management `, 
-          //       Subject: `Connect with ${doctor}`
-          //     };
-
-      
-            //   emailjs.sendForm('service_yjt5xpr', 'template_jt5dkn9', '#myform', params, 'aeab5d53d5705aa81b1d9fdb5c13077f')
-            //     .then(function(response) {
-            //       console.log('SUCCESS!', response.status, response.text);
-            //       alert('sent')
-            //   }, function(error) {
-            //       console.log('FAILED...', error);
-            //       alert(error)
-            //   });
-            // };
-
-        
-
+        const sendemail = (name, doctor,guardian_email) => {
+              emailjs.send(
+                "service_jo0oe0n",
+                "template_bqrgux5",
+                {to_name : name, Doctor:doctor,email:guardian_email}, 
+                'l7yMNcNURVQaRrVQG')
+                .then(function(response) {
+                  console.log('SUCCESS!', response.status, response.text);
+                  alert('sent')
+              }, function(error) {
+                  console.log('FAILED...', error);
+                  alert(error)
+              });
+            };
         // const sendemail=(patient, doctor, risk)=>{
         //   // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
         // // change it to GCP
@@ -189,9 +153,7 @@ export default function EmailNotify() {
         //   //   Subject: `Connect with ${doctor}`,
         //   //   TopicArn: config.snsemail.topic
         //   // };
-
         //   // var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-
         //   // publishTextPromise.then(
         //   //   function(data) {
         //   //     // console.log("MessageID is " + data.MessageId);
@@ -200,30 +162,7 @@ export default function EmailNotify() {
         //   //     function(err) {
         //   //     console.error(err, err.stack);
         //   //   });
-
         // }
-
-        const sendEmail = (e) => {
-          e.preventDefault();
-      
-          emailjs
-            .sendForm(
-              "service_cojz94j",
-              "template_dibq77p",
-              form.current,
-              "user_jhGso3EKVsW92UEEuze6z"
-            )
-            .then(
-              (result) => {
-                console.log(result.text);
-                console.log("message sent");
-              },
-              (error) => {
-                console.log(error.text);
-              }
-            );
-        };
-
         const riskscore=(cluster_label)=>{
           if(cluster_label === 0)
           {
@@ -244,13 +183,9 @@ export default function EmailNotify() {
             )
           } 
         }
-
-       
-
     return (
       <div>
         <p style={{fontSize:'22px', textAlign:'center'}}><strong>Risk Patient Details</strong></p>
-
           <Paper>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -279,7 +214,6 @@ export default function EmailNotify() {
                 <TableCell style={{ fontWeight: 'bold'}}>Email Notifications</TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {data.filter(val=>{
                   if(searchTerm === "")
@@ -298,24 +232,17 @@ export default function EmailNotify() {
                   .map((row, index) => {
                     return(
                       <>
-                        <>
-                        <form ref={form} onSubmit={sendEmail}>
-                          <label>Name</label>
-                          <input type="text" name="user_name" />
-                          <label>Email</label>
-                          <input type="email" name="user_email" />
-                          <label>Message</label>
-                          <textarea name="message" />
-                          <input type="submit" value="Send" />
-                        </form>
-                      </>
+                      {/* <form ref={form}>
+                      <input type="text" name="name" value = {row.Patient_name}/>
+                      <input type="text" name="doctor" value = {row.Practitioner}/>
+                      </form> */}
                       <StyledTableRow>
                         {/* <StyledTableCell align="left">{row.Patient_id}</StyledTableCell> */}
                         <StyledTableCell align="left">{row.Patient_name}</StyledTableCell>
                         <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
                         <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendEmail(row.name, row.doctor, row.cluster_label)}>Send</button></StyledTableCell>
+                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send</button></StyledTableCell>
                       </StyledTableRow>
                       </>
                     )
@@ -325,7 +252,6 @@ export default function EmailNotify() {
             </Table>
           </TableContainer>
         </Paper>
-
         <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 component="div"
@@ -337,8 +263,6 @@ export default function EmailNotify() {
               />
          {/* </Content> */}
          </div>
-        // </Layout> 
-
-     
+        // </Layout>
     )
 }
