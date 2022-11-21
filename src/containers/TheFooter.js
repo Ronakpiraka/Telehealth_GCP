@@ -5,7 +5,7 @@ const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <a href="#" target="_blank" rel="noopener noreferrer">Remote Patient Monitoring</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">Telehealth CMS</a>
         <span className="ml-1">&copy; 2021</span>
       </div>
       <div className="mfs-auto">

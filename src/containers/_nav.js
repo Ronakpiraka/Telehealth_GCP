@@ -72,16 +72,16 @@ const _nav =  [
       }
     ]
   },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['Devices']
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Device Management',
-    to: '/device/devices',
-    icon: 'cil-calculator',
-  },
+  // {
+  //   _tag: 'CSidebarNavTitle',
+  //   _children: ['Devices']
+  // },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Device Management',
+  //   to: '/device/devices',
+  //   icon: 'cil-calculator',
+  // },
   {
     _tag: 'CSidebarNavTitle',
     _children: ['Notification']
