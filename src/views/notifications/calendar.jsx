@@ -12,10 +12,27 @@ export default function Calender() {
         let doctor = location.search.split('=')[2];
         // const data = props.name;
         console.log(patient_name,doctor)
+        if (doctor){
+            return doctor
+        }
+        else{
+            var doc = "David Willey"
+        }
         const data = [
             {
                 Id: 1,
-                Subject: 'Meeting with '+ doctor,
+                Subject: 'Meeting with Doctor',
+                StartTime: new Date("2022, 11, 09"),
+                EndTime: new Date("2022, 11, 09"),
+                IsAllDay: false,
+                Status: 'Incomplete',
+                Priority: 'High',
+                Location: "https://meet.google.com/ypu-vavo-riu",
+                Description:  "Immediate consultation is setup with provider. Join using this meeting link."
+            },
+            {
+                Id: 2,
+                Subject: 'Meeting with '+ doc,
                 StartTime: new Date(),
                 EndTime: new Date(),
                 IsAllDay: false,

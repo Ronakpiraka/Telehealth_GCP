@@ -52,12 +52,12 @@ const TheHeader = () => {
         onClick={toggleSidebar}
       />
       <CHeaderBrand className="mx-auto d-lg-none" to="/">
-        <b style={{fontSize:'20px'}}>Telehealth CMS</b>
+        <b style={{fontSize:'20px'}}>Remote Patient Monitoring </b>
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to="/dashboard"><b style={{fontSize:'22px'}}>Telehealth CMS</b></CHeaderNavLink>
+          <CHeaderNavLink to="/dashboard"><b style={{fontSize:'22px'}}>Remote Patient Monitoring </b></CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
 

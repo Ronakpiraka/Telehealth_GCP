@@ -51,7 +51,7 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-primary"
-          header={dashdetails.Low_Risk_count}
+          header={dashdetails.total_patient_count}
           text="Total Patients"
           footerSlot={
             <ChartLineSimple

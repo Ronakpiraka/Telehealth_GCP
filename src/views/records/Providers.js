@@ -119,7 +119,7 @@ export default function ProviderInform() {
     
     return (
       <>
-            <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Provider Details</strong></p>
+            <p style={{fontSize:'30px', textAlign:'center', color : '#321fdb'}}><strong>Provider Details</strong></p>
           <Paper>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
