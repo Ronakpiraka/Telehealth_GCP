@@ -63,7 +63,7 @@ export default function ProviderInform() {
           // vertical padding + font size from searchIcon
           paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
           transition: theme.transitions.create('width'),
-          width: '100%',
+          width: '100px',
           [theme.breakpoints.up('sm')]: {
             width: '100ch',
             '&:focus': {
@@ -115,7 +115,8 @@ export default function ProviderInform() {
     }
     useEffect(() => { 
       fetchproviderdata();
-    })
+    },[])
+    
     return (
       <>
             <p style={{fontSize:'22px', textAlign:'center'}}><strong>Provider Details</strong></p>

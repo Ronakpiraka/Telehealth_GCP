@@ -14,7 +14,7 @@ import Input from '@material-ui/core/Input';
 import {Link} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import { Dropdown, message } from 'antd';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, styled } from '@material-ui/core/styles';
 import Row from './Row';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -48,7 +48,7 @@ export default function PatientInform() {
       margin: '10px',
       float: 'right',
       boxShadow: '-4px 8px 20px 0px grey',
-      width: '100%',
+      // width: '100%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
         width: '98%',
@@ -87,13 +87,15 @@ export default function PatientInform() {
     },
   }))(TableCell);
   
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
     },
-  }))(TableRow);
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
   
 
 
@@ -109,7 +111,7 @@ export default function PatientInform() {
     const { Header, Sider, Content } = Layout;
     const { Search } = Input;
     var url;
-
+  
     const fetchpatientdata = () => {
       // console.log("check function")
 
@@ -131,7 +133,7 @@ export default function PatientInform() {
     useEffect(() => { 
       //console.log("hello useeffect")
       fetchpatientdata();
-    })
+    },[])
 
     const redirectToPatientDetails = (e, Patient_id) => {
       url = `/records/patientdetails?Patient_id=${Patient_id}`;
@@ -184,23 +186,23 @@ export default function PatientInform() {
 
           <Paper>
           <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    placeholder="Search by Name..."
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    onChange={(e)=>{setsearchTerm(e.target.value)}}
-                    inputProps={{ 'aria-label': 'search' }}
-                  />
-            </div>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+            <InputBase
+              placeholder="Search by Name..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onChange={(e)=>{setsearchTerm(e.target.value)}}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
             <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
-                <TableRow style={{ padding: '0px' }}>
+                <TableRow>
                 <TableCell style={{ fontWeight: 'bold'}}>Full Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Age</TableCell>
@@ -226,15 +228,15 @@ export default function PatientInform() {
                 })
                   .map((row) => {
                     return(
-                    <TableRow>
+                    <StyledTableRow>
                       <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}}>
                       <BsFillPersonFill size={25}/> &nbsp;&nbsp;
                         <a
                             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
                             target="_blank"
-                            style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: 'blue'}}
-                            onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
-                            onMouseOut={function (event) { let target = event.target; target.style.color = 'blue'; }}
+                            style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: '#39f'}}
+                            onMouseOver={function (event) { let target = event.target; target.style.color = '#3399ff'; target.style.cursor = 'pointer'; }}
+                            onMouseOut={function (event) { let target = event.target; target.style.color = '#3399ff'; }}
                           >
                             {/* main patient data */}
                             {row.Full_name}
@@ -245,7 +247,7 @@ export default function PatientInform() {
                       <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
                       <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
                       <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
-                    </TableRow>
+                    </StyledTableRow>
                        );
                       }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       }

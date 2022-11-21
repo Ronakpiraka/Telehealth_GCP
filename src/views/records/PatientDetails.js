@@ -45,6 +45,7 @@ export default function PatientDetails() {
     var stat, flags;
 
     const [singlepatientid, setsinglepatientid] = useState('');
+	const [isLoading, setisLoading] = useState(true);
     const [orderDetails, setOrderDetails] = useState('');
     const [allPurchaseOrderDetails, setAllPurchaseOrderDetails] = useState('');
     const [posts, setPosts] = useState([]);
@@ -123,7 +124,7 @@ export default function PatientDetails() {
 		// times=location.search.split('"')[1]	
 		stat = location.search.split(':')[1]	// console.log(stat)
 		// datess=location.search.split('}')[1]
-		let singlepatientURL = 'https://fetchpatientdata21-sh4iojyb3q-uc.a.run.app'
+		let singlepatientURL = 'https://patientdata-sh4iojyb3q-uc.a.run.app/'
 		
 		// console.log('---------------------patientDetailsUrl----------------------------------')
 		// console.log(singlepatientURL)
@@ -135,7 +136,7 @@ export default function PatientDetails() {
 			// }
 		}).then((response) => {
 			return response.json();
-			// setisLoading(false);
+			setisLoading(false);
 		}).then((patientdetails) => {
 			// console.log('-----------------------------patientdetails--------------------------')
 			// console.log(patientdetails)

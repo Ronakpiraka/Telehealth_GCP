@@ -1,19 +1,19 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import {useHistory} from "react-router-dom";
 import {TableOutlined,UserOutlined, AreaChartOutlined} from '@ant-design/icons';
 import { Layout, Menu} from 'antd';
 import {Link} from "react-router-dom";
 import { Dropdown, Button, message } from 'antd';
-import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
+// import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
+// import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+// import AirportShuttleIcon from '@material-ui/icons/AirportShuttle';
 import { makeStyles } from '@material-ui/core/styles';
-import VideocamIcon from '@material-ui/icons/Videocam';
+// import VideocamIcon from '@material-ui/icons/Videocam';
 import "./Dashboard.css";
 import Image from '../services/images/ambulance.jpeg'
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import {MenuUnfoldOutlined,MenuFoldOutlined} from '@ant-design/icons';
+// import DashboardIcon from '@material-ui/icons/Dashboard';
+// import {MenuUnfoldOutlined,MenuFoldOutlined} from '@ant-design/icons';
 
 export default function PatientInform() {
   const useStyles = makeStyles((theme) => ({

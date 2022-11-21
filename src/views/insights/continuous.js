@@ -1,6 +1,6 @@
 import React, {useEffect } from 'react'
 import Charts from '../charts/Charts';
-import DoughnutChart from '../charts/DoughnutChart'
+// import DoughnutChart from '../charts/DoughnutChart'
 
 export default function Insights() {
   var dashboard;

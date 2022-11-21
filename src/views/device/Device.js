@@ -10,18 +10,18 @@ import TableCell from '@material-ui/core/TableCell';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableContainer from '@material-ui/core/TableContainer';
-import {Link} from "react-router-dom";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+// import {Link} from "react-router-dom";
+// import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import CIcon from '@coreui/icons-react'
+// import AppBar from '@material-ui/core/AppBar';
+// import Toolbar from '@material-ui/core/Toolbar';
+// import Typography from '@material-ui/core/Typography';
+// import Button from '@material-ui/core/Button';
+// import IconButton from '@material-ui/core/IconButton';
+// import MenuIcon from '@material-ui/icons/Menu';
+// import CIcon from '@coreui/icons-react'
 import ChartLineSimple from '../charts/ChartLineSimple'
-import ChartBarSimple from '../charts/ChartBarSimple'
+// import ChartBarSimple from '../charts/ChartBarSimple'
 import {
   CWidgetDropdown,
   CRow,
@@ -44,7 +44,7 @@ export default function Device() {
           flexGrow: 1,
         },
       }));
-      const classes = useStyles();
+      // const classes = useStyles();
       const [data, setdata]=React.useState([]);
 
       const fetchpatientdata = () => {
@@ -54,7 +54,7 @@ export default function Device() {
           method: 'GET'
         };
   
-        fetch("https://us-central1-telehealth-365911.cloudfunctions.net/fetchpatientdata", requestOptions)
+        fetch("https://patientdata-sh4iojyb3q-uc.a.run.app/", requestOptions)
         .then((resp) => resp.json())
         .then((response) => {
           setdata(response)
@@ -67,7 +67,7 @@ export default function Device() {
 
       useEffect(() => {   
         fetchpatientdata();
-    })
+      },[])
 
     const displayCheckedBox = (row) => {
       console.log("--------------row")
@@ -146,7 +146,7 @@ export default function Device() {
                 </div>
             </div> */}
 
-      <CRow>
+      {/* <CRow>
       <CCol sm="6" lg="6">
         <CWidgetDropdown
           color="gradient-primary"
@@ -187,7 +187,7 @@ export default function Device() {
         >
         </CWidgetDropdown>
       </CCol>
-      </CRow>
+      </CRow> */}
 
            
             <TableContainer style={{padding:"50px"}}>

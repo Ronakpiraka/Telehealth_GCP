@@ -2,21 +2,21 @@ import React, {useEffect, useState} from 'react'
 import Iframe from 'react-iframe'
 import Preventive from "../insights/preventiveFrame"
 import {HashRouter as Router, Link } from 'react-router-dom';
-import {useHistory, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {
   CCard,
   CCardBody,
   CCardGroup,
   CCardHeader
 } from '@coreui/react'
-import {
-  CChartBar,
-  CChartLine,
-  CChartDoughnut,
-  CChartRadar,
-  CChartPie,
-  CChartPolarArea
-} from '@coreui/react-chartjs'
+// import {
+//   CChartBar,
+//   CChartLine,
+//   CChartDoughnut,
+//   CChartRadar,
+//   CChartPie,
+//   CChartPolarArea
+// } from '@coreui/react-chartjs'
 // import { DocsLink } from 'src/reusable'
 
 const Charts = () => {

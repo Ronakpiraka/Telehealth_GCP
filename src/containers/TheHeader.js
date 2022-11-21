@@ -11,8 +11,8 @@ import {
   CBreadcrumbRouter,
   CLink
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import brillioimg from './brillio-logo.png'
+// import CIcon from '@coreui/icons-react'
+// import brillioimg from './brillio-logo.png'
 
 
 // routes config
@@ -20,9 +20,9 @@ import routes from '../routes'
 
 import { 
   TheHeaderDropdown,
-  TheHeaderDropdownMssg,
-  TheHeaderDropdownNotif,
-  TheHeaderDropdownTasks
+  // TheHeaderDropdownMssg,
+  // TheHeaderDropdownNotif,
+  // TheHeaderDropdownTasks
 }  from './index'
 
 const TheHeader = () => {
