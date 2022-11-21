@@ -21,6 +21,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { red } from '@material-ui/core/colors';
 
 export default function PatientInform() {
   const useStyles = makeStyles((theme) => ({
@@ -182,7 +183,7 @@ export default function PatientInform() {
 
     return (
     <>
-        <p style={{fontSize:'22px', textAlign:'center'}}><strong>Patient Engagement</strong></p>
+        <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Details</strong></p>
 
           <Paper>
           <div className={classes.search}>
@@ -232,7 +233,7 @@ export default function PatientInform() {
                     return(
                     <StyledTableRow>
                       <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}}>
-                      <BsFillPersonFill size={25}/> &nbsp;&nbsp;
+                      <BsFillPersonFill size={15}/> &nbsp;&nbsp;
                         <a
                             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
                             target="_blank"
@@ -244,11 +245,11 @@ export default function PatientInform() {
                             {row.Full_name}
                         </a>
                       </StyledTableCell>
-                      <StyledTableCell align="left">{row.Patient_Address}</StyledTableCell>
-                      <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
-                      <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
-                      <StyledTableCell align="left">{row.RemoteCareText}</StyledTableCell>
-                      <StyledTableCell align="left">{row.ConsentFormText}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"30%"}}>{row.Patient_Address}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"10%"}}>{row.Patient_Age}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"15%"}}>{row.Contact_number}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"10%"}}>{row.RemoteCareText}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"10%"}}>{row.ConsentFormText}</StyledTableCell>
                     </StyledTableRow>
                        );
                       }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

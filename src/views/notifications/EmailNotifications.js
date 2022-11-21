@@ -171,25 +171,25 @@ export default function EmailNotify() {
           if(cluster_label === 0)
           {
             return(
-              <CBadge color="warning" className="mfs-auto">Low Risk</CBadge>
+              <CBadge color="warning" className="mfs-auto" fontSize='22px'>Low Risk</CBadge>
             )
           }
           else if(cluster_label === 2)
           {
             return(
-              <CBadge color="danger" className="mfs-auto">High Risk</CBadge>
+              <CBadge color="danger" className="mfs-auto" fontSize='22px'>High Risk</CBadge>
             )
           }
           else
           {
             return(
-              <CBadge color="info" className="mfs-auto">Medium Risk</CBadge>
+              <CBadge color="info" className="mfs-auto" fontSize='22px'>Medium Risk</CBadge>
             )
           } 
         }
     return (
       <div>
-        <p style={{fontSize:'22px', textAlign:'center'}}><strong>Risk Patient Details</strong></p>
+        <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Notifications Panel</strong></p>
           <Paper>
             <div className={classes.search}>
               <div className={classes.searchIcon}>

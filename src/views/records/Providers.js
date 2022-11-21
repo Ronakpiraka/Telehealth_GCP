@@ -13,7 +13,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Prow from './Prow';
+import Prow from './prow';
 export default function ProviderInform() {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -119,7 +119,7 @@ export default function ProviderInform() {
     
     return (
       <>
-            <p style={{fontSize:'22px', textAlign:'center'}}><strong>Provider Details</strong></p>
+            <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Provider Details</strong></p>
           <Paper>
             <div className={classes.search}>
               <div className={classes.searchIcon}>

@@ -52,7 +52,7 @@ export default function Prow(props) {
               Patient Practdetails
             </Typography> */}
             <Table size="small" aria-label="provider">
-              <TableHead style={{ fontWeight: 'bold', color:"blue"}}>Practitioner Details:  </TableHead>
+              <TableHead style={{ fontWeight: 'bold', color:"blue", margin: "15px"}}>Practitioner Details:  </TableHead>
               <TableBody>
                 <TableRow>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
@@ -63,9 +63,9 @@ export default function Prow(props) {
                   {/* {Practdetails_new.length > 0 && Practdetails_new.map((item) =>
                   { */}
                    <StyledTableRow key={prow.Practitioner_name}>
-                   <StyledTableCell style={{width:"35%"}}>{prow.Practitioner_name}</StyledTableCell>
-                   <StyledTableCell style={{width:"25%"}}>{prow.Specialization}</StyledTableCell>
-                   <StyledTableCell style={{width:"20%"}}>{prow.Practitioner_Email}</StyledTableCell>
+                   <StyledTableCell style={{width:"30%"}}>{prow.Practitioner_name}</StyledTableCell>
+                   <StyledTableCell style={{width:"30%"}}>{prow.Specialization}</StyledTableCell>
+                   <StyledTableCell style={{width:"40%"}}>{prow.Practitioner_Email}</StyledTableCell>
                    </StyledTableRow>
                   {/* })
                  } */}
