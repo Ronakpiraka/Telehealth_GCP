@@ -25,7 +25,8 @@ const Charts = () => {
   const [singlepatientid, setsinglepatientid] = useState('');
   const location = useLocation();
   var stat, flags;
-  var url="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC?params=%7B%22df2%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580" + singlepatientid + "%22%7D"
+  var url_p="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC?params=%7B%22df2%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580" + singlepatientid + "%22%7D"
+  var url_c="https://datastudio.google.com/embed/reporting/16901bed-1e96-44c2-82c4-b92d4797b0ac/page/tEnnC?params=%7B%22df4%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580"+singlepatientid+"%22%7D"
 
   useEffect(() => {
 		flags = location.search.split('^')[1];
@@ -108,7 +109,7 @@ const Charts = () => {
           </CCardHeader>
         </a>
         <CCardBody style={{backgroundColor:'#0A2533', color:'white'}}>
-        <Iframe width="420" height="251" src={url}/>
+        <Iframe width="420" height="251" src={url_c}/>
           {/* <CChartLine
             datasets={[
               {
@@ -144,7 +145,7 @@ const Charts = () => {
           </Link> 
         {/* </a> */}
         <CCardBody style={{backgroundColor:'#0A2533', color:'white'}}>
-        <Iframe width="420" height="251" src={url} frameborder="0" style="border:0" allowfullscreen/>
+        <Iframe width="420" height="251" src={url_p} frameborder="0" style="border:0" allowfullscreen/>
           {/* <CChartDoughnut
             datasets={[
               {
