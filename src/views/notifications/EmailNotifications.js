@@ -202,7 +202,7 @@ export default function EmailNotify() {
     return (
       <div>
         <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Notifications Panel</strong></p>
-          <Paper>
+          <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -217,8 +217,8 @@ export default function EmailNotify() {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
-          <TableContainer>
-            <Table>
+          <TableContainer style={{ maxHeight: 300 }}>
+            <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}

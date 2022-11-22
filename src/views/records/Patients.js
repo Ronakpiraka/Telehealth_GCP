@@ -183,9 +183,8 @@ export default function PatientInform() {
 
     return (
     <>
-        <p style={{fontSize:'30px', textAlign:'center', color : '#321fdb'}}><strong>Patient Details</strong></p>
-
-          <Paper>
+        <h2 style={{textAlign:'center', color:'#4f5d73'}}><strong>Patient Details</strong></h2>
+          <Paper style={{ width: '100%', overflow: 'hidden' }}>
           <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
@@ -200,16 +199,16 @@ export default function PatientInform() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer style={{ maxHeight: 300 }}>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
-                <TableRow>
-                <TableCell style={{ fontWeight: 'bold'}}>Full Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Age</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Phone Number</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Remote Care</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Consent Form</TableCell>
+                <TableRow >
+                <TableCell style={{ fontWeight: 'bold',fontSize:'16px'}}>Full Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold',fontSize:'16px'}}>Address</TableCell>
+                <TableCell style={{ fontWeight: 'bold',fontSize:'16px'}}>Age</TableCell>
+                <TableCell style={{ fontWeight: 'bold',fontSize:'16px'}}>Phone Number</TableCell>
+                <TableCell style={{ fontWeight: 'bold',fontSize:'16px'}}>Remote Care</TableCell>
+                <TableCell style={{ fontWeight: 'bold',fontSize:'16px'}}>Consent Form</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -231,7 +230,7 @@ export default function PatientInform() {
                 })
                   .map((row) => {
                     return(
-                    <StyledTableRow>
+                    <StyledTableRow hover>
                       <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}}>
                       <BsFillPersonFill size={25}/> &nbsp;&nbsp;
                         <a

@@ -120,8 +120,8 @@ export default function ProviderInform() {
     
     return (
       <>
-            <p style={{fontSize:'30px', textAlign:'center', color : '#321fdb'}}><strong>Provider Details</strong></p>
-          <Paper>
+          <h2 style={{textAlign:'center', color:'#4f5d73'}}><strong>Provider Details</strong></h2>
+          <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -136,10 +136,10 @@ export default function ProviderInform() {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
-          <TableContainer sx={{ maxHeight: 440 }}>
+          <TableContainer style={{ maxHeight: 300 }}>
             <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow style={{ padding: '0px' }}>
+              <TableHead style={{}}>
+                <TableRow style={{background:'#4f5d73' }}>
                 <TableCell/>
                 <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width:"27%"}}>Name</TableCell>
