@@ -126,9 +126,12 @@ export default function EmailNotify() {
           setpage(0);
         };
 
+        const senddata = (name, doctor,guardian_email) =>{
+          var url =  `/notifications?Patient_name=${name}&doctor=${doctor}`;
+          history.push(`${url}`);
+        }
 
         const sendemail = (name, doctor,guardian_email) => {
-
               emailjs.send(
                 "service_jo0oe0n",
                 "template_bqrgux5",
@@ -255,5 +258,27 @@ export default function EmailNotify() {
                         <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
                         <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send</button></StyledTableCell>
-                        
+                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
+                      </StyledTableRow>
+                      </>
+                    )
+                  }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                 }
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                component="div"
+                count={data.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+              />
+         {/* </Content> */}
+         </div>
+        // </Layout>
+    )
+}
