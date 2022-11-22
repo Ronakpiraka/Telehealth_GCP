@@ -130,12 +130,12 @@ const Dashboard = () => {
         <CCardBody>
           <CRow>
             <CCol sm="5">
-              <h3 id="traffic" className="card-title mb-0">Preventive Care</h3>
+              <h3 id="traffic" className="card-title mb-0">Continuous Care</h3>
               {/* <div className="small text-muted">September 2021</div> */}
             </CCol>
           </CRow>
           {/* <MainChartExample style={{height: '300px', marginTop: '40px'}}/> */}
-          <Iframe width="100%" height="380px" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+          <Iframe width="100%" height="380px" src="https://datastudio.google.com/embed/reporting/16901bed-1e96-44c2-82c4-b92d4797b0ac/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
         </CCardBody>
       <CCardGroup className="mb-4">
         <CWidgetProgressIcon
