@@ -26,7 +26,7 @@ import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import jsonData from '../../t3.json';
 
-export default function ModalInform() {
+export default function ModalInform(props) {
     const useStyles = makeStyles((theme) => ({
         root: {
           display: 'flex',
@@ -100,8 +100,8 @@ export default function ModalInform() {
       }))(TableRow);
     
         const classes = useStyles();
-        const jsondata = jsonData.entry;
-        console.log(jsondata);
+        const {data} = props;
+        console.log(data);
 
     return (
       <>
@@ -119,17 +119,12 @@ export default function ModalInform() {
               </TableHead>
 
               <TableBody>
-                {jsondata.map((row, index) => {
-                    return(
                       <StyledTableRow>
                         {/* <TableCell align="left">{row.id}</TableCell> */}
-                        <StyledTableCell align="left">Arthur650 Ortiz186</StyledTableCell>
-                        <StyledTableCell align="left">{(row.resource.text.div).replace(", datetime: 2021-09-09 10:29:18.316868", "")}</StyledTableCell>
-                        <StyledTableCell align="left">2021-09-09</StyledTableCell>
+                        <StyledTableCell align="left">{data.Full_name}</StyledTableCell>
+                        <StyledTableCell align="left">Low Oxygen Detected</StyledTableCell>
+                        <StyledTableCell align="left">2022-09-09</StyledTableCell>
                       </StyledTableRow>
-                    )
-                  })
-                 }
               </TableBody>
             </Table>
           </TableContainer>

@@ -11,8 +11,8 @@ import {
   CBreadcrumbRouter,
   CLink
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import brillioimg from './brillio-logo.png'
+// import CIcon from '@coreui/icons-react'
+// import brillioimg from './brillio-logo.png'
 
 
 // routes config
@@ -20,9 +20,9 @@ import routes from '../routes'
 
 import { 
   TheHeaderDropdown,
-  TheHeaderDropdownMssg,
-  TheHeaderDropdownNotif,
-  TheHeaderDropdownTasks
+  // TheHeaderDropdownMssg,
+  // TheHeaderDropdownNotif,
+  // TheHeaderDropdownTasks
 }  from './index'
 
 const TheHeader = () => {
@@ -52,12 +52,12 @@ const TheHeader = () => {
         onClick={toggleSidebar}
       />
       <CHeaderBrand className="mx-auto d-lg-none" to="/">
-        <b style={{fontSize:'20px'}}>Telehealth CMS</b>
+        <b style={{fontSize:'20px'}}>Telehealth CMS </b>
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3" >
-          <CHeaderNavLink to="/dashboard"><b style={{fontSize:'22px'}}>Telehealth CMS</b></CHeaderNavLink>
+          <CHeaderNavLink to="/dashboard"><b style={{fontSize:'22px'}}>Telehealth CMS </b></CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
 

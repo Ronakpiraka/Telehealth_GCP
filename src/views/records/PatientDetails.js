@@ -45,6 +45,7 @@ export default function PatientDetails() {
     var stat, flags;
 
     const [singlepatientid, setsinglepatientid] = useState('');
+	const [isLoading, setisLoading] = useState(true);
     const [orderDetails, setOrderDetails] = useState('');
     const [allPurchaseOrderDetails, setAllPurchaseOrderDetails] = useState('');
     const [posts, setPosts] = useState([]);
@@ -98,17 +99,6 @@ export default function PatientDetails() {
 	  )
   }
 
-//   const [passwordShown, setPasswordShown] = useState(false);
-//   const togglePassword = () => {
-//     setPasswordShown(!passwordShown);
-  
-//   return (
-//     <div>
-//       <input type={passwordShown ? "text" : "password"} />
-//       <button onClick={togglePassword}>Show Password</button>
-//     </div>
-//   );
-// };
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 // single patient details
@@ -135,7 +125,7 @@ export default function PatientDetails() {
 			// }
 		}).then((response) => {
 			return response.json();
-			// setisLoading(false);
+			setisLoading(false);
 		}).then((patientdetails) => {
 			// console.log('-----------------------------patientdetails--------------------------')
 			// console.log(patientdetails)
@@ -370,7 +360,7 @@ export default function PatientDetails() {
 					>
 						<Box sx={modalstyle}>
 						<Typography id="modal-modal-description" >
-							{showMessage && <Modalcontent/>}
+							{showMessage && <Modalcontent data={orderDetails}/>}
 							{showMessage2 && <ModalProvider/>}
 						</Typography>
 						<Typography id="modal-modal-description" class="d-flex justify-content-center" style={{ paddingTop: '5px'}}>

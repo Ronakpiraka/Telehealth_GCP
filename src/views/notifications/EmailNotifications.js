@@ -1,5 +1,5 @@
 import React, {useEffect, useRef  } from 'react'
-import { Layout, Menu, Input  } from 'antd';
+import { Layout, Menu, Input, Calendar  } from 'antd';
 import './PatientInfo.css';
 import 'antd/dist/antd.css';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,13 +15,17 @@ import InputBase from '@material-ui/core/InputBase';
 import 'react-toastify/dist/ReactToastify.css'; 
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import TelegramIcon from '@mui/icons-material/Telegram';
 import emailjs from '@emailjs/browser';
+import {toast} from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
+import Calender from '../notifications/calendar';
+import {useHistory, useLocation} from "react-router-dom";
 import {
     CBadge
-  } from '@coreui/react'
+  } from '@coreui/react';
 //  import config from '../../config.js';
 // var AWS = require('aws-sdk');
-
 export default function EmailNotify() {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -80,13 +84,11 @@ export default function EmailNotify() {
           },
         },
       }));
-      
       const StyledTableCell = withStyles((theme) => ({
         body: {
           fontSize: 14,
         },
       }))(TableCell);
-      
       const StyledTableRow = withStyles((theme) => ({
         root: {
           '&:nth-of-type(odd)': {
@@ -94,7 +96,6 @@ export default function EmailNotify() {
           },
         },
       }))(TableRow);
-    
         const [data, setdata]=React.useState([]);
         const [collapsed, setcollapsed]=React.useState(false);
         const [searchTerm, setsearchTerm]=React.useState('');
@@ -102,12 +103,10 @@ export default function EmailNotify() {
         const [rowsPerPage, setRowsPerPage] = React.useState(10);
         const [ordPlaced, setordPlaced]=React.useState(5);
         const classes = useStyles();
+        const history = useHistory();
         const form = useRef();
-    
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
-
-
         useEffect(() => { 
           const res= fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
             method: 'GET',
@@ -118,44 +117,18 @@ export default function EmailNotify() {
           }).catch(error => {
               console.log(error)
               });
-            
         },[])
-    
         const handleChangePage = (event, newPage) => {
             setpage(newPage);
         };
-
         const handleChangeRowsPerPage = event => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setpage(0);
         };
 
+
         const sendemail = (name, doctor,guardian_email) => {
-          // e.preventDefault();
 
-          // var params = {
-          //   to_name : name,
-          //   Doctor:doctor
-          // };
-
-          // var params = {
-          //       Message: `Dear ${name}/${doctor}
-          //                   As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${name} is continuously recorded.
-          //                   As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
-          //                   Oxygen level-80
-          //                   Temperature-100
-          //                   Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
-          //                   As preliminary, please take notice of below critical parameters for discussion with doctor.
-          //                   A bluish tint to fingernails, lips and skin
-          //                   Chest congestion
-          //                   shortness of breath
-          //                   persistent cough
-          //                   Thanking You
-          //                   Hospital Management `, 
-          //       Subject: `Connect with ${doctor}`
-          //     };
-
-      
               emailjs.send(
                 "service_jo0oe0n",
                 "template_bqrgux5",
@@ -163,15 +136,16 @@ export default function EmailNotify() {
                 'l7yMNcNURVQaRrVQG')
                 .then(function(response) {
                   console.log('SUCCESS!', response.status, response.text);
-                  alert('sent')
+                  toast.success("Meeting with Patient "+ name+" is Scheduled");
+                 
+                  senddata(name, doctor,guardian_email);
               }, function(error) {
                   console.log('FAILED...', error);
                   alert(error)
               });
+
+              
             };
-
-        
-
         // const sendemail=(patient, doctor, risk)=>{
         //   // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
         // // change it to GCP
@@ -192,9 +166,7 @@ export default function EmailNotify() {
         //   //   Subject: `Connect with ${doctor}`,
         //   //   TopicArn: config.snsemail.topic
         //   // };
-
         //   // var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-
         //   // publishTextPromise.then(
         //   //   function(data) {
         //   //     // console.log("MessageID is " + data.MessageId);
@@ -203,36 +175,30 @@ export default function EmailNotify() {
         //   //     function(err) {
         //   //     console.error(err, err.stack);
         //   //   });
-
         // }
-
         const riskscore=(cluster_label)=>{
           if(cluster_label === 0)
           {
             return(
-              <CBadge color="warning" className="mfs-auto">Low Risk</CBadge>
+              <CBadge color="warning" className="mfs-auto" fontSize='22px'>Low Risk</CBadge>
             )
           }
           else if(cluster_label === 2)
           {
             return(
-              <CBadge color="danger" className="mfs-auto">High Risk</CBadge>
+              <CBadge color="danger" className="mfs-auto" fontSize='22px'>High Risk</CBadge>
             )
           }
           else
           {
             return(
-              <CBadge color="info" className="mfs-auto">Medium Risk</CBadge>
+              <CBadge color="info" className="mfs-auto" fontSize='22px'>Medium Risk</CBadge>
             )
           } 
         }
-
-       
-
     return (
       <div>
-        <p style={{fontSize:'22px', textAlign:'center'}}><strong>Risk Patient Details</strong></p>
-
+        <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Notifications Panel</strong></p>
           <Paper>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -261,7 +227,6 @@ export default function EmailNotify() {
                 <TableCell style={{ fontWeight: 'bold'}}>Email Notifications</TableCell>
                 </TableRow>
               </TableHead>
-
               <TableBody>
                 {data.filter(val=>{
                   if(searchTerm === "")
@@ -292,29 +257,3 @@ export default function EmailNotify() {
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
                         <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send</button></StyledTableCell>
                         
-                      </StyledTableRow>
-                      </>
-                    )
-                  }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                 }
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-
-        <TablePagination
-                rowsPerPageOptions={[5, 10, 25, 50, 100]}
-                component="div"
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-              />
-         {/* </Content> */}
-         </div>
-        // </Layout> 
-
-     
-    )
-}

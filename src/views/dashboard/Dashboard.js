@@ -20,30 +20,30 @@ const Dashboard = () => {
 
   const [dashdetails, setdashdetails] = React.useState([]);
 
-      async function fetchdashdetailsdata(){
+  async function fetchdashdetailsdata() {
 
-      console.log("check function")
-      var requestOptions = {
-        method: 'GET'
-      };
+    console.log("check function")
+    var requestOptions = {
+      method: 'GET'
+    };
 
-      const res = await fetch("https://dashboarddata-sh4iojyb3q-uc.a.run.app", requestOptions)
-      const result = await res.json()
-      console.log(result);
-      // .then((resp) => resp.json())
-      // .then((response) => {
-        setdashdetails(result[0])
-      //   console.log(dashdetails)
-      // })
-      // .catch(error => console.log('error', error));
-    }
+    const res = await fetch("https://dashboarddata-sh4iojyb3q-uc.a.run.app", requestOptions)
+    const result = await res.json()
+    console.log(result);
+    // .then((resp) => resp.json())
+    // .then((response) => {
+    setdashdetails(result[0])
+    //   console.log(dashdetails)
+    // })
+    // .catch(error => console.log('error', error));
+  }
 
-    useEffect(() => { 
-      // console.log("hello useeffect")
-      fetchdashdetailsdata();
-    },[])
+  useEffect(() => {
+    // console.log("hello useeffect")
+    fetchdashdetailsdata();
+  }, [])
 
-    console.log(dashdetails)
+  console.log(dashdetails)
 
   return (
     <>
@@ -51,7 +51,7 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-primary"
-          header={dashdetails.Low_Risk_count}
+          header={dashdetails.total_patient_count}
           text="Total Patients"
           footerSlot={
             <ChartLineSimple
@@ -127,6 +127,49 @@ const Dashboard = () => {
     </CRow>
 
       <CCard>
+
+        <CCardGroup className="mb-4">
+          <CWidgetProgressIcon
+            header={dashdetails.active_count}
+            text="New Patients"
+            color="gradient-info"
+            inverse
+          >
+            <CIcon name="cil-people" height="36" />
+          </CWidgetProgressIcon>
+          <CWidgetProgressIcon
+            header={dashdetails.active_count}
+            text="Active Cases"
+            color="gradient-success"
+            inverse
+          >
+            <CIcon name="cil-userFollow" height="36" />
+          </CWidgetProgressIcon>
+          <CWidgetProgressIcon
+            header={dashdetails.Provider_count}
+            text="Facilities"
+            color="gradient-warning"
+            inverse
+          >
+            <CIcon name="cil-basket" height="36" />
+          </CWidgetProgressIcon>
+          <CWidgetProgressIcon
+            header={dashdetails.care_insights_count}
+            text="Care Insights"
+            color="gradient-primary"
+            inverse
+          >
+            <CIcon name="cil-chartPie" height="36" />
+          </CWidgetProgressIcon>
+          <CWidgetProgressIcon
+            header={dashdetails.claims_count}
+            text="Insurance Code"
+            color="gradient-danger"
+            inverse
+          >
+            <CIcon name="cil-speedometer" height="36" />
+          </CWidgetProgressIcon>
+        </CCardGroup>
         <CCardBody>
           <CRow>
             <CCol sm="5">
@@ -137,51 +180,10 @@ const Dashboard = () => {
           {/* <MainChartExample style={{height: '300px', marginTop: '40px'}}/> */}
           <Iframe width="100%" height="380px" src="https://datastudio.google.com/embed/reporting/16901bed-1e96-44c2-82c4-b92d4797b0ac/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
         </CCardBody>
-      <CCardGroup className="mb-4">
-        <CWidgetProgressIcon
-          header={dashdetails.active_count}
-          text="New Patients"
-          color="gradient-info"
-          inverse
-        >
-          <CIcon name="cil-people" height="36"/>
-        </CWidgetProgressIcon>
-        <CWidgetProgressIcon
-          header={dashdetails.active_count}
-          text="Active Cases"
-          color="gradient-success"
-          inverse
-        >
-          <CIcon name="cil-userFollow" height="36"/>
-        </CWidgetProgressIcon>
-        <CWidgetProgressIcon
-          header={dashdetails.Provider_count}
-          text="Facilities"
-          color="gradient-warning"
-          inverse
-        >
-          <CIcon name="cil-basket" height="36"/>
-        </CWidgetProgressIcon>
-        <CWidgetProgressIcon
-          header={dashdetails.care_insights_count}
-          text="Care Insights"
-          color="gradient-primary"
-          inverse
-        >
-          <CIcon name="cil-chartPie" height="36"/>
-        </CWidgetProgressIcon>
-        <CWidgetProgressIcon
-          header={dashdetails.claims_count}
-          text="Insurance Code"
-          color="gradient-danger"
-          inverse
-        >
-          <CIcon name="cil-speedometer" height="36"/>
-        </CWidgetProgressIcon>
-      </CCardGroup>
       </CCard>
+
     </>
-)
+  )
 }
 
 export default Dashboard

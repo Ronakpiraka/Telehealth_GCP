@@ -14,13 +14,14 @@ import Input from '@material-ui/core/Input';
 import {Link} from "react-router-dom";
 import {useHistory} from "react-router-dom";
 import { Dropdown, message } from 'antd';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, styled } from '@material-ui/core/styles';
 import Row from './Row';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { red } from '@material-ui/core/colors';
 
 export default function PatientInform() {
   const useStyles = makeStyles((theme) => ({
@@ -48,7 +49,7 @@ export default function PatientInform() {
       margin: '10px',
       float: 'right',
       boxShadow: '-4px 8px 20px 0px grey',
-      width: '100%',
+      // width: '100%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
         width: '98%',
@@ -87,13 +88,15 @@ export default function PatientInform() {
     },
   }))(TableCell);
   
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
     },
-  }))(TableRow);
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
   
 
 
@@ -109,7 +112,7 @@ export default function PatientInform() {
     const { Header, Sider, Content } = Layout;
     const { Search } = Input;
     var url;
-
+  
     const fetchpatientdata = () => {
       // console.log("check function")
 
@@ -131,7 +134,7 @@ export default function PatientInform() {
     useEffect(() => { 
       //console.log("hello useeffect")
       fetchpatientdata();
-    })
+    },[])
 
     const redirectToPatientDetails = (e, Patient_id) => {
       url = `/records/patientdetails?Patient_id=${Patient_id}`;
@@ -180,27 +183,27 @@ export default function PatientInform() {
 
     return (
     <>
-        <p style={{fontSize:'22px', textAlign:'center'}}><strong>Patient Engagement</strong></p>
+        <p style={{fontSize:'30px', textAlign:'center', color : '#321fdb'}}><strong>Patient Details</strong></p>
 
           <Paper>
           <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    placeholder="Search by Name..."
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    onChange={(e)=>{setsearchTerm(e.target.value)}}
-                    inputProps={{ 'aria-label': 'search' }}
-                  />
-            </div>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+            <InputBase
+              placeholder="Search by Name..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onChange={(e)=>{setsearchTerm(e.target.value)}}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
             <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
-                <TableRow style={{ padding: '0px' }}>
+                <TableRow>
                 <TableCell style={{ fontWeight: 'bold'}}>Full Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Age</TableCell>
@@ -219,33 +222,35 @@ export default function PatientInform() {
                   else if ((val.Full_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Patient_Address.toLowerCase().includes(searchTerm.toLowerCase()))||
                   (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase()))
+                  (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.RemoteCareText.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.ConsentFormText.toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
                 })
                   .map((row) => {
                     return(
-                    <TableRow>
+                    <StyledTableRow>
                       <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}}>
                       <BsFillPersonFill size={25}/> &nbsp;&nbsp;
                         <a
                             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
                             target="_blank"
-                            style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: 'blue'}}
-                            onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
-                            onMouseOut={function (event) { let target = event.target; target.style.color = 'blue'; }}
+                            style={{ padding: '0px 0px 0px 0px', fontWeight: 'bold', color: '#39f'}}
+                            onMouseOver={function (event) { let target = event.target; target.style.color = '#3399ff'; target.style.cursor = 'pointer'; }}
+                            onMouseOut={function (event) { let target = event.target; target.style.color = '#3399ff'; }}
                           >
                             {/* main patient data */}
                             {row.Full_name}
                         </a>
                       </StyledTableCell>
-                      <StyledTableCell align="left">{row.Patient_Address}</StyledTableCell>
-                      <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
-                      <StyledTableCell align="left" style={{width:'150px'}}>{row.Contact_number}</StyledTableCell>
-                      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
-                      <StyledTableCell align="left">{displayCheckedBox(row)}</StyledTableCell>
-                    </TableRow>
+                      <StyledTableCell align="left" style={{width:"30%"}}>{row.Patient_Address}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"10%"}}>{row.Patient_Age}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"15%"}}>{row.Contact_number}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"10%"}}>{row.RemoteCareText}</StyledTableCell>
+                      <StyledTableCell align="left" style={{width:"10%"}}>{row.ConsentFormText}</StyledTableCell>
+                    </StyledTableRow>
                        );
                       }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       }
