@@ -113,7 +113,7 @@ export default function PatientDetails() {
 		// times=location.search.split('"')[1]	
 		stat = location.search.split(':')[1]	// console.log(stat)
 		// datess=location.search.split('}')[1]
-		let singlepatientURL = 'https://patientdata-sh4iojyb3q-uc.a.run.app/'
+		let singlepatientURL = 'https://patientdata-sh4iojyb3q-uc.a.run.app'
 		
 		// console.log('---------------------patientDetailsUrl----------------------------------')
 		// console.log(singlepatientURL)

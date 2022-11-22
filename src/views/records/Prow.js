@@ -24,12 +24,19 @@ export default function Prow(props) {
       },
     },
   }))(TableRow);
-    const { prow } = props;
+    const { prow , data} = props;
     console.log(prow);
+    console.log("hiiiiiiiiihihihihihihihihi",data);
     const [open, setopen] = React.useState(false);
     const [Practdetails, setPractdetails] = React.useState([]);
     var url;
-
+    var pradet = data.filter(val => {
+      if (val.Provider_code === prow.Provider_code) {
+        return val;
+      }    
+    }
+    )
+    console.log(pradet)
     return (
       <React.Fragment>
       {/* <Row row={data}/> */}
@@ -60,13 +67,19 @@ export default function Prow(props) {
                   <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Specialisation</TableCell>
                   <TableCell style={{ fontWeight: 'bold', width:"40%"}}>Email ID</TableCell>
                 </TableRow>
-                  {/* {Practdetails_new.length > 0 && Practdetails_new.map((item) =>
-                  { */}
-                   <StyledTableRow key={prow.Practitioner_name}>
+                {
+                  pradet.map((item)=> <StyledTableRow key = {item.Practitioner_name} > 
+                    <StyledTableCell style={{width:"30%"}}>{item.Practitioner_name}</StyledTableCell>
+                    <StyledTableCell style={{width:"30%"}}>{item.Specialization}</StyledTableCell>
+                    <StyledTableCell style={{width:"40%"}}>{item.Practitioner_Email}</StyledTableCell>
+                  </StyledTableRow>)
+                }
+                {/* {console.log(prow)} */}
+                   {/* <StyledTableRow key={prow.Practitioner_name}>
                    <StyledTableCell style={{width:"30%"}}>{prow.Practitioner_name}</StyledTableCell>
                    <StyledTableCell style={{width:"30%"}}>{prow.Specialization}</StyledTableCell>
                    <StyledTableCell style={{width:"40%"}}>{prow.Practitioner_Email}</StyledTableCell>
-                   </StyledTableRow>
+                   </StyledTableRow> */}
                   {/* })
                  } */}
               </TableBody>
