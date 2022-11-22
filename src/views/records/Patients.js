@@ -183,7 +183,7 @@ export default function PatientInform() {
 
     return (
     <>
-        <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Details</strong></p>
+        <p style={{fontSize:'30px', textAlign:'center', color : '#321fdb'}}><strong>Patient Details</strong></p>
 
           <Paper>
           <div className={classes.search}>
@@ -233,7 +233,7 @@ export default function PatientInform() {
                     return(
                     <StyledTableRow>
                       <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}}>
-                      <BsFillPersonFill size={15}/> &nbsp;&nbsp;
+                      <BsFillPersonFill size={25}/> &nbsp;&nbsp;
                         <a
                             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
                             target="_blank"

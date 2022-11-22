@@ -112,7 +112,7 @@ export default function PatientInform() {
                   onClick: toggle,
                 })}
             </div>
-             <p style={{fontSize:'26px', color: '#1890ff', marginLeft:"200px"}}>Remote Patient Monitoring
+             <p style={{fontSize:'26px', color: '#1890ff', marginLeft:"200px"}}>Telehealth CMS
              <div style={{float:"right", margin:'8px'}}>
               <Dropdown overlay={menu} >
                 <a className="ant-dropdown-link" > 

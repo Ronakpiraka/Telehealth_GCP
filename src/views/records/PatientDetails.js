@@ -353,7 +353,7 @@ export default function PatientDetails() {
 					>
 						<Box sx={modalstyle}>
 						<Typography id="modal-modal-description" >
-							{showMessage && <Modalcontent/>}
+							{showMessage && <Modalcontent data={orderDetails}/>}
 							{showMessage2 && <ModalProvider/>}
 						</Typography>
 						<Typography id="modal-modal-description" class="d-flex justify-content-center" style={{ paddingTop: '5px'}}>

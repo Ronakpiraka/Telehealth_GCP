@@ -14,30 +14,6 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Prow from './Prow';
-
-// function restructure_data(data) {
-//   let grouped_data = []
-//           data.forEach((item) => {
-//             if (!this[item.Provider_code]) {
-//               this[item.Provider_code] = {
-//                 Provider_code: item.Provider_code,
-//                 Provider_name: item.Provider_name,
-//                 Provider_Address: item.Provider_Address,
-//                 Provider_number: item.Provider_number,
-//                 Practitioner_details: []
-//               };
-//             grouped_data.push(this[item.Provider_code])
-//       }
-//       this[item.Provider_code].Practitioner_details.push({
-//           Practitioner_name: item.Practitioner_name,
-//           Specialization: item.Specialization,
-//           Practitioner_Email: item.Practitioner_Email
-//         })
-//       }, Object.create(null));
-//          return grouped_data;
-
-// }
-
 export default function ProviderInform() {
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -137,47 +113,47 @@ export default function ProviderInform() {
         console.log(data)
       })
       .catch(error => console.log('error', error));
-  }
-  useEffect(() => {
-    fetchproviderdata();
-  }, [])
-
-  
-  return (
-    <>
-      <p style={{ fontSize: '35px', textAlign: 'center', color: 'indigo' }}><strong>Provider Details</strong></p>
-      <Paper>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder="Search by Code..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            onChange={(e) => { setsearchTerm(e.target.value) }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </div>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow style={{ padding: '0px' }}>
-                <TableCell />
-                <TableCell style={{ fontWeight: 'bold', width: "25%" }}>Provider Code</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: "27%" }}>Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: "32%" }}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: "15%" }}>Contact Number</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data.filter(val => {
-                if (searchTerm === "") {
-                  return val;
-                }
-                else if ((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    }
+    useEffect(() => { 
+      fetchproviderdata();
+    },[])
+    
+    return (
+      <>
+            <p style={{fontSize:'30px', textAlign:'center', color : '#321fdb'}}><strong>Provider Details</strong></p>
+          <Paper>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search by Code..."
+                classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+                onChange={(e)=>{setsearchTerm(e.target.value)}}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow style={{ padding: '0px' }}>
+                <TableCell/>
+                <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"27%"}}>Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"32%"}}>Address</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact Number</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.filter(val=>{
+                  if(searchTerm === "")
+                  {
+                    return val;
+                  }
+                  else if((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Provider_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Provider_Address.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Specialization.toLowerCase().includes(searchTerm.toLowerCase())) ||

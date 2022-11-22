@@ -5,17 +5,23 @@ import {useHistory, useLocation} from "react-router-dom";
 import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject } from '@syncfusion/ej2-react-schedule';
 
 export default function Calender() {
-        var url
+        var url, doc;
         console.log(url);
         const location = useLocation();
         let patient_name = location.search.split('=')[1];
         let doctor = location.search.split('=')[2];
         // const data = props.name;
         console.log(patient_name,doctor)
+        if (doctor){
+             doc=doctor
+        }
+        else{
+            doc = "David Willey"
+        }
         const data = [
             {
                 Id: 1,
-                Subject: 'Meeting with '+ doctor,
+                Subject: 'Meeting with Doctor '+ doc,
                 StartTime: new Date(),
                 EndTime: new Date(),
                 IsAllDay: false,

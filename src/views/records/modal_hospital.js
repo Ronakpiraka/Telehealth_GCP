@@ -25,7 +25,26 @@ export default function ProviderInform() {
           },
         },
       }))(TableRow);
+
+      const [data, setdata]=React.useState([]);
     
+      const fetchproviderdata = () => {
+        var requestOptions = {
+          method: 'GET'
+        };
+        fetch("https://providerdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+        .then((resp) => resp.json())
+        .then((response) => {
+          setdata(response)
+          console.log(data)
+        })
+        .catch(error => console.log('error', error));
+      }
+      useEffect(() => { 
+        fetchproviderdata();
+      },[])
+
+      console.log(data)
 //     const [checked, setChecked] = useState(true);
 
 //   const handleChange = (event) => {
@@ -42,28 +61,35 @@ export default function ProviderInform() {
               <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Code</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Contact No</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Provider Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>Contact Number</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Specialization</TableCell>
+                {/* <TableCell style={{ fontWeight: 'bold'}}>Specialization</TableCell> */}
                 <TableCell style={{ fontWeight: 'bold'}}>Specialist</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Select Provider</TableCell>
                 </TableRow>
               </TableHead>
-
+        
               <TableBody>
-                        <StyledTableRow>
-                            <StyledTableCell align="left">PCP9755</StyledTableCell>
-                            <StyledTableCell align="left">978-580-1342</StyledTableCell>
-                            <StyledTableCell align="left">7 BARON WAY</StyledTableCell>
-                            <StyledTableCell align="left">Otolaryngologist</StyledTableCell>
-                            <StyledTableCell align="left">Dr.Lorenzo669 Rempel203</StyledTableCell>
-                            <StyledTableCell align="center">
-                                <Checkbox value="PCP9755" />
-                            </StyledTableCell>
-                        </StyledTableRow>
+                {data.slice(0, 3).map((row, index)=>{
+                  return(
+                  <StyledTableRow key={index}>
+                    <StyledTableCell align="left">{row.Provider_name}</StyledTableCell>
+                    <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
+                    <StyledTableCell align="left">{row.Provider_Address}</StyledTableCell>
+                    {/* <StyledTableCell align="left">{row.Specialization}</StyledTableCell> */}
+                    <StyledTableCell align="left">{row.Practitioner_name}</StyledTableCell>
+                    <StyledTableCell align="center">
+                    <Checkbox value={row.Provider_code} />
+                    </StyledTableCell>
+                  </StyledTableRow>
+               
+                  )
+                })}
+                  
+                        
 
-                        <StyledTableRow>
+                        {/* <StyledTableRow>
                             <StyledTableCell align="left">PCP10332</StyledTableCell>
                             <StyledTableCell align="left">781-585-8492</StyledTableCell>
                             <StyledTableCell align="left">19 ANNASNAPPITT DR</StyledTableCell>
@@ -105,7 +131,7 @@ export default function ProviderInform() {
                             <StyledTableCell align="center">
                                 <Checkbox value="PCP26525" />
                             </StyledTableCell>
-                        </StyledTableRow>
+                        </StyledTableRow> */}
                    
               </TableBody>
             </Table>
