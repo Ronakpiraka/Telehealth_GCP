@@ -10,16 +10,8 @@ import TableCell from '@material-ui/core/TableCell';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableContainer from '@material-ui/core/TableContainer';
-// import {Link} from "react-router-dom";
-// import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { makeStyles } from '@material-ui/core/styles';
-// import AppBar from '@material-ui/core/AppBar';
-// import Toolbar from '@material-ui/core/Toolbar';
-// import Typography from '@material-ui/core/Typography';
-// import Button from '@material-ui/core/Button';
-// import IconButton from '@material-ui/core/IconButton';
-// import MenuIcon from '@material-ui/icons/Menu';
-// import CIcon from '@coreui/icons-react'
+import { makeStyles,alpha ,withStyles} from '@material-ui/core/styles';
+
 import ChartLineSimple from '../charts/ChartLineSimple'
 // import ChartBarSimple from '../charts/ChartBarSimple'
 import {
@@ -33,17 +25,75 @@ import {
 } from '@coreui/react'
 
 export default function Device() {
-    const useStyles = makeStyles((theme) => ({
-        root: {
-          flexGrow: 1,
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+    small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    large: {
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: alpha(theme.palette.common.white, 0.35),
+      '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.5),
+      },
+      margin: '10px',
+      float : 'right',
+      boxShadow: '-4px 8px 20px 0px grey',
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: '98%',
+      },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: '100ch',
+        '&:focus': {
+          width: '20ch',
         },
-        menuButton: {
-          marginRight: theme.spacing(2),
-        },
-        title: {
-          flexGrow: 1,
-        },
-      }));
+      },
+    },
+  }));
+  const StyledTableCell = withStyles((theme) => ({
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
       // const classes = useStyles();
       const [data, setdata]=React.useState([]);
 
@@ -54,7 +104,7 @@ export default function Device() {
           method: 'GET'
         };
   
-        fetch("https://patientdata-sh4iojyb3q-uc.a.run.app/", requestOptions)
+        fetch("https://device-sh4iojyb3q-uc.a.run.app/", requestOptions)
         .then((resp) => resp.json())
         .then((response) => {
           setdata(response)
@@ -88,28 +138,28 @@ export default function Device() {
         }
     }   
 
-    const displayName = (row) => {
-      console.log("--------------row")
-      console.log(row);
-        if(row.RemoteCareStatus)//change the logic here
-        // if(row) 
-        {
-          return (
-            <>
-            <TableCell>Device101</TableCell>
-            <TableCell>Oxygen and Temperature</TableCell>
-            <TableCell>{row.Full_name}</TableCell>
-            <TableCell>Oxygen level goes below the threshold</TableCell>
-            <TableCell style={{textAlign:"center"}}>{displayCheckedBox(row)}</TableCell>
-            </>
-          )
-        }
-        else{
-          return(
-            <></>
-          )
-        }
-    }   
+    // const displayName = (row) => {
+    //   console.log("--------------row")
+    //   console.log(row);
+    //     if(row.RemoteCareStatus)//change the logic here
+    //     // if(row) 
+    //     {
+    //       return (
+    //         <>
+    //         <TableCell>Device101</TableCell>
+    //         <TableCell>Oxygen and Temperature</TableCell>
+    //         <TableCell>{row.Full_name}</TableCell>
+    //         <TableCell>Oxygen level goes below the threshold</TableCell>
+    //         <TableCell style={{textAlign:"center"}}>{displayCheckedBox(row)}</TableCell>
+    //         </>
+    //       )
+    //     }
+    //     else{
+    //       return(
+    //         <></>
+    //       )
+    //     }
+    // }   
 
     return (
         <Layout style={{backgroundColor:'black'}}>
@@ -198,15 +248,21 @@ export default function Device() {
                 <TableCell style={{fontWeight: 'bold'}}>Device ID</TableCell>
                 <TableCell style={{fontWeight: 'bold'}}>Device Name</TableCell>
                 <TableCell style={{fontWeight: 'bold'}}>Patient Name</TableCell>
+                <TableCell style={{fontWeight: 'bold'}}>Device Value</TableCell>
                 <TableCell style={{ fontWeight: 'bold'}}>Message</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Remote Care & Consent Form</TableCell>
+                <TableCell style={{ fontWeight: 'bold'}}>DateTime</TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
               {data.map((row) => (
                 <TableRow key={row.Patient_id}>
-                  {displayName(row)}
+                  <StyledTableCell align="left">{row.s.device_id}</StyledTableCell>
+                  <StyledTableCell align="left">Blood-Oxygen Monitor</StyledTableCell>
+                  <StyledTableCell align="left">{row.Full_name}</StyledTableCell>
+                  <StyledTableCell align="left">{row.s.device_value}</StyledTableCell>
+                  <StyledTableCell align="left">{row.s.message}</StyledTableCell>
+                  <StyledTableCell align="left">{row.s.send_time}</StyledTableCell>
                 </TableRow>
                 ))}
                 </TableBody>
