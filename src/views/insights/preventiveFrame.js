@@ -33,7 +33,7 @@ const Preventive= () => {
     }
     else
     {
-        var insighturl = "https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC"
+        var insighturl = "https://datastudio.google.com/embed/reporting/eaef1a6b-44df-407f-920e-4f694336b08c/page/tEnnC"
     }
     
 
