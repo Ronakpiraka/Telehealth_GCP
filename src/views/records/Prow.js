@@ -46,8 +46,8 @@ export default function Prow(props) {
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
       </TableCell>
-      <StyledTableCell align="left">{prow.Provider_code}</StyledTableCell>
       <StyledTableCell align="left" >{prow.Provider_name}</StyledTableCell>
+      <StyledTableCell align="left">{prow.Provider_code}</StyledTableCell>
       <StyledTableCell align="left">{prow.Provider_Address}</StyledTableCell>
       <StyledTableCell align="left" style={{width:'150px'}}>{prow.Provider_number}</StyledTableCell>
     </TableRow>

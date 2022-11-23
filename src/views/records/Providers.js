@@ -141,8 +141,8 @@ export default function ProviderInform() {
               <TableHead style={{}}>
                 <TableRow style={{background:'#4f5d73' }}>
                 <TableCell/>
-                <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width:"27%"}}>Name</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width:"32%"}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact Number</TableCell>
                 </TableRow>
