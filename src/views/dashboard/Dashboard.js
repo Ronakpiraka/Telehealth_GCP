@@ -69,17 +69,14 @@ const Dashboard = () => {
       </CCol>
       <CCol sm="6" lg="3">
         <CWidgetDropdown
-          color="gradient-info"
-          header={dashdetails.Low_Risk_count}
-          text="Low Risk Patients"
+          color="gradient-danger"
+          header={dashdetails.High_Risk_count}
+          text="High Risk Patients"
           footerSlot={
-            <ChartLineSimple
-              pointed
+            <ChartBarSimple
               className="mt-3 mx-3"
               style={{height: '70px'}}
-              dataPoints={[1, 18, 9, 17, 34, 22, 11]}
-              pointHoverBackgroundColor="info"
-              options={{ elements: { line: { tension: 0.00001 }}}}
+              backgroundColor="rgb(250, 152, 152)"
               label="Members"
               labels="months"
             />
@@ -87,6 +84,7 @@ const Dashboard = () => {
         >
         </CWidgetDropdown>
       </CCol>
+
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-warning"
@@ -107,16 +105,20 @@ const Dashboard = () => {
         >
         </CWidgetDropdown>
       </CCol>
+      
       <CCol sm="6" lg="3">
         <CWidgetDropdown
-          color="gradient-danger"
-          header={dashdetails.High_Risk_count}
-          text="High Risk Patients"
+          color="gradient-info"
+          header={dashdetails.Low_Risk_count}
+          text="Low Risk Patients"
           footerSlot={
-            <ChartBarSimple
+            <ChartLineSimple
+              pointed
               className="mt-3 mx-3"
               style={{height: '70px'}}
-              backgroundColor="rgb(250, 152, 152)"
+              dataPoints={[1, 18, 9, 17, 34, 22, 11]}
+              pointHoverBackgroundColor="info"
+              options={{ elements: { line: { tension: 0.00001 }}}}
               label="Members"
               labels="months"
             />
@@ -131,7 +133,7 @@ const Dashboard = () => {
         <CCardGroup className="mb-4">
           <CWidgetProgressIcon
             header={dashdetails.active_count}
-            text="New Patients"
+            text="Providers"
             color="gradient-info"
             inverse
           >
@@ -139,7 +141,7 @@ const Dashboard = () => {
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
             header={dashdetails.active_count}
-            text="Active Cases"
+            text="Practitioners"
             color="gradient-success"
             inverse
           >
@@ -147,7 +149,7 @@ const Dashboard = () => {
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
             header={dashdetails.Provider_count}
-            text="Facilities"
+            text="Condition"
             color="gradient-warning"
             inverse
           >
@@ -155,7 +157,7 @@ const Dashboard = () => {
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
             header={dashdetails.care_insights_count}
-            text="Care Insights"
+            text="Procedures"
             color="gradient-primary"
             inverse
           >
@@ -163,7 +165,7 @@ const Dashboard = () => {
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
             header={dashdetails.claims_count}
-            text="Insurance Code"
+            text="Vaccines"
             color="gradient-danger"
             inverse
           >
