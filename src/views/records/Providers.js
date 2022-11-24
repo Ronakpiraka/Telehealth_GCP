@@ -139,12 +139,13 @@ export default function ProviderInform() {
             </div>
           <TableContainer style={{ maxHeight: 300 }}>
             <Table stickyHeader aria-label="sticky table">
-              <TableHead style={{}}>
+              <TableHead style={{font: 'strong'}}>
                 <TableRow style={{background:'#4f5d73' }}>
                 <TableCell/>
-                <TableCell style={{ fontWeight: 'bold', width:"27%"}}>Name</TableCell>
+                {/* <TableCell style={{ fontWeight: 'bold', width:"5%"}}></TableCell> */}
+                <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"32%"}}>Address</TableCell>
+                <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact Number</TableCell>
                 </TableRow>
               </TableHead>

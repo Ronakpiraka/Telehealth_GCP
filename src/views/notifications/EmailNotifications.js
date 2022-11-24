@@ -107,7 +107,6 @@ export default function EmailNotify() {
         const form = useRef();
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
-
         useEffect(() => { 
           const res= fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
             method: 'GET',
@@ -119,7 +118,6 @@ export default function EmailNotify() {
               console.log(error)
               });
         },[])
-        
         const handleChangePage = (event, newPage) => {
             setpage(newPage);
         };
@@ -127,12 +125,10 @@ export default function EmailNotify() {
           setRowsPerPage(parseInt(event.target.value, 10));
           setpage(0);
         };
-
         const senddata = (name, doctor,guardian_email) =>{
           var url =  `/notifications?Patient_name=${name}&doctor=${doctor}`;
           history.push(`${url}`);
         }
-
         const sendemail = (name, doctor,guardian_email) => {
               emailjs.send(
                 "service_jo0oe0n",
@@ -142,14 +138,11 @@ export default function EmailNotify() {
                 .then(function(response) {
                   console.log('SUCCESS!', response.status, response.text);
                   toast.success("Meeting with Patient "+ name+" is Scheduled");
-                 
                   senddata(name, doctor,guardian_email);
               }, function(error) {
                   console.log('FAILED...', error);
                   alert(error)
               });
-
-              
             };
         // const sendemail=(patient, doctor, risk)=>{
         //   // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
@@ -185,19 +178,19 @@ export default function EmailNotify() {
           if(cluster_label === 0)
           {
             return(
-              <CBadge color="warning" className="mfs-auto" fontSize='22px'>Low Risk</CBadge>
+              <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center' >Low Risk</CBadge>
             )
           }
           else if(cluster_label === 2)
           {
             return(
-              <CBadge color="danger" className="mfs-auto" fontSize='22px'>High Risk</CBadge>
+              <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>Critical Condition</CBadge>
             )
           }
           else
           {
             return(
-              <CBadge color="info" className="mfs-auto" fontSize='22px'>Medium Risk</CBadge>
+              <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >Non - Critical Condition</CBadge>
             )
           } 
         }
@@ -233,7 +226,7 @@ export default function EmailNotify() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.filter(val=>{
+                {data.reverse(data.Risk_Category).filter(val=>{
                   if(searchTerm === "")
                   {
                     return val;

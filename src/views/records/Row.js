@@ -109,52 +109,52 @@ export default function Row(props) {
         </IconButton>
       </TableCell>
       {/* <TableCell>{row.id}</TableCell> */}
-      <TableCell align="left" component="th" scope="row" style={{width:"25%", color:'#0d6efd'}}>
-      <BsFillPersonFill size={25}/> &nbsp;&nbsp;
+      <TableCell align="left" component="th" scope="row" style={{width:"25%"}}>
+      <BsFillPersonFill size={18}/> &nbsp;&nbsp;
         <a
             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
             target="_blank"
-            style={{ padding: '0px 0px 0px 0px' }}
+            style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
             onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
             onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}
           >
             {/* main patient data */}
-            {row.Full_name}
+            <b>{row.Full_name}</b>
         </a>
       </TableCell>
       <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
       <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
       <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-      <StyledTableCell align="left">{row.RemoteCareText}</StyledTableCell>
+      <StyledTableCell align="left" aria-sort='desc'>{row.RemoteCareText}</StyledTableCell>
       <StyledTableCell align="left">{row.ConsentFormText}</StyledTableCell>
     </TableRow>
     <StyledTableRow>
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box margin={1}>
-            <Typography variant="h6" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}>
+            <Typography variant="h5" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}><b>
               Patient Visits
-            </Typography>
+              </b></Typography>
             <Table size="small" aria-label="provider">
               <TableHead>
               </TableHead>
               <TableBody>
                 <TableRow>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                   <TableCell style={{ fontWeight: 'bold'}}>Provider Name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold', width:'20%'}}>Practitioner Name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Reason of Visit</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Encounter Start Date</TableCell>
-                   <TableCell style={{ fontWeight: 'bold'}}>Encounter End Date</TableCell>
+                   <TableCell style={{ fontWeight: 'bold', width: '25%'}}>Provider Name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>Practitioner Name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>Reason of Visit</TableCell>
+                   <TableCell style={{ fontWeight: 'bold', width: '15%'}}>Start Time</TableCell>
+                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>End Time</TableCell>
                    </TableRow>
                {/* {console.log(data.org)} row.Patient_id*/}
                 {visits_new.length > 0 && visits_new.map((item) =>
                    <StyledTableRow key={item.patientId}>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
                    <StyledTableCell style={{width:"25%"}}>{item.Provider_name}</StyledTableCell>
-                   <StyledTableCell style={{width:"18%"}}>{item.Practitioner_name}</StyledTableCell>
-                   <StyledTableCell style={{width:"22%"}}>{item.Reason_name}</StyledTableCell>
-                   <StyledTableCell style={{width:"20%"}}>{item.Encounter_start}</StyledTableCell>
+                   <StyledTableCell style={{width:"20%"}}>{item.Practitioner_name}</StyledTableCell>
+                   <StyledTableCell style={{width:"20%"}}>{item.Reason_name}</StyledTableCell>
+                   <StyledTableCell style={{width:"15%"}}>{item.Encounter_start}</StyledTableCell>
                    <StyledTableCell style={{width:"20%"}}>{item.Encounter_end}</StyledTableCell>
                    </StyledTableRow>
                  )

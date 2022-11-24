@@ -51,7 +51,7 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-primary"
-          header={dashdetails.total_patient_count}
+          header={dashdetails.Patient_count}
           text="Total Patients"
           footerSlot={
             <ChartLineSimple
@@ -70,8 +70,8 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-danger"
-          header={dashdetails.High_Risk_count}
-          text="High Risk Patients"
+          header={dashdetails.high_risk_count}
+          text="Critical Patients"
           footerSlot={
             <ChartBarSimple
               className="mt-3 mx-3"
@@ -88,8 +88,8 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-warning"
-          header={dashdetails.Med_Risk_count}
-          text="Medium Risk Patients"
+          header={dashdetails.med_risk_count}
+          text="Non - Critical Patients"
           footerSlot={
             <ChartLineSimple
               className="mt-3"
@@ -109,7 +109,7 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-info"
-          header={dashdetails.Low_Risk_count}
+          header={dashdetails.low_risk_count}
           text="Low Risk Patients"
           footerSlot={
             <ChartLineSimple
@@ -132,7 +132,7 @@ const Dashboard = () => {
 
         <CCardGroup className="mb-4">
           <CWidgetProgressIcon
-            header={dashdetails.active_count}
+            header={dashdetails.Provider_count}
             text="Providers"
             color="gradient-info"
             inverse
@@ -140,7 +140,7 @@ const Dashboard = () => {
             <CIcon name="cil-people" height="36" />
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
-            header={dashdetails.active_count}
+            header={dashdetails.Practitioner_count}
             text="Practitioners"
             color="gradient-success"
             inverse
@@ -148,7 +148,7 @@ const Dashboard = () => {
             <CIcon name="cil-userFollow" height="36" />
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
-            header={dashdetails.Provider_count}
+            header={dashdetails.Condition_count}
             text="Condition"
             color="gradient-warning"
             inverse
@@ -156,7 +156,7 @@ const Dashboard = () => {
             <CIcon name="cil-basket" height="36" />
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
-            header={dashdetails.care_insights_count}
+            header={dashdetails.Procedure_count}
             text="Procedures"
             color="gradient-primary"
             inverse
@@ -164,7 +164,7 @@ const Dashboard = () => {
             <CIcon name="cil-chartPie" height="36" />
           </CWidgetProgressIcon>
           <CWidgetProgressIcon
-            header={dashdetails.claims_count}
+            header={dashdetails.Vaccines_ad}
             text="Vaccines"
             color="gradient-danger"
             inverse
