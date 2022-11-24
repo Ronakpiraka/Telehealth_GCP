@@ -29,30 +29,33 @@ export default function Row(props) {
       },
     },
   }))(TableRow);
+
     const { row, sendVisitsBack } = props;
-    // console.log(row);
     const [open, setopen] = React.useState(false);
+    const [visits, setvisits] = React.useState([]);
+    const [visits_new, setvisits_new] = React.useState([])
     const history = useHistory();
     var url;
+
     const redirectToPatientDetails = (e, Patient_id) => {
       url = `/records/patientdetails?Patient_id=${Patient_id}`;
       history.push(`${url}`);
   }
-  const [visits, setvisits] = React.useState([]);
+  
   const fetchvisitsdata = () => {
     console.log("check function")
-  var requestOptions = {
-    method: 'GET'
-  };
-  fetch("https://patientvisit-sh4iojyb3q-uc.a.run.app", requestOptions)
-  .then((resp) => resp.json())
-  .then((response) => {
+    var requestOptions = {
+      method: 'GET'
+    };
+    fetch("https://patientvisit-sh4iojyb3q-uc.a.run.app", requestOptions)
+    .then((resp) => resp.json())
+    .then((response) => {
     setvisits(response)
     console.log(visits)
-    // console.log( eval(JSON.stringify(data)));
-  })
-  .catch(error => console.log('error', error));
+    })
+    .catch(error => console.log('error', error));
   }
+
   useEffect(() => { 
     console.log("hello useeffect")
     // this.setState({isLoading:true})
@@ -69,8 +72,9 @@ export default function Row(props) {
     //   console.log(data)
     // })
     fetchvisitsdata();
-  })
-  const [visits_new, setvisits_new] = React.useState([])
+  },[])
+
+ 
   useEffect(() => {
     const visits_temp = visits.filter(function(item) {
       if (item.patientId == row.Patient_id){
@@ -78,7 +82,7 @@ export default function Row(props) {
       }
     })
     setvisits_new(visits_temp)
-    sendVisitsBack(visits)
+    // sendVisitsBack(visits)
   }, [visits])
   const displayCheckedBox = (row) => {
     // console.log("--------------row")
@@ -105,14 +109,14 @@ export default function Row(props) {
         </IconButton>
       </TableCell>
       {/* <TableCell>{row.id}</TableCell> */}
-      <TableCell align="left" component="th" scope="row" style={{width:"25%"}}>
+      <TableCell align="left" component="th" scope="row" style={{width:"25%", color:'#0d6efd'}}>
       <BsFillPersonFill size={25}/> &nbsp;&nbsp;
         <a
             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
             target="_blank"
             style={{ padding: '0px 0px 0px 0px' }}
-            onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
-            onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
+            onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
+            onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}
           >
             {/* main patient data */}
             {row.Full_name}
@@ -135,13 +139,13 @@ export default function Row(props) {
               <TableHead>
               </TableHead>
               <TableBody>
-                <TableRow key="{item.patientId}">
+                <TableRow>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>Provider_name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>Practitioner_name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>Reason_name</TableCell>
-                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>Encounter_start</TableCell>
-                   <TableCell style={{ fontWeight: 'bold', width: '20%'}}>Encounter_end</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Provider Name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold', width:'20%'}}>Practitioner Name</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Reason of Visit</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Encounter Start Date</TableCell>
+                   <TableCell style={{ fontWeight: 'bold'}}>Encounter End Date</TableCell>
                    </TableRow>
                {/* {console.log(data.org)} row.Patient_id*/}
                 {visits_new.length > 0 && visits_new.map((item) =>
@@ -150,8 +154,8 @@ export default function Row(props) {
                    <StyledTableCell style={{width:"25%"}}>{item.Provider_name}</StyledTableCell>
                    <StyledTableCell style={{width:"18%"}}>{item.Practitioner_name}</StyledTableCell>
                    <StyledTableCell style={{width:"22%"}}>{item.Reason_name}</StyledTableCell>
-                   <StyledTableCell style={{width:"13%"}}>{item.Encounter_start}</StyledTableCell>
-                   <StyledTableCell style={{width:"15%"}}>{item.Encounter_end}</StyledTableCell>
+                   <StyledTableCell style={{width:"20%"}}>{item.Encounter_start}</StyledTableCell>
+                   <StyledTableCell style={{width:"20%"}}>{item.Encounter_end}</StyledTableCell>
                    </StyledTableRow>
                  )
                  }

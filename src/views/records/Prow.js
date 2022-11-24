@@ -6,6 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -46,7 +47,7 @@ export default function Prow(props) {
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
       </TableCell>
-      <StyledTableCell align="left" >{prow.Provider_name}</StyledTableCell>
+      <StyledTableCell align="left" ><AccountBalanceIcon size={25}/> &nbsp;&nbsp;{prow.Provider_name}</StyledTableCell>
       <StyledTableCell align="left">{prow.Provider_code}</StyledTableCell>
       <StyledTableCell align="left">{prow.Provider_Address}</StyledTableCell>
       <StyledTableCell align="left" style={{width:'150px'}}>{prow.Provider_number}</StyledTableCell>
