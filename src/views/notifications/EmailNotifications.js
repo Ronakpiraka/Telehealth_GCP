@@ -201,7 +201,7 @@ export default function EmailNotify() {
         }
     return (
       <div>
-        <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Notifications Panel</strong></p>
+        <p style={{fontSize:'30px', textAlign:'center', color : '4f5d73'}}><strong>Patient Notifications Panel</strong></p>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
