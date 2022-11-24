@@ -37,7 +37,7 @@ const Charts = () => {
 		console.log('-------------------------------------------------------')
 		setsinglepatientid(singlepatientid)
 
-  })
+  },[])
 
   // const fetchQSDashboard = () => {
   //   var requestOptions = {

@@ -131,7 +131,7 @@ export default function PatientInform() {
       // })
 
       fetchpatientdata();
-  })
+  },[])
 
   console.log(data)
 
@@ -256,7 +256,7 @@ export default function PatientInform() {
               </TableHead>
 
               <TableBody>
-                {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter(val=>{
+                {data.filter(val=>{
                   if(searchTerm === "")
                   {
                     return val;
@@ -267,27 +267,22 @@ export default function PatientInform() {
                     (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     (val.RemoteCareText.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     (val.ConsentFormText.toLowerCase().includes(searchTerm.toLowerCase()))
-                    // (val.item.Provider_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.Practitioner_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.Reason_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.Encounter_start.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.item.Encounter_end.toString().toLowerCase().includes(searchTerm.toLowerCase()))
-                  ) {
+                  ){
+                    return val
                   }
-                })
+                }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return(
                       <Row key={row.name} row={row} />
-                       );
-                      })}
-
+                  );
+                  })}
                  </TableBody>   
               </Table>
           </TableContainer>
         </Paper>
 
         <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[5, 10, 25, 50, 100, 150]}
                 component="div"
                 count={data.length}
                 rowsPerPage={rowsPerPage}

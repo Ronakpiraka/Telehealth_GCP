@@ -153,29 +153,6 @@ export default function Device() {
         }
     }   
 
-    // const displayName = (row) => {
-    //   console.log("--------------row")
-    //   console.log(row);
-    //     if(row.RemoteCareStatus)//change the logic here
-    //     // if(row) 
-    //     {
-    //       return (
-    //         <>
-    //         <TableCell>Device101</TableCell>
-    //         <TableCell>Oxygen and Temperature</TableCell>
-    //         <TableCell>{row.Full_name}</TableCell>
-    //         <TableCell>Oxygen level goes below the threshold</TableCell>
-    //         <TableCell style={{textAlign:"center"}}>{displayCheckedBox(row)}</TableCell>
-    //         </>
-    //       )
-    //     }
-    //     else{
-    //       return(
-    //         <></>
-    //       )
-    //     }
-    // }   
-
     return (
       <>
         {/* <Layout style={{backgroundColor:'black'}}> */}
@@ -210,7 +187,21 @@ export default function Device() {
               </TableHead>
 
               <TableBody>
-              {data.map((row) => (
+              {data.filter(val=>{
+                  if(searchTerm === "")
+                  {
+                    return val;
+                  }
+                  else if((val.s.device_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Full_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.s.device_value.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.s.message.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.s.send_time.toLowerCase().includes(searchTerm.toLowerCase()))
+                ) {
+                  return val
+                }
+              }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => (
                 <TableRow key={row.Patient_id}>
                   <StyledTableCell align="left">{row.s.device_id}</StyledTableCell>
                   <StyledTableCell align="left">Blood-Oxygen Monitor</StyledTableCell>

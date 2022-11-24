@@ -27,6 +27,7 @@ export default function Notify(){
         
         // notify()
     },[])
+    
     return (
         <div className="notify">
             {/* <button onClick={notify}>Click Me!</button> */}

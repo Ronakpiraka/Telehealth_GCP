@@ -107,6 +107,7 @@ export default function EmailNotify() {
         const form = useRef();
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
+
         useEffect(() => { 
           const res= fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
             method: 'GET',
@@ -118,6 +119,7 @@ export default function EmailNotify() {
               console.log(error)
               });
         },[])
+        
         const handleChangePage = (event, newPage) => {
             setpage(newPage);
         };
