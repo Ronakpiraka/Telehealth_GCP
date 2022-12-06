@@ -263,7 +263,6 @@ export default function PatientInform() {
                     );
                   })}
               </>
-              {/* {console.log("Visits in Patient.js:", visits)} */}
               <>
               {visits.filter(val => {
                 if (searchTerm === "") {
