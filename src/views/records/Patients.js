@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Avatar from '@material-ui/core/Avatar';
@@ -12,6 +12,7 @@ import { TableOutlined, UserOutlined, AreaChartOutlined } from '@ant-design/icon
 import { Layout, Menu } from 'antd';
 import Input from '@material-ui/core/Input';
 import { Link } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import { Dropdown, message } from 'antd';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
@@ -24,7 +25,36 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import Modal from '@mui/material/Modal';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import ShowModal from './showmodal';
+
 export default function PatientInform() {
+  const StyledTableCell = withStyles((theme) => ({
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
+
+  const modalstyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    };
+
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -90,11 +120,35 @@ export default function PatientInform() {
   const [ordPlaced, setordPlaced] = React.useState(5);
   const classes = useStyles();
   const [visits, setvisits] = React.useState([]);
+  const [modalopen, setmodalopen] = useState(false);
+  const [showMessage, setshowMessage] = useState(true);
+  const [iframeurl, setiframeurl] = useState();
+  const { Header, Sider, Content } = Layout;
+  const { Search } = Input;
+  var url;
+  const history = useHistory();
+
   const sendVisitsBack = (visitsRet) => {
     setvisits(visitsRet);
   }
-  const { Header, Sider, Content } = Layout;
-  const { Search } = Input;
+
+  const modalhandleOpen = (event) => {
+    setmodalopen(true);
+    setshowMessage(true);
+    const patientId = event.target.dataset.patientId;
+    console.log(patientId);
+    setiframeurl(patientId);
+  }
+
+  const modalhandleClose = () => {
+    setmodalopen(false);
+  }
+
+  const handleChange = event => {
+    setshowMessage(false);
+    event.preventDefault();
+  }
+
   const fetchpatientdata = () => {
     console.log("check function")
     var requestOptions = {
@@ -110,6 +164,7 @@ export default function PatientInform() {
       })
       .catch(error => console.log('error', error));
   }
+
   useEffect(() => {
     console.log("hello useeffect")
     // this.setState({isLoading:true})
@@ -126,8 +181,10 @@ export default function PatientInform() {
     //   console.log(data)
     // })
     fetchpatientdata();
-  })
+  },[])
+
   console.log(data)
+
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item icon={<UserOutlined />}>
@@ -135,78 +192,46 @@ export default function PatientInform() {
       </Menu.Item>
     </Menu>
   );
-  function handleMenuClick(e) {
-    message.info('Logout Successful');
+
+    function handleMenuClick(e) {
+      message.info('Logout Successful');
+    }
+
+    const handleChangePage = (event, newPage) => {
+      setpage(newPage);
+    };
+
+    const handleChangeRowsPerPage = event => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setpage(0);
+    };
+
+    function toggle() {
+      setcollapsed(!collapsed)
+    };
+
+  const redirectToPatientDetails = (e, Patient_id) => {
+    url = `/records/patientdetails?Patient_id=${Patient_id}`;
+    history.push(`${url}`);
   }
-  const handleChangePage = (event, newPage) => {
-    setpage(newPage);
-  };
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setpage(0);
-  };
-  function toggle() {
-    setcollapsed(!collapsed)
-  };
+
   return (
     <>
-      {/* <Sider width={230} trigger={null} collapsible collapsed={collapsed}>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['2']}>
-          <Menu.Item key="1" icon={<DashboardIcon style={{fontSize:'24px'}}/> } >
-            <Link to="/dashboard">Dashboard </Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<TableOutlined style={{fontSize:'24px'}}/>}>
-              <Link to="/patientinfo">Patients</Link>
-             </Menu.Item>
-            <Menu.Item key="3" icon={<TableOutlined  style={{fontSize:'24px'}}/>}>
-              <Link to="/providerinfo">Providers</Link>
-            </Menu.Item>
-            <Menu.Item key="4" icon={<AreaChartOutlined style={{fontSize:'24px'}}/>}>
-              <Link to ="/insights">Care Insights</Link>
-            </Menu.Item>
-            <Menu.Item key="5" icon={<DevicesOtherIcon style={{fontSize:'24px'}}/>}>
-              <Link to="/device">Device Management</Link>
-            </Menu.Item>
-            <Menu.Item key="6" icon={<VideocamIcon style={{fontSize:'24px'}}/>}>
-            <Link to ="/consultation">Video Consultation</Link>
-            </Menu.Item>
-            <Menu.Item key="7" icon={<AssessmentRoundedIcon style={{fontSize:'24px'}}/>}>
-             <Link to="/reports">Reports</Link>
-            </Menu.Item>
-            <Menu.Item key="8" icon={<AirportShuttleIcon style={{fontSize:'24px'}}/>}>
-              <Link to ="/ambulanceservices">Ambulance Services</Link>
-            </Menu.Item>
-          </Menu>
-        </Sider> */}
-      {/* <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }}>
-          <div style={{float:"left", marginLeft:"5px", fontWeight:"bolder"}}>
-            {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                  className: 'trigger',
-                  onClick: toggle,
-                })}
-            </div>
-             <p style={{fontSize:'26px', color:"#1890ff",  marginLeft:"200px"}}>Remote Patient Monitoring
-             <div style={{float:"right",margin:"8px"}}>
-              <Dropdown overlay={menu} >
-                <a className="ant-dropdown-link" >
-                <Avatar src="/broken-image.jpg" className={classes.large} style={{backgroundColor: '#1890ff'}}/>
-                </a>
-              </Dropdown>
-            </div>
-            <h6 style={{fontSize:"16px", color:"black", float:"right", marginRight:"5px"}}>Welcome Steve</h6>
-            <span style={{float: "right", display: "inline-block", margin: "20px -120px", fontSize: "16px"}}>Care Services Admin</span>
-            </p>
-          </Header>
-          <Content
-            className="site-layout-background"
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              minHeight: 500,
-            }}
-          > */}
       <h2 style={{ textAlign:'center', color:'#4f5d73' }}><strong>Patient Details</strong></h2>
+      <Modal
+          open={modalopen}
+          onClose={modalhandleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          onClick={handleChange}
+        >
+          <Box sx={modalstyle}>
+          <Typography id="modal-modal-description" >
+            {showMessage && <ShowModal patientId={iframeurl}/>}
+          </Typography>
+          </Box>
+        </Modal>
+      
       <Paper style={{ width: '100%', overflow: 'hidden' }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
@@ -222,23 +247,23 @@ export default function PatientInform() {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-        <TableContainer>
+        <TableContainer  style={{ maxHeight: 300 }}>
           <Table aria-label="collapsible table">
             <TableHead>
               <TableRow style={{ padding: '0px' }}>
-                <TableCell />
+                {/* <TableCell /> */}
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
                 <TableCell style={{ fontWeight: 'bold', width: '26%' }}>Name</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width: '26%' }}>Address</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</TableCell>
                 <TableCell style={{ fontWeight: 'bold', width: '14%' }}>Contact No</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: '15%' }}>Remote Care</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: '15%' }}>Consent Form</TableCell>
+                {/* {/* <TableCell style={{ fontWeight: 'bold', width: '15%' }}>Remote Care</TableCell> */}
+                <TableCell style={{ fontWeight: 'bold', width: '15%' }}>Additional Info</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <>
-                {data.reverse(data.RemoteCareText).filter(val => {
+                {data.filter(val => {
                   if (searchTerm === "") {
                     return val;
                   }
@@ -248,39 +273,37 @@ export default function PatientInform() {
                     (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     (val.RemoteCareText.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     (val.ConsentFormText.toLowerCase().includes(searchTerm.toLowerCase()))
-                    // (val.item.Provider_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.Practitioner_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.Reason_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.Encounter_start.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                    // (val.item.item.Encounter_end.toString().toLowerCase().includes(searchTerm.toLowerCase()))
                   ) {
                     return val
                   }
-                }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                 }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                      <Row key={row.name} row={row} sendVisitsBack={sendVisitsBack}/>
+                    <TableRow>
+                      {/* <TableCell>
+                      <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
+                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                      </IconButton>
+                    </TableCell> */}
+                    <TableCell align="left" component="th" scope="row" style={{width:"25%"}}>
+                      <a
+                          onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
+                          target="_blank"
+                          style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
+                          onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
+                          onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}
+                        >
+                          <b>{row.Full_name}</b>
+                      </a>
+                    </TableCell>
+                    <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
+                    <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
+                    <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
+                    <StyledTableCell align="left" aria-sort='desc'><button type="button"  data-patient-id={row.Patient_id} class="btn btn-primary btn-sm" onClick={modalhandleOpen}>More Details</button></StyledTableCell>
+                    </TableRow>
                     );
                   })}
-              </>
-              <>
-              {visits.filter(val => {
-                if (searchTerm === "") {
-                  return val;
-                } else if ((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                (val.Reason_name.toLowerCase().includes(searchTerm.toLowerCase())) 
-                ) {
-                  return val;
-                }
-              }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  console.log(row)
-                  return (
-                    <Row row={row} sendVisitsBack={sendVisitsBack}/>
-                  );
-                })}
-              </>
+                  </>
             </TableBody>
           </Table>
         </TableContainer>
@@ -291,8 +314,8 @@ export default function PatientInform() {
         count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
       {/*  </Content> */}
     </>

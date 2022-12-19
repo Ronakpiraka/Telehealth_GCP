@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react'
+import React , {useEffect, useState} from 'react'
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Table from '@material-ui/core/Table';
@@ -14,8 +14,11 @@ import {useHistory} from "react-router-dom";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import {withStyles } from '@material-ui/core/styles';
+import Modal from '@mui/material/Modal';
 import Avatar from '@material-ui/core/Avatar';
 import { BsFillPersonFill } from "react-icons/bs";
+import ShowModal from './showmodal';
+
 export default function Row(props) {
   const StyledTableCell = withStyles((theme) => ({
     body: {
@@ -29,19 +32,51 @@ export default function Row(props) {
       },
     },
   }))(TableRow);
+  const modalstyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '70%',
+    height: '70%',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    };
 
     const { row, sendVisitsBack } = props;
     const [open, setopen] = React.useState(false);
     const [visits, setvisits] = React.useState([]);
     const [visits_new, setvisits_new] = React.useState([])
     const history = useHistory();
+    const [modalopen, setmodalopen] = useState(false);
+    const [showMessage, setshowMessage] = useState(true);
+    const [showMessage2, setshowMessage2] = useState(false);
+    const [iframeurl, setiframeurl] = useState();
     var url;
-
+    
     const redirectToPatientDetails = (e, Patient_id) => {
       url = `/records/patientdetails?Patient_id=${Patient_id}`;
       history.push(`${url}`);
+    }
+
+    const modalhandleOpen = () => {
+        setmodalopen(true);
+        setshowMessage(true);
+        setshowMessage2(false);
+    }
+
+    const modalhandleClose = () => {
+        setmodalopen(false);
+    }
+
+  const handleChange = event => {
+    setshowMessage(false);
+    setshowMessage2(true);
+    event.preventDefault();
   }
-  
+
   const fetchvisitsdata = () => {
     console.log("check function")
     var requestOptions = {
@@ -55,26 +90,9 @@ export default function Row(props) {
     })
     .catch(error => console.log('error', error));
   }
-
   useEffect(() => { 
-    console.log("hello useeffect")
-    // this.setState({isLoading:true})
-    // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             // 'Access-Control-Allow-Methods': 'GET',
-    //             // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-    //             // 'Access-Control-Allow-Origin' : '*'
-    //         },
-    //     }).then((data) => data.json()).then((resp) => {
-    //   setdata(resp)
-    //   console.log(data)
-    // })
     fetchvisitsdata();
   },[])
-
- 
   useEffect(() => {
     const visits_temp = visits.filter(function(item) {
       if (item.patientId == row.Patient_id){
@@ -82,11 +100,9 @@ export default function Row(props) {
       }
     })
     setvisits_new(visits_temp)
-    // sendVisitsBack(visits)
   }, [visits])
+  
   const displayCheckedBox = (row) => {
-    // console.log("--------------row")
-    // console.log(row);
       if(row.RemoteCareStatus)//change the logic here
       {
         return (
@@ -101,16 +117,27 @@ export default function Row(props) {
   }   
     return (
       <React.Fragment>
-      {/* <Row row={data}/> */}
+        <Modal
+          open={modalopen}
+          onClose={modalhandleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          onClick={handleChange}
+        >
+          <Box sx={modalstyle}>
+          <Typography id="modal-modal-description" >
+            {console.log(iframeurl)}
+            {showMessage && <ShowModal patientId={row.patientId}/>}
+          </Typography>
+          </Box>
+        </Modal>
        <TableRow>
-        <TableCell>
+        {/* <TableCell>
         <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </IconButton>
-      </TableCell>
-      {/* <TableCell>{row.id}</TableCell> */}
+      </TableCell> */}
       <TableCell align="left" component="th" scope="row" style={{width:"25%"}}>
-      <BsFillPersonFill size={18}/> &nbsp;&nbsp;
         <a
             onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
             target="_blank"
@@ -125,16 +152,16 @@ export default function Row(props) {
       <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
       <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
       <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-      <StyledTableCell align="left" aria-sort='desc'>{row.RemoteCareText}</StyledTableCell>
-      <StyledTableCell align="left">{row.ConsentFormText}</StyledTableCell>
-    </TableRow>
-    <StyledTableRow>
+      {/* <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell> */}
+      {/* <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
+      <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell> */}
+      {/* <StyledTableCell align="left" aria-sort='desc'>{row.RemoteCareText}</StyledTableCell> */}
+      <StyledTableCell align="left" aria-sort='desc'><button type="button" class="btn btn-primary btn-sm" onClick={(e) => { modalhandleOpen()}}>More Details</button></StyledTableCell>
+      </TableRow>
+      <StyledTableRow>
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box margin={1}>
-            <Typography variant="h5" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}><b>
-              Patient Visits
-              </b></Typography>
             <Table size="small" aria-label="provider">
               <TableHead>
               </TableHead>
@@ -147,7 +174,7 @@ export default function Row(props) {
                    <TableCell style={{ fontWeight: 'bold', width: '15%'}}>Start Time</TableCell>
                    <TableCell style={{ fontWeight: 'bold', width: '20%'}}>End Time</TableCell>
                    </TableRow>
-               {/* {console.log(data.org)} row.Patient_id*/}
+                {/* {console.log(data.org)} row.Patient_id*/}
                 {visits_new.length > 0 && visits_new.map((item) =>
                    <StyledTableRow key={item.patientId}>
                    {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
