@@ -80,11 +80,13 @@ export default function ProviderInform() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [ordPlaced, setordPlaced] = React.useState(10);
   const classes = useStyles();
+
   const StyledTableCell = withStyles((theme) => ({
     body: {
       fontSize: 14,
     },
   }))(TableCell);
+
   const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
@@ -92,6 +94,7 @@ export default function ProviderInform() {
       },
     },
   }))(TableRow);
+
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
   };
@@ -102,6 +105,7 @@ export default function ProviderInform() {
   function toggle() {
     setcollapsed(!collapsed)
   };
+
   const fetchproviderdata = () => {
     var requestOptions = {
       method: 'GET'
@@ -115,6 +119,7 @@ export default function ProviderInform() {
       })
       .catch(error => console.log('error', error));
     }
+
     useEffect(() => { 
       fetchproviderdata();
     },[])
@@ -140,14 +145,14 @@ export default function ProviderInform() {
           <TableContainer style={{ maxHeight: 300 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead style={{font: 'strong'}}>
-                <TableRow style={{background:'#4f5d73' }}>
-                <TableCell/>
-                {/* <TableCell style={{ fontWeight: 'bold', width:"5%"}}></TableCell> */}
-                <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact Number</TableCell>
-                </TableRow>
+                <StyledTableRow style={{background:'#4f5d73' }}>
+                <StyledTableCell/>
+                {/* <StyledTableCell style={{ fontWeight: 'bold', width:"5%"}}></StyledTableCell> */}
+                <StyledTableCell style={{ fontWeight: 'bold', width:"30%"}}>Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width:"30%"}}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact Number</StyledTableCell>
+                </StyledTableRow>
               </TableHead>
               <TableBody>
                 {data.filter(val=>{

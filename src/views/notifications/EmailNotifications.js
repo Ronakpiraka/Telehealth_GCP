@@ -52,7 +52,7 @@ export default function EmailNotify() {
           margin: '10px',
           float : 'right',
           boxShadow: '-4px 8px 20px 0px grey',
-          width: '100%',
+          width: '50%',
           [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(1),
             width: '98%',
@@ -96,6 +96,7 @@ export default function EmailNotify() {
           },
         },
       }))(TableRow);
+
         const [data, setdata]=React.useState([]);
         const [collapsed, setcollapsed]=React.useState(false);
         const [searchTerm, setsearchTerm]=React.useState('');
@@ -107,6 +108,7 @@ export default function EmailNotify() {
         const form = useRef();
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
+
         useEffect(() => { 
           const res= fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
             method: 'GET',
@@ -118,17 +120,21 @@ export default function EmailNotify() {
               console.log(error)
               });
         },[])
+
         const handleChangePage = (event, newPage) => {
             setpage(newPage);
         };
+
         const handleChangeRowsPerPage = event => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setpage(0);
         };
+
         const senddata = (name, doctor,guardian_email) =>{
           var url =  `/notifications?Patient_name=${name}&doctor=${doctor}`;
           history.push(`${url}`);
         }
+
         const sendemail = (name, doctor,guardian_email) => {
               emailjs.send(
                 "service_jo0oe0n",
@@ -174,6 +180,7 @@ export default function EmailNotify() {
         //   //     console.error(err, err.stack);
         //   //   });
         // }
+
         const riskscore=(cluster_label)=>{
           if(cluster_label === 0)
           {
@@ -194,8 +201,10 @@ export default function EmailNotify() {
             )
           } 
         }
+
     return (
       <div>
+        <><button type="button" class="btn btn-primary" style={{float:'right'}}>Check Availability</button></><br/>
         <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Notifications Panel</strong></p>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>

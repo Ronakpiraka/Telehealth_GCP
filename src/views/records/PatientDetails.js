@@ -287,7 +287,7 @@ export default function PatientDetails() {
     }
 
 	const displayViewInsights = (row) => {
-		  if(row.RemoteCareStatus != null)
+		  if(row.RemoteCareStatus == 'Vitals Tracking')
 		  {
 			return (
 				<span>
@@ -386,7 +386,7 @@ export default function PatientDetails() {
 
 	const displayCheckedBox = (row) => {
 		// console.log(row.RemoteCareStatus);
-		  if(row.RemoteCareStatus != null)
+		  if(row.RemoteCareStatus == 'Vitals Tracking')
 		  {
 			return (
 				<p style={{marginLeft: '5px'}}>
