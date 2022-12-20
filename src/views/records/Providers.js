@@ -79,6 +79,9 @@ export default function ProviderInform() {
   const [page, setpage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [ordPlaced, setordPlaced] = React.useState(10);
+
+  const uniqueProviderCode = [] 
+
   const classes = useStyles();
   const StyledTableCell = withStyles((theme) => ({
     body: {
@@ -167,9 +170,15 @@ export default function ProviderInform() {
                 }
               }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((prow, index) => {
-                  return (
-                    <Prow key={prow.Provider_code} prow={prow} data={data}/>
-                  );
+                  if (!uniqueProviderCode.includes(prow.Provider_code)){
+                    uniqueProviderCode.push(prow.Provider_code)
+                    return (
+                      <React.Fragment>
+                        {console.log(prow.Provider_code)}
+                        <Prow key={prow.Provider_code} prow={prow} data={data}/>
+                      </React.Fragment>
+                    );
+                  }
                 })
               }
             </TableBody>

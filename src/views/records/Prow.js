@@ -26,18 +26,20 @@ export default function Prow(props) {
     },
   }))(TableRow);
     const { prow , data} = props;
-    // console.log(prow);
-    // console.log("hiiiiiiiiihihihihihihihihi",data);
     const [open, setopen] = React.useState(false);
-    const [Practdetails, setPractdetails] = React.useState([]);
+    // const [Practdetails, setPractdetails] = React.useState([]);
     var url;
+
+    const [u_provider_code, set_u_provider_code] = React.useState([]);
+
     var pradet = data.filter(val => {
       if (val.Provider_code === prow.Provider_code) {
         return val;
-      }    
+      }  
+
     }
     )
-    console.log(pradet)
+    // console.log(pradet)
     return (
       <React.Fragment>
       {/* <Row row={data}/> */}
@@ -57,9 +59,9 @@ export default function Prow(props) {
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box margin={1}>
-            {/* <Typography variant="h6" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}>
+            {/* <a variant="h6" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}>
               Patient Practdetails
-            </Typography> */}
+            </a> */}
             <Table size="small" aria-label="provider">
               <TableHead style={{ fontWeight: 'bold', color:"blue", margin: "15px"}}>Practitioner Details:  </TableHead>
               <TableBody>
@@ -76,14 +78,6 @@ export default function Prow(props) {
                     <StyledTableCell style={{width:"40%"}}>{item.Practitioner_Email}</StyledTableCell>
                   </StyledTableRow>)
                 }
-                {/* {console.log(prow)} */}
-                   {/* <StyledTableRow key={prow.Practitioner_name}>
-                   <StyledTableCell style={{width:"30%"}}>{prow.Practitioner_name}</StyledTableCell>
-                   <StyledTableCell style={{width:"30%"}}>{prow.Specialization}</StyledTableCell>
-                   <StyledTableCell style={{width:"40%"}}>{prow.Practitioner_Email}</StyledTableCell>
-                   </StyledTableRow> */}
-                  {/* })
-                 } */}
               </TableBody>
             </Table>
           </Box>
