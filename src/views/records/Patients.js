@@ -29,6 +29,9 @@ import Modal from '@mui/material/Modal';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import ShowModal from './showmodal';
+import {
+  CBadge
+} from '@coreui/react';
 
 export default function PatientInform() {
   const StyledTableCell = withStyles((theme) => ({
@@ -165,6 +168,27 @@ export default function PatientInform() {
       .catch(error => console.log('error', error));
   }
 
+  const RemoteStatus=(status)=>{
+    if(status === "Vitals Tracking")
+    {
+      return(
+        <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >{status}</CBadge>
+      )
+    }
+    else if(status === "Not Tracking")
+    {
+      return(
+        <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>{status}</CBadge>
+      )
+    }
+    else{
+      return(
+        <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>{status}</CBadge>
+      )
+    }
+  }
+    
+
   useEffect(() => {
     console.log("hello useeffect")
     // this.setState({isLoading:true})
@@ -247,19 +271,19 @@ export default function PatientInform() {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-        <TableContainer  style={{ maxHeight: 300 }}>
-          <Table aria-label="collapsible table">
+        <TableContainer style={{ maxHeight: 300 }}>
+          <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow style={{ padding: '0px' }}>
+              <StyledTableRow style={{ padding: '0px' }}>
                 {/* <TableCell /> */}
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold', width: '26%' }}>Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: '26%' }}>Address</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</TableCell>
-                <TableCell style={{ fontWeight: 'bold', width: '14%' }}>Contact No</TableCell>
-                {/* {/* <TableCell style={{ fontWeight: 'bold', width: '15%' }}>Remote Care</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold', width: '15%' }}>Additional Info</TableCell>
-              </TableRow>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '26%' }}>Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '26%' }}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '14%' }}>Contact No</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '15%' }}>Remote Care</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '15%' }}>Additional Info</StyledTableCell>
+              </StyledTableRow>
             </TableHead>
             <TableBody>
               <>
@@ -279,13 +303,13 @@ export default function PatientInform() {
                  }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     return (
-                    <TableRow>
-                      {/* <TableCell>
+                    <StyledTableRow key={row.Patient_id}>
+                      {/* <StyledTableCell>
                       <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                       </IconButton>
-                    </TableCell> */}
-                    <TableCell align="left" component="th" scope="row" style={{width:"25%"}}>
+                    </StyledTableCell> */}
+                    <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}} >
                       <a
                           onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
                           target="_blank"
@@ -295,12 +319,13 @@ export default function PatientInform() {
                         >
                           <b>{row.Full_name}</b>
                       </a>
-                    </TableCell>
+                    </StyledTableCell>
                     <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
                     <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
                     <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-                    <StyledTableCell align="left" aria-sort='desc'><button type="button"  data-patient-id={row.Patient_id} class="btn btn-primary btn-sm" onClick={modalhandleOpen}>More Details</button></StyledTableCell>
-                    </TableRow>
+                    <StyledTableCell align="left" >{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
+                    <StyledTableCell align="left" aria-sort='desc'><button type="button"  data-patient-id={row.Patient_id} className="btn btn-primary btn-sm" onClick={modalhandleOpen}>More Details</button></StyledTableCell>
+                    </StyledTableRow>
                     );
                   })}
                   </>

@@ -9,15 +9,6 @@ import {
   CCardGroup,
   CCardHeader
 } from '@coreui/react'
-// import {
-//   CChartBar,
-//   CChartLine,
-//   CChartDoughnut,
-//   CChartRadar,
-//   CChartPie,
-//   CChartPolarArea
-// } from '@coreui/react-chartjs'
-// import { DocsLink } from 'src/reusable'
 
 const Charts = () => {
   const [data, setdata]=React.useState([]);
@@ -25,6 +16,7 @@ const Charts = () => {
   const [singlepatientid, setsinglepatientid] = useState('');
   const location = useLocation();
   var stat, flags;
+  
   var url_p="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC?params=%7B%22df2%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580" + singlepatientid + "%22%7D"
   var url_c="https://datastudio.google.com/embed/reporting/16901bed-1e96-44c2-82c4-b92d4797b0ac/page/tEnnC?params=%7B%22df4%22:%22include%25EE%2580%25800%25EE%2580%2580IN%25EE%2580%2580"+singlepatientid+"%22%7D"
 
