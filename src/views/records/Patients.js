@@ -241,7 +241,7 @@ export default function PatientInform() {
 
   return (
     <>
-      <h2 style={{ textAlign:'center', color:'#4f5d73' }}><strong>Patient Details</strong></h2>
+      <h2 style={{ textAlign:'center', color:'#4f5d73' }}><strong>Patient Information</strong></h2>
       <Modal
           open={modalopen}
           onClose={modalhandleClose}

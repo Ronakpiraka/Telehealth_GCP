@@ -125,8 +125,10 @@ export default function Row(props) {
           onClick={handleChange}
         >
           <Box sx={modalstyle}>
+          <h1 align="center" textcolor="black"> Health Care Details </h1>
           <Typography id="modal-modal-description" >
             {console.log(iframeurl)}
+             
             {showMessage && <ShowModal patientId={row.patientId}/>}
           </Typography>
           </Box>
