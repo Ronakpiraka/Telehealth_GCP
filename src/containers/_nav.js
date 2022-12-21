@@ -28,7 +28,7 @@ const _nav =  [
     _children: [
           {
             _tag: 'CSidebarNavItem',
-            name: 'Continuous care',
+            name: 'Continuous Care',
             to: '/insights/continuous',
           },
           {
