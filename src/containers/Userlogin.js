@@ -1,105 +1,105 @@
-import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
-  CCol,
-  CContainer,
-  CForm,
-//   CFormInput,
-  CInputGroup,
-  CInputGroupText,
-  CRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import {GoogleLogin} from 'react-google-login';
+import Logout from './logout'
+import React , {useEffect, useState} from 'react'
+import {useHistory, useLocation} from "react-router-dom";
 
-const Login = () => {
+const clientid="500600276612-mgjcluoljofc77q5nbdttqve1ma7pr7d.apps.googleusercontent.com"
+
+
+export default function Login(){
 
   const history = useHistory();
+  var access_token
+  const [tokenClient, settokenClient] = useState({})
+  const [data, setdata] = useState({});
 
-  function loginuser(){
-    var user = document.getElementById('username').defaultValue;
-    var pass = document.getElementById('password').defaultValue;
+  function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    sessionStorage.setItem("Accesstoken",response.credential)
 
-    console.log(user,pass);
-
-    if(user == "admin" && pass == "admin"){
-      var url = `/dashboard`;
-      history.push(`${url}`);
-    }
+    var url = `/dashboard`;
+    history.push(`${url}`);
   }
 
-  return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={8}>
-            <CCardGroup>
-              <CCard className="p-4">
-                <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                      Username
-                        <CIcon icon={cilUser} />
-                      </CInputGroupText>
-                      <input placeholder="Username" autoComplete="username" id="username" defaultValue="admin"/>
-                    </CInputGroup>
-                    <CInputGroup className="mb-4">
-                      <CInputGroupText>
-                        Password
-                        <CIcon icon={cilLockLocked} />
-                      </CInputGroupText>
-                      <input
-                        type="password"
-                        id="password"
-                        defaultValue="admin"
-                        placeholder="Password"
-                        autoComplete="current-password"
-                      />
-                    </CInputGroup>
-                    <CRow>
-                      <CCol xs={6}>
-                        <CButton color="primary" className="px-4" onClick={loginuser}>
-                          Login
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
-                        </CButton>
-                      </CCol>
-                    </CRow>
-                  </CForm>
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
-                </CCardBody>
-              </CCard>
-            </CCardGroup>
-          </CCol>
-        </CRow>
-      </CContainer>
+
+  // function getToken() {
+  //   tokenClient.requestAccessToken();
+  //   // getObject();
+  // } 
+
+//   function getObject() {
+//     var accessToken = sessionStorage.getItem("Accesstoken");
+//     const dashboardData = fetch('https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/telehealth-365911.FHIR_Synthea/tables/telehealth-365911.FHIR_Synthea.Patient v3/data', {
+//       method: 'GET',
+//       mode: 'no-cors',
+//       headers: {
+//           'Authorization': 'Bearer ' + accessToken
+//       }
+//     })
+//     .then(resp=>{
+//         setdata(resp)
+//         console.log(data)  
+//       })
+//     .catch(error => {
+//       console.log(error)
+//     });
+// }
+
+  useEffect(()=>{
+    /*global google*/
+    google.accounts.id.initialize({
+      client_id: clientid,
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
+
+  // settokenClient(
+  //   google.accounts.oauth2.initTokenClient({
+  //     client_id: clientid,
+  //     scope: 'email',
+  //     prompt: '',
+  //     callback: (tokenResponse) => {
+  //         access_token = tokenResponse.access_token;
+  //         console.log(access_token)
+          
+  //     },
+  // }));
+  },[])
+
+  // console.log(tokenClient)
+  // tokenClient.requestAccessToken();
+  // console.log(data)
+
+
+  return(
+    <div>
+      <div id="g_id_onload"
+            data-client_id={clientid}
+            data-context="signin"
+            data-ux_mode="popup"
+            data-login_uri="http://localhost:3000/#/login"
+            data-nonce=""
+            data-auto_prompt="false">
+        </div>
+       <div className="g_id_signin"
+          data-type="standard"
+          data-shape="pill"
+          data-theme="filled_blue"
+          data-text="signin_with"
+          data-size="large"
+          data-logo_alignment="left">
+      </div>
+
+      {/* <button onClick={getToken}>Get access token</button> */}
+       {/* <button onClick={getObject}>Load Object</button> */}
     </div>
+
   )
+    
 }
 
-export default Login
+// export default Login();

@@ -126,7 +126,6 @@ export default function PatientInform() {
   const [modalopen, setmodalopen] = useState(false);
   const [showMessage, setshowMessage] = useState(true);
   const [iframeurl, setiframeurl] = useState();
-  const { Header, Sider, Content } = Layout;
   const { Search } = Input;
   var url;
   const history = useHistory();
@@ -152,6 +151,16 @@ export default function PatientInform() {
     event.preventDefault();
   }
 
+  const sortedData = data.sort((a, b) => {
+    if (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase()) {
+      return -1;
+    }
+    if (a.RemoteCareText.toLowerCase() < b.RemoteCareText.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+
   const fetchpatientdata = () => {
     console.log("check function")
     var requestOptions = {
@@ -161,11 +170,14 @@ export default function PatientInform() {
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)
-        data.sort((a, b) => (a.RemoteCareText > b.RemoteCareText ? -1 : 1));
-        console.log(data)
+        // setsorteddata(data.sort((a, b) => (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase() ? -1 : 1)));
+        // console.log(sorteddata)
+        //sorteddata.reverse();
         // console.log( eval(JSON.stringify(data)));
       })
       .catch(error => console.log('error', error));
+
+      // sortedData();
   }
 
   const RemoteStatus=(status)=>{
@@ -190,20 +202,6 @@ export default function PatientInform() {
     
 
   useEffect(() => {
-    console.log("hello useeffect")
-    // this.setState({isLoading:true})
-    // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             // 'Access-Control-Allow-Methods': 'GET',
-    //             // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-    //             // 'Access-Control-Allow-Origin' : '*'
-    //         },
-    //     }).then((constructordata) => data.json()).then((resp) => {
-    //   setdata(resp)
-    //   console.log(data)
-    // })
     fetchpatientdata();
   },[])
 
@@ -287,7 +285,7 @@ export default function PatientInform() {
             </TableHead>
             <TableBody>
               <>
-                {data.filter(val => {
+                {sortedData.filter(val => {
                   if (searchTerm === "") {
                     return val;
                   }
@@ -310,7 +308,7 @@ export default function PatientInform() {
                       </IconButton>
                     </StyledTableCell> */}
                     <StyledTableCell align="left" component="th" scope="row" style={{width:"25%"}} >
-                      <a
+                      {/* <a
                           onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}
                           target="_blank"
                           style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
@@ -318,12 +316,13 @@ export default function PatientInform() {
                           onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}
                         >
                           <b>{row.Full_name}</b>
-                      </a>
+                      </a> */}
+                      <a data-patient-id={row.Patient_id} onClick={modalhandleOpen}>{row.Full_name}</a>
                     </StyledTableCell>
                     <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
                     <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
                     <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-                    <StyledTableCell align="left" >{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
+                    <StyledTableCell align="left" aria-sort='asc'>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
                     <StyledTableCell align="left" aria-sort='desc'><button type="button"  data-patient-id={row.Patient_id} className="btn btn-primary btn-sm" onClick={modalhandleOpen}>More Details</button></StyledTableCell>
                     </StyledTableRow>
                     );
