@@ -13,16 +13,16 @@ const Preventive= () => {
 
         flags = location.search.split('^')[1];
     
-        console.log(flags)
+        // console.log(flags)
     
         let singlepatientid = location.search.split('=')[1];
     
-        console.log('-----------------singleorderid--------------------------------------')
+        // console.log('-----------------singleorderid--------------------------------------')
     
-        console.log(singlepatientid)
+        // console.log(singlepatientid)
     
-        console.log('-------------------------------------------------------')
-    
+        // console.log('-------------------------------------------------------')
+        // <h1 align="center"><b>Preventive Care</b></h1>
         setsinglepatientid(singlepatientid)
     
     
@@ -39,7 +39,8 @@ const Preventive= () => {
 
     return(
         <div>
-            <Iframe width="100%" height="100%" src={insighturl} frameborder="0" style="border:0" allowfullscreen/>
+            <h1 align="center"><b>Preventive Care</b></h1>
+            <Iframe width="100%" height="380px" src={insighturl} frameborder="0" style="border:0" allowfullscreen/>
         </div>
     )
 }

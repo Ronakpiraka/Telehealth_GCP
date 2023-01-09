@@ -42,7 +42,8 @@ export default function Insights() {
         <DoughnutChart/>
     </div> */}
     {/* <iframe width="100%" height="450px" url="https://cvzg49w5bc.execute-api.us-east-1.amazonaws.com/test-QS/qsresource-sample"></iframe>  */}
-      <Iframe width="100%" height="380px" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+    {/* <h1 align="center"><b>Preventive Care</b></h1> */}
+      <Iframe width="100%" height="450px" src="https://datastudio.google.com/embed/reporting/c4611298-10ab-4b55-9625-33805ce06003/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
     </div>
   )
 }
