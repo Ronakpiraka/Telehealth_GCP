@@ -162,7 +162,7 @@ export default function PatientInform() {
       .then((response) => {
         setdata(response)
         data.sort((a, b) => (a.RemoteCareText > b.RemoteCareText ? -1 : 1));
-        console.log(data)
+        // console.log(data)
         // console.log( eval(JSON.stringify(data)));
       })
       .catch(error => console.log('error', error));
@@ -191,6 +191,19 @@ export default function PatientInform() {
 
   useEffect(() => {
     console.log("hello useeffect")
+    // this.setState({isLoading:true})
+    // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             // 'Access-Control-Allow-Methods': 'GET',
+    //             // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+    //             // 'Access-Control-Allow-Origin' : '*'
+    //         },
+    //     }).then((constructordata) => data.json()).then((resp) => {
+    //   setdata(resp)
+    //   console.log(data)
+    // })
     fetchpatientdata();
   },[])
 
@@ -238,6 +251,7 @@ export default function PatientInform() {
         >
           <Box sx={modalstyle}>
           <Typography id="modal-modal-description" >
+            {console.log(iframeurl)}
             {showMessage && <ShowModal patientId={iframeurl}/>}
           </Typography>
           </Box>
@@ -262,7 +276,9 @@ export default function PatientInform() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <StyledTableRow style={{ padding: '0px' }}>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '26%' }}>Name</StyledTableCell>
+                {/* <TableCell /> */}
+                {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
+                <StyledTableCell style={{ fontWeight: 'bold', width: '20%' }}>Name</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '26%' }}>Address</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '14%' }}>Contact No</StyledTableCell>
@@ -289,20 +305,19 @@ export default function PatientInform() {
                   .map((row, index) => {
                     return (
                     <StyledTableRow key={row.Patient_id}>
-                    <StyledTableCell align="left" component="th" scope="row" style={{width:"15%"}} >
-                    <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
-                        style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
-                        onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
-                        onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}
-                    >
-                      <b>{row.Full_name}</b>
-                    </a>
+                      
+                    <StyledTableCell align="left" component="th" scope="row" style={{width:"20%"}} > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
+                          style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
+                          onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
+                          onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Full_name}</a> 
                     </StyledTableCell>
+                                         
+                    {/* <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" data-patient-id={row.Patient_id} onClick={modalhandleOpen}>{row.Full_name} </button></StyledTableCell> */}
                     <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
                     <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
                     <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-                    <StyledTableCell align="left" >{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
-                    <StyledTableCell align="left" aria-sort='desc'><button type="button" className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}> More Details</button></StyledTableCell>
+                    <StyledTableCell align="left" aria-sort='asc'>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
+                    <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>More Details</button></StyledTableCell>
                     </StyledTableRow>
                     );
                   })}
