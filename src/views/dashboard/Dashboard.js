@@ -12,6 +12,7 @@ import CIcon from '@coreui/icons-react'
 import Iframe from 'react-iframe'
 import ChartLineSimple from '../charts/ChartLineSimple'
 import ChartBarSimple from '../charts/ChartBarSimple'
+import {useHistory, useLocation} from "react-router-dom";
 
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 // const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
@@ -19,28 +20,29 @@ const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 const Dashboard = () => {
 
   const [dashdetails, setdashdetails] = React.useState([]);
+  const history = useHistory();
 
-  async function fetchdashdetailsdata() {
-
-    console.log("check function")
-    var requestOptions = {
-      method: 'GET'
-    };
-
-    const res = await fetch("https://dashboarddata-sh4iojyb3q-uc.a.run.app", requestOptions)
-    const result = await res.json()
-    console.log(result);
-    // .then((resp) => resp.json())
-    // .then((response) => {
-    setdashdetails(result[0])
-    //   console.log(dashdetails)
-    // })
-    // .catch(error => console.log('error', error));
+  async function fetchdashdetails() {
+    var accessToken = sessionStorage.getItem("Accesstoken");
+    const dashboardData = await fetch("https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/telehealth-365911.FHIR_Synthea.Patient/data", {
+    method: 'GET',
+    mode: 'no-cors',
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+      }
+    })
+    .then(resp=>{
+      setdashdetails(resp)
+      console.log(dashdetails)  
+    })
+    .catch(error => {
+      console.log(error)
+    });
   }
+  
 
   useEffect(() => {
-    // console.log("hello useeffect")
-    fetchdashdetailsdata();
+    fetchdashdetails();
   }, [])
 
   console.log(dashdetails)
@@ -188,4 +190,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;

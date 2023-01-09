@@ -126,7 +126,6 @@ export default function PatientInform() {
   const [modalopen, setmodalopen] = useState(false);
   const [showMessage, setshowMessage] = useState(true);
   const [iframeurl, setiframeurl] = useState();
-  const { Header, Sider, Content } = Layout;
   const { Search } = Input;
   var url;
   const history = useHistory();
@@ -152,6 +151,16 @@ export default function PatientInform() {
     event.preventDefault();
   }
 
+  const sortedData = data.sort((a, b) => {
+    if (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase()) {
+      return -1;
+    }
+    if (a.RemoteCareText.toLowerCase() < b.RemoteCareText.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+
   const fetchpatientdata = () => {
     console.log("check function")
     var requestOptions = {
@@ -161,11 +170,19 @@ export default function PatientInform() {
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)
+<<<<<<< HEAD
         data.sort((a, b) => (a.RemoteCareText > b.RemoteCareText ? -1 : 1));
         // console.log(data)
+=======
+        // setsorteddata(data.sort((a, b) => (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase() ? -1 : 1)));
+        // console.log(sorteddata)
+        //sorteddata.reverse();
+>>>>>>> 87b64751b9d9a39881deaab5268d8723043b4ddd
         // console.log( eval(JSON.stringify(data)));
       })
       .catch(error => console.log('error', error));
+
+      // sortedData();
   }
 
   const RemoteStatus=(status)=>{
@@ -288,7 +305,7 @@ export default function PatientInform() {
             </TableHead>
             <TableBody>
               <>
-                {data.filter(val => {
+                {sortedData.filter(val => {
                   if (searchTerm === "") {
                     return val;
                   }
