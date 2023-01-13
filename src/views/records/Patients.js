@@ -151,36 +151,49 @@ export default function PatientInform() {
     event.preventDefault();
   }
 
-  const sortedData = data.sort((a, b) => {
-    if (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase()) {
-      return -1;
-    }
-    if (a.RemoteCareText.toLowerCase() < b.RemoteCareText.toLowerCase()) {
-      return 1;
-    }
-    return 0;
-  });
+  // const sortedData = data.sort((a, b) => {
+  //   if (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase()) {
+  //     return -1;
+  //   }
+  //   if (a.RemoteCareText.toLowerCase() < b.RemoteCareText.toLowerCase()) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
 
   const fetchpatientdata = () => {
-    console.log("check function")
+    // console.log("check function")
     var requestOptions = {
       method: 'GET'
     };
-    fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+    // var accessToken = sessionStorage.getItem("Accesstoken");
+    fetch("https://patientdata-1-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)
-<<<<<<< HEAD
-        data.sort((a, b) => (a.RemoteCareText > b.RemoteCareText ? -1 : 1));
-        // console.log(data)
-=======
         // setsorteddata(data.sort((a, b) => (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase() ? -1 : 1)));
         // console.log(sorteddata)
         //sorteddata.reverse();
->>>>>>> 87b64751b9d9a39881deaab5268d8723043b4ddd
         // console.log( eval(JSON.stringify(data)));
       })
       .catch(error => console.log('error', error));
+    // var apikey1 = 'AIzaSyD5pmSe_wdcafJ9hmNU2eExYH1Oa4iA7fc' 
+    
+    // var fetchlink = 'https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/FHIR_Synthea/tables/Patient/data?key='+[apikey1];
+      // fetch('fetchlink', 
+      // {
+      //       method: 'GET',
+      //       headers: {
+      //           'Authorization': 'Bearer '+[accessToken]
+      //           // 'Accept': "application/json"
+      //       }
+      //     }).then(resp => resp.json()
+      //   ).then(resp=>{
+      //       setdata(resp)
+      //       console.log(data)
+      //   }).catch(error => {
+      //       console.log(error)
+      //       });
 
       // sortedData();
   }
@@ -305,7 +318,7 @@ export default function PatientInform() {
             </TableHead>
             <TableBody>
               <>
-                {sortedData.filter(val => {
+                {data.filter(val => {
                   if (searchTerm === "") {
                     return val;
                   }
@@ -326,14 +339,14 @@ export default function PatientInform() {
                     <StyledTableCell align="left" component="th" scope="row" style={{width:"20%"}} > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
                           style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
                           onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
-                          onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Full_name}</a> 
+                          onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a> 
                     </StyledTableCell>
                                          
                     {/* <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" data-patient-id={row.Patient_id} onClick={modalhandleOpen}>{row.Full_name} </button></StyledTableCell> */}
-                    <StyledTableCell align="left" >{row.Patient_Address}</StyledTableCell>
+                    <StyledTableCell align="left" >{row.Patient_address}</StyledTableCell>
                     <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
                     <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-                    <StyledTableCell align="left" aria-sort='asc'>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
+                    <StyledTableCell align="left" aria-sort='asc'>{RemoteStatus(row.Marital_Status)}</StyledTableCell>
                     <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>More Details</button></StyledTableCell>
                     </StyledTableRow>
                     );
