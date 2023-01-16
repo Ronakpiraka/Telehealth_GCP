@@ -161,22 +161,42 @@ export default function PatientInform() {
   //   return 0;
   // });
 
+  var accessToken = sessionStorage.getItem("Accesstoken");
+
   const fetchpatientdata = () => {
     // console.log("check function")
     var requestOptions = {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      }
     };
-    // var accessToken = sessionStorage.getItem("Accesstoken");
+    console.log(accessToken)
+    
     fetch("https://patientdata-1-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => {
         setdata(response)
-        // setsorteddata(data.sort((a, b) => (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase() ? -1 : 1)));
+      })
+      .catch(error => console.log('error', error));}
+
+
+  // const fetchpatientdata = () => {
+  //   // console.log("check function")
+  //   var requestOptions = {
+  //     method: 'GET'
+  //   };
+  //   // 
+  //   fetch("https://patientdata-1-sh4iojyb3q-uc.a.run.app", requestOptions)
+  //     .then((resp) => resp.json())
+  //     .then((response) => {
+  //       setdata(response)
+  //       // setsorteddata(data.sort((a, b) => (a.RemoteCareText.toLowerCase() > b.RemoteCareText.toLowerCase() ? -1 : 1)));
         // console.log(sorteddata)
         //sorteddata.reverse();
         // console.log( eval(JSON.stringify(data)));
-      })
-      .catch(error => console.log('error', error));
+      // })
+      // .catch(error => console.log('error', error));
     // var apikey1 = 'AIzaSyD5pmSe_wdcafJ9hmNU2eExYH1Oa4iA7fc' 
     
     // var fetchlink = 'https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/FHIR_Synthea/tables/Patient/data?key='+[apikey1];
@@ -196,7 +216,6 @@ export default function PatientInform() {
       //       });
 
       // sortedData();
-  }
 
   const RemoteStatus=(status)=>{
     if(status === "Vitals Tracking")
