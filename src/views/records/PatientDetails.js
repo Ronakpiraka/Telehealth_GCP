@@ -66,19 +66,19 @@ export default function PatientDetails() {
 		setmodalopen(false);
 	}
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
 
-   const handleClose = () => {
-    setAnchorEl(null);
-  };
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
-  const handleChange = event => {
-        setshowMessage(false)
-        setshowMessage2(true)
-        event.preventDefault();
-    }
+	const handleChange = event => {
+			setshowMessage(false)
+			setshowMessage2(true)
+			event.preventDefault();
+		}
 
   const displayInfo = () => {
 	  return(
@@ -113,7 +113,7 @@ export default function PatientDetails() {
 		// times=location.search.split('"')[1]	
 		stat = location.search.split(':')[1]	// console.log(stat)
 		// datess=location.search.split('}')[1]
-		let singlepatientURL = 'https://patientdata-sh4iojyb3q-uc.a.run.app'
+		let singlepatientURL = 'https://patientdata-1-sh4iojyb3q-uc.a.run.app'
 		
 		// console.log('---------------------patientDetailsUrl----------------------------------')
 		// console.log(singlepatientURL)
@@ -152,7 +152,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Patient Name</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Full_name}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Patient_name}</td>
 				</tr>
 			)
 		}
@@ -173,7 +173,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Birth Date{displayInfo()}</b></th>
-					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.birthDate}</td>
+					<td className="" style={{ height: '0px' }}>{orderDetails && orderDetails.birthdate}</td>
 				</tr>
 			)
 		}
@@ -195,7 +195,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Marital Status</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.display}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Marital_Status}</td>
 				</tr>
 			)
 		}
@@ -217,7 +217,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Guardian Email</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.email}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.ConsentFormText}</td>
 				</tr>
 			)
 		}
@@ -228,7 +228,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Medical Record Number</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Medical_Record_Number}</td>
+					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Medical_Record_Number}</td>
 				</tr>
 			)
 		}
@@ -261,7 +261,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold' }}><b>Address</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Patient_Address},</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.Patient_address},</td>
 				</tr>
 			)
 		}
