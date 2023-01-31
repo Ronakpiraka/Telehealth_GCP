@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from 'react'
+import React, { lazy, useEffect, useState } from 'react'
 import {
   CCard,
   CCardBody,
@@ -13,36 +13,222 @@ import Iframe from 'react-iframe'
 import ChartLineSimple from '../charts/ChartLineSimple'
 import ChartBarSimple from '../charts/ChartBarSimple'
 import {useHistory, useLocation} from "react-router-dom";
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableRow from '@material-ui/core/TableRow';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import InputBase from '@material-ui/core/InputBase';
+import { alpha } from '@material-ui/core/styles';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import {CBadge} from '@coreui/react';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
+import { array } from 'prop-types'
 
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 // const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
 const Dashboard = () => {
+  const StyledTableCell = withStyles((theme) => ({
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
 
+  const modalstyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    };
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+    small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    large: {
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: alpha(theme.palette.common.white, 0.35),
+      '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.5),
+      },
+      margin: '10px',
+      float: 'right',
+      boxShadow: '-4px 8px 20px 0px grey',
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: '98%',
+      },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: '100ch',
+        '&:focus': {
+          width: '20ch',
+        },
+      },
+    },
+  }));
+  const [data,setdata] =  React.useState([]);
   const [dashdetails, setdashdetails] = React.useState([]);
+  const [page, setpage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [searchTerm, setsearchTerm] = React.useState('');
   const history = useHistory();
+  const classes = useStyles();
+  const [modalopen, setmodalopen] = useState(false);
+  const [showMessage, setshowMessage] = useState(true);
+  const [iframeurl, setiframeurl] = useState();
+  var url;
+  const modalhandleOpen = (event) => {
+    setmodalopen(true);
+    setshowMessage(true);
+    const patientId = event.target.dataset.patientId;
+    console.log(patientId);
+    setiframeurl(patientId);
+  }
+  const modalhandleClose = () => {
+    setmodalopen(false);
+  }
+  const redirectToPatientDetails = (e, Patient_id) => {
+    url = `/records/patientdetails?Patient_id=${Patient_id}`;
+    history.push(`${url}`);
+  }
+  // const RemoteStatus=(status)=>{
+  //   if(status === "Vitals Tracking")
+  //   {
+  //     return(
+  //       <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >{status}</CBadge>
+  //     )
+  //   }
+  //   else if(status === "Not Tracking")
+  //   {
+  //     return(
+  //       <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>{status}</CBadge>
+  //     )
+  //   }
+  //   else{
+  //     return(
+  //       <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>
+  //         <div id="tooltip">
+  //           <span id="tooltiptext">tooltip text</span>
+  //           <span>{status}</span>
+  //         </div>
+  //       </CBadge>
+  //     )
+  //   }
+  // }
 
   async function fetchdashdetails() {
-    var accessToken = sessionStorage.getItem("Accesstoken");
-    const dashboardData = await fetch("https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/telehealth-365911.FHIR_Synthea.Patient/data", {
-    method: 'GET',
-    mode: 'no-cors',
-    headers: {
-      'Authorization': 'Bearer ' + accessToken
-      }
+    var requestOptions = {
+      method: 'GET'
+    };
+    // var accessToken = sessionStorage.getItem("Accesstoken");
+    await fetch("https://dashboarddata-sh4iojyb3q-uc.a.run.app", requestOptions)
+    .then((resp) => resp.json())
+    .then((response) => {
+      setdashdetails(response[0])
     })
-    .then(resp=>{
-      setdashdetails(resp)
-      console.log(dashdetails)  
-    })
-    .catch(error => {
-      console.log(error)
-    });
+    .catch(error => console.log('error', error));
   }
+
+  const fetchpatientdata = async () => {
+     var requestOptions = {
+       method: 'GET',
+     };
+     var accessToken = sessionStorage.getItem("Accesstoken");
+     await fetch("https://patientdata-1-sh4iojyb3q-uc.a.run.app", requestOptions)
+       .then((resp) => resp.json())
+       .then((response) => {
+         let final_data = new Array();
+         let critical_data = new Array();
+         let Patient_id_list = new Array();
+         let Patient_list_index = -1;
+ 
+         for (var i=0; i<response.length; i++) {
+           Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id)
+           if (Patient_list_index == -1) {
+             final_data.push(response[i])
+             Patient_id_list.push(response[i].Patient_id)
+           } else {
+             let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
+             let new_encounter = new Date(response[i].Encounter_start)
+             if (new_encounter > lst_encounter) {
+               final_data[Patient_list_index] = response[i]
+             }
+           }
+         }
+         console.log("Data to be seen: ", final_data)
+        //  setdata(final_data)
+         for (var i=0; i<final_data.length; i++) {
+          if (final_data[i].RemoteCareText=='Vitals Tracked')
+          {
+            critical_data.push(final_data[i])
+          }
+
+        } setdata(critical_data)
+        console.log(critical_data)
+       })
+       .catch(error => console.log('error', error));
+   }
+  const handleChangePage = (event, newPage) => {
+    setpage(newPage);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setpage(0);
+  };
   
 
   useEffect(() => {
     fetchdashdetails();
+    fetchpatientdata();
   }, [])
 
   console.log(dashdetails)
@@ -130,8 +316,8 @@ const Dashboard = () => {
       </CCol>
     </CRow>
 
-      <CCard>
-
+      
+      
         <CCardGroup className="mb-4">
           <CWidgetProgressIcon
             header={dashdetails.Provider_count}
@@ -141,6 +327,7 @@ const Dashboard = () => {
           >
             <CIcon name="cil-people" height="36" />
           </CWidgetProgressIcon>
+
           <CWidgetProgressIcon
             header={dashdetails.Practitioner_count}
             text="Practitioners"
@@ -149,6 +336,7 @@ const Dashboard = () => {
           >
             <CIcon name="cil-userFollow" height="36" />
           </CWidgetProgressIcon>
+
           <CWidgetProgressIcon
             header={dashdetails.Condition_count}
             text="Condition"
@@ -157,6 +345,7 @@ const Dashboard = () => {
           >
             <CIcon name="cil-basket" height="36" />
           </CWidgetProgressIcon>
+
           <CWidgetProgressIcon
             header={dashdetails.Procedure_count}
             text="Procedures"
@@ -165,6 +354,7 @@ const Dashboard = () => {
           >
             <CIcon name="cil-chartPie" height="36" />
           </CWidgetProgressIcon>
+
           <CWidgetProgressIcon
             header={dashdetails.Vaccines_ad}
             text="Vaccines"
@@ -172,17 +362,118 @@ const Dashboard = () => {
             inverse
           >
             <CIcon name="cil-speedometer" height="36" />
-          </CWidgetProgressIcon>
+        </CWidgetProgressIcon>
         </CCardGroup>
+        
+
+        <CCard>
         <CCardBody>
           <CRow>
-            <CCol sm="5">
-              <h3 id="traffic" className="card-title mb-0">Continuous Care</h3>
+              <h3 id="traffic" className="card-title mb-0" align="center">Continuous Care</h3>
               {/* <div className="small text-muted">September 2021</div> */}
-            </CCol>
           </CRow>
           {/* <MainChartExample style={{height: '300px', marginTop: '40px'}}/> */}
           <Iframe width="100%" height="550px" src="https://datastudio.google.com/embed/reporting/c6041d77-a0b2-42dd-86da-6489602b5870/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
+          </CCardBody>
+          </CCard>
+          <CCard>
+          <CCardBody>          
+            <CRow>
+              <h3 id="traffic" className="card-title mb-0" align="center">Critical Patients</h3>
+              {/* <div className="small text-muted">September 2021</div> */}
+          </CRow>
+          <CRow>
+          <Paper style={{ width: '100%', overflow: 'hidden' }}>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            placeholder="Search by Name..."
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            onChange={(e) => { setsearchTerm(e.target.value) }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </div>
+        <TableContainer style={{ maxHeight: 300 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <StyledTableRow style={{ padding: '0px' }}>
+              <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Practitioner Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Provider Contact Number</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Last Visit Date</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '22%' }}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Patient Contact Number</StyledTableCell>
+               
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Personal Info</StyledTableCell>
+              </StyledTableRow>
+            </TableHead>
+            <TableBody>
+              <>
+                {data.filter(val => {
+                  if (searchTerm === "") {
+                    return val;
+                  }
+                  else if (   (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Encounter_end.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Encounter_start.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Marital_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Medical_Record_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Patient_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Provider_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Social_Security_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.birthdate.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.gender.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.guardian_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.startdate.toLowerCase().includes(searchTerm.toLowerCase())) 
+                  ) {
+                    return val
+                  }
+                 }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    return (
+                      <StyledTableRow key={row.Patient_id}>
+                      <StyledTableCell align="left" component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
+                            style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
+                            onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
+                            onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
+                      </StyledTableCell>
+                      <StyledTableCell align="left" >{row.Practitioner_name}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
+                      <StyledTableCell align="left">{row.startdate}</StyledTableCell>
+                      <StyledTableCell align="left" >{row.Patient_address}</StyledTableCell>
+                      <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
+                      <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
+
+                      <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
+                      </StyledTableRow>
+                    );
+                  })}
+                  </>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        component="div"
+        count={data.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+          </CRow>
         </CCardBody>
       </CCard>
 

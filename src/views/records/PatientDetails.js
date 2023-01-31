@@ -172,7 +172,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Birth Date{displayInfo()}</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Birth Date</b></th>
 					<td className="" style={{ height: '0px' }}>{orderDetails && orderDetails.birthdate}</td>
 				</tr>
 			)
@@ -217,7 +217,7 @@ export default function PatientDetails() {
 			return (
 				<tr>
 					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Guardian Email</b></th>
-					<td style={{ height: '0px' }}>{orderDetails && orderDetails.ConsentFormText}</td>
+					<td style={{ height: '0px' }}>{orderDetails && orderDetails.guardian_email}</td>
 				</tr>
 			)
 		}
@@ -227,7 +227,7 @@ export default function PatientDetails() {
 		if(orderDetails) {
 			return (
 				<tr>
-					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Medical Record Number</b></th>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Medical Record Number{displayInfo()}</b></th>
 					<td className="pw" style={{ height: '0px' }}>{orderDetails && orderDetails.Medical_Record_Number}</td>
 				</tr>
 			)
