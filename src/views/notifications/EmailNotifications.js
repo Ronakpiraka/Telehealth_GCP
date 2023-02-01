@@ -1,4 +1,4 @@
-import React, {useEffect, useRef  } from 'react'
+import React, {useEffect, useRef, useState } from 'react'
 import { Layout, Menu, Input, Calendar  } from 'antd';
 import './PatientInfo.css';
 import 'antd/dist/antd.css';
@@ -19,13 +19,11 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import emailjs from '@emailjs/browser';
 import {toast} from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
-import Calender from '../notifications/calendar';
 import {useHistory, useLocation} from "react-router-dom";
-import {
-    CBadge
-  } from '@coreui/react';
-//  import config from '../../config.js';
-// var AWS = require('aws-sdk');
+import {CBadge} from '@coreui/react';
+import "../records/patients.css";
+import LoadingOverlay from 'react-loading-overlay';
+
 export default function EmailNotify() {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -105,6 +103,7 @@ export default function EmailNotify() {
         const [ordPlaced, setordPlaced]=React.useState(5);
         const classes = useStyles();
         const history = useHistory();
+        const [isLoading, setisLoading] = useState(true);
         const form = useRef();
         const { Header, Sider, Content } = Layout;
         const { Search } = Input;
@@ -116,6 +115,7 @@ export default function EmailNotify() {
           ).then(resp=>{
               setdata(resp)
               console.log(data)  
+              setisLoading(false)
           }).catch(error => {
               console.log(error)
               });
@@ -204,8 +204,7 @@ export default function EmailNotify() {
 
     return (
       <div>
-        <><button type="button" class="btn btn-primary" style={{float:'right'}}>Check Availability</button></><br/>
-        <p style={{fontSize:'35px', textAlign:'center', color : 'indigo'}}><strong>Patient Notifications Panel</strong></p>
+        <h1 className="title"><strong>Patient Information</strong></h1>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -222,16 +221,30 @@ export default function EmailNotify() {
               />
             </div>
           <TableContainer style={{ maxHeight: 300 }}>
+          <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow style={{ padding: '0px' }}>
-                {/* <TableCell align="center" style={{ fontWeight: 'bold', width: '400px' }}>Id</TableCell> */}
-                {/* <TableCell style={{ fontWeight: 'bold'}}>Patient ID</TableCell> */}
-                <TableCell style={{ fontWeight: 'bold'}}>Patient Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Patient/Guardian Email</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Practitioner Name</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Risk Score</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Email Notifications</TableCell>
+                <TableRow>
+                <TableCell>Patient Name</TableCell>
+                <TableCell>Patient/Guardian Email</TableCell>
+                <TableCell>Practitioner Name</TableCell>
+                <TableCell>Risk Score</TableCell>
+                <TableCell>Email Notifications</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -251,20 +264,13 @@ export default function EmailNotify() {
                 })
                   .map((row, index) => {
                     return(
-                      <>
-                      {/* <form ref={form}>
-                      <input type="text" name="name" value = {row.Patient_name}/>
-                      <input type="text" name="doctor" value = {row.Practitioner}/>
-                      </form> */}
                       <StyledTableRow>
-                        {/* <StyledTableCell align="left">{row.Patient_id}</StyledTableCell> */}
-                        <StyledTableCell align="left">{row.Patient_name}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Guardian_Email}</StyledTableCell>
-                        <StyledTableCell align="left">{row.Practitioner}</StyledTableCell>
+                        <StyledTableCell>{row.Patient_name}</StyledTableCell>
+                        <StyledTableCell>{row.Guardian_Email}</StyledTableCell>
+                        <StyledTableCell>{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
                         <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
                       </StyledTableRow>
-                      </>
                     )
                   }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                  }

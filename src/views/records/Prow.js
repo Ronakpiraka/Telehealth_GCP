@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import {withStyles } from '@material-ui/core/styles';
+import "./patients.css"; 
 
 export default function Prow(props) {
   const StyledTableCell = withStyles((theme) => ({
@@ -38,49 +39,40 @@ export default function Prow(props) {
       if (val.Provider_code === prow.Provider_code) {
         return val;
       }  
-
-    }
-    )
-    // console.log(pradet)
+    })
+    
     return (
       <React.Fragment>
-      {/* <Row row={data}/> */}
        <TableRow>
-        <TableCell>
-        <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
-          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-        </IconButton>
-      </TableCell>
-      {/* <StyledTableCell align="left" style={{width:"5%"}}></StyledTableCell> */}
-      <StyledTableCell align="left" style={{width:"30%"}}><AccountBalanceIcon size={18}/>&nbsp;{prow.Provider_name}</StyledTableCell>
-      <StyledTableCell align="left" style={{width:"25%"}}>{prow.Provider_code}</StyledTableCell>
-      <StyledTableCell align="left" style={{width:"30%"}}>{prow.Provider_Address}</StyledTableCell>
-      <StyledTableCell align="left" style={{width:"15%"}}>{prow.Provider_number}</StyledTableCell>
-    </TableRow>
-    <StyledTableRow>
+          <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        {/* <StyledTableCell align="left" style={{width:"5%"}}></StyledTableCell> */}
+        <StyledTableCell>{prow.Provider_name}</StyledTableCell>
+        <StyledTableCell>{prow.Provider_code}</StyledTableCell>
+        <StyledTableCell>{prow.Provider_Address}</StyledTableCell>
+        <StyledTableCell>{prow.Provider_number}</StyledTableCell>
+      </TableRow>
+      <StyledTableRow>
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box margin={1}>
-            {/* <a variant="h6" gutterBottom component="div" style={{fontSize:"20px", color:"#1890ff"}}>
-              Patient Practdetails
-            </a> */}
             <Table size="small" aria-label="provider">
               <TableHead style={{ fontWeight: 'bold', color:"blue", margin: "15px"}}>Practitioner Details:  </TableHead>
-              <TableBody>
-                <TableRow>
-                   {/* <TableCell component="th" scope="row">{item.id}</TableCell> */}
-                  <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Practitioner Name</TableCell>
-                  <TableCell style={{ fontWeight: 'bold', width:"30%"}}>Specialisation</TableCell>
-                  <TableCell style={{ fontWeight: 'bold', width:"40%"}}>Email ID</TableCell>
-                </TableRow>
-                {
-                  pradet.map((item)=> <StyledTableRow key = {item.Practitioner_name} > 
-                    <StyledTableCell style={{width:"30%"}}>{item.Practitioner_name}</StyledTableCell>
-                    <StyledTableCell style={{width:"30%"}}>{item.Specialization}</StyledTableCell>
-                    <StyledTableCell style={{width:"40%"}}>{item.Practitioner_Email}</StyledTableCell>
-                  </StyledTableRow>)
-                }
-              </TableBody>
+                <StyledTableRow>
+                  <StyledTableCell style={{ fontWeight: 'bold'}}>Practitioner Name</StyledTableCell>
+                  <StyledTableCell style={{ fontWeight: 'bold'}}>Specialisation</StyledTableCell>
+                  <StyledTableCell style={{ fontWeight: 'bold'}}>Email ID</StyledTableCell>
+                </StyledTableRow>
+                  {pradet.map((item)=> 
+                  <StyledTableRow key = {item.Practitioner_name} > 
+                    <StyledTableCell align='left'>{item.Practitioner_name}</StyledTableCell>
+                    <StyledTableCell align="left">{item.Specialization}</StyledTableCell>
+                    <StyledTableCell align="left">{item.Practitioner_Email}</StyledTableCell>
+                  </StyledTableRow>
+                  )}
             </Table>
           </Box>
         </Collapse>

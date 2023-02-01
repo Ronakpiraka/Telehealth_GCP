@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState} from 'react'
 import './PatientInfo.css';
 import 'antd/dist/antd.css';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +13,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import LoadingOverlay from 'react-loading-overlay';
+import "./patients.css"; 
 
 import Prow from './Prow';
 export default function ProviderInform() {
@@ -79,6 +81,7 @@ export default function ProviderInform() {
   const [page, setpage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [ordPlaced, setordPlaced] = React.useState(10);
+  const [isLoading, setisLoading] = useState(true);
 
   const uniqueProviderCode = [] 
 
@@ -118,7 +121,7 @@ export default function ProviderInform() {
       .then((response) => 
       {
         setdata(response)
-        console.log(data)
+        setisLoading(false)
       })
       .catch(error => console.log('error', error));
     }
@@ -129,7 +132,7 @@ export default function ProviderInform() {
     
     return (
       <>
-          <h2 style={{textAlign:'center', color:'#4f5d73'}}><strong>Provider Details</strong></h2>
+        <h1 className="title"><strong>Provider Details</strong></h1>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -146,15 +149,30 @@ export default function ProviderInform() {
               />
             </div>
           <TableContainer style={{ maxHeight: 300 }}>
+          <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
             <Table stickyHeader aria-label="sticky table">
-              <TableHead style={{font: 'strong'}}>
-                <StyledTableRow style={{background:'#4f5d73' }}>
+              <TableHead>
+                <StyledTableRow>
                 <StyledTableCell/>
-                {/* <StyledTableCell style={{ fontWeight: 'bold', width:"5%"}}></StyledTableCell> */}
-                <StyledTableCell style={{ fontWeight: 'bold', width:"30%"}}>Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width:"25%"}}>Provider Code</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width:"30%"}}>Address</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width:"15%"}}>Contact Number</StyledTableCell>
+                <StyledTableCell>Name</StyledTableCell>
+                <StyledTableCell>Provider Code</StyledTableCell>
+                <StyledTableCell>Address</StyledTableCell>
+                <StyledTableCell>Contact Number</StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
@@ -179,7 +197,6 @@ export default function ProviderInform() {
                     uniqueProviderCode.push(prow.Provider_code)
                     return (
                       <React.Fragment>
-                        {console.log(prow.Provider_code)}
                         <Prow key={prow.Provider_code} prow={prow} data={data}/>
                       </React.Fragment>
                     );

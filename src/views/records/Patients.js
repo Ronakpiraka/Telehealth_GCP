@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
@@ -23,6 +22,8 @@ import Typography from '@material-ui/core/Typography';
 import "./patients.css"; 
 import ShowModal from './showmodal';
 import { CBadge } from '@coreui/react';
+import LoadingOverlay from 'react-loading-overlay';
+
 export default function PatientInform() {
   const StyledTableCell = withStyles((theme) => ({
     body: { fontSize: 14,},
@@ -106,18 +107,15 @@ export default function PatientInform() {
   const [searchTerm, setsearchTerm] = React.useState('');
   const [page, setpage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  // const [ordPlaced, setordPlaced] = React.useState(5);
+  const [isLoading, setisLoading] = useState(true);
   const classes = useStyles();
-  // const [visits, setvisits] = React.useState([]);
   const [modalopen, setmodalopen] = useState(false);
   const [showMessage, setshowMessage] = useState(true);
   const [iframeurl, setiframeurl] = useState();
   // const { Search } = Input;
   var url;
   const history = useHistory();
-  // const sendVisitsBack = (visitsRet) => {
-  //   setvisits(visitsRet);
-  // }
+
   const modalhandleOpen = (event) => {
     setmodalopen(true);
     setshowMessage(true);
@@ -200,7 +198,7 @@ export default function PatientInform() {
         console.log("Data to be seen: ", final_data)
 
         setdata(final_data)
-        
+        setisLoading(false);
       })
       .catch(error => console.log('error', error));
     // var apikey1 = 'AIzaSyD5pmSe_wdcafJ9hmNU2eExYH1Oa4iA7fc' 
@@ -322,7 +320,7 @@ export default function PatientInform() {
   }
   return (
     <>
-      <h2 style={{ textAlign:'center', color:'#4f5d73' }}><strong>Patient Information</strong></h2>
+      <h1 className="title"><strong>Patient Information</strong></h1>
       <Modal
           open={modalopen}
           onClose={modalhandleClose}
@@ -337,7 +335,9 @@ export default function PatientInform() {
           </Typography>
           </Box>
         </Modal>
-      <Paper style={{ width: '100%', overflow: 'hidden' }}>
+
+
+      <Paper>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
@@ -352,21 +352,38 @@ export default function PatientInform() {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
+
         <TableContainer style={{ maxHeight: 300 }}>
+        <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <StyledTableRow style={{ padding: '0px' }}>
                 {/* <TableCell /> */}
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Practitioner Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Provider Contact Number</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Last Visit Date</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '22%' }}>Address</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Patient Contact Number</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Status</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Personal Info</StyledTableCell>
+                <StyledTableCell>Patient Name</StyledTableCell>
+                <StyledTableCell>Practitioner Name</StyledTableCell>
+                <StyledTableCell>Provider Contact</StyledTableCell>
+                <StyledTableCell>Last Visit Date</StyledTableCell>
+                <StyledTableCell>Address</StyledTableCell>
+                <StyledTableCell>Age</StyledTableCell>
+                <StyledTableCell>Patient Contact</StyledTableCell>
+                <StyledTableCell>Status</StyledTableCell>
+                <StyledTableCell>Personal Info</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -400,19 +417,19 @@ export default function PatientInform() {
                   .map((row, index) => {
                     return (
                     <StyledTableRow key={row.Patient_id}>
-                    <StyledTableCell align="left" component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
+                    <StyledTableCell component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
                           style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
                           onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
                           onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
                     </StyledTableCell>
-                    <StyledTableCell align="left" >{row.Practitioner_name}</StyledTableCell>
-                    <StyledTableCell align="left" >{row.Provider_number}</StyledTableCell>
-                    <StyledTableCell align="left" >{row.startdate}</StyledTableCell>
-                    <StyledTableCell align="left" >{row.Patient_address}</StyledTableCell>
-                    <StyledTableCell align="left" >{row.Patient_Age}</StyledTableCell>
-                    <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-                    <StyledTableCell align="left" >{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
-                    <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
+                    <StyledTableCell>{row.Practitioner_name}</StyledTableCell>
+                    <StyledTableCell>{row.Provider_number}</StyledTableCell>
+                    <StyledTableCell>{row.startdate}</StyledTableCell>
+                    <StyledTableCell>{row.Patient_address}</StyledTableCell>
+                    <StyledTableCell>{row.Patient_Age}</StyledTableCell>
+                    <StyledTableCell>{row.Contact_number}</StyledTableCell>
+                    <StyledTableCell>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
+                    <StyledTableCell><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
                     </StyledTableRow>
                     );
                   })}
@@ -430,7 +447,7 @@ export default function PatientInform() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      {/*  </Content> */}
+      
     </>
     // </Layout>
   )

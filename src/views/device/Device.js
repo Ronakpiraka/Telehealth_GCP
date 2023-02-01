@@ -1,5 +1,5 @@
 
-import React , {useEffect} from 'react';
+import React , {useEffect, useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { Layout, Menu, Input} from 'antd';
 import Table from '@material-ui/core/Table';
@@ -12,7 +12,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import { makeStyles,alpha ,withStyles} from '@material-ui/core/styles';
-
+import LoadingOverlay from 'react-loading-overlay';
 import ChartLineSimple from '../charts/ChartLineSimple'
 // import ChartBarSimple from '../charts/ChartBarSimple'
 import SearchIcon from '@material-ui/icons/Search';
@@ -108,6 +108,7 @@ export default function Device() {
       // const classes = useStyles();
       const [data, setdata]=React.useState([]);
       const [searchTerm, setsearchTerm] = React.useState('');
+      const [isLoading, setisLoading] = useState(true);
       const [page, setpage] = React.useState(0);
       const [rowsPerPage, setRowsPerPage] = React.useState(10);
       const classes = useStyles();
@@ -124,7 +125,7 @@ export default function Device() {
         .then((response) => {
           setdata(response)
           console.log(data)
-          
+          setisLoading(false)
           // console.log( eval(JSON.stringify(data)));
         })
         .catch(error => console.log('error', error));
@@ -156,7 +157,7 @@ export default function Device() {
     return (
       <>
         {/* <Layout style={{backgroundColor:'black'}}> */}
-           <h2 style={{textAlign:'center', color:'#4f5d73'}}><strong>Device Management</strong></h2>
+        <h1 className="title"><strong>Patient Information</strong></h1>
             <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -173,6 +174,22 @@ export default function Device() {
               />
             </div>
             <TableContainer style={{ maxHeight: 300 }}>
+            <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                 <TableRow style={{ padding: '0px' }}>
