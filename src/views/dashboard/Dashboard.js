@@ -20,6 +20,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Typography from '@material-ui/core/Typography';
+import Modal from '@mui/material/Modal';
+import Box from '@material-ui/core/Box';
+import ShowModal1 from '../records/showmodal1';
 import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
@@ -129,9 +133,9 @@ const Dashboard = () => {
     setmodalopen(true);
     setshowMessage(true);
     const patientId = event.target.dataset.patientId;
-    console.log(patientId);
     setiframeurl(patientId);
   }
+
   const modalhandleClose = () => {
     setmodalopen(false);
   }
@@ -139,31 +143,10 @@ const Dashboard = () => {
     url = `/records/patientdetails?Patient_id=${Patient_id}`;
     history.push(`${url}`);
   }
-  // const RemoteStatus=(status)=>{
-  //   if(status === "Vitals Tracking")
-  //   {
-  //     return(
-  //       <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >{status}</CBadge>
-  //     )
-  //   }
-  //   else if(status === "Not Tracking")
-  //   {
-  //     return(
-  //       <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>{status}</CBadge>
-  //     )
-  //   }
-  //   else{
-  //     return(
-  //       <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>
-  //         <div id="tooltip">
-  //           <span id="tooltiptext">tooltip text</span>
-  //           <span>{status}</span>
-  //         </div>
-  //       </CBadge>
-  //     )
-  //   }
-  // }
-
+  const handleChange = event => {
+    setshowMessage(false);
+    event.preventDefault();
+  }
   async function fetchdashdetails() {
     var requestOptions = {
       method: 'GET'
@@ -383,6 +366,20 @@ const Dashboard = () => {
               {/* <div className="small text-muted">September 2021</div> */}
           </CRow>
           <CRow>
+          <Modal
+          open={modalopen}
+          onClose={modalhandleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          onClick={handleChange}
+        >
+          <Box sx={modalstyle}>
+          <Typography id="modal-modal-description" >
+            {console.log(iframeurl)}
+            {showMessage && <ShowModal1 patientId={iframeurl}/>}
+          </Typography>
+          </Box>
+        </Modal>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
@@ -409,7 +406,6 @@ const Dashboard = () => {
                 <StyledTableCell style={{ fontWeight: 'bold', width: '22%' }}>Address</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Patient Contact Number</StyledTableCell>
-               
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Personal Info</StyledTableCell>
               </StyledTableRow>
             </TableHead>
@@ -454,7 +450,6 @@ const Dashboard = () => {
                       <StyledTableCell align="left" >{row.Patient_address}</StyledTableCell>
                       <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
                       <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-
                       <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
                       </StyledTableRow>
                     );

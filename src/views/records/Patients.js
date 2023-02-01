@@ -227,7 +227,7 @@ export default function PatientInform() {
       return(
         <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>
           <div id="tooltip">
-            <span id="tooltiptext">patient critical & vitals tracking</span>
+            <span id="tooltiptext">Patient Critical & Vitals Tracked</span>
             <span>{status}</span>
           </div>
         </CBadge>
@@ -239,7 +239,7 @@ export default function PatientInform() {
       return(
         <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>
           <div id="tooltip">
-            <span id="tooltiptext">patient no more critical</span>
+            <span id="tooltiptext">Patient Stable</span>
             <span>{status}</span>
           </div>
         </CBadge>
@@ -250,7 +250,7 @@ export default function PatientInform() {
       return(
         <CBadge color="info" className="mfs-auto" fontSize='22px' align='center'>
           <div id="tooltip">
-            <span id="tooltiptext">care plan suggested</span>
+            <span id="tooltiptext">Care Plan Suggested</span>
             <span>{status}</span>
           </div>
         </CBadge>
@@ -261,7 +261,7 @@ export default function PatientInform() {
       return(
         <CBadge color="success" className="mfs-auto" fontSize='22px' align='center'>
           <div id="tooltip">
-            <span id="tooltiptext">non critical patient</span>
+            <span id="tooltiptext">Tenatative Patient</span>
             <span>{status}</span>
           </div>
         </CBadge>
@@ -269,9 +269,9 @@ export default function PatientInform() {
     }
     else{
       return(
-        <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>
+        <CBadge color="success" className="mfs-auto" fontSize='22px' align='center'>
           <div id="tooltip">
-            <span id="tooltiptext">yet to enroll</span>
+            <span id="tooltiptext">Yet to Enroll</span>
             <span>{status}</span>
           </div>
         </CBadge>
