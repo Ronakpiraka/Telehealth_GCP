@@ -13,19 +13,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import { makeStyles,alpha ,withStyles} from '@material-ui/core/styles';
 import LoadingOverlay from 'react-loading-overlay';
-import ChartLineSimple from '../charts/ChartLineSimple'
-// import ChartBarSimple from '../charts/ChartBarSimple'
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import {
-  CWidgetDropdown,
-  CRow,
-  CCol,
-  CDropdown,
-  CDropdownMenu,
-  CDropdownItem,
-  CDropdownToggle
-} from '@coreui/react'
+import "../records/patients.css"; 
 
 export default function Device() {
   const useStyles = makeStyles((theme) => ({
@@ -157,7 +147,7 @@ export default function Device() {
     return (
       <>
         {/* <Layout style={{backgroundColor:'black'}}> */}
-        <h1 className="title"><strong>Patient Information</strong></h1>
+        <h1 className="title"><strong>Device Information</strong></h1>
             <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>

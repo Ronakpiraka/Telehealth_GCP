@@ -204,7 +204,7 @@ export default function EmailNotify() {
 
     return (
       <div>
-        <h1 className="title"><strong>Patient Information</strong></h1>
+        <h1 className="title"><strong>Email Notifications</strong></h1>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
