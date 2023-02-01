@@ -7,7 +7,7 @@
   /* Tooltip text */
   #tooltip #tooltiptext {
     visibility: hidden;
-    width: 200px;
+    width: 160px;
     background-color: teal;
     color: black;
     text-align: center;
@@ -17,7 +17,7 @@
     z-index: 1;
     bottom: 100%;
     left: 50%;
-    margin-left: -100px;
+    margin-left: -80px;
   }
   /* Show the tooltip text when you mouse over the tooltip container */
   #tooltip:hover #tooltiptext {
