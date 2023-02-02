@@ -20,6 +20,7 @@ const AmbulanceService = React.lazy(() => import('./views/services/AmbulanceServ
 const AmbulanceInform = React.lazy(() => import('./views/services/AmbulanceInform'));
 const Ambulancedetails = React.lazy(() => import('./views/services/AmbulanceDetails'));
 const EmailNotification = React.lazy(() => import('./views/notifications/EmailNotifications'));
+const Appointment = React.lazy(()=> import('./views/notifications/appointments'));
 // const Modal = React.lazy(() => import('./views/records/modal.js'));
 
 const routes = [
@@ -32,8 +33,7 @@ const routes = [
   { path: '/insights/preventive', name: 'PreventiveCare', component: Preventive, exact: true },
   { path: '/insights/continuous', name: 'ContinuousCare', component: Continuous, exact: true },
   { path: '/device/devices', name: 'Devices', component: Device, exact: true },
-  // { path: '/reports', name: 'Reports', component: Reports, exact: true },
-  // { path: '/Modal', name: 'Modal', component: Modal },
+  { path: '/bookAppointment', name: 'Appointment', component: Appointment, exact: true },
   { path: '/reports/ProviderInsights', name: 'ProviderInsights', component: ProviderInsights, exact: true },
   { path: '/reports/PractitionerEngagements', name: 'PractitionerEngagements', component: PractitionerEngagements, exact: true },
   { path: '/reports/PatientDemography', name: 'PatientDemography', component: PatientDemography, exact: true },
