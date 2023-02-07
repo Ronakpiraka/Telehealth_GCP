@@ -8,15 +8,10 @@ import CIcon from '@coreui/icons-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { alpha } from '@material-ui/core/styles';
 import emailjs from '@emailjs/browser';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory, useLocation } from "react-router-dom";
 import LoadingOverlay from 'react-loading-overlay';
-import { CBadge, CButton } from '@coreui/react';
 import "../records/patients.css";
 import {
   CCard,
@@ -26,6 +21,7 @@ import {
   CCol,
   CRow,
   CWidgetProgressIcon,
+  CCardText,
 } from '@coreui/react'
 
 
@@ -101,22 +97,19 @@ export default function EmailNotify() {
   }))(TableRow);
 
   const [data, setdata] = React.useState([]);
-  const [collapsed, setcollapsed] = React.useState(false);
-  const [searchTerm, setsearchTerm] = React.useState('');
-  const [page, setpage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [ordPlaced, setordPlaced] = React.useState(5);
-  const classes = useStyles();
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  const [PatientName, setPatientName] = React.useState('');
-  const [dashdetails, setdashdetails] = React.useState([]);
+  var stat, flags;
+  const location = useLocation();
 
-  const handleChange = (event) => {
-    setPatientName(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setPatientName(event.target.value);
+  // };
 
   useEffect(() => {
+    flags = location.search.split('^')[1];
+    let conditionName = location.search.split('=')[1].split('%')[0];
+    console.log(conditionName)
     const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -142,10 +135,9 @@ export default function EmailNotify() {
         }
       }
       setdata(final_data)
-      const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
-
       console.log(data)
       setisLoading(false)
+
     }).catch(error => {
       console.log(error)
     });
@@ -155,86 +147,81 @@ export default function EmailNotify() {
 
   // const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
   const uniquePractitionerName = Array.from(new Set(data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
-  const handleChangePage = (event, newPage) => {
-    setpage(newPage);
-  };
+  // const handleChangePage = (event, newPage) => {
+  //   setpage(newPage);
+  // };
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setpage(0);
-  };
+  // const handleChangeRowsPerPage = event => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setpage(0);
+  // };
 
   const senddata = (name, doctor, guardian_email) => {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
   }
 
-  
-
-  const sendemail = (name, doctor, guardian_email) => {
-    emailjs.send(
-      "service_jo0oe0n",
-      "template_bqrgux5",
-      { to_name: name, Doctor: doctor, email: guardian_email },
-      'l7yMNcNURVQaRrVQG')
-      .then(function (response) {
-        console.log('SUCCESS!', response.status, response.text);
-        toast.success("Meeting with Patient " + name + " is Scheduled");
-        senddata(name, doctor, guardian_email);
-      }, function (error) {
-        console.log('FAILED...', error);
-        alert(error)
-      });
+  const sendemail = (name, doctor, email) => {
+    // emailjs.send(
+    //   "service_jo0oe0n",
+    //   "template_bqrgux5",
+    //   { to_name: name, Doctor: doctor, email: guardian_email },
+    //   'l7yMNcNURVQaRrVQG')
+    //   .then(function (response) {
+    //     console.log('SUCCESS!', response.status, response.text);
+    //     toast.success("Meeting with Patient " + name + " is Scheduled");
+    //     senddata(name, doctor, email);
+    //   }, function (error) {
+    //     console.log('FAILED...', error);
+    //     alert(error)
+    //   });
   };
 
-  const riskscore = (cluster_label) => {
-    if (cluster_label === 0) {
-      return (
-        <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center' >Low Risk</CBadge>
-      )
-    }
-    else if (cluster_label === 2) {
-      return (
-        <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>Critical Condition</CBadge>
-      )
-    }
-    else {
-      return (
-        <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >Non - Critical Condition</CBadge>
-      )
-    }
-  }
+
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-    return (
+    
+  return (
     <div>
-      <h1 className="title"><strong>Book Appointment</strong></h1>
+      <h1 className="title"><strong>Practitioner Information</strong></h1>
 
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Practitioner Details :</b></p>
       </span>
       
-    {/* {uniquePractitionerName.map((prow, index) => {
-     <div><CCardGroup className="mb-4">
-          <CWidgetProgressIcon
-            {data.filter(val=>{
-                if(searchTerm === "")
-                {
-                  return val;
-                }
-                else if((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase()))){
-                return val
-                }
-            }
-        }
+    
+      <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
+
+     {data.map((row, index) => {
+      return(
+        <CCardGroup className="mb-4">
+        <CWidgetProgressIcon
             color="gradient-success"
             inverse
-          >
-            <CIcon name="cil-userFollow" height="36" />
-          </CWidgetProgressIcon>
-        </CCardGroup>
-        
-      </div>
-    })} */}
+            text={row.Practitioner_name}
+            style={{color:'white'}}
+        >
+        <CIcon name="cil-userFollow" style={{float:'left'}} height="36" />
+        <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email)}>Book Appointment</button></span>
+        </CWidgetProgressIcon>
+      </CCardGroup>
+      )
+      
+    })}
     </div>
   )
 }

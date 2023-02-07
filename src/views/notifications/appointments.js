@@ -26,9 +26,42 @@ import {
   CRow,
   CWidgetProgressIcon,
 } from '@coreui/react'
-
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function EmailNotify() {
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+    search: {
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: alpha(theme.palette.common.white, 0.35),
+        '&:hover': {
+          backgroundColor: alpha(theme.palette.common.white, 0.5),
+        },
+        margin: '10px',
+        float: 'right',
+        boxShadow: '-4px 8px 20px 0px grey',
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+          marginLeft: theme.spacing(1),
+          width: '98%',
+        },
+      },
+      searchIcon: {
+        padding: theme.spacing(0, 2),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+  }))
   
   const StyledTableCell = withStyles((theme) => ({
     body: {
@@ -113,162 +146,89 @@ export default function EmailNotify() {
     history.push(`${url}`);
   }
 
-  
-
-  const sendemail = (name, doctor, guardian_email) => {
-    emailjs.send(
-      "service_jo0oe0n",
-      "template_bqrgux5",
-      { to_name: name, Doctor: doctor, email: guardian_email },
-      'l7yMNcNURVQaRrVQG')
-      .then(function (response) {
-        console.log('SUCCESS!', response.status, response.text);
-        toast.success("Meeting with Patient " + name + " is Scheduled");
-        senddata(name, doctor, guardian_email);
-      }, function (error) {
-        console.log('FAILED...', error);
-        alert(error)
-      });
-  };
-
-  const riskscore = (cluster_label) => {
-    if (cluster_label === 0) {
-      return (
-        <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center' >Low Risk</CBadge>
-      )
-    }
-    else if (cluster_label === 2) {
-      return (
-        <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>Critical Condition</CBadge>
-      )
-    }
-    else {
-      return (
-        <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >Non - Critical Condition</CBadge>
-      )
-    }
-  }
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-  const redirecttoPractitionerbooking = (e, Practitioner_name) => {
-  var url = `/Practitionerbookings?Practitioner_id=${Practitioner_name}`;
+  const condition_name = [{condition:'Prediabetes - Insulin resistance'},{condition:'Diabetes'},{condition:'Advanced Diabetes'},{condition:'Wellness and Prevention'},{condition:'COVID-19'},{condition:'Anemia'},{condition:'Diabetic renal disease (disorder)'},{condition:'Hypertriglyceridemia (disorder)'},{condition:'Hypertension'},{condition:'Stress'},{condition:'Normal pregnancy'},{condition:'Coronary heart disease'},{condition:'Viral sinusitis (disorder)'},{condition:'Sleep disorder (disorder)'},{condition:'Acute allergic reactio'}]
+
+  const redirecttoPractitionerbooking = (e, condition) => {
+  var url = `/Practitionerbookings?condition=${condition}`;
     history.push(`${url}`);
   }
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.35),
-        '&:hover': {
-          backgroundColor: alpha(theme.palette.common.white, 0.5),
-        },
-        margin: '10px',
-        float: 'right',
-        boxShadow: '-4px 8px 20px 0px grey',
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-          marginLeft: theme.spacing(1),
-          width: '98%',
-        },
-      },
-      searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-  }))
+  
   return (
     <div>
       <h1 className="title"><strong>Book Appointment</strong></h1>
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Condition :</b></p> 
       </span>
-      {/* <LoadingOverlay
-        active={isLoading}
-        spinner
-        text='Loading the content...'
-        styles={{
-          height: "100%",
-          spinner: (base) => ({
-            ...base,
-            width: '50px',
-            '& svg circle': {
-              stroke: 'rgba(255, 0, 0, 0.5)'
-            }
-          })
-        }}
-      >
-      </LoadingOverlay> */}
+  
       
       <div>
+        
         <CRow>
-          <CCol sm="12" md="8" lg="4">
-            {/* <CWidgetDropdown type='button' color="gradient-primary" text="Prediabetes - Insulin resistance" onClick={(e)=>window.alert("test")} align="center"> </CWidgetDropdown> */}
-            <CWidgetDropdown type='button' color="gradient-primary" text="Prediabetes - Insulin resistance" onClick={(e)=>redirecttoPractitionerbooking(e)} align="center"></CWidgetDropdown>
+          {condition_name.map((row,index)=>{
+            return(
+            <CCol sm="12" md="8" lg="4">
+              {/* <CWidgetDropdown type='button' color="gradient-primary" text="Prediabetes - Insulin resistance" onClick={(e)=>window.alert("test")} align="center"> </CWidgetDropdown> */}
+              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
+            </CCol>
+            )
+          })}
+        </CRow>
+          
+          {/* <CCol sm= "12" md="8" lg="4">
+            <CWidgetDropdown color="gradient-danger" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
-          <CCol sm= "12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="Diabetes" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)}  margin = "auto"> </CWidgetDropdown>
-          </CCol>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="Advanced Diabetes" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-warning" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           </CRow>
         <CRow>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="Wellness and Prevention" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-primary" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol> 
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="COVID-19" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-danger" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="Anemia" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-warning" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           </CRow>
         
         <CRow>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="Diabetic renal disease (disorder)" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-primary" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}> <ArrowForwardIosIcon/></CWidgetDropdown>
           </CCol>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="Hypertriglyceridemia (disorder)" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-danger" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol> 
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="Hypertension" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-warning" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           </CRow>
         
         <CRow>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="Stress" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-primary" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="Normal pregnancy" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-danger" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="Coronary heart disease" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-warning" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol> 
         </CRow>
         
         <CRow>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="Viral sinusitis (disorder)" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-primary" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="Sleep disorder (disorder)" teprimary="center" onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-danger" text="" teprimary="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
           <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="Acute allergic reaction" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} margin = "auto"> </CWidgetDropdown>
+            <CWidgetDropdown color="gradient-warning" text="n" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
           </CCol>
-          </CRow>
+          </CRow> */}
         
       
           {/* <CCol sm="12" md="8" lg="4">
