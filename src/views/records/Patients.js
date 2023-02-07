@@ -237,7 +237,7 @@ export default function PatientInform() {
       return(
         <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>
           <div id="tooltip">
-            <span id="tooltiptext">Patient Stable</span>
+            <span id="tooltiptext">Patient table</span>
             <span>{status}</span>
           </div>
         </CBadge>
