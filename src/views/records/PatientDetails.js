@@ -3,6 +3,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingOverlay from 'react-loading-overlay';
+import TableBody from '@material-ui/core/TableBody';
 import {InfoCircleOutlined} from '@ant-design/icons';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -135,7 +136,7 @@ export default function PatientDetails() {
 
 			// console.log(posts);
 			// console.log('------------------posts***-------------------------------------')
-			document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
+			document.getElementsByclassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
 		}).catch((error) => {
 			console.log('order error', error);
 		})
@@ -286,25 +287,25 @@ export default function PatientDetails() {
 		  {
 			return (
 				<span>
-					<button type="button" class="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { redirectToPatientDetails(e, singlepatientid)}}>View Insights</button>
+					<button type="button" className="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { redirectToPatientDetails(e, singlepatientid)}}>View Insights</button>
 				</span>
 			)
 		  }
 		  else{
 			return(
 				<span>
-					<button type="button" class="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { redirectToPreventiveCare(e, singlepatientid)}}>View Insights</button>
+					<button type="button" className="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { redirectToPreventiveCare(e, singlepatientid)}}>View Insights</button>
 				</span>
 			)
 		  }
-		}	
+	}	
 
 	const displayNotification = (row) => {	
 		if(row)
 		{
 		  return (
 			<span>
-				<button type="button" class="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { redirectToConsultDetails(e, singlepatientid)}}>View Notifications</button>
+				<button type="button" className="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { redirectToConsultDetails(e, singlepatientid)}}>View Notifications</button>
 		  	</span>
 		  )
 		}
@@ -321,7 +322,7 @@ export default function PatientDetails() {
 	const displayshare = () => {
 			return (
 				<span>
-					<button type="button" class="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px" , paddingTop: '5px'}} onClick={(e) => {handleChange(e)}}>Select Provider</button>
+					<button type="button" className="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px" , paddingTop: '5px'}} onClick={(e) => {handleChange(e)}}>Select Provider</button>
 				</span>
 			)
 		}
@@ -329,7 +330,7 @@ export default function PatientDetails() {
 	const displayProviderConsent = () => {
 			return (
 				<span>
-					<button type="button" class="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px" , paddingTop: '5px'}} onClick={(e) => {displaysharetoast()}}>Share Details</button>
+					<button type="button" className="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px" , paddingTop: '5px'}} onClick={(e) => {displaysharetoast()}}>Share Details</button>
 				</span>
 			)
 		}
@@ -345,7 +346,7 @@ export default function PatientDetails() {
 		{
 		  return (
 			  <div>
-				<button type="button" class="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { modalhandleOpen()}}>View Monitoring Details</button>
+				<button type="button" className="btn btn-primary btn-sm" style={{ float: "right", marginRight:"5px", marginBottom: '6px' }} onClick={(e) => { modalhandleOpen()}}>View Monitoring Details</button>
 				<Modal
 						open={modalopen}
 						onClose={modalhandleClose}
@@ -358,7 +359,7 @@ export default function PatientDetails() {
 							{showMessage && <Modalcontent data={orderDetails}/>}
 							{showMessage2 && <ModalProvider/>}
 						</Typography>
-						<Typography id="modal-modal-description" class="d-flex justify-content-center" style={{ paddingTop: '5px'}}>
+						<Typography id="modal-modal-description" className="d-flex justify-content-center" style={{ paddingTop: '5px'}}>
 							{showMessage && displayshare()}
 							{showMessage2 && displayProviderConsent()}
 						</Typography>
@@ -371,7 +372,7 @@ export default function PatientDetails() {
 		{
 			return (
 				<>
-					{/* <button type="button" class="btn btn-primary form-group col-md-20" style={{float: "right", marginRight:"5px", color:"black"}} disabled>View Monitoring Details</button> */}
+					{/* <button type="button" className="btn btn-primary form-group col-md-20" style={{float: "right", marginRight:"5px", color:"black"}} disabled>View Monitoring Details</button> */}
 			  	</>
 			)
 		}
@@ -422,9 +423,9 @@ export default function PatientDetails() {
 					</LoadingOverlay>
 			
             
-			<span class="navbar justify-content-between">
-				<p class="navbar-brand"><b>Patient Details :</b></p>
-				<form class="form-inline">
+			<span className="navbar justify-content-between">
+				<p className="navbar-brand"><b>Patient Details :</b></p>
+				<form className="form-inline">
 					{displayfhirdetails(orderDetails)}
 					{displayNotification(orderDetails)}
 					{displayViewInsights(orderDetails)}
@@ -435,7 +436,7 @@ export default function PatientDetails() {
             <div className="col-lg-12 col-md-12 place-order" style={{textAlign:'left' }}>
                 <div className="padding-bottom20">
                     <Table striped bordered hover>
-                        <tbody>
+                        <TableBody>
                             {orderDetails && displayPatientID()}	
                             {orderDetails && displayPatientName()}	
 							{orderDetails && displayMail()}
@@ -448,7 +449,7 @@ export default function PatientDetails() {
 							{orderDetails && displayMRN()}
 							{orderDetails && displayDL()}
 							{orderDetails && displayCheckedBox(orderDetails)}
-                        </tbody>
+                        </TableBody>
                     </Table>	
                 </div>
             </div><br/><br/>
