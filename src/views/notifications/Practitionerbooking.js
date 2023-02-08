@@ -99,6 +99,7 @@ export default function EmailNotify() {
   const [data, setdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
+  const [CName, setCName] = useState(true);
   var stat, flags;
   const location = useLocation();
 
@@ -110,6 +111,7 @@ export default function EmailNotify() {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
     console.log(conditionName)
+    setCName(conditionName)
     const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -118,7 +120,7 @@ export default function EmailNotify() {
       let final_data = new Array();
       let Patient_id_list = new Array();
       let Patient_list_index = -1;
-
+  
       for (var i = 0; i < response.length; i++) {
         Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id)
         if (Patient_list_index == -1) {
@@ -161,20 +163,20 @@ export default function EmailNotify() {
     history.push(`${url}`);
   }
 
-  const sendemail = (name, doctor, email) => {
-    // emailjs.send(
-    //   "service_jo0oe0n",
-    //   "template_bqrgux5",
-    //   { to_name: name, Doctor: doctor, email: guardian_email },
-    //   'l7yMNcNURVQaRrVQG')
-    //   .then(function (response) {
-    //     console.log('SUCCESS!', response.status, response.text);
-    //     toast.success("Meeting with Patient " + name + " is Scheduled");
-    //     senddata(name, doctor, email);
-    //   }, function (error) {
-    //     console.log('FAILED...', error);
-    //     alert(error)
-    //   });
+  const sendemail = (name, doctor, guardian_email) => {
+    emailjs.send(
+      "service_pgn5fn9",
+      "template_03mdlrh",
+      { name: name, doctor: doctor, email: guardian_email },
+      'xQEzOVKLaHBEVtXtA')
+      .then(function (response) {
+        console.log('SUCCESS!', response.status, response.text);
+        toast.success("Appointment is for " + name + " is scheduled with " + doctor +" = and mail for collecting the document has been sent.");
+        senddata(name, doctor, guardian_email);
+      }, function (error) {
+        console.log('FAILED...', error);
+        alert(error)
+      });
   };
 
 

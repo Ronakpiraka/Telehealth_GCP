@@ -16,11 +16,23 @@ import Select from '@mui/material/Select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory, useLocation } from "react-router-dom";
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 import LoadingOverlay from 'react-loading-overlay';
 import { CBadge } from '@coreui/react';
 import "../records/patients.css";
 
 export default function EmailNotify() {
+  const modalstyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    };
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -49,7 +61,7 @@ export default function EmailNotify() {
       width: '50%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
-        width: '98%',
+        width: '50%',
       },
     },
     searchIcon: {
@@ -69,7 +81,7 @@ export default function EmailNotify() {
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
-      width: '100%',
+      width: '50%',
       [theme.breakpoints.up('sm')]: {
         width: '100ch',
         '&:focus': {
@@ -78,18 +90,6 @@ export default function EmailNotify() {
       },
     },
   }));
-  const StyledTableCell = withStyles((theme) => ({
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
 
   const [data, setdata] = React.useState([]);
   const [bucketName, setBucketName] = useState("");
