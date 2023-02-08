@@ -99,7 +99,7 @@ export default function EmailNotify() {
   const [data, setdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  const [CName, setCName] = useState(true);
+  //const [CName, setCName] = useState("");
   var stat, flags;
   const location = useLocation();
 
@@ -110,8 +110,9 @@ export default function EmailNotify() {
   useEffect(() => {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
-    console.log(conditionName)
-    setCName(conditionName)
+    console.log("condition",conditionName)
+    //setCName(conditionName)
+    //console.log("state",CName)
     const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -120,13 +121,15 @@ export default function EmailNotify() {
       let final_data = new Array();
       let Patient_id_list = new Array();
       let Patient_list_index = -1;
-  
+      let Patient_condition = "";
       for (var i = 0; i < response.length; i++) {
         Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id)
-        if (Patient_list_index == -1) {
+        Patient_condition = response[i].Condition_Name;
+        //console.log(Patient_condition)
+        if (Patient_list_index == -1 && Patient_condition==conditionName) {
           final_data.push(response[i])
           Patient_id_list.push(response[i].Patient_id)
-        } else {
+        } else if(Patient_list_index != -1) {
 
           let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
           let new_encounter = new Date(response[i].Encounter_start)

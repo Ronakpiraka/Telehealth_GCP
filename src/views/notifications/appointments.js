@@ -29,6 +29,18 @@ import {
   CWidgetProgressIcon,
 } from '@coreui/react'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import OutlinedInput from '@mui/material/OutlinedInput';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 export default function EmailNotify() {
   const modalstyle = {
@@ -99,6 +111,15 @@ export default function EmailNotify() {
     },
   }));
 
+  // function getStyles(name, personName, theme) {
+  //   return {
+  //     fontWeight:
+  //       personName.indexOf(name) === -1
+  //         ? theme.typography.fontWeightRegular
+  //         : theme.typography.fontWeightMedium,
+  //   };
+  // }
+
   const [data, setdata] = React.useState([]);
   const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState('');
@@ -109,10 +130,11 @@ export default function EmailNotify() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [PatientName, setPatientName] = React.useState('');
+  const [personName, setPersonName] = React.useState([]);
 
-  const handleChange = (event) => {
-    setPatientName(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setPatientName(event.target.value);
+  // };
 
   useEffect(() => {
     const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
@@ -140,8 +162,8 @@ export default function EmailNotify() {
         }
       }
       setdata(final_data)
-      const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
-      const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
+      // const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
+      // const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
 
 
       console.log(data)
@@ -153,7 +175,8 @@ export default function EmailNotify() {
 
   console.log(data)
 
-  // const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
+  const uniquePatientName = Array.from(new Set(data.map(item => JSON.stringify(item)))).map(item => JSON.parse(item));
+  console.log(uniquePatientName)
   // const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -169,6 +192,16 @@ export default function EmailNotify() {
     history.push(`${url}`);
   }
 
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
   const condition_name = [{condition:'Prediabetes - Insulin resistance'},{condition:'Diabetes'},{condition:'Advanced Diabetes'},{condition:'Wellness and Prevention'},{condition:'COVID-19'},{condition:'Anemia'},{condition:'Diabetic renal disease (disorder)'},{condition:'Hypertriglyceridemia (disorder)'},{condition:'Hypertension'},{condition:'Stress'},{condition:'Normal pregnancy'},{condition:'Coronary heart disease'},{condition:'Viral sinusitis (disorder)'},{condition:'Sleep disorder (disorder)'},{condition:'Acute allergic reactio'}]
 
@@ -179,7 +212,7 @@ export default function EmailNotify() {
   
   return (
     <div>
-        <h1 className="title"><strong>Book Appointment</strong></h1>
+        <h1 className="title"><strong>Book Appointment</strong></h1><br/>
       <div>
         <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -195,9 +228,26 @@ export default function EmailNotify() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          </div><br/><br/><br/><br/>
+
+          <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Select Patient Name</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            onChange={handleChange}
+          >
+            {uniquePatientName.map((row,index)=>{
+              return(
+                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+              )
+            })} 
+          </Select>
+        </FormControl><br/>
       
       <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Conditions</b></p> 
+        <p className="navbar-brand"><b>Select your Condition</b></p> 
       </span>
         <CRow>
           {condition_name.filter(val=>{
@@ -296,8 +346,5 @@ export default function EmailNotify() {
         
 
       </div>
-
-
-    </div>
   )
 }
