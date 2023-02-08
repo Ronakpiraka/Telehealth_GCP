@@ -175,7 +175,7 @@ export default function EmailNotify() {
         senddata(name, doctor, guardian_email);
       }, function (error) {
         console.log('FAILED...', error);
-        alert(error)
+        // alert(error)
       });
   };
 
