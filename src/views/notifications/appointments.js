@@ -14,6 +14,8 @@ import Select from '@mui/material/Select';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory, useLocation } from "react-router-dom";
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 import LoadingOverlay from 'react-loading-overlay';
 import { CBadge, CButton } from '@coreui/react';
 import "../records/patients.css";
@@ -29,6 +31,16 @@ import {
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function EmailNotify() {
+  const modalstyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    };
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -36,45 +48,56 @@ export default function EmailNotify() {
         margin: theme.spacing(1),
       },
     },
+    small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    large: {
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+    },
     search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.35),
-        '&:hover': {
-          backgroundColor: alpha(theme.palette.common.white, 0.5),
-        },
-        margin: '10px',
-        float: 'right',
-        boxShadow: '-4px 8px 20px 0px grey',
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-          marginLeft: theme.spacing(1),
-          width: '98%',
-        },
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: alpha(theme.palette.common.white, 0.35),
+      '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.5),
       },
-      searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-  }))
-  
-  const StyledTableCell = withStyles((theme) => ({
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+      margin: '10px',
+      float: 'right',
+      boxShadow: '-4px 8px 20px 0px grey',
+      width: '50%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: '50%',
       },
     },
-  }))(TableRow);
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '50%',
+      [theme.breakpoints.up('sm')]: {
+        width: '100ch',
+        '&:focus': {
+          width: '20ch',
+        },
+      },
+    },
+  }));
 
   const [data, setdata] = React.useState([]);
   const [collapsed, setcollapsed] = React.useState(false);
@@ -156,16 +179,37 @@ export default function EmailNotify() {
   
   return (
     <div>
-      <h1 className="title"><strong>Book Appointment</strong></h1>
-      <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Condition :</b></p> 
-      </span>
-  
-      
+        <h1 className="title"><strong>Book Appointment</strong></h1>
       <div>
-        
+        <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search by Condition Name..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onChange={(e) => { setsearchTerm(e.target.value) }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+      
+      <span className="navbar justify-content-between">
+        <p className="navbar-brand"><b>Conditions</b></p> 
+      </span>
         <CRow>
-          {condition_name.map((row,index)=>{
+          {condition_name.filter(val=>{
+            if(searchTerm === "")
+            {
+              return val;
+            }
+            else if((val.condition.toLowerCase().includes(searchTerm.toLowerCase())))
+            {
+              return val
+            }})
+            .map((row,index)=>{
             return(
             <CCol sm="12" md="8" lg="4">
               {/* <CWidgetDropdown type='button' color="gradient-primary" text="Prediabetes - Insulin resistance" onClick={(e)=>window.alert("test")} align="center"> </CWidgetDropdown> */}
