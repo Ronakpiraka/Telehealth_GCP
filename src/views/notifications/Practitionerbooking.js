@@ -122,25 +122,28 @@ export default function EmailNotify() {
       let Patient_id_list = new Array();
       let Patient_list_index = -1;
       let Patient_condition = "";
+      // console.log(response);
       for (var i = 0; i < response.length; i++) {
+        // console.log(response[i]);
         Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id)
-        Patient_condition = response[i].Condition_Name;
-        //console.log(Patient_condition)
-        if (Patient_list_index == -1 && Patient_condition==conditionName) {
+        if (Patient_list_index == -1 && response[i].Condition_Name==conditionName) {
           final_data.push(response[i])
+          // console.log(response[i])
           Patient_id_list.push(response[i].Patient_id)
-        } else if(Patient_list_index != -1) {
-
-          let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
-          let new_encounter = new Date(response[i].Encounter_start)
-
-          if (new_encounter > lst_encounter) {
-            final_data[Patient_list_index] = response[i]
-          }
         }
+        // } else if(Patient_list_index != -1) {
+
+        //   let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
+        //   let new_encounter = new Date(response[i].Encounter_start)
+
+        //   if (new_encounter > lst_encounter) {
+        //     final_data[Patient_list_index] = response[i]
+        //   }
+        // }
       }
+      // console.log(final_data)
       setdata(final_data)
-      console.log(data)
+      // console.log(data)
       setisLoading(false)
 
     }).catch(error => {
@@ -221,7 +224,7 @@ export default function EmailNotify() {
             style={{color:'white'}}
         >
         <CIcon name="cil-userFollow" style={{float:'left'}} height="36" />
-        <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email)}>Book Appointment</button></span>
+        <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={(e)=>{sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email)}}>Book Appointment</button></span>
         </CWidgetProgressIcon>
       </CCardGroup>
       )
@@ -230,3 +233,5 @@ export default function EmailNotify() {
     </div>
   )
 }
+
+

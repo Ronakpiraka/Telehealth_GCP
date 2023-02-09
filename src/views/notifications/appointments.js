@@ -211,9 +211,34 @@ export default function EmailNotify() {
   }
   
   return (
-    <div>
-        <h1 className="title"><strong>Book Appointment</strong></h1><br/>
-      <div>
+    <div>  
+        <h1 className="title" align="center"><strong>Book Appointment</strong></h1><br/>
+        <CRow>
+          <CCol >
+        <span className="navbar justify-content-between">
+        <p className="navbar-brand"><b>Select Patient Name: </b></p> 
+        </span>
+        </CCol>
+        <CCol >
+          <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            onChange={handleChange}
+          >
+            {uniquePatientName.map((row,index)=>{
+              return(
+                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+              )
+            })} 
+          </Select>
+        </FormControl>
+        </CCol>
+        </CRow>
+        
+      <div sm="8" md="8" lg="8">
         <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -227,28 +252,12 @@ export default function EmailNotify() {
               onChange={(e) => { setsearchTerm(e.target.value) }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
-          </div><br/><br/><br/><br/>
-
-          <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Select Patient Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl><br/>
-      
-      <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select your Condition</b></p> 
-      </span>
+        </div>
+      </div>
+        
+        <span className="navbar justify-content-between">
+          <p className="navbar-brand"><b>Select your Condition:</b></p> 
+        </span>
         <CRow>
           {condition_name.filter(val=>{
             if(searchTerm === "")
@@ -262,89 +271,11 @@ export default function EmailNotify() {
             .map((row,index)=>{
             return(
             <CCol sm="12" md="8" lg="4">
-              {/* <CWidgetDropdown type='button' color="gradient-primary" text="Prediabetes - Insulin resistance" onClick={(e)=>window.alert("test")} align="center"> </CWidgetDropdown> */}
               <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
             </CCol>
             )
           })}
         </CRow>
-          
-          {/* <CCol sm= "12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          </CRow>
-        <CRow>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol> 
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          </CRow>
-        
-        <CRow>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}> <ArrowForwardIosIcon/></CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol> 
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          </CRow>
-        
-        <CRow>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="" align="center"  onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol> 
-        </CRow>
-        
-        <CRow>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-primary" text="" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="" teprimary="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-warning" text="n" align="center" onClick={(e)=>redirecttoPractitionerbooking(e)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/> </CWidgetDropdown>
-          </CCol>
-          </CRow> */}
-        
-      
-          {/* <CCol sm="12" md="8" lg="4">
-            <CWidgetDropdown color="gradient-danger" text="Unhealthy alcohol drinking behavior (finding)" align="center" margin = "auto"> </CWidgetDropdown>
-          </CCol>   */}
-       
-        {/* <CRow>
-          <CCol sm="12" md="6" lg="3">
-            <CWidgetDropdown color="gradient-primary" text="Prediabetes - Insulin resistance" align="center" margin = "auto"> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="6" lg="3">
-            <CWidgetDropdown color="gradient-danger" text="Prediabetes - Insulin resistance" align="center" margin = "auto"> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="6" lg="3">
-            <CWidgetDropdown color="gradient-primary" text="Prediabetes - Insulin resistance" align="center" margin = "auto"> </CWidgetDropdown>
-          </CCol>
-          <CCol sm="12" md="6" lg="3">
-            <CWidgetDropdown color="gradient-danger" text="Prediabetes - Insulin resistance" align="center" margin = "auto"> </CWidgetDropdown>
-          </CCol> 
-        </CRow> */}
-        
-
       </div>
   )
 }
