@@ -31,6 +31,8 @@ import {
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
+
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -137,7 +139,7 @@ export default function EmailNotify() {
   // };
 
   useEffect(() => {
-    const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
+    const res = fetch("https://applicationbooking-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
     ).then(response => {
@@ -191,23 +193,37 @@ export default function EmailNotify() {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
   }
-
+  var name="";
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+
+    name=event.target.value;
+    console.log(name);
+    // const {
+    //   target: { value },
+    // } = event;
+    // console.log(value);
+    // setPersonName(
+    //   // On autofill we get a stringified value.
+    //   typeof value === 'string' ? value.split(',') : value,
+    // );
+    // console.log(value);
+    // let {name, value} = event.target;
+    // console.log(value);
   };
 
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-  const condition_name = [{condition:'Prediabetes - Insulin resistance'},{condition:'Diabetes'},{condition:'Advanced Diabetes'},{condition:'Wellness and Prevention'},{condition:'COVID-19'},{condition:'Anemia'},{condition:'Diabetic renal disease (disorder)'},{condition:'Hypertriglyceridemia (disorder)'},{condition:'Hypertension'},{condition:'Stress'},{condition:'Normal pregnancy'},{condition:'Coronary heart disease'},{condition:'Viral sinusitis (disorder)'},{condition:'Sleep disorder (disorder)'},{condition:'Acute allergic reactio'}]
+  const condition_name = [{condition:'Prediabetes - Insulin resistance'},{condition:'Diabetes'},{condition:'Viral sinusitis (disorder)'},{condition:'Acute viral pharyngitis (disorder)'},{condition:'Acute bronchitis (disorder)'},{condition:'Anemia (disorder)'},{condition:'Body mass index 30+ - obesity (finding)'},{condition:'Hypertension'},{condition:'Chronic sinusitis (disorder)'},{condition:'Miscarriage in first trimester'},{condition:'Normal pregnancy'},{condition:'Streptococcal sore throat (disorder)'},{condition:'Otitis media'},{condition:'Hyperlipidemia'},{condition:'Sprain of ankle'}]
 
   const redirecttoPractitionerbooking = (e, condition) => {
-  var url = `/Practitionerbookings?condition=${condition}`;
+    if(name!=""){
+      var url = `/Practitionerbookings?condition=${condition}`;
     history.push(`${url}`);
+    }
+    else{
+      window.alert("Select a Name.")
+    }
+    
+  
   }
   
   return (

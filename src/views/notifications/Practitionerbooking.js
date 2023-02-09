@@ -102,6 +102,7 @@ export default function EmailNotify() {
   //const [CName, setCName] = useState("");
   var stat, flags;
   const location = useLocation();
+  
 
   // const handleChange = (event) => {
   //   setPatientName(event.target.value);
@@ -113,11 +114,11 @@ export default function EmailNotify() {
     console.log("condition",conditionName)
     //setCName(conditionName)
     //console.log("state",CName)
-    const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
+    const res = fetch("https://applicationbooking-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
     ).then(response => {
-
+      
       let final_data = new Array();
       let Patient_id_list = new Array();
       let Patient_list_index = -1;
@@ -191,6 +192,55 @@ export default function EmailNotify() {
   return (
     <div>
       <h1 className="title"><strong>Practitioner Information</strong></h1>
+      {/* <CRow>
+          <CCol >
+        <span className="navbar justify-content-between">
+        <p className="navbar-brand"><b>Select Slot: </b></p> 
+        </span>
+        </CCol>
+        <CCol >
+          <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Slots</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            onChange={handleChange}
+          >
+            {uniquePatientName.map((row,index)=>{
+              return(
+                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+              )
+            })} 
+          </Select>
+        </FormControl>
+        </CCol>
+        </CRow>
+
+        <CRow>
+          <CCol >
+        <span className="navbar justify-content-between">
+        <p className="navbar-brand"><b>Select Provider: </b></p> 
+        </span>
+        </CCol>
+        <CCol >
+          <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            onChange={handleChange}
+          >
+            {uniquePatientName.map((row,index)=>{
+              return(
+                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+              )
+            })} 
+          </Select>
+        </FormControl>
+        </CCol>
+        </CRow> */}
 
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Practitioner Details :</b></p>
@@ -216,17 +266,23 @@ export default function EmailNotify() {
 
      {data.map((row, index) => {
       return(
-        <CCardGroup className="mb-4">
+        
+        <CCardGroup className="mb-4 ">
         <CWidgetProgressIcon
             color="gradient-success"
             inverse
-            text={row.Practitioner_name}
+            text={row.Practitioner_email}
             style={{color:'white'}}
         >
+        
         <CIcon name="cil-userFollow" style={{float:'left'}} height="36" />
+        <p style={{fontSize:'75%',textAlign:'left',marginLeft:"50px"}}>{row.Practitioner_name}</p>
+      
+        <p style={{fontSize:'50%',textAlign:'left'}}>{row.Practitioner_Speciality}</p>
         <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={(e)=>{sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email)}}>Book Appointment</button></span>
         </CWidgetProgressIcon>
       </CCardGroup>
+      
       )
       
     })}
