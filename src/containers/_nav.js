@@ -90,7 +90,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Book Appointment',
     to: '/bookAppointment',
-    icon: 'cib-clockify',
+    icon: 'cil-bell',
     badge: {
       color: 'success',
       text: '+5',

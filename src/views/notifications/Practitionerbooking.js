@@ -99,7 +99,7 @@ export default function EmailNotify() {
   const [data, setdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  //const [CName, setCName] = useState("");
+  const [val, setval] = useState({name:'',condition:''});
   var stat, flags;
   const location = useLocation();
 
@@ -111,8 +111,12 @@ export default function EmailNotify() {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
     console.log("condition",conditionName)
+    
+    let Pname = localStorage.getItem('Patient');
+    console.log(Pname, conditionName)
+    setval({name:Pname, condition:conditionName})
     //setCName(conditionName)
-    //console.log("state",CName)
+    console.log("state",val)
     const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -164,9 +168,25 @@ export default function EmailNotify() {
   //   setpage(0);
   // };
 
-  const senddata = (name, doctor, guardian_email) => {
-    var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
-    history.push(`${url}`);
+  const senddata = async() => {
+    var accessToken = sessionStorage.getItem('Accesstoken')
+    // setLoading(true);
+     const response = await fetch(`https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/Test_FHIR_Fetch/tables/Patient_prac_details/insertAll?key=[AIzaSyD5pmSe_wdcafJ9hmNU2eExYH1Oa4iA7fc]`,
+     { method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify( 
+      {
+           "rows": [
+             {
+              "Patient_name": "komal"
+            }]
+           }),
+           header: {
+            'Authorization': 'Bearer '+ 'ya29.a0AVvZVsq9EEr9bw5vlmxz1X8Rdna1T5fs40gnROgr3n0J-ran9j229d0Y4lwm6OYw9tsS3YkiJ5YcvbZrm_KbE6c6iiX856GVcODI2PZ6WU-C-8PhWkmLvriSo5hnHTlGH0RBNJQHdj9A-AeMUutAf1XYCp9SRAaCgYKAQQSARISFQGbdwaIouvgzIZtlcYVBE4qtmOLNQ0165',
+            'Accept' : 'application/json',
+            'Content-Type': 'application/json' 
+          }
+         })
   }
 
   const sendemail = (name, doctor, guardian_email) => {
@@ -178,7 +198,7 @@ export default function EmailNotify() {
       .then(function (response) {
         console.log('SUCCESS!', response.status, response.text);
         toast.success("Appointment is for " + name + " is scheduled with " + doctor +" = and mail for collecting the document has been sent.");
-        senddata(name, doctor, guardian_email);
+        // senddata(name, doctor, guardian_email);
       }, function (error) {
         console.log('FAILED...', error);
         // alert(error)
@@ -224,7 +244,7 @@ export default function EmailNotify() {
             style={{color:'white'}}
         >
         <CIcon name="cil-userFollow" style={{float:'left'}} height="36" />
-        <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={(e)=>{sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email)}}>Book Appointment</button></span>
+        <span><button type="submit" className="btn btn-secondary btn-sm" onClick={senddata}>Book Appointment</button></span>
         </CWidgetProgressIcon>
       </CCardGroup>
       )

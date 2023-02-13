@@ -31,16 +31,6 @@ import {
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
 export default function EmailNotify() {
   const modalstyle = {
@@ -111,15 +101,6 @@ export default function EmailNotify() {
     },
   }));
 
-  // function getStyles(name, personName, theme) {
-  //   return {
-  //     fontWeight:
-  //       personName.indexOf(name) === -1
-  //         ? theme.typography.fontWeightRegular
-  //         : theme.typography.fontWeightMedium,
-  //   };
-  // }
-
   const [data, setdata] = React.useState([]);
   const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState('');
@@ -131,6 +112,7 @@ export default function EmailNotify() {
   const [isLoading, setisLoading] = useState(true);
   const [PatientName, setPatientName] = React.useState('');
   const [personName, setPersonName] = React.useState([]);
+  const [conditionName, setConditionName] = React.useState([]);
 
   // const handleChange = (event) => {
   //   setPatientName(event.target.value);
@@ -196,10 +178,9 @@ export default function EmailNotify() {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setPersonName(value)
+    localStorage.setItem("Patient",value)
+    console.log("selected patient", value)
   };
 
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
@@ -225,7 +206,7 @@ export default function EmailNotify() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Age"
+            label="PName"
             onChange={handleChange}
           >
             {uniquePatientName.map((row,index)=>{
@@ -271,7 +252,7 @@ export default function EmailNotify() {
             .map((row,index)=>{
             return(
             <CCol sm="12" md="8" lg="4">
-              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
+              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{padding:'4%', fontSize:'14px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
             </CCol>
             )
           })}
