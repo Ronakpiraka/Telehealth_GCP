@@ -102,6 +102,8 @@ export default function EmailNotify() {
   }))(TableRow);
 
   const [data, setdata] = React.useState([]);
+  const [finaldata, setfinaldata] = React.useState([]);
+  const [finalprac, setpracdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   //const [CName, setCName] = useState("");
@@ -112,7 +114,11 @@ export default function EmailNotify() {
   // const handleChange = (event) => {
   //   setPatientName(event.target.value);
   // };
-  var final_data = new Array();
+  // var final_prac = new Array();
+  // let final_provider = new Array();
+  
+  // var final_data = new Array();
+  var provider="";
   useEffect(() => {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
@@ -129,7 +135,8 @@ export default function EmailNotify() {
       let Provider_id_list = new Array();
       let Provider_list_index = -1;
       let Patient_condition = "";
-      // console.log(response);
+      var final_data = new Array();
+      console.log(response);
       for (var i = 0; i < response.length; i++) {
         // console.log(response[i]);
         Provider_list_index = Provider_id_list.indexOf(response[i].Provider_id)
@@ -138,7 +145,6 @@ export default function EmailNotify() {
           // console.log(response[i]) 
           Provider_id_list.push(response[i].Provider_id)
         }
-        
         // } else if(Patient_list_index != -1) {
 
         //   let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
@@ -149,8 +155,11 @@ export default function EmailNotify() {
         //   }
         // }
       }
+      
       console.log(final_data)
-      setdata(final_data)
+      // setdata(final_data)
+      setfinaldata(final_data);
+      setpracdata(final_data);
       // console.log(data) 
       setisLoading(false)
 
@@ -159,11 +168,12 @@ export default function EmailNotify() {
     });
   }, [])
 
-  console.log(data);
-  const uniqueProviderName = Array.from(new Set(data.map(item => JSON.stringify(item.Provider_name)))).map(item => JSON.parse(item));
+  console.log(finaldata);
+  const uniqueProviderName = Array.from(new Set(finaldata.map(item => JSON.stringify(item.Provider_name)))).map(item => JSON.parse(item));
   console.log(uniqueProviderName);
   // const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
-  const uniquePractitionerName = Array.from(new Set(data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
+  // const uniquePractitionerName = final_prac.map(item => JSON.stringify(item.Practitioner_name)).map(item => JSON.parse(item));
+
   // const handleChangePage = (event, newPage) => {
   //   setpage(newPage);
   // };
@@ -194,11 +204,24 @@ export default function EmailNotify() {
       });
   };
 
-  var provider="";
+  
   const handleChange = (event) => {
 
     provider=event.target.value;
     console.log(provider);
+    var final_prac= new Array();
+    let Prac_id_list = new Array();
+      let Prac_list_index = -1;
+      for (var i = 0; i < finaldata.length; i++) {
+        // console.log(response[i]);
+        Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id)
+        if (Prac_list_index == -1 && finaldata[i].Provider_name==provider) {
+          final_prac.push(finaldata[i])
+          // console.log(response[i]) 
+          Prac_id_list.push(finaldata[i].Practitioner_id)
+        }
+      }
+    setpracdata(final_prac);
   };
 
 
@@ -294,7 +317,7 @@ export default function EmailNotify() {
 					>
 					</LoadingOverlay>
 
-     {data.map((row, index) => {
+     {finalprac.map((row, index) => {
       return(
         
         <CCardGroup className="mb-4 ">
