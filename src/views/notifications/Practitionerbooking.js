@@ -99,52 +99,84 @@ export default function EmailNotify() {
   const [data, setdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  //const [CName, setCName] = useState("");
+  const [CName, setCName] = useState(true);
+  const [resdata, setresData] = useState();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [bucket, setbucket] = useState();
+
   var stat, flags;
   const location = useLocation();
-  
 
   // const handleChange = (event) => {
   //   setPatientName(event.target.value);
   // };
 
+  const fetchData = async () => {
+    
+    var accessToken = sessionStorage.get('Accesstoken');
+
+      setLoading(true);
+      const response = await fetch(`https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/Test_FHIR_Fetch/tables/Patient_prac_details/insertAll?key=AIzaSyD5pmSe_wdcafJ9hmNU2eExYH1Oa4iA7fc`,{
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify(    
+        {
+          "rows": [
+            {
+              "Patient_name": "komal"
+            }
+          ]
+        }),
+        header: {
+          'Authorization': 'Bearer '+ accessToken,
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'  
+      }
+      
+  })
+      // .then(response => response.json())
+    //   setresData(response);
+    //   alert(resdata)
+    //   setLoading(false);
+    // } catch (error) {
+    //   setError(error);
+    //   alert(error)
+    //   setLoading(false);
+    // }
+  };
+
   useEffect(() => {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
-    console.log("condition",conditionName)
-    //setCName(conditionName)
-    //console.log("state",CName)
-    const res = fetch("https://applicationbooking-sh4iojyb3q-uc.a.run.app", {
+    console.log(conditionName)
+    setCName(conditionName)
+    const res = fetch("https://patientpractitionerdata-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
     ).then(response => {
-      
+
       let final_data = new Array();
       let Patient_id_list = new Array();
       let Patient_list_index = -1;
-      let Patient_condition = "";
-      // console.log(response);
+  
       for (var i = 0; i < response.length; i++) {
-        // console.log(response[i]);
         Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id)
-        if (Patient_list_index == -1 && response[i].Condition_Name==conditionName) {
+        if (Patient_list_index == -1) {
           final_data.push(response[i])
-          // console.log(response[i])
           Patient_id_list.push(response[i].Patient_id)
+        } else {
+
+          let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
+          let new_encounter = new Date(response[i].Encounter_start)
+
+          if (new_encounter > lst_encounter) {
+            final_data[Patient_list_index] = response[i]
+          }
         }
-        // } else if(Patient_list_index != -1) {
-
-        //   let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
-        //   let new_encounter = new Date(response[i].Encounter_start)
-
-        //   if (new_encounter > lst_encounter) {
-        //     final_data[Patient_list_index] = response[i]
-        //   }
-        // }
       }
-      // console.log(final_data)
       setdata(final_data)
-      // console.log(data)
+      console.log(data)
       setisLoading(false)
 
     }).catch(error => {
@@ -192,55 +224,6 @@ export default function EmailNotify() {
   return (
     <div>
       <h1 className="title"><strong>Practitioner Information</strong></h1>
-      {/* <CRow>
-          <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Slot: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
-          <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Slots</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl>
-        </CCol>
-        </CRow>
-
-        <CRow>
-          <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Provider: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
-          <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl>
-        </CCol>
-        </CRow> */}
 
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Practitioner Details :</b></p>
@@ -266,28 +249,20 @@ export default function EmailNotify() {
 
      {data.map((row, index) => {
       return(
-        
-        <CCardGroup className="mb-4 ">
+        <CCardGroup className="mb-4">
         <CWidgetProgressIcon
             color="gradient-success"
             inverse
-            text={row.Practitioner_email}
+            text={row.Practitioner_name}
             style={{color:'white'}}
         >
-        
         <CIcon name="cil-userFollow" style={{float:'left'}} height="36" />
-        <p style={{fontSize:'75%',textAlign:'left',marginLeft:"50px"}}>{row.Practitioner_name}</p>
-      
-        <p style={{fontSize:'50%',textAlign:'left'}}>{row.Practitioner_Speciality}</p>
-        <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={(e)=>{sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email)}}>Book Appointment</button></span>
+        <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={fetchData}>Book Appointment</button></span>
         </CWidgetProgressIcon>
       </CCardGroup>
-      
       )
       
     })}
     </div>
   )
 }
-
-

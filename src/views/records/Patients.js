@@ -135,41 +135,9 @@ export default function PatientInform() {
     event.preventDefault();
   }
 
-  // const setsorteddata = (data) => {
-  //   const tempdata = data.sort((a, b) => {
-  //     if (a.Patient_id.toLowerCase() > b.Patient_id.toLowerCase()) {
-  //       return -1;
-  //     }
-  //     if (a.Patient_id.toLowerCase() < b.Patient_id.toLowerCase()) {
-  //       return 1;
-  //     }
-  //     return 0;
-  //   })
-  //   let res_encounter_start = tempdata[0].Encounter_start;
-  //   let res_object = tempdata[0];
-  //   console.log(res_object);
-  //   return tempdata;
-
-  // };
-  // const sortedData = setsorteddata(data)
-  // const sortedData = data.sort((a, b) => {
-  //   if (a.Patient_id.toLowerCase() > b.Patient_id.toLowerCase()) {
-  //     return -1;
-  //   }
-  //   if (a.Patient_id.toLowerCase() < b.Patient_id.toLowerCase()) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-
   const fetchpatientdata = async () => {
-   // console.log("check function")
     var requestOptions = {
       method: 'GET',
-      // mode: 'no-cors',
-      // headers: {
-      //   'Authorization': 'Bearer ' + accessToken
-      // }
     };
     var accessToken = sessionStorage.getItem("Accesstoken");
     await fetch("https://patientdata-1-sh4iojyb3q-uc.a.run.app", requestOptions)
