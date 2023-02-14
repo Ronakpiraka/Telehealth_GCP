@@ -227,10 +227,26 @@ export default function EmailNotify() {
   }
   
   return (
-    <div>  
+    <div> 
         <h1 className="title" align="center"><strong>Book Appointment</strong></h1><br/>
-        <CRow>
-          <CCol >
+        <div sm="8" md="8" lg="8">
+        <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search by Condition Name..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onChange={(e) => { setsearchTerm(e.target.value) }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+        </div>
+      </div>
+        <CRow >
+        <CCol >
         <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Select Patient Name: </b></p> 
         </span>
@@ -253,27 +269,15 @@ export default function EmailNotify() {
         </FormControl>
         </CCol>
         </CRow>
-        
-      <div sm="8" md="8" lg="8">
-        <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search by Condition Name..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              onChange={(e) => { setsearchTerm(e.target.value) }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-        </div>
-      </div>
-        
+        <CRow>
+        <CCol>
+          <CCol>
         <span className="navbar justify-content-between">
           <p className="navbar-brand"><b>Select your Condition:</b></p> 
         </span>
+        </CCol>
+        </CCol>
+        </CRow>
         <CRow>
           {condition_name.filter(val=>{
             if(searchTerm === "")

@@ -8,7 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import CIcon from '@coreui/icons-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { alpha } from '@material-ui/core/styles';
-
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import emailjs from '@emailjs/browser';
@@ -106,26 +105,14 @@ export default function EmailNotify() {
   const [finalprac, setpracdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  //const [CName, setCName] = useState("");
   var stat, flags;
   const location = useLocation();
   
-
-  // const handleChange = (event) => {
-  //   setPatientName(event.target.value);
-  // };
-  // var final_prac = new Array();
-  // let final_provider = new Array();
-  
-  // var final_data = new Array();
   var provider="";
   useEffect(() => {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
     console.log("condition",conditionName);
-    
-    //setCName(conditionName)
-    //console.log("state",CName)
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app ", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -203,7 +190,9 @@ export default function EmailNotify() {
         // alert(error)
       });
   };
-
+  const handleChangeSlot= (event) =>{
+    console.log(event.target.value);
+  }
   
   const handleChange = (event) => {
 
@@ -226,60 +215,12 @@ export default function EmailNotify() {
 
 
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-    
+  
   return (
     <div>
       <h1 className="title"><strong>Practitioner Information</strong></h1>
-      {/* <CRow>
-          <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Slot: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
-          <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Slots</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-              )
-            })} 
-          </Select>
-          
-        </FormControl>
-        </CCol>
-        </CRow> */}
-{/* 
-        <CRow>
-          <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Provider: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
-          <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Provider_name}>{row.Provider_name}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl>
-        </CCol>
-        </CRow> */}
+       <CRow>
+        <CCol>
         <FormControl sx={{ minWidth: 200 }}>
           <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
           <Select
@@ -295,11 +236,29 @@ export default function EmailNotify() {
             })} 
           </Select>
         </FormControl>
+        </CCol>
+        <CCol>
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Available Slots</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            onChange={handleChangeSlot}
+          >
+            {slots.map((row,index)=>{
+              return(
+                <MenuItem value={row} key={index}>{row.slot}</MenuItem>
+              )
+            })} 
+          </Select>
+          </FormControl>
+          </CCol>
+          </CRow>
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Practitioner Details :</b></p>
       </span>
       
-    
       <LoadingOverlay
 						active={isLoading}
 						spinner
