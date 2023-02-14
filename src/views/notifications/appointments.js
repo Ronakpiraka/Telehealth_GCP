@@ -31,22 +31,6 @@ import {
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-<<<<<<< HEAD
-=======
-
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
->>>>>>> a13dec02d7c5b5aae9514bc5b792b11153d5a780
-
 export default function EmailNotify() {
   const modalstyle = {
     position: 'absolute',
@@ -188,31 +172,16 @@ export default function EmailNotify() {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
   }
+  
   var name="";
+
   const handleChange = (event) => {
-<<<<<<< HEAD
     const {
       target: { value },
     } = event;
     setPersonName(value)
     localStorage.setItem("Patient",value)
     console.log("selected patient", value)
-=======
-
-    name=event.target.value;
-    console.log(name);
-    // const {
-    //   target: { value },
-    // } = event;
-    // console.log(value);
-    // setPersonName(
-    //   // On autofill we get a stringified value.
-    //   typeof value === 'string' ? value.split(',') : value,
-    // );
-    // console.log(value);
-    // let {name, value} = event.target;
-    // console.log(value);
->>>>>>> a13dec02d7c5b5aae9514bc5b792b11153d5a780
   };
 
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];

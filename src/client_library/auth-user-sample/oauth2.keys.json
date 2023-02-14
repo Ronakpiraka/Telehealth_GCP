@@ -1,0 +1,1 @@
+{"installed":{"client_id":"500600276612-mgjcluoljofc77q5nbdttqve1ma7pr7d.apps.googleusercontent.com","project_id":"telehealth-365911","auth_uri":"my_uri","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"my_url","client_secret":"my_secret","redirect_uris":["http://localhost","http://localhost:3000/oauth2callback"]}}
