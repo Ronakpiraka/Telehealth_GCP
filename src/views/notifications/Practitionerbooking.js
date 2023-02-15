@@ -17,6 +17,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useHistory, useLocation } from "react-router-dom";
 import LoadingOverlay from 'react-loading-overlay';
 import "../records/patients.css";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import TextField from '@mui/material/TextField';
+import dayjs from 'dayjs';
 import {
   CCard,
   CCardBody,
@@ -106,6 +111,7 @@ export default function EmailNotify() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [val, setval] = useState({name:'',condition:''});
+  const [value, setValue] = React.useState(dayjs('2023-02-15'));
   var stat, flags;
   const location = useLocation();
 
@@ -287,7 +293,7 @@ export default function EmailNotify() {
           </FormControl>
         </CCol>
         <CCol>
-          <FormControl sx={{ minWidth: 200 }}>
+          {/* <FormControl sx={{ minWidth: 200 }}>
             <InputLabel id="demo-simple-select-label">Available Slots</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -301,11 +307,22 @@ export default function EmailNotify() {
                 )
               })}
             </Select>
-          </FormControl>
+          </FormControl> */}
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+            renderInput={(props) => <TextField {...props} />}
+            label="Availability slots"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+          />
+          </LocalizationProvider>
         </CCol>
       </CRow>
       <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Practitioner Details :</b></p>
+        <p className="navbar-brand"><b>Select Practitioner</b></p>
       </span>
 
       <LoadingOverlay
