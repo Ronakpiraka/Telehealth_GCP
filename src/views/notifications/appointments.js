@@ -188,7 +188,7 @@ export default function EmailNotify() {
   const condition_name = [{condition:'Prediabetes'},{condition:'Diabetes'},{condition:'Viral sinusitis (disorder)'},{condition:'Acute viral pharyngitis (disorder)'},{condition:'Acute bronchitis (disorder)'},{condition:'Anemia (disorder)'},{condition:'Body mass index 30+ - obesity (finding)'},{condition:'Hypertension'},{condition:'Chronic sinusitis (disorder)'},{condition:'Miscarriage in first trimester'},{condition:'Normal pregnancy'},{condition:'Streptococcal sore throat (disorder)'},{condition:'Otitis media'},{condition:'Hyperlipidemia'},{condition:'Sprain of ankle'}]
 
   const redirecttoPractitionerbooking = (e, condition) => {
-    if(name!=""){
+    if(personName!=""){
       var url = `/Practitionerbookings?condition=${condition}`;
     history.push(`${url}`);
     }
