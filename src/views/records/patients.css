@@ -40,21 +40,22 @@
   
   tr {
     height: 40px !important;
-    text-align: center;
+    /* text-align: center; */
   }
   
   th {
     max-width: 125px;
     min-width: 125px;
     padding: 0 !important;
-    overflow-x: auto;
-    white-space: nowrap;
-    text-align: center !important;
+    /* overflow-x: auto; */
+    /* overflow-x: wrap; */
+    /* white-space: nowrap; */
+    /* text-align: center; */
   }
   
   td {
     height: 40px !important;
     padding: 5px !important;
-    text-align: center !important;
+    /* text-align: center; */
   }
   

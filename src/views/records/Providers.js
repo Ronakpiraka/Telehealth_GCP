@@ -169,10 +169,10 @@ export default function ProviderInform() {
               <TableHead>
                 <StyledTableRow>
                 <StyledTableCell/>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell>Provider Code</StyledTableCell>
-                <StyledTableCell>Address</StyledTableCell>
-                <StyledTableCell>Contact Number</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Provider Code</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '16%', textAlign: 'center' }}>Contact Number</StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>

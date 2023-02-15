@@ -169,23 +169,7 @@ export default function PatientInform() {
         setisLoading(false);
       })
       .catch(error => console.log('error', error));
-    // var apikey1 = 'AIzaSyD5pmSe_wdcafJ9hmNU2eExYH1Oa4iA7fc' 
-    // var fetchlink = 'https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/FHIR_Synthea/tables/Patient/data?key='+[apikey1];
-      // fetch('fetchlink', 
-      // {
-      //       method: 'GET',
-      //       headers: {
-      //           'Authorization': 'Bearer '+[accessToken]
-      //           // 'Accept': "application/json"
-      //       }
-      //     }).then(resp => resp.json()
-      //   ).then(resp=>{
-      //       setdata(resp)
-      //       console.log(data)
-      //   }).catch(error => {
-      //       console.log(error)
-      //       });
-      // sortedData();
+    
   }
   const RemoteStatus=(status)=>{
     if(status === "Vitals Tracked")
@@ -205,7 +189,7 @@ export default function PatientInform() {
       return(
         <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>
           <div id="tooltip">
-            <span id="tooltiptext">Patient table</span>
+            <span id="tooltiptext">Patient Stable</span>
             <span>{status}</span>
           </div>
         </CBadge>
@@ -343,15 +327,15 @@ export default function PatientInform() {
               <StyledTableRow style={{ padding: '0px' }}>
                 {/* <TableCell /> */}
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
-                <StyledTableCell>Patient Name</StyledTableCell>
-                <StyledTableCell>Practitioner Name</StyledTableCell>
-                <StyledTableCell>Provider Contact</StyledTableCell>
-                <StyledTableCell>Last Visit Date</StyledTableCell>
-                <StyledTableCell>Address</StyledTableCell>
-                <StyledTableCell>Age</StyledTableCell>
-                <StyledTableCell>Patient Contact</StyledTableCell>
-                <StyledTableCell>Status</StyledTableCell>
-                <StyledTableCell>Personal Info</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Practitioner Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Provider Contact</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Last Visit Date</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '20%', textAlign: 'center' }}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Age</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Contact</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Status</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' , textAlign: 'center'}}>Personal Info</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -386,18 +370,18 @@ export default function PatientInform() {
                     return (
                     <StyledTableRow key={row.Patient_id}>
                     <StyledTableCell component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
-                          style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
+                          style={{ padding: '0px 0px 0px 0px', color: "#0d6efd", width: '10%' }}
                           onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
                           onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
                     </StyledTableCell>
-                    <StyledTableCell>{row.Practitioner_name}</StyledTableCell>
-                    <StyledTableCell>{row.Provider_number}</StyledTableCell>
-                    <StyledTableCell>{row.startdate}</StyledTableCell>
-                    <StyledTableCell>{row.Patient_address}</StyledTableCell>
-                    <StyledTableCell>{row.Patient_Age}</StyledTableCell>
-                    <StyledTableCell>{row.Contact_number}</StyledTableCell>
-                    <StyledTableCell>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
-                    <StyledTableCell><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' }}>{row.Practitioner_name}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%', textAlign: 'center' }}>{row.Provider_number}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}>{row.startdate}</StyledTableCell>
+                    <StyledTableCell style={{ width: '20%' , textAlign: 'center'}}>{row.Patient_address}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}>{row.Patient_Age}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}>{row.Contact_number}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' , textAlign: 'center' }}>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
                     </StyledTableRow>
                     );
                   })}

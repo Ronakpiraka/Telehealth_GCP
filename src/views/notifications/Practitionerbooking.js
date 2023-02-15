@@ -135,15 +135,7 @@ export default function EmailNotify() {
       }
       
   })
-      // .then(response => response.json())
-    //   setresData(response);
-    //   alert(resdata)
-    //   setLoading(false);
-    // } catch (error) {
-    //   setError(error);
-    //   alert(error)
-    //   setLoading(false);
-    // }
+      
   };
 
   useEffect(() => {
