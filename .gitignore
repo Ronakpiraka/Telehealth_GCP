@@ -4,6 +4,8 @@
 /node_modules
 package-lock.json
 
+/src/client_library/oauth2.keys.json
+
 # testing
 /coverage
 
