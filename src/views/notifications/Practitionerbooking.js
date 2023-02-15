@@ -8,7 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import CIcon from '@coreui/icons-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { alpha } from '@material-ui/core/styles';
-
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import emailjs from '@emailjs/browser';
@@ -109,16 +108,10 @@ export default function EmailNotify() {
   const [val, setval] = useState({name:'',condition:''});
   var stat, flags;
   const location = useLocation();
-  
 
-  // const handleChange = (event) => {
-  //   setPatientName(event.target.value);
-  // };
-  // var final_prac = new Array();
-  // let final_provider = new Array();
-  
-  // var final_data = new Array();
-  var provider="";
+  const [selectedProvider, setselectedprovider] = React.useState("");
+  const [selectedSlot, setselectedslot] = React.useState("");
+  var provider = "";
   useEffect(() => {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
@@ -134,8 +127,8 @@ export default function EmailNotify() {
       method: 'GET',
     }).then(resp => resp.json()
     ).then(response => {
-      
-      
+
+
       let Provider_id_list = new Array();
       let Provider_list_index = -1;
       let Patient_condition = "";
@@ -144,7 +137,7 @@ export default function EmailNotify() {
       for (var i = 0; i < response.length; i++) {
         // console.log(response[i]);
         Provider_list_index = Provider_id_list.indexOf(response[i].Provider_id)
-        if (Provider_list_index == -1 && response[i].Condition_name==conditionName) {
+        if (Provider_list_index == -1 && response[i].Condition_name == conditionName) {
           final_data.push(response[i])
           // console.log(response[i]) 
           Provider_id_list.push(response[i].Provider_id)
@@ -159,7 +152,7 @@ export default function EmailNotify() {
         //   }
         // }
       }
-      
+
       console.log(final_data)
       // setdata(final_data)
       setfinaldata(final_data);
@@ -209,156 +202,151 @@ export default function EmailNotify() {
   }
 
   const sendemail = (name, doctor, guardian_email) => {
-    emailjs.send(
-      "service_pgn5fn9",
-      "template_03mdlrh",
-      { name: name, doctor: doctor, email: guardian_email },
-      'xQEzOVKLaHBEVtXtA')
-      .then(function (response) {
-        console.log('SUCCESS!', response.status, response.text);
-        toast.success("Appointment is for " + name + " is scheduled with " + doctor +" = and mail for collecting the document has been sent.");
-        // senddata(name, doctor, guardian_email);
-      }, function (error) {
-        console.log('FAILED...', error);
-        // alert(error)
-      });
+    console.log(selectedProvider);
+    console.log(selectedSlot);
+
+    if (selectedProvider != "" && selectedSlot != "") {
+      emailjs.send(
+        "service_pgn5fn9",
+        "template_03mdlrh",
+        { name: name, doctor: doctor, email: guardian_email },
+        'xQEzOVKLaHBEVtXtA')
+        .then(function (response) {
+          console.log('SUCCESS!', response.status, response.text);
+          toast.success("Appointment is for " + name + " is scheduled with " + doctor + " = and mail for collecting the document has been sent.");
+          senddata(name, doctor, guardian_email);
+        }, function (error) {
+          console.log('FAILED...', error);
+          // alert(error)
+        });
+    }
+    else {
+      window.alert("Select a Provider and a Slot.")
+    }
   };
-
-  
-  const handleChange = (event) => {
-
-    provider=event.target.value;
-    console.log(provider);
-    var final_prac= new Array();
+  const handleChangeSlot = (event) => {
+    console.log(event.target.value);
+    setselectedslot(event.target.value);
+    var final_prac = new Array();
     let Prac_id_list = new Array();
-      let Prac_list_index = -1;
-      for (var i = 0; i < finaldata.length; i++) {
-        // console.log(response[i]);
-        Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id)
-        if (Prac_list_index == -1 && finaldata[i].Provider_name==provider) {
-          final_prac.push(finaldata[i])
-          // console.log(response[i]) 
-          Prac_id_list.push(finaldata[i].Practitioner_id)
-        }
+    let Prac_list_index = -1;
+    for (var i = 0; i < finalprac.length; i++) {
+      // console.log(response[i]);
+      Prac_list_index = Prac_id_list.indexOf(finalprac[i].Practitioner_id)
+      console.log(finalprac[i][event.target.value]);
+      if (Prac_list_index == -1 && finalprac[i][event.target.value] == false) {
+        final_prac.push(finalprac[i])
+        // console.log(response[i]) 
+        Prac_id_list.push(finalprac[i].Practitioner_id)
       }
+    }
+    setpracdata(final_prac);
+
+  }
+
+  const handleChange = (event) => {
+    setselectedprovider(event.target.value);
+    provider = event.target.value;
+    console.log(provider);
+    var final_prac = new Array();
+    let Prac_id_list = new Array();
+    let Prac_list_index = -1;
+    for (var i = 0; i < finaldata.length; i++) {
+      // console.log(response[i]);
+      Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id)
+      if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
+        final_prac.push(finaldata[i])
+        // console.log(response[i]) 
+        Prac_id_list.push(finaldata[i].Practitioner_id)
+      }
+    }
     setpracdata(final_prac);
   };
 
 
-  const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-    
+  const slots = [{ colname: 'Time_9_AM_10_AM', slot: '9 AM - 10 AM' }, { colname: 'Time_10_AM_11_AM', slot: '10 AM - 11 AM' }, { colname: 'Time_11_AM_12_PM', slot: '11 AM - 12 PM' }, { colname: 'Time_12_PM_1_PM', slot: '12 PM - 1 PM' }, { colname: 'Time_1_PM_2_PM', slot: '1 PM - 2 PM' }, { colname: 'Time_2_PM_3_PM', slot: '2 PM - 3 PM' }, { colname: 'Time_3_PM_4_PM', slot: '3 PM - 4 PM' }, { colname: 'Time_4_PM_5_PM', slot: '4 PM - 5 PM' }];
   return (
     <div>
-      <h1 className="title"><strong>Practitioner Information</strong></h1>
-      {/* <CRow>
-          <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Slot: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
+      <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
+      <CRow>
+        <CCol>
           <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Slots</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-              )
-            })} 
-          </Select>
-          
-        </FormControl>
+            <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+              onChange={handleChange}
+            >
+              {uniqueProviderName.map((row, index) => {
+                return (
+                  <MenuItem value={row}>{row}</MenuItem>
+                )
+              })}
+            </Select>
+          </FormControl>
         </CCol>
-        </CRow> */}
-{/* 
-        <CRow>
-          <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Provider: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
+        <CCol>
           <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Provider_name}>{row.Provider_name}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl>
+            <InputLabel id="demo-simple-select-label">Available Slots</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+              onChange={handleChangeSlot}
+            >
+              {slots.map((row, index) => {
+                return (
+                  <MenuItem value={row.colname} key={index}>{row.slot}</MenuItem>
+                )
+              })}
+            </Select>
+          </FormControl>
         </CCol>
-        </CRow> */}
-        <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniqueProviderName.map((row,index)=>{
-              return(
-                <MenuItem value={row}>{row}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl>
+      </CRow>
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Practitioner Details :</b></p>
       </span>
-      
-    
-      <LoadingOverlay
-						active={isLoading}
-						spinner
-						text='Loading the content...'
-						styles={{
-							height: "100%",
-							spinner: (base) => ({
-								...base,
-								width: '50px',
-								'& svg circle': {
-									stroke: 'rgba(255, 0, 0, 0.5)'
-								}
-							})
-						}}
-					>
-					</LoadingOverlay>
 
-     {finalprac.map((row, index) => {
-      return(
-        
-        <CCardGroup className="mb-4 ">
-        <CWidgetProgressIcon
-            color="gradient-success"
-            inverse
-            text={row.Practitioner_email}
-            style={{color:'white'}}
-        >
-        
-        <CIcon name="cil-userFollow" style={{float:'left'}} height="36" />
-        <p style={{fontSize:'75%',textAlign:'left',marginLeft:"50px"}}>{row.Practitioner_name}</p>
-      
-        <p style={{fontSize:'50%',textAlign:'left'}}>{row.Practitioner_Speciality}</p>
-        <span><button type="button" className="btn btn-secondary btn-sm" style={{cursor:'pointer', padding:'1%', fontWeight:'bolder'}} onClick={(e)=>{sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email)}}>Book Appointment</button></span>
-        </CWidgetProgressIcon>
-      </CCardGroup>
-      
-      )
-      
-    })}
+      <LoadingOverlay
+        active={isLoading}
+        spinner
+        text='Loading the content...'
+        styles={{
+          height: "100%",
+          spinner: (base) => ({
+            ...base,
+            width: '50px',
+            '& svg circle': {
+              stroke: 'rgba(255, 0, 0, 0.5)'
+            }
+          })
+        }}
+      >
+      </LoadingOverlay>
+
+      {finalprac.map((row, index) => {
+        return (
+
+          <CCardGroup className="mb-4 ">
+            <CWidgetProgressIcon
+              color="gradient-success"
+              inverse
+              text={row.Practitioner_email}
+              style={{ color: 'white' }}
+            >
+
+              <CIcon name="cil-userFollow" style={{ float: 'left' }} height="36" />
+              <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
+
+              <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
+              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Book Appointment</button></span>
+            </CWidgetProgressIcon>
+          </CCardGroup>
+
+        )
+
+      })}
     </div>
   )
 }
