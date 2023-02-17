@@ -31,19 +31,6 @@ import {
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 export default function EmailNotify() {
   const modalstyle = {
     position: 'absolute',
@@ -113,15 +100,6 @@ export default function EmailNotify() {
     },
   }));
 
-  // function getStyles(name, personName, theme) {
-  //   return {
-  //     fontWeight:
-  //       personName.indexOf(name) === -1
-  //         ? theme.typography.fontWeightRegular
-  //         : theme.typography.fontWeightMedium,
-  //   };
-  // }
-
   const [data, setdata] = React.useState([]);
   const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState('');
@@ -133,13 +111,14 @@ export default function EmailNotify() {
   const [isLoading, setisLoading] = useState(true);
   const [PatientName, setPatientName] = React.useState('');
   const [personName, setPersonName] = React.useState([]);
+  const [conditionName, setConditionName] = React.useState([]);
 
   // const handleChange = (event) => {
   //   setPatientName(event.target.value);
   // };
 
   useEffect(() => {
-    const res = fetch("https://applicationbooking-sh4iojyb3q-uc.a.run.app", {
+    const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
     ).then(response => {
@@ -193,29 +172,23 @@ export default function EmailNotify() {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
   }
+  
   var name="";
-  const handleChange = (event) => {
 
-    name=event.target.value;
-    console.log(name);
-    // const {
-    //   target: { value },
-    // } = event;
-    // console.log(value);
-    // setPersonName(
-    //   // On autofill we get a stringified value.
-    //   typeof value === 'string' ? value.split(',') : value,
-    // );
-    // console.log(value);
-    // let {name, value} = event.target;
-    // console.log(value);
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(value)
+    localStorage.setItem("Patient",value)
+    console.log("selected patient", value)
   };
 
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-  const condition_name = [{condition:'Prediabetes - Insulin resistance'},{condition:'Diabetes'},{condition:'Viral sinusitis (disorder)'},{condition:'Acute viral pharyngitis (disorder)'},{condition:'Acute bronchitis (disorder)'},{condition:'Anemia (disorder)'},{condition:'Body mass index 30+ - obesity (finding)'},{condition:'Hypertension'},{condition:'Chronic sinusitis (disorder)'},{condition:'Miscarriage in first trimester'},{condition:'Normal pregnancy'},{condition:'Streptococcal sore throat (disorder)'},{condition:'Otitis media'},{condition:'Hyperlipidemia'},{condition:'Sprain of ankle'}]
+  const condition_name = [{condition:'Prediabetes'},{condition:'Diabetes'},{condition:'Viral sinusitis (disorder)'},{condition:'Acute viral pharyngitis (disorder)'},{condition:'Acute bronchitis (disorder)'},{condition:'Anemia (disorder)'},{condition:'Body mass index 30+ - obesity (finding)'},{condition:'Hypertension'},{condition:'Chronic sinusitis (disorder)'},{condition:'Miscarriage in first trimester'},{condition:'Normal pregnancy'},{condition:'Streptococcal sore throat (disorder)'},{condition:'Otitis media'},{condition:'Hyperlipidemia'},{condition:'Sprain of ankle'}]
 
   const redirecttoPractitionerbooking = (e, condition) => {
-    if(name!=""){
+    if(personName!=""){
       var url = `/Practitionerbookings?condition=${condition}`;
     history.push(`${url}`);
     }
@@ -227,34 +200,9 @@ export default function EmailNotify() {
   }
   
   return (
-    <div>  
+    <div> 
         <h1 className="title" align="center"><strong>Book Appointment</strong></h1><br/>
-        <CRow>
-          <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Patient Name: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
-          <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl>
-        </CCol>
-        </CRow>
-        
-      <div sm="8" md="8" lg="8">
+        <div sm="8" md="8" lg="8">
         <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -270,10 +218,39 @@ export default function EmailNotify() {
             />
         </div>
       </div>
-        
+        <CRow >
+        <CCol >
+        <span className="navbar justify-content-between">
+        <p className="navbar-brand"><b>Select Patient Name: </b></p> 
+        </span>
+        </CCol>
+        <CCol >
+          <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="PName"
+            onChange={handleChange}
+          >
+            {uniquePatientName.map((row,index)=>{
+              return(
+                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+              )
+            })} 
+          </Select>
+        </FormControl>
+        </CCol>
+        </CRow>
+        <CRow>
+        <CCol>
+          <CCol>
         <span className="navbar justify-content-between">
           <p className="navbar-brand"><b>Select your Condition:</b></p> 
         </span>
+        </CCol>
+        </CCol>
+        </CRow>
         <CRow>
           {condition_name.filter(val=>{
             if(searchTerm === "")
@@ -287,7 +264,7 @@ export default function EmailNotify() {
             .map((row,index)=>{
             return(
             <CCol sm="12" md="8" lg="4">
-              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{padding:'5%', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
+              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{padding:'4%', fontSize:'14px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
             </CCol>
             )
           })}
