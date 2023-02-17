@@ -19,6 +19,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import LoadingOverlay from 'react-loading-overlay';
 import { CBadge, CButton } from '@coreui/react';
 import "../records/patients.css";
+import { CModal } from '@coreui/react';
+import { CModalFooter } from '@coreui/react';
+import { CModalHeader } from '@coreui/react';
+import { CModalTitle } from '@coreui/react';
+import { CModalBody } from '@coreui/react';
+
 import {
   CCard,
   CCardBody,
@@ -50,12 +56,12 @@ export default function EmailNotify() {
       },
     },
     small: {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
+      width: theme.spacing(4),
+      height: theme.spacing(4),
     },
     large: {
-      width: theme.spacing(6),
-      height: theme.spacing(6),
+      width: theme.spacing(8),
+      height: theme.spacing(8),
     },
     search: {
       position: 'relative',
@@ -64,13 +70,13 @@ export default function EmailNotify() {
       '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.5),
       },
-      margin: '10px',
+      margin: '15px',
       float: 'right',
       boxShadow: '-4px 8px 20px 0px grey',
-      width: '50%',
+      width: '65%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
-        width: '50%',
+        width: '45%',
       },
     },
     searchIcon: {
@@ -90,7 +96,7 @@ export default function EmailNotify() {
       // vertical padding + font size from searchIcon
       paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
       transition: theme.transitions.create('width'),
-      width: '50%',
+      width: '60%',
       [theme.breakpoints.up('sm')]: {
         width: '100ch',
         '&:focus': {
@@ -112,7 +118,7 @@ export default function EmailNotify() {
   const [PatientName, setPatientName] = React.useState('');
   const [personName, setPersonName] = React.useState([]);
   const [conditionName, setConditionName] = React.useState([]);
-
+  const [showModal, setShowModal] = useState(false);
   // const handleChange = (event) => {
   //   setPatientName(event.target.value);
   // };
@@ -193,14 +199,31 @@ export default function EmailNotify() {
     history.push(`${url}`);
     }
     else{
-      window.alert("Select a Name.")
-    }
-    
+      setShowModal(true);
+      console.log(showModal);
+       
   
   }
   
   return (
     <div> 
+       {showModal && (
+      <CModal
+      className="show d-block position-static"
+      backdrop={false}
+      keyboard={false}
+      portal={false}
+      visible
+      >
+        <CModalHeader>
+          <CModalTitle>Warning</CModalTitle>
+          </CModalHeader>
+          <CModalBody>Please select a Patient Name..</CModalBody>
+          <CModalFooter>
+            <CButton onClickb={(e)=>{setShowModal(false)}} color="secondary">Close</CButton>
+          </CModalFooter>
+       </CModal>
+       )}
         <h1 className="title" align="center"><strong>Book Appointment</strong></h1><br/>
         <div sm="8" md="8" lg="8">
         <div className={classes.search}>
@@ -271,4 +294,5 @@ export default function EmailNotify() {
         </CRow>
       </div>
   )
-}
+        }
+      }

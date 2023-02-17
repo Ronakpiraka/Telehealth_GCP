@@ -21,6 +21,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import TextField from '@mui/material/TextField';
+import { CModal } from '@coreui/react';
+import { CModalFooter } from '@coreui/react';
+import { CModalHeader } from '@coreui/react';
+import { CModalTitle } from '@coreui/react';
+import { CModalBody } from '@coreui/react';
+import { CButton } from '@coreui/react'
 import dayjs from 'dayjs';
 import {
   CCard,
@@ -111,7 +117,8 @@ export default function EmailNotify() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [val, setval] = useState({name:'',condition:''});
-  const [value, setValue] = React.useState(dayjs('2023-02-15'));
+  const [value, setValue] = React.useState('');
+  const [showModal, setShowModal] = useState(false);
   var stat, flags;
   const location = useLocation();
 
@@ -211,7 +218,7 @@ export default function EmailNotify() {
     console.log(selectedProvider);
     console.log(selectedSlot);
 
-    if (selectedProvider != "" && selectedSlot != "") {
+    if (selectedProvider != "" && value != "") {
       emailjs.send(
         "service_pgn5fn9",
         "template_03mdlrh",
@@ -227,7 +234,8 @@ export default function EmailNotify() {
         });
     }
     else {
-      window.alert("Select a Provider and a Slot.")
+      setShowModal(true);
+      console.log(showModal);
     }
   };
   const handleChangeSlot = (event) => {
@@ -273,6 +281,24 @@ export default function EmailNotify() {
   const slots = [{ colname: 'Time_9_AM_10_AM', slot: '9 AM - 10 AM' }, { colname: 'Time_10_AM_11_AM', slot: '10 AM - 11 AM' }, { colname: 'Time_11_AM_12_PM', slot: '11 AM - 12 PM' }, { colname: 'Time_12_PM_1_PM', slot: '12 PM - 1 PM' }, { colname: 'Time_1_PM_2_PM', slot: '1 PM - 2 PM' }, { colname: 'Time_2_PM_3_PM', slot: '2 PM - 3 PM' }, { colname: 'Time_3_PM_4_PM', slot: '3 PM - 4 PM' }, { colname: 'Time_4_PM_5_PM', slot: '4 PM - 5 PM' }];
   return (
     <div>
+      {showModal && (
+      <CModal
+      className="show d-block position-static"
+      backdrop={false}
+      keyboard={false}
+      portal={false}
+      visible
+      >
+        <CModalHeader>
+          <CModalTitle>Warning</CModalTitle>
+          </CModalHeader>
+          <CModalBody>Please select a Provider and a Slot..</CModalBody>
+          <CModalFooter>
+            <CButton onClick={(e)=>{setShowModal(false)}} color="secondary">Close</CButton>
+          </CModalFooter>
+       </CModal>
+       )}
+
       <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
       <CRow>
         <CCol>
@@ -315,6 +341,7 @@ export default function EmailNotify() {
             label="Availability slots"
             value={value}
             onChange={(newValue) => {
+              console.log(newValue);
               setValue(newValue);
             }}
           />
