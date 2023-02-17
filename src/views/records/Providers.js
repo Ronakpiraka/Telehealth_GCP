@@ -116,19 +116,51 @@ export default function ProviderInform() {
     var requestOptions = {
       method: 'GET'
     };
-    fetch("https://providerdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+    // fetch("https://providerdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+    fetch("https://providerdataupdated-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => 
       {
-        setdata(response)
+        const uniqueData = removeDuplicates(response);
+        const sortedData = sortData(uniqueData);
+        setdata(sortedData);
         setisLoading(false)
       })
       .catch(error => console.log('error', error));
     }
-
     useEffect(() => { 
       fetchproviderdata();
     },[])
+
+    const removeDuplicates = (response) => {
+      const uniqueData = [];
+      const map = new Map();
+      for (const item of response) {
+        if (!map.has(item.Provider_id + item.Practitioner_id)) {
+          map.set(item.Provider_id + item.Practitioner_id, true);
+          uniqueData.push(item);
+        }
+      }
+    return uniqueData;}
+
+    const sortData = (response) => {
+      const sortedData = response.sort((a, b) => {
+        if (a.Provider_name < b.Provider_name) {
+          return -1;
+        }
+        if (a.Provider_name > b.Provider_name) {
+          return 1;
+        }
+        if (a.Practitioner_name < b.Practitioner_name) {
+          return -1;
+        }
+        if (a.Practitioner_name > b.Practitioner_name) {
+          return 1;
+        }
+        return 0;
+      });
+      return sortedData;
+    };
     
     return (
       <>
@@ -169,10 +201,10 @@ export default function ProviderInform() {
               <TableHead>
                 <StyledTableRow>
                 <StyledTableCell/>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell>Provider Code</StyledTableCell>
-                <StyledTableCell>Address</StyledTableCell>
-                <StyledTableCell>Contact Number</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Provider Code</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '16%', textAlign: 'center' }}>Contact Number</StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
@@ -193,11 +225,11 @@ export default function ProviderInform() {
                 }
               }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((prow, index) => {
-                  if (!uniqueProviderCode.includes(prow.Provider_code)){
-                    uniqueProviderCode.push(prow.Provider_code)
+                  if (!uniqueProviderCode.includes(prow.Provider_id)){
+                    uniqueProviderCode.push(prow.Provider_id)
                     return (
                       <React.Fragment>
-                        <Prow key={prow.Provider_code} prow={prow} data={data}/>
+                        <Prow key={prow.Provider_id} prow={prow} data={data}/>
                       </React.Fragment>
                     );
                   }

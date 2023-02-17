@@ -1,0 +1,40 @@
+// Import the Google Cloud client library using default credentials
+
+const express = require("express");
+const router = express.Router();
+const { BigQuery } = require("@google-cloud/bigquery");
+const bigquery = new BigQuery();
+const auth = require("../auth/auth");
+
+async function query() 
+{
+    //const email = process.env.PATIENT_EMAIL;  
+     let db = "import_gcs";
+     let patientID = "'Patient/" + process.env.PATIENT_ID + "'";
+     let query = `SELECT * FROM \`feisty-truth-372117.${db}.Condition\` WHERE subject.reference = ${patientID}`;
+     
+     console.log("QUERY", query);
+      // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query  
+      
+    const options = {
+        query: query,
+        location: "us-central1",
+        };
+        // Run the query as a job  
+        
+    const [job] = await bigquery.createQueryJob(options);
+    console.log(`Job ${job.id} started.`);
+    // Wait for the query to finish  
+    const [rows] = await job.getQueryResults();
+    // Print the results  
+    console.log("Rows:");
+    return rows;}router.get("/condition", async (req, res) => {
+         try {
+            const condition = await query();
+            res.json(condition);
+        } catch (error) {
+            console.log(error.message);
+            res.status(500).send("Internal Server Error");
+        }});
+        
+    module.exports = router;

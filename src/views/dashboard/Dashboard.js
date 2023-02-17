@@ -352,7 +352,7 @@ const Dashboard = () => {
         <CCard>
         <CCardBody>
           <CRow>
-              <h3 id="traffic" className="card-title mb-0" align="center">Continuous Care</h3>
+              <h2 id="title" className="title" align="center"><strong>Continuous Care</strong></h2>
               {/* <div className="small text-muted">September 2021</div> */}
           </CRow>
           {/* <MainChartExample style={{height: '300px', marginTop: '40px'}}/> */}
@@ -362,7 +362,7 @@ const Dashboard = () => {
           <CCard>
           <CCardBody>          
             <CRow>
-              <h3 id="traffic" className="card-title mb-0" align="center">Critical Patients</h3>
+              <h2 id="title" className="title" align="center"><strong>Critical Patients</strong></h2>
               {/* <div className="small text-muted">September 2021</div> */}
           </CRow>
           <CRow>
@@ -447,10 +447,10 @@ const Dashboard = () => {
                       <StyledTableCell align="left" >{row.Practitioner_name}</StyledTableCell>
                       <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
                       <StyledTableCell align="left">{row.startdate}</StyledTableCell>
-                      <StyledTableCell align="left" >{row.Patient_address}</StyledTableCell>
-                      <StyledTableCell align="left">{row.Patient_Age}</StyledTableCell>
-                      <StyledTableCell align="left" >{row.Contact_number}</StyledTableCell>
-                      <StyledTableCell align="left" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
+                      <StyledTableCell align="center" >{row.Patient_address}</StyledTableCell>
+                      <StyledTableCell align="center">{row.Patient_Age}</StyledTableCell>
+                      <StyledTableCell align="center" >{row.Contact_number}</StyledTableCell>
+                      <StyledTableCell align="center" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
                       </StyledTableRow>
                     );
                   })}

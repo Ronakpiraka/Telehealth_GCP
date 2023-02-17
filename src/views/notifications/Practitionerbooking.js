@@ -155,15 +155,6 @@ export default function EmailNotify() {
           // console.log(response[i]) 
           Provider_id_list.push(response[i].Provider_id)
         }
-        // } else if(Patient_list_index != -1) {
-
-        //   let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
-        //   let new_encounter = new Date(response[i].Encounter_start)
-
-        //   if (new_encounter > lst_encounter) {
-        //     final_data[Patient_list_index] = response[i]
-        //   }
-        // }
       }
 
       console.log(final_data)
@@ -394,5 +385,3 @@ export default function EmailNotify() {
     </div>
   )
 }
-
-
