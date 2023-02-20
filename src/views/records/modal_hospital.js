@@ -32,7 +32,7 @@ export default function ProviderInform() {
         var requestOptions = {
           method: 'GET'
         };
-        fetch("https://providerdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+        fetch("https://providerdataupdated-sh4iojyb3q-uc.a.run.app", requestOptions)
         .then((resp) => resp.json())
         .then((response) => {
           setdata(response)

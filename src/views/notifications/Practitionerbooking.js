@@ -40,7 +40,7 @@ import {
 } from '@coreui/react'
 
 
-export default function EmailNotify() {
+export default function PractitionerBooking() {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -118,13 +118,18 @@ export default function EmailNotify() {
   const [isLoading, setisLoading] = useState(true);
   const [val, setval] = useState({name:'',condition:''});
   const [value, setValue] = React.useState('');
-  const [showModal, setShowModal] = useState(false);
+  const [modal, setModal] = useState(false);
+
+  const toggle = ()=>{
+    setModal(!modal);
+  }
   var stat, flags;
   const location = useLocation();
 
   const [selectedProvider, setselectedprovider] = React.useState("");
   const [selectedSlot, setselectedslot] = React.useState("");
   var provider = "";
+
   useEffect(() => {
     flags = location.search.split('^')[1];
     let conditionName = location.search.split('=')[1].split('%')[0];
@@ -158,10 +163,8 @@ export default function EmailNotify() {
       }
 
       console.log(final_data)
-      // setdata(final_data)
       setfinaldata(final_data);
       setpracdata(final_data);
-      // console.log(data) 
       setisLoading(false)
 
     }).catch(error => {
@@ -225,8 +228,8 @@ export default function EmailNotify() {
         });
     }
     else {
-      setShowModal(true);
-      console.log(showModal);
+      setModal(!modal);
+      console.log(modal);  
     }
   };
   const handleChangeSlot = (event) => {
@@ -272,24 +275,22 @@ export default function EmailNotify() {
   const slots = [{ colname: 'Time_9_AM_10_AM', slot: '9 AM - 10 AM' }, { colname: 'Time_10_AM_11_AM', slot: '10 AM - 11 AM' }, { colname: 'Time_11_AM_12_PM', slot: '11 AM - 12 PM' }, { colname: 'Time_12_PM_1_PM', slot: '12 PM - 1 PM' }, { colname: 'Time_1_PM_2_PM', slot: '1 PM - 2 PM' }, { colname: 'Time_2_PM_3_PM', slot: '2 PM - 3 PM' }, { colname: 'Time_3_PM_4_PM', slot: '3 PM - 4 PM' }, { colname: 'Time_4_PM_5_PM', slot: '4 PM - 5 PM' }];
   return (
     <div>
-      {showModal && (
-      <CModal
-      className="show d-block position-static"
-      backdrop={false}
-      keyboard={false}
-      portal={false}
-      visible
+       <CModal
+        show={modal}
+        onClose={toggle}
       >
-        <CModalHeader>
-          <CModalTitle>Warning</CModalTitle>
-          </CModalHeader>
-          <CModalBody>Please select a Provider and a Slot..</CModalBody>
-          <CModalFooter>
-            <CButton onClick={(e)=>{setShowModal(false)}} color="secondary">Close</CButton>
-          </CModalFooter>
-       </CModal>
-       )}
-
+        <CModalHeader closeButton>Please select the Provider and Available slots</CModalHeader>
+        <CModalBody>
+          Choose the Hospital and Available slots before selecting the practitioner...
+        </CModalBody>
+        <CModalFooter>
+          {/* <CButton color="primary">Do Something</CButton>{' '} */}
+          <CButton
+            color="primary"
+            onClick={toggle}
+          >Ok</CButton>
+        </CModalFooter>
+      </CModal>
       <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
       <CRow>
         <CCol>
@@ -310,33 +311,19 @@ export default function EmailNotify() {
           </FormControl>
         </CCol>
         <CCol>
-          {/* <FormControl sx={{ minWidth: 200 }}>
-            <InputLabel id="demo-simple-select-label">Available Slots</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Age"
-              onChange={handleChangeSlot}
-            >
-              {slots.map((row, index) => {
-                return (
-                  <MenuItem value={row.colname} key={index}>{row.slot}</MenuItem>
-                )
-              })}
-            </Select>
-          </FormControl> */}
 
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
             renderInput={(props) => <TextField {...props} />}
             label="Availability slots"
             value={value}
+            disablePast={true}
             onChange={(newValue) => {
               console.log(newValue);
               setValue(newValue);
             }}
           />
-          </LocalizationProvider>
+        </LocalizationProvider>
         </CCol>
       </CRow>
       <span className="navbar justify-content-between">
@@ -378,9 +365,7 @@ export default function EmailNotify() {
               <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Book Appointment</button></span>
             </CWidgetProgressIcon>
           </CCardGroup>
-
         )
-
       })}
     </div>
   )
