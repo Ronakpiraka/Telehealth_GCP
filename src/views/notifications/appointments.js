@@ -37,7 +37,7 @@ import {
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-export default function EmailNotify() {
+export default function Appointment() {
   const modalstyle = {
     position: 'absolute',
     top: '50%',
@@ -118,7 +118,12 @@ export default function EmailNotify() {
   const [PatientName, setPatientName] = React.useState('');
   const [personName, setPersonName] = React.useState([]);
   const [conditionName, setConditionName] = React.useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [modal, setModal] = useState(false);
+
+  const toggle = ()=>{
+    setModal(!modal);
+  }
+
   // const handleChange = (event) => {
   //   setPatientName(event.target.value);
   // };
@@ -151,7 +156,6 @@ export default function EmailNotify() {
       setdata(final_data)
       // const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
       // const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
-
 
       console.log(data)
       setisLoading(false)
@@ -199,31 +203,28 @@ export default function EmailNotify() {
     history.push(`${url}`);
     }
     else{
-      setShowModal(true);
-      console.log(showModal);
-       
-  
+      setModal(!modal);
+      console.log(modal);  
+    }
   }
   
   return (
     <div> 
-       {showModal && (
       <CModal
-      className="show d-block position-static"
-      backdrop={false}
-      keyboard={false}
-      portal={false}
-      visible
-      >
-        <CModalHeader>
-          <CModalTitle>Warning</CModalTitle>
-          </CModalHeader>
-          <CModalBody>Please select a Patient Name..</CModalBody>
-          <CModalFooter>
-            <CButton onClickb={(e)=>{setShowModal(false)}} color="secondary">Close</CButton>
-          </CModalFooter>
-       </CModal>
-       )}
+        show={modal}
+        onClose={toggle}>
+        <CModalHeader closeButton>Please select a Patient</CModalHeader>
+        <CModalBody>
+          Choose the Patient before selecting the condition...
+        </CModalBody>
+        <CModalFooter>
+          {/* <CButton color="primary">Do Something</CButton>{' '} */}
+          <CButton
+            color="primary"
+            onClick={toggle}
+          >Ok</CButton>
+        </CModalFooter>
+      </CModal>
         <h1 className="title" align="center"><strong>Book Appointment</strong></h1><br/>
         <div sm="8" md="8" lg="8">
         <div className={classes.search}>
@@ -240,38 +241,58 @@ export default function EmailNotify() {
               inputProps={{ 'aria-label': 'search' }}
             />
         </div>
-      </div>
-        <CRow >
-        <CCol >
-        <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Patient Name: </b></p> 
-        </span>
-        </CCol>
-        <CCol >
-          <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="PName"
-            onChange={handleChange}
-          >
-            {uniquePatientName.map((row,index)=>{
-              return(
-                <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-              )
-            })} 
-          </Select>
-        </FormControl>
-        </CCol>
+      </div><br/><br/><br/><br/>
+        <CRow>
+          <CCol>
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand"><b>Select Patient Name: </b></p> 
+            </span>
+          </CCol>
+          <CCol >
+            <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="PName"
+                onChange={handleChange}
+              >
+              {uniquePatientName.map((row,index)=>{
+                return(
+                  <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+                )
+              })} 
+              </Select>
+            </FormControl>
+          </CCol>
+          <CCol>
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand"><b>Medical Record Number </b></p> 
+            </span>
+          </CCol>
+          <CCol >
+            {/* <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="PName"
+                onChange={handleChange}
+              >
+              {uniquePatientName.map((row,index)=>{
+                return(
+                  <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+                )
+              })} 
+              </Select>
+            </FormControl> */}
+          </CCol>
         </CRow>
         <CRow>
         <CCol>
-          <CCol>
         <span className="navbar justify-content-between">
           <p className="navbar-brand"><b>Select your Condition:</b></p> 
         </span>
-        </CCol>
         </CCol>
         </CRow>
         <CRow>
@@ -292,7 +313,6 @@ export default function EmailNotify() {
             )
           })}
         </CRow>
-      </div>
-  )
-        }
-      }
+    </div>
+    )
+}
