@@ -46,7 +46,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@mui/icons-material": "^5.10.14",
     "@mui/material": "^5.0.3",
-    "@mui/x-date-pickers": "^5.0.18",
+    "@mui/x-date-pickers": "^5.0.19",
     "@syncfusion/ej2-react-calendars": "^19.2.62",
     "@syncfusion/ej2-react-schedule": "^19.2.60",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.0",

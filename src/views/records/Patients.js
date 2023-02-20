@@ -138,9 +138,10 @@ export default function PatientInform() {
   const fetchpatientdata = async () => {
     var requestOptions = {
       method: 'GET',
+      // mode:'no-cors'
     };
     var accessToken = sessionStorage.getItem("Accesstoken");
-    await fetch("https://patientdata-1-sh4iojyb3q-uc.a.run.app", requestOptions)
+    await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => {
         let final_data = new Array();
