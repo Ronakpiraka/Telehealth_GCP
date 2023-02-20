@@ -208,9 +208,11 @@ export default function PractitionerBooking() {
          })
   }
 
-  const sendemail = (name, doctor, guardian_email) => {
-    console.log(selectedProvider);
-    console.log(selectedSlot);
+  const redirecttoEmailNotification = (e,name, doctor, guardian_email) => {
+    var url = `/notifications/email?Patient_name=${name}`;
+    history.push(`${url}`);
+    // console.log(selectedProvider);
+    // console.log(selectedSlot);
 
     if (selectedProvider != "" && value != "") {
       emailjs.send(
@@ -354,7 +356,7 @@ export default function PractitionerBooking() {
             <CWidgetProgressIcon
               color="gradient-success"
               inverse
-              text={row.Practitioner_email}
+              text={row.practitioner_email}
               style={{ color: 'white' }}
             >
 
@@ -362,7 +364,7 @@ export default function PractitionerBooking() {
               <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
 
               <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
-              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Book Appointment</button></span>
+              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { redirecttoEmailNotification(e,row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Book Appointment</button></span>
             </CWidgetProgressIcon>
           </CCardGroup>
         )

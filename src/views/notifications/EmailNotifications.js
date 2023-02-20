@@ -241,10 +241,12 @@ export default function EmailNotify() {
               <TableHead>
                 <TableRow>
                 <TableCell>Patient Name</TableCell>
+                <TableCell>Condition Name</TableCell>
                 <TableCell>Patient/Guardian Email</TableCell>
-                <TableCell>Practitioner Name</TableCell>
-                <TableCell>Risk Score</TableCell>
-                <TableCell>Email Notifications</TableCell>
+                <TableCell>Provider Name</TableCell>
+                <TableCell>Booked Slot</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -266,7 +268,9 @@ export default function EmailNotify() {
                     return(
                       <StyledTableRow>
                         <StyledTableCell>{row.Patient_name}</StyledTableCell>
+                        <StyledTableCell>{row.Condition_name}</StyledTableCell>
                         <StyledTableCell>{row.Guardian_Email}</StyledTableCell>
+                        <StyledTableCell>{row.Provider_name}</StyledTableCell>
                         <StyledTableCell>{row.Practitioner}</StyledTableCell>
                         <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
                         <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
