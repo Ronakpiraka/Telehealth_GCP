@@ -45,16 +45,15 @@ export default function Prow(props) {
       <React.Fragment>
        <TableRow>
           <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        {/* <StyledTableCell align="left" style={{width:"5%"}}></StyledTableCell> */}
-        <StyledTableCell style={{ width: '28%' }}>{prow.Provider_name}</StyledTableCell>
-        <StyledTableCell style={{ width: '28%' }}>{prow.Provider_id}</StyledTableCell>
-        <StyledTableCell style={{ width: '28%' }}>{prow.Provider_address}</StyledTableCell>
-        <StyledTableCell style={{ width: '16%', textAlign: 'center'}}>{prow.Provider_contact_number}</StyledTableCell>
-      </TableRow>
+            <IconButton aria-label="expand row" size="small" onClick={() => setopen(!open)}>
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <StyledTableCell style={{ width: '28%' }}>{prow.Provider_name}</StyledTableCell>
+          <StyledTableCell style={{ width: '28%' }}>{prow.Provider_id}</StyledTableCell>
+          <StyledTableCell style={{ width: '28%', textAlign: 'center' }}>{prow.Provider_address}</StyledTableCell>
+          <StyledTableCell style={{ width: '16%', textAlign: 'center'}}>{prow.Provider_contact_number}</StyledTableCell>
+        </TableRow>
       <StyledTableRow>
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
         <Collapse in={open} timeout="auto" unmountOnExit>
@@ -62,18 +61,18 @@ export default function Prow(props) {
             <Table size="small" aria-label="provider">
               <TableHead style={{ fontWeight: 'bold', color:"blue", margin: "22px" }}>     Practitioner Details:  </TableHead>
                 <StyledTableRow>
-                  <StyledTableCell/>
+                  <StyledTableCell style={{ fontWeight: 'bold',width: '16%'}}/>
                   <StyledTableCell style={{ fontWeight: 'bold',width: '28%'}}>Practitioner Name</StyledTableCell>
                   <StyledTableCell style={{ fontWeight: 'bold',width: '28%'}}>Specialisation</StyledTableCell>
-                  <StyledTableCell style={{ fontWeight: 'bold',width: '28%'}}>Email ID</StyledTableCell>
+                  <StyledTableCell style={{ fontWeight: 'bold',width: '28%', textAlign: 'center'}}>Email ID</StyledTableCell>
                 </StyledTableRow>
                   {pradet.map((item)=> 
                   <StyledTableRow key = {item.Practitioner_id} > 
                   
-                  <StyledTableCell/>
+                  <StyledTableCell style={{ fontWeight: 'bold',width: '16%'}}/>
                     <StyledTableCell style={{ width: '28%'}}>{item.Practitioner_name}</StyledTableCell>
                     <StyledTableCell style={{ width: '28%'}}>{item.Practitioner_Speciality_1}</StyledTableCell>
-                    <StyledTableCell style={{ width: '28%'}}>{item.practitioner_email}</StyledTableCell>
+                    <StyledTableCell style={{ width: '28%', textAlign: 'center'}}>{item.practitioner_email}</StyledTableCell>
                   </StyledTableRow>
                   )}
             </Table>
