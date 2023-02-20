@@ -165,7 +165,7 @@ const Dashboard = () => {
        method: 'GET',
      };
      var accessToken = sessionStorage.getItem("Accesstoken");
-     await fetch("https://patientdata-1-sh4iojyb3q-uc.a.run.app", requestOptions)
+     await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
        .then((resp) => resp.json())
        .then((response) => {
          let final_data = new Array();
@@ -403,7 +403,7 @@ const Dashboard = () => {
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Practitioner Name</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Provider Contact Number</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Last Visit Date</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '22%' }}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '22%', textAlign:'center' }}>Address</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Patient Contact Number</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Personal Info</StyledTableCell>

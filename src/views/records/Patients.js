@@ -231,22 +231,11 @@ export default function PatientInform() {
   }
   useEffect(() => {
     console.log("hello useeffect")
-    // this.setState({isLoading:true})
-    // const response= fetch('https://tthvndwmkh.execute-api.us-east-1.amazonaws.com/rpm-api?bucket=rpm-aws-synthea&key=patientrecords.json', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             // 'Access-Control-Allow-Methods': 'GET',
-    //             // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-    //             // 'Access-Control-Allow-Origin' : '*'
-    //         },
-    //     }).then((constructordata) => data.json()).then((resp) => {
-    //   setdata(resp)
-    //   console.log(data)
-    // })
     fetchpatientdata();
   },[])
+
   console.log(data)
+
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item icon={<UserOutlined />}>
@@ -254,6 +243,7 @@ export default function PatientInform() {
       </Menu.Item>
     </Menu>
   );
+
     function handleMenuClick(e) {
       message.info('Logout Successful');
     }
@@ -273,7 +263,7 @@ export default function PatientInform() {
   }
   return (
     <>
-      <h1 className="title"><strong>Patient Information</strong></h1>
+      <h2 className="title"><strong>Patient Information</strong></h2>
       <Modal
           open={modalopen}
           onClose={modalhandleClose}
@@ -283,7 +273,6 @@ export default function PatientInform() {
         >
           <Box sx={modalstyle}>
           <Typography id="modal-modal-description" >
-            {console.log(iframeurl)}
             {showMessage && <ShowModal patientId={iframeurl}/>}
           </Typography>
           </Box>
@@ -307,36 +296,20 @@ export default function PatientInform() {
         </div>
 
         <TableContainer style={{ maxHeight: 300 }}>
-        <LoadingOverlay
-						active={isLoading}
-						spinner
-						text='Loading the content...'
-						styles={{
-							height: "100%",
-							spinner: (base) => ({
-								...base,
-								width: '50px',
-								'& svg circle': {
-									stroke: 'rgba(255, 0, 0, 0.5)'
-								}
-							})
-						}}
-					>
-					</LoadingOverlay>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <StyledTableRow style={{ padding: '0px' }}>
                 {/* <TableCell /> */}
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Practitioner Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Provider Contact</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Patient Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Practitioner Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Provider Contact</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Last Visit Date</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '20%', textAlign: 'center' }}>Address</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Age</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Contact</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Patient Contact</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Status</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' , textAlign: 'center'}}>Personal Info</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' ,textAlign: 'center'}}>Personal Info</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -370,19 +343,19 @@ export default function PatientInform() {
                   .map((row, index) => {
                     return (
                     <StyledTableRow key={row.Patient_id}>
-                    <StyledTableCell component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
-                          style={{ padding: '0px 0px 0px 0px', color: "#0d6efd", width: '10%' }}
+                    <StyledTableCell component="th" scope="row" style={{textAlign:'center'}}> <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
+                          style={{ padding: '0px 0px 0px 0px', color: "#0d6efd", width: '10%', textAlign:'center' }}
                           onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
                           onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
                     </StyledTableCell>
-                    <StyledTableCell style={{ width: '10%' }}>{row.Practitioner_name}</StyledTableCell>
-                    <StyledTableCell style={{ width: '10%', textAlign: 'center' }}>{row.Provider_number}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%',  textAlign: 'center'}}>{row.Practitioner_name}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%',  textAlign: 'center'}}>{row.Provider_number}</StyledTableCell>
                     <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}>{row.startdate}</StyledTableCell>
                     <StyledTableCell style={{ width: '20%' , textAlign: 'center'}}>{row.Patient_address}</StyledTableCell>
                     <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}>{row.Patient_Age}</StyledTableCell>
                     <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}>{row.Contact_number}</StyledTableCell>
-                    <StyledTableCell style={{ width: '10%' , textAlign: 'center' }}>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
-                    <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}>{RemoteStatus(row.RemoteCareText)}</StyledTableCell>
+                    <StyledTableCell style={{ width: '10%' , textAlign: 'center'}}><button type="button" className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
                     </StyledTableRow>
                     );
                   })}
@@ -400,7 +373,22 @@ export default function PatientInform() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      
+      <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+			</LoadingOverlay>
     </>
     // </Layout>
   )

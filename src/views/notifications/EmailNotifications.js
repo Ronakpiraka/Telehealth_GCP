@@ -149,38 +149,8 @@ export default function EmailNotify() {
                   console.log('FAILED...', error);
                   alert(error)
               });
-            };
-        // const sendemail=(patient, doctor, risk)=>{
-        //   // AWS.config.update({accessKeyId: config.snsemail.key ,secretAccessKey: config.snsemail.secret , region: config.snsemail.region});
-        // // change it to GCP
-        //   // var params = {
-        //   //   Message: `Dear ${patient}/${doctor}
-        //   //               As part of remote health monitoring, respiratory health vital indicators Oxygen Saturation(SpO2) level and Body Temperature of ${patient} is continuously recorded.
-        //   //               As part of regular diagnostics awareness, oxygen levels and temperature is recorded in last 5 minutes duration.
-        //   //               Oxygen level-80
-        //   //               Temperature-100
-        //   //               Immediate consultation is setup with provider to rule out any cause of concerns & complications, for adjustments needed on dosage or treatment methods, to ensure overall health stability.
-        //   //               As preliminary, please take notice of below critical parameters for discussion with doctor.
-        //   //               A bluish tint to fingernails, lips and skin
-        //   //               Chest congestion
-        //   //               shortness of breath
-        //   //               persistent cough
-        //   //               Thanking You
-        //   //               Hospital Management `, 
-        //   //   Subject: `Connect with ${doctor}`,
-        //   //   TopicArn: config.snsemail.topic
-        //   // };
-        //   // var publishTextPromise = new AWS.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
-        //   // publishTextPromise.then(
-        //   //   function(data) {
-        //   //     // console.log("MessageID is " + data.MessageId);
-        //   //     toast.success("Email sent successfully, Please check your inbox");
-        //   //   }).catch(
-        //   //     function(err) {
-        //   //     console.error(err, err.stack);
-        //   //   });
-        // }
-
+        };
+       
         const riskscore=(cluster_label)=>{
           if(cluster_label === 0)
           {
@@ -204,7 +174,7 @@ export default function EmailNotify() {
 
     return (
       <div>
-        <h1 className="title"><strong>Email Notifications</strong></h1>
+        <h2 className="title"><strong>Patient Appointments</strong></h2>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -221,22 +191,7 @@ export default function EmailNotify() {
               />
             </div>
           <TableContainer style={{ maxHeight: 300 }}>
-          <LoadingOverlay
-						active={isLoading}
-						spinner
-						text='Loading the content...'
-						styles={{
-							height: "100%",
-							spinner: (base) => ({
-								...base,
-								width: '50px',
-								'& svg circle': {
-									stroke: 'rgba(255, 0, 0, 0.5)'
-								}
-							})
-						}}
-					>
-					</LoadingOverlay>
+          
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
@@ -291,6 +246,22 @@ export default function EmailNotify() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
               />
+        <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
          {/* </Content> */}
          </div>
         // </Layout>

@@ -116,7 +116,7 @@ export default function ProviderInform() {
     var requestOptions = {
       method: 'GET'
     };
-    // fetch("https://providerdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+    
     fetch("https://providerdataupdated-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .then((response) => 
@@ -130,7 +130,7 @@ export default function ProviderInform() {
     }
     useEffect(() => { 
       fetchproviderdata();
-    },[])
+    },[data != null])
 
     const removeDuplicates = (response) => {
       const uniqueData = [];
@@ -164,7 +164,7 @@ export default function ProviderInform() {
     
     return (
       <>
-        <h1 className="title"><strong>Provider Details</strong></h1>
+        <h2 className="title"><strong>Provider Details</strong></h2>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -181,49 +181,34 @@ export default function ProviderInform() {
               />
             </div>
           <TableContainer style={{ maxHeight: 300 }}>
-          <LoadingOverlay
-						active={isLoading}
-						spinner
-						text='Loading the content...'
-						styles={{
-							height: "100%",
-							spinner: (base) => ({
-								...base,
-								width: '50px',
-								'& svg circle': {
-									stroke: 'rgba(255, 0, 0, 0.5)'
-								}
-							})
-						}}
-					>
-					</LoadingOverlay>
+          
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <StyledTableRow>
                 <StyledTableCell/>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Provider Code</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Address</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '16%', textAlign: 'center' }}>Contact Number</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%'}}>Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%'}}>Provider Code</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%'}}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '16%'}}>Contact Number</StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
-                {data.filter(val=>{
+                {data.filter(val => {
                   if(searchTerm === "")
                   {
                     return val;
                   }
                   else if((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  // (val.Provider_contact_number.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Provider_contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Provider_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_Speciality_1.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase()))
-                ) {
+                  // (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Practitioner_Speciality_1.toLowerCase().includes(searchTerm.toLowerCase()))
+                  // (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  // (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  // (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  // (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  // (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                   ) {
                   return val;        
                 }
               }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -251,6 +236,22 @@ export default function ProviderInform() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
       {/* </Content> */}
     </>
     // </Layout>
