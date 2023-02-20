@@ -118,7 +118,7 @@ export default function PractitionerBooking() {
   const [finalprac, setpracdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  // const [val, setval] = useState({name:'',condition:''});
+  const [providername, setProvidername] = useState();
   const [value, setValue] = React.useState('');
   const [modal, setModal] = useState(false);
 
@@ -191,13 +191,14 @@ export default function PractitionerBooking() {
 
   const senddata = async() => {
     var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5NjJlN2EwNTljN2Y1YzBjMGQ1NmNiYWQ1MWZlNjRjZWVjYTY3YzYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTEyNDA0NDYyMjM3MDQ5MDAwOTc1IiwiZW1haWwiOiJrb21hbC5rZWthcmVAYnJpbGxpby5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6Iko0Y1preHpxY21jLW1jYXVZTFVzNmciLCJpYXQiOjE2NzY4Nzg1NTcsImV4cCI6MTY3Njg4MjE1NywianRpIjoiNDI4MWFhMzc0MGJlNDAzZTRmMDhkZmVkNjk4MWRlOTdjYzZmM2VhOCJ9.BBCO9Xv_OLn3sUnqFQIceI1aDc4gqaQ568lG07F6f59QlQ453AvHCPRnfVBqe6GDG7eHapdzZwBRP1yAaUYQMp0xFmorSyFsYfa4sBMSxN49e-xpoDKW-zC9K94HrSn0meJ0bx1Q1uikaId_j_qG3a_do2LXkdTrcPwOkcwqHS1IZi3PXWqtuJRk1fjxhbipkTetKVjIZgR3VLQtVGZw6KEGd4cUOCd7izLrkHD6kw5nH0DVFQkl16JWDV5J0eyj_j2Kz1uyBpwvH9mpUxQl7qYstsy_B0Jly8Sr_aD8r-Qmnw1lSODuiGET-7JMNkmn-YLhHM2pKfvWN_m4TPLNww");
+    var accessToken = localStorage.getItem('Accesstoken')
+      myHeaders.append("Authorization", "Bearer "+ accessToken);
       myHeaders.append("Content-Type", "application/json");
       
       var raw = JSON.stringify({
         "App_Date": "0001-01-01",
         "Provider_id": "80e919cc-df1a-3838-b75e-541564a286e5",
-        "Provider_name": "NANTUCKET COTTAGE HOSPITAL",
+        "Provider_name": providername,
         "Time_9_AM_10_AM": false,
         "Time_10_AM_11_AM": false,
         "Time_11_AM_12_PM": false,
@@ -282,6 +283,7 @@ export default function PractitionerBooking() {
     setselectedprovider(event.target.value);
     provider = event.target.value;
     console.log(provider);
+    setProvidername(provider)
     var final_prac = new Array();
     let Prac_id_list = new Array();
     let Prac_list_index = -1;
