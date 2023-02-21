@@ -26,7 +26,9 @@ import { CModalFooter } from '@coreui/react';
 import { CModalHeader } from '@coreui/react';
 import { CModalTitle } from '@coreui/react';
 import { CModalBody } from '@coreui/react';
-import { CButton } from '@coreui/react'
+import { CButton } from '@coreui/react';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
 import {
   CCard,
@@ -116,14 +118,14 @@ export default function PractitionerBooking() {
   const [finalprac, setpracdata] = React.useState([]);
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  const [val, setval] = useState({name:'',condition:''});
+  const [providername, setProvidername] = useState();
   const [value, setValue] = React.useState('');
   const [modal, setModal] = useState(false);
 
   const toggle = ()=>{
     setModal(!modal);
   }
-  var stat, flags;
+  var stat, flags, Pname, conditionName;
   const location = useLocation();
 
   const [selectedProvider, setselectedprovider] = React.useState("");
@@ -132,14 +134,14 @@ export default function PractitionerBooking() {
 
   useEffect(() => {
     flags = location.search.split('^')[1];
-    let conditionName = location.search.split('=')[1].split('%')[0];
+    conditionName = location.search.split('=')[1].split('%')[0];
     console.log("condition",conditionName)
     
-    let Pname = localStorage.getItem('Patient');
+    Pname = sessionStorage.getItem('Patient');
     console.log(Pname, conditionName)
-    setval({name:Pname, condition:conditionName})
+    // setval({name:Pname, condition:conditionName})
     //setCName(conditionName)
-    console.log("state",val)
+    // console.log("state",val)
     
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app ", {
       method: 'GET',
@@ -188,50 +190,75 @@ export default function PractitionerBooking() {
   // };
 
   const senddata = async() => {
-    var accessToken = sessionStorage.getItem('Accesstoken')
-    // setLoading(true);
-     const response = await fetch(`https://bigquery.googleapis.com/bigquery/v2/projects/telehealth-365911/datasets/Test_FHIR_Fetch/tables/Patient_prac_details/insertAll?key=[AIzaSyD5pmSe_wdcafJ9hmNU2eExYH1Oa4iA7fc]`,
-     { method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify( 
-      {
-           "rows": [
-             {
-              "Patient_name": "komal"
-            }]
-           }),
-           header: {
-            'Authorization': 'Bearer '+ 'ya29.a0AVvZVsq9EEr9bw5vlmxz1X8Rdna1T5fs40gnROgr3n0J-ran9j229d0Y4lwm6OYw9tsS3YkiJ5YcvbZrm_KbE6c6iiX856GVcODI2PZ6WU-C-8PhWkmLvriSo5hnHTlGH0RBNJQHdj9A-AeMUutAf1XYCp9SRAaCgYKAQQSARISFQGbdwaIouvgzIZtlcYVBE4qtmOLNQ0165',
-            'Accept' : 'application/json',
-            'Content-Type': 'application/json' 
-          }
-         })
+    var myHeaders = new Headers();
+    var accessToken = localStorage.getItem('Accesstoken')
+      myHeaders.append("Authorization", "Bearer "+ accessToken);
+      myHeaders.append("Content-Type", "application/json");
+      
+      var raw = JSON.stringify({
+        "App_Date": "0001-01-01",
+        "Provider_id": "80e919cc-df1a-3838-b75e-541564a286e5",
+        "Provider_name": providername,
+        "Time_9_AM_10_AM": false,
+        "Time_10_AM_11_AM": false,
+        "Time_11_AM_12_PM": false,
+        "Time_12_PM_1_PM": false,
+        "Time_1_PM_2_PM": false,
+        "Time_2_PM_3_PM": false,
+        "Time_3_PM_4_PM": false,
+        "Time_4_PM_5_PM": false,
+        "Condition_code": "44465007",
+        "Condition_name": conditionName,
+        "Patient_name": Pname,
+        "Patient_id": "003abc72-a814-4a81-bff1-ce6a54b0ce39",
+        "Practitioner_id": "0000016d-3a85-4cca-0000-000000000226",
+        "Practitioner_Speciality": "Orthopedic Specialist",
+        "Practitioner_name": "Dr. Lanny Huels"
+      });
+      
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      
+      fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
   }
 
-  const sendemail = (name, doctor, guardian_email) => {
-    console.log(selectedProvider);
-    console.log(selectedSlot);
-
+  const redirecttoEmailNotification = () => {
     if (selectedProvider != "" && value != "") {
-      emailjs.send(
-        "service_pgn5fn9",
-        "template_03mdlrh",
-        { name: name, doctor: doctor, email: guardian_email },
-        'xQEzOVKLaHBEVtXtA')
-        .then(function (response) {
-          console.log('SUCCESS!', response.status, response.text);
-          toast.success("Appointment is for " + name + " is scheduled with " + doctor + " = and mail for collecting the document has been sent.");
-          senddata(name, doctor, guardian_email);
-        }, function (error) {
-          console.log('FAILED...', error);
-          // alert(error)
-        });
+
+    senddata()
+      
+    var url = `/notifications/email`;
+    history.push(`${url}`);
+    // console.log(selectedProvider);
+    // console.log(selectedSlot);
+
+    //   emailjs.send(
+    //     "service_pgn5fn9",
+    //     "template_03mdlrh",
+    //     { name: name, doctor: doctor, email: guardian_email },
+    //     'xQEzOVKLaHBEVtXtA')
+    //     .then(function (response) {
+    //       console.log('SUCCESS!', response.status, response.text);
+    //       toast.success("Appointment is for " + name + " is scheduled with " + doctor + " = and mail for collecting the document has been sent.");
+    //       senddata(name, doctor, guardian_email);
+    //     }, function (error) {
+    //       console.log('FAILED...', error);
+    //       // alert(error)
+    //     });
     }
     else {
       setModal(!modal);
       console.log(modal);  
     }
   };
+
   const handleChangeSlot = (event) => {
     console.log(event.target.value);
     setselectedslot(event.target.value);
@@ -256,6 +283,7 @@ export default function PractitionerBooking() {
     setselectedprovider(event.target.value);
     provider = event.target.value;
     console.log(provider);
+    setProvidername(provider)
     var final_prac = new Array();
     let Prac_id_list = new Array();
     let Prac_list_index = -1;
@@ -294,7 +322,7 @@ export default function PractitionerBooking() {
       <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
       <CRow>
         <CCol>
-          <FormControl sx={{ minWidth: 200 }}>
+          <FormControl sx={{ minWidth: 300 }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -310,10 +338,28 @@ export default function PractitionerBooking() {
             </Select>
           </FormControl>
         </CCol>
+        
         <CCol>
-
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimePicker
+          <DesktopDatePicker
+            label="Available Date"
+            inputFormat="DD/MM/YYYY"
+            value={value}
+            onChange={handleChange}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+        </CCol>
+
+        <CCol>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker
+            label="Available Time"
+            value={value}
+            onChange={handleChange}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          {/* <DateTimePicker
             renderInput={(props) => <TextField {...props} />}
             label="Availability slots"
             value={value}
@@ -322,7 +368,7 @@ export default function PractitionerBooking() {
               console.log(newValue);
               setValue(newValue);
             }}
-          />
+          /> */}
         </LocalizationProvider>
         </CCol>
       </CRow>
@@ -354,7 +400,7 @@ export default function PractitionerBooking() {
             <CWidgetProgressIcon
               color="gradient-success"
               inverse
-              text={row.Practitioner_email}
+              text={row.practitioner_email}
               style={{ color: 'white' }}
             >
 
@@ -362,7 +408,7 @@ export default function PractitionerBooking() {
               <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
 
               <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
-              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { sendemail(row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Book Appointment</button></span>
+              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { redirecttoEmailNotification(e,row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Book Appointment</button></span>
             </CWidgetProgressIcon>
           </CCardGroup>
         )

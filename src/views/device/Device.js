@@ -147,7 +147,7 @@ export default function Device() {
     return (
       <>
         {/* <Layout style={{backgroundColor:'black'}}> */}
-        <h1 className="title"><strong>Device Information</strong></h1>
+        <h2 className="title"><strong>Device Information</strong></h2>
             <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -164,32 +164,17 @@ export default function Device() {
               />
             </div>
             <TableContainer style={{ maxHeight: 300 }}>
-            <LoadingOverlay
-						active={isLoading}
-						spinner
-						text='Loading the content...'
-						styles={{
-							height: "100%",
-							spinner: (base) => ({
-								...base,
-								width: '50px',
-								'& svg circle': {
-									stroke: 'rgba(255, 0, 0, 0.5)'
-								}
-							})
-						}}
-					>
-					</LoadingOverlay>
+            
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                 <TableRow style={{ padding: '0px' }}>
                 {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
-                <TableCell style={{fontWeight: 'bold'}}>Device ID</TableCell>
-                <TableCell style={{fontWeight: 'bold'}}>Device Name</TableCell>
-                <TableCell style={{fontWeight: 'bold'}}>Patient Name</TableCell>
-                <TableCell style={{fontWeight: 'bold', width:'15%'}}>Device Value</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>Message</TableCell>
-                <TableCell style={{ fontWeight: 'bold'}}>DateTime</TableCell>
+                <TableCell style={{fontWeight: 'bold', textAlign:'center'}}>Device ID</TableCell>
+                <TableCell style={{fontWeight: 'bold', textAlign:'center'}}>Device Name</TableCell>
+                <TableCell style={{fontWeight: 'bold', textAlign:'center'}}>Patient Name</TableCell>
+                <TableCell style={{fontWeight: 'bold', width:'15%', textAlign:'center'}}>Device Value</TableCell>
+                <TableCell style={{ fontWeight: 'bold', textAlign:'center'}}>Message</TableCell>
+                <TableCell style={{ fontWeight: 'bold', textAlign:'center'}}>DateTime</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -210,12 +195,12 @@ export default function Device() {
               }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow key={row.Patient_id}>
-                  <StyledTableCell align="left">{row.s.device_id}</StyledTableCell>
-                  <StyledTableCell align="left">Blood-Oxygen Monitor</StyledTableCell>
-                  <StyledTableCell align="left">{row.Full_name}</StyledTableCell>
-                  <StyledTableCell align="left">{row.s.device_value}</StyledTableCell>
-                  <StyledTableCell align="left">{row.s.message}</StyledTableCell>
-                  <StyledTableCell align="left">{row.s.send_time}</StyledTableCell>
+                  <StyledTableCell style={{textAlign:'center'}}>{row.s.device_id}</StyledTableCell>
+                  <StyledTableCell style={{textAlign:'center'}}>Blood-Oxygen Monitor</StyledTableCell>
+                  <StyledTableCell style={{textAlign:'center'}}>{row.Full_name}</StyledTableCell>
+                  <StyledTableCell style={{textAlign:'center'}}>{row.s.device_value}</StyledTableCell>
+                  <StyledTableCell style={{textAlign:'center'}}>{row.s.message}</StyledTableCell>
+                  <StyledTableCell style={{textAlign:'center'}}>{row.s.send_time}</StyledTableCell>
                 </TableRow>
                 ))}
                 </TableBody>
@@ -231,6 +216,22 @@ export default function Device() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
+      <LoadingOverlay
+						active={isLoading}
+						spinner
+						text='Loading the content...'
+						styles={{
+							height: "100%",
+							spinner: (base) => ({
+								...base,
+								width: '50px',
+								'& svg circle': {
+									stroke: 'rgba(255, 0, 0, 0.5)'
+								}
+							})
+						}}
+					>
+					</LoadingOverlay>
     </>
         // {/* </Layout> */}
     )
