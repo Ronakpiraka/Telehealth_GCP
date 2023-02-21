@@ -119,7 +119,8 @@ export default function PractitionerBooking() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [providername, setProvidername] = useState();
-  const [value, setValue] = React.useState('');
+  const [selectedDate, setDate] = React.useState('');
+  const [selectedTime, setTime] = React.useState('');
   const [modal, setModal] = useState(false);
 
   const toggle = ()=>{
@@ -255,7 +256,7 @@ export default function PractitionerBooking() {
   }
 
   const redirecttoEmailNotification = () => {
-    if (selectedProvider != "" && value != "") {
+    if (selectedProvider != "" && selectedDate != "" && selectedTime != "") {
 
     senddata()
       
@@ -364,13 +365,17 @@ export default function PractitionerBooking() {
           </FormControl>
         </CCol>
         
-        <CCol>
+        <CCol style={{marginLeft: '37%'}}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             label="Available Date"
             inputFormat="DD/MM/YYYY"
-            value={value}
-            onChange={handleChange}
+            value={selectedDate}
+            disablePast={true}
+            onChange={(newDate) => {
+              console.log(newDate);
+              setDate(newDate);
+            }}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
@@ -380,8 +385,11 @@ export default function PractitionerBooking() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker
             label="Available Time"
-            value={value}
-            onChange={handleChange}
+            value={selectedTime}
+            onChange={(newTime) => {
+              console.log(newTime);
+              setTime(newTime);
+            }}
             renderInput={(params) => <TextField {...params} />}
           />
           {/* <DateTimePicker
