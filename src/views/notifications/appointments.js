@@ -119,6 +119,7 @@ export default function Appointment() {
   const [personName, setPersonName] = React.useState([]);
   const [conditionName, setConditionName] = React.useState([]);
   const [modal, setModal] = useState(false);
+  const [MRN, setMRN] = useState('');
 
   const toggle = ()=>{
     setModal(!modal);
@@ -192,6 +193,9 @@ export default function Appointment() {
     setPersonName(value)
     localStorage.setItem("Patient",value)
     console.log("selected patient", value)
+    let selectedPatientData= data.filter(temp => temp.Patient_name==value);
+    // console.log(selectedPatientData.);
+    setMRN(selectedPatientData[0].Medical_Record_Number);
   };
 
   const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
@@ -259,7 +263,7 @@ export default function Appointment() {
               >
               {uniquePatientName.map((row,index)=>{
                 return(
-                  <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
+                  <MenuItem value={row.Patient_name} >{row.Patient_name}</MenuItem>
                 )
               })} 
               </Select>
@@ -268,6 +272,7 @@ export default function Appointment() {
           <CCol>
             <span className="navbar justify-content-between">
               <p className="navbar-brand"><b>Medical Record Number: </b></p> 
+              <p>{MRN}</p>
             </span>
           </CCol>
           <CCol >

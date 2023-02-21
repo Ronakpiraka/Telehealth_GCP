@@ -135,16 +135,35 @@ export default function EmailNotify() {
           history.push(`${url}`);
         }
 
-        const sendemail = (name, doctor,guardian_email) => {
+        const slottiming = (Time_9_AM_10_AM,Time_10_AM_11_AM,Time_11_AM_12_PM,Time_12_PM_1_PM,Time_1_PM_2_PM,Time_2_PM_3_PM,Time_3_PM_4_PM,Time_4_PM_5_PM) =>{
+          if(Time_9_AM_10_AM === "true")
+            {return('9 AM - 10 AM')}
+          else if(Time_10_AM_11_AM === "true")
+            {return('10 AM - 11 AM')}
+          else if(Time_11_AM_12_PM === "true")
+            {return('11 AM - 12 PM')}
+          else if(Time_12_PM_1_PM === "true")
+            {return('12 PM - 1 PM')}
+          else if(Time_1_PM_2_PM === "true")
+            {return('1 PM - 2 PM')}
+          else if(Time_2_PM_3_PM === "true")
+            {return('2 PM - 3 PM')}
+          else if(Time_3_PM_4_PM === "true")
+            {return('3 PM - 4 PM')}
+          else if(Time_4_PM_5_PM === "true")
+            {return('4 PM - 5 PM')}
+        }
+
+        const sendemail = (name, doctor,guardian_email,provider,provider_contact,prac_email) => {
               emailjs.send(
                 "service_jo0oe0n",
                 "template_bqrgux5",
-                {to_name : name, Doctor:doctor,email:guardian_email}, 
+                {patient_name : name, Doctor:doctor,email:guardian_email,provider_name:provider,provider_number:provider_contact,practitioner_email:prac_email}, 
                 'l7yMNcNURVQaRrVQG')
                 .then(function(response) {
                   console.log('SUCCESS!', response.status, response.text);
                   toast.success("Meeting with Patient "+ name+" is Scheduled");
-                  senddata(name, doctor,guardian_email);
+                  senddata(name, doctor,guardian_email,provider,provider_contact,prac_email);
               }, function(error) {
                   console.log('FAILED...', error);
                   alert(error)
@@ -195,13 +214,12 @@ export default function EmailNotify() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                <TableCell>Patient Name</TableCell>
-                <TableCell>Condition Name</TableCell>
-                <TableCell>Patient/Guardian Email</TableCell>
-                <TableCell>Provider Name</TableCell>
-                <TableCell>Booked Slot</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Patient Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Condition Name</TableCell>
+                <TableCell style={{ width: '20%', textAlign: 'center'}}>Provider Name</TableCell>
+                <TableCell style={{ width: '20%', textAlign: 'center'}}>Booked Slot</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Status</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -213,8 +231,11 @@ export default function EmailNotify() {
                   else if((val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Guardian_Email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Risk_Category.toString().toLowerCase().includes(searchTerm.toLowerCase()))
+                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Risk_Category.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.Provider_contact_number.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.provider_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.practitioner_email.toString().toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
@@ -222,13 +243,12 @@ export default function EmailNotify() {
                   .map((row, index) => {
                     return(
                       <StyledTableRow>
-                        <StyledTableCell>{row.Patient_name}</StyledTableCell>
-                        <StyledTableCell>{row.Condition_name}</StyledTableCell>
-                        <StyledTableCell>{row.Guardian_Email}</StyledTableCell>
-                        <StyledTableCell>{row.Provider_name}</StyledTableCell>
-                        <StyledTableCell>{row.Practitioner}</StyledTableCell>
-                        <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Patient_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Condition_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Provider_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{slottiming(row.Time_9_AM_10_AM.toString(),row.Time_10_AM_11_AM.toString(),row.Time_11_AM_12_PM.toString(),row.Time_12_PM_1_PM.toString(),row.Time_1_PM_2_PM.toString(),row.Time_2_PM_3_PM.toString(),row.Time_3_PM_4_PM.toString(),row.Time_4_PM_5_PM.toString())}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Appointment_Status}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
                       </StyledTableRow>
                     )
                   }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

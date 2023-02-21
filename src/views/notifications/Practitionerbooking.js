@@ -119,7 +119,8 @@ export default function PractitionerBooking() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [providername, setProvidername] = useState();
-  const [value, setValue] = React.useState('');
+  const [selectedDate, setDate] = React.useState('');
+  const [selectedTime, setTime] = React.useState('');
   const [modal, setModal] = useState(false);
 
   const toggle = ()=>{
@@ -213,8 +214,33 @@ export default function PractitionerBooking() {
         "Patient_id": "003abc72-a814-4a81-bff1-ce6a54b0ce39",
         "Practitioner_id": "0000016d-3a85-4cca-0000-000000000226",
         "Practitioner_Speciality": "Orthopedic Specialist",
-        "Practitioner_name": "Dr. Lanny Huels"
+        "Practitioner_name": "Dr. Lanny Huels",
+        "MRN": "003abc72-a814-4a81-bff1-ce6a54b0ce39"        
       });
+
+      // {
+      //   "App_Date": "2001-01-01",
+      //   "Provider_id": "80e919cc-df1a-3838-b75e-541564a286e5",
+      //   "Provider_name": "NANTUCKET COTTAGE HOSPITAL",
+      //   "Time_9_AM_10_AM": false,
+      //   "Time_10_AM_11_AM": false,
+      //   "Time_11_AM_12_PM": false,
+      //   "Time_12_PM_1_PM": false,
+      //   "Time_1_PM_2_PM": false,
+      //   "Time_2_PM_3_PM": true,
+      //   "Time_3_PM_4_PM": false,
+      //   "Time_4_PM_5_PM": false,
+      //   "Condition_code": "44465007",
+      //   "Condition_name": "Sprain of ankle",
+      //   "Patient_name": "Ms. Renda  Kessler",
+      //   "Patient_id": "003abc72-a814-4a81-bff1-ce6a54b0ce39",
+      //   "Practitioner_id": "0000016d-3a85-4cca-0000-000000000226",
+      //   "Practitioner_Speciality": "Orthopedic Specialist",
+      //   "Practitioner_name": "Dr. Lanny Huels",
+      //   "MRN":"003abc72-a814-4a81-bff1-ce6a54b0ce39",
+      //   "provider_contact_number":"508-228-1200",
+      //   "practitioner_email":"Lanny564.Huels583@example.com"
+      // }
       
       var requestOptions = {
         method: 'POST',
@@ -230,7 +256,7 @@ export default function PractitionerBooking() {
   }
 
   const redirecttoEmailNotification = () => {
-    if (selectedProvider != "" && value != "") {
+    if (selectedProvider != "" && selectedDate != "" && selectedTime != "") {
 
     senddata()
       
@@ -339,13 +365,17 @@ export default function PractitionerBooking() {
           </FormControl>
         </CCol>
         
-        <CCol>
+        <CCol style={{marginLeft: '37%'}}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             label="Available Date"
             inputFormat="DD/MM/YYYY"
-            value={value}
-            onChange={handleChange}
+            value={selectedDate}
+            disablePast={true}
+            onChange={(newDate) => {
+              console.log(newDate);
+              setDate(newDate);
+            }}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
@@ -355,8 +385,11 @@ export default function PractitionerBooking() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TimePicker
             label="Available Time"
-            value={value}
-            onChange={handleChange}
+            value={selectedTime}
+            onChange={(newTime) => {
+              console.log(newTime);
+              setTime(newTime);
+            }}
             renderInput={(params) => <TextField {...params} />}
           />
           {/* <DateTimePicker
