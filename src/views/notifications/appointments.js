@@ -207,7 +207,7 @@ export default function Appointment() {
       console.log(modal);  
     }
   }
-  
+ 
   return (
     <div> 
       <CModal
@@ -225,7 +225,7 @@ export default function Appointment() {
           >Ok</CButton>
         </CModalFooter>
       </CModal>
-        <h1 className="title" align="center"><strong>Book Appointment</strong></h1><br/>
+        <h2 className="title"><strong>Book Appointment</strong></h2><br/>
         <div sm="8" md="8" lg="8">
         <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -268,25 +268,13 @@ export default function Appointment() {
           <CCol>
             <span className="navbar justify-content-between">
               <p className="navbar-brand"><b>Medical Record Number: </b></p> 
-              if
+            
             </span>
           </CCol>
           <CCol >
-            {/* <FormControl sx={{ minWidth: 200 }}>
-              <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="PName"
-                onChange={handleChange}
-              >
-              {uniquePatientName.map((row,index)=>{
-                return(
-                  <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>
-                )
-              })} 
-              </Select>
-            </FormControl> */}
+          <span className="navbar justify-content-between">
+              <p className="navbar-brand"><b></b></p> 
+            </span>
           </CCol>
         </CRow>
         <CRow>
@@ -309,7 +297,7 @@ export default function Appointment() {
             .map((row,index)=>{
             return(
             <CCol sm="12" md="8" lg="4">
-              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{padding:'4%', fontSize:'14px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
+              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{minHeight:'80px', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
             </CCol>
             )
           })}
