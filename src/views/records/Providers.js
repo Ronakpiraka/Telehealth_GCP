@@ -213,18 +213,17 @@ export default function ProviderInform() {
                   {
                     return val;
                   }
-                  else if((val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  // (val.Provider_contact_number.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Provider_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  else if((val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Practitioner_Speciality_1.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                  (val.Provider_address.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase()))
                 ) {
-                  return val;        
+                  return val        
                 }
               }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((prow, index) => {
