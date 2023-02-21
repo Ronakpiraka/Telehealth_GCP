@@ -51,8 +51,8 @@ export default function Prow(props) {
           </TableCell>
           <StyledTableCell style={{ width: '28%' }}>{prow.Provider_name}</StyledTableCell>
           <StyledTableCell style={{ width: '28%' }}>{prow.Provider_id}</StyledTableCell>
-          <StyledTableCell style={{ width: '28%'}}>{prow.Provider_address}</StyledTableCell>
-          <StyledTableCell style={{ width: '16%'}}>{prow.Provider_contact_number}</StyledTableCell>
+          <StyledTableCell style={{ width: '28%', textAlign: 'center' }}>{prow.Provider_address}</StyledTableCell>
+          <StyledTableCell style={{ width: '16%' }}>{prow.Provider_contact_number}</StyledTableCell>
         </TableRow>
       <StyledTableRow>
       <StyledTableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -62,7 +62,7 @@ export default function Prow(props) {
               <TableHead style={{ fontWeight: 'bold', color:"blue", margin: "22px" }}>     Practitioner Details:  </TableHead>
                 <StyledTableRow>
                   <StyledTableCell style={{ fontWeight: 'bold',width: '16%'}}/>
-                  <StyledTableCell style={{ fontWeight: 'bold',width: '28%'}}>Practitioner Name</StyledTableCell>
+                  <StyledTableCell style={{ fontWeight: 'bold',width: '28%'}}>Name</StyledTableCell>
                   <StyledTableCell style={{ fontWeight: 'bold',width: '28%'}}>Specialisation</StyledTableCell>
                   <StyledTableCell style={{ fontWeight: 'bold',width: '28%'}}>Email ID</StyledTableCell>
                 </StyledTableRow>
