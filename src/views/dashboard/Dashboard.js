@@ -400,13 +400,13 @@ const Dashboard = () => {
             <TableHead>
               <StyledTableRow style={{ padding: '0px' }}>
               <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Practitioner Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Provider Contact Number</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign:'center' }}>Practitioner Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '12%', textAlign:'center' }}>Provider Contact Number</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Last Visit Date</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '22%', textAlign:'center' }}>Address</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '4%' }}>Age</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '12%' }}>Patient Contact Number</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Personal Info</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '4%' , textAlign:'center'}}>Age</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '12%', textAlign:'center' }}>Patient Contact Number</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign:'center' }}>Personal Info</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -440,17 +440,17 @@ const Dashboard = () => {
                     return (
                       <StyledTableRow key={row.Patient_id}>
                       <StyledTableCell align="left" component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
-                            style={{ padding: '0px 0px 0px 0px', color: "#0d6efd" }}
+                            style={{ padding: '0px 0px 0px 0px', color: "#0d6efd", width: '10%' }}
                             onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
                             onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
                       </StyledTableCell>
-                      <StyledTableCell align="left" >{row.Practitioner_name}</StyledTableCell>
-                      <StyledTableCell align="left">{row.Provider_number}</StyledTableCell>
-                      <StyledTableCell align="left">{row.startdate}</StyledTableCell>
-                      <StyledTableCell align="center" >{row.Patient_address}</StyledTableCell>
-                      <StyledTableCell align="center">{row.Patient_Age}</StyledTableCell>
-                      <StyledTableCell align="center" >{row.Contact_number}</StyledTableCell>
-                      <StyledTableCell align="center" ><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
+                      <StyledTableCell align="left"  style={{  width: '10%' }}>{row.Practitioner_name}</StyledTableCell>
+                      <StyledTableCell align="center" style={{  width: '14%' }}>{row.Provider_number}</StyledTableCell>
+                      <StyledTableCell align="left" style={{  width: '8%' }}>{row.startdate}</StyledTableCell>
+                      <StyledTableCell align="center"  style={{  width: '22%' }}>{row.Patient_address}</StyledTableCell>
+                      <StyledTableCell align="center" style={{  width: '4%' }}>{row.Patient_Age}</StyledTableCell>
+                      <StyledTableCell align="center" style={{  width: '14%' }}>{row.Contact_number}</StyledTableCell>
+                      <StyledTableCell align="center" style={{  width: '10%' }}><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
                       </StyledTableRow>
                     );
                   })}
