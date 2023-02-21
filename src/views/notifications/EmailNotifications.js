@@ -240,13 +240,12 @@ export default function EmailNotify() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                <TableCell>Patient Name</TableCell>
-                <TableCell>Condition Name</TableCell>
-                <TableCell>Patient/Guardian Email</TableCell>
-                <TableCell>Provider Name</TableCell>
-                <TableCell>Booked Slot</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Patient Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Condition Name</TableCell>
+                <TableCell style={{ width: '20%', textAlign: 'center'}}>Provider Name</TableCell>
+                <TableCell style={{ width: '20%', textAlign: 'center'}}>Booked Slot</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Status</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -267,13 +266,12 @@ export default function EmailNotify() {
                   .map((row, index) => {
                     return(
                       <StyledTableRow>
-                        <StyledTableCell>{row.Patient_name}</StyledTableCell>
-                        <StyledTableCell>{row.Condition_name}</StyledTableCell>
-                        <StyledTableCell>{row.Guardian_Email}</StyledTableCell>
-                        <StyledTableCell>{row.Provider_name}</StyledTableCell>
-                        <StyledTableCell>{row.Practitioner}</StyledTableCell>
-                        <StyledTableCell>{riskscore(row.Risk_Category)}</StyledTableCell>
-                        <StyledTableCell key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Patient_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Condition_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Provider_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Practitioner}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{riskscore(row.Risk_Category)}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner,row.Guardian_Email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
                       </StyledTableRow>
                     )
                   }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
