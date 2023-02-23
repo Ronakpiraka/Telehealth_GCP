@@ -1,0 +1,26 @@
+:root {
+    --primary-color: #000;
+  }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+    padding: 1rem;
+  }
+  .signature-pad-form {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .signature-pad {
+    cursor: url("https://www.shutterstock.com/image-photo/golden-fountain-pen-leaves-signature-260nw-1437297767.jpg") 1 26, pointer;
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+  }
+  .clear-button {
+    color: var(--primary-color);
+  }
+ 
+  @media (pointer: coarse) {
+    body {
+      overflow: hidden; /* Needed to prevent the vertical scroll on touch devices */
+    }
+  }

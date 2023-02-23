@@ -255,12 +255,12 @@ export default function PractitionerBooking() {
         .catch(error => console.log('error', error));
   }
 
-  const redirecttoEmailNotification = () => {
+  const redirecttoConsent= () => {
     if (selectedProvider != "" && selectedDate != "" && selectedTime != "") {
 
     senddata()
       
-    var url = `/notifications/email`;
+    var url = `/notifications/Consent`;
     history.push(`${url}`);
     // console.log(selectedProvider);
     // console.log(selectedSlot);
@@ -325,7 +325,8 @@ export default function PractitionerBooking() {
     setpracdata(final_prac);
   };
 
-
+  // const minTime = (new Date('9:00 AM'));
+  // const maxTime = (new Date('05:00 PM'));
   const slots = [{ colname: 'Time_9_AM_10_AM', slot: '9 AM - 10 AM' }, { colname: 'Time_10_AM_11_AM', slot: '10 AM - 11 AM' }, { colname: 'Time_11_AM_12_PM', slot: '11 AM - 12 PM' }, { colname: 'Time_12_PM_1_PM', slot: '12 PM - 1 PM' }, { colname: 'Time_1_PM_2_PM', slot: '1 PM - 2 PM' }, { colname: 'Time_2_PM_3_PM', slot: '2 PM - 3 PM' }, { colname: 'Time_3_PM_4_PM', slot: '3 PM - 4 PM' }, { colname: 'Time_4_PM_5_PM', slot: '4 PM - 5 PM' }];
   return (
     <div>
@@ -382,10 +383,11 @@ export default function PractitionerBooking() {
         </CCol>
 
         <CCol>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}> 
             <TimePicker
             label="Available Time"
             value={selectedTime}
+            
             onChange={(newTime) => {
               console.log(newTime);
               setTime(newTime);
@@ -441,7 +443,7 @@ export default function PractitionerBooking() {
               <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
 
               <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
-              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { redirecttoEmailNotification(e,row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Book Appointment</button></span>
+              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { redirecttoConsent(e,row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Select</button></span>
             </CWidgetProgressIcon>
           </CCardGroup>
         )

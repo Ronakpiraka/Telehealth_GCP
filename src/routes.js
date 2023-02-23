@@ -23,7 +23,7 @@ const EmailNotification = React.lazy(() => import('./views/notifications/EmailNo
 const Appointment = React.lazy(()=> import('./views/notifications/appointments'));
 const Practitionerbookings = React.lazy(()=> import('./views/notifications/Practitionerbooking'));
 // const Modal = React.lazy(() => import('./views/records/modal.js'));
-
+const Consent = React.lazy(()=> import('./views/notifications/Consent'));
 const routes = [
   { path: '/login', name: 'Login', component: Login },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -43,7 +43,7 @@ const routes = [
   { path: '/reports/PatientCare', name: 'PatientCare', component: PatientCare, exact: true },
   { path: '/notifications/email', name: 'Email', component: EmailNotification, exact: true },
   { path: '/notifications', name: 'Notifications', component: Notification, exact: true },
-
+  { path: '/notifications/Consent', name: 'Consent', component: Consent , exact: true },
   { path: '/services/ambulance', name: 'AmbulanceService', component: AmbulanceService, exact: true },
   { path: '/services/ambulanceinfo', name: 'AmbulanceInfo', component: AmbulanceInform, exact: true },
   { path: '/services/ambulancedetails', name: 'Ambulancedetails', component: Ambulancedetails, exact: true}
