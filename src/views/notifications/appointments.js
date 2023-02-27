@@ -120,7 +120,7 @@ export default function Appointment() {
   const [conditionName, setConditionName] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [MRN, setMRN] = useState('');
-
+  const [selectedOptions, setSelectedOptions] = useState();
   const toggle = ()=>{
     setModal(!modal);
   }

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Radio from '@mui/material/Radio';
-// import "./Consent.css"
 import "../records/patients.css";
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -8,14 +7,13 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Button } from 'antd';
 import { useHistory, useLocation } from "react-router-dom";
-import { CModal } from '@coreui/react';
-import { CModalFooter } from '@coreui/react';
-import { CModalHeader } from '@coreui/react';
-import { CModalTitle } from '@coreui/react';
-import { CModalBody } from '@coreui/react';
-import { CButton } from '@coreui/react';
+import SignatureCanvas from 'react-signature-canvas';
+import ReactDOM from 'react-dom';
+import styles from './Consent.css'
+import Signature from './signature'
 
 export default function RadioButtonsGroup() {
+   
     const history = useHistory();
     const [modal, setModal] = useState(false);
 
@@ -106,85 +104,11 @@ export default function RadioButtonsGroup() {
             history.push(`${url}`);
         
      }
-
-    
-
-    //  const canvas = document.querySelector('canvas');
-    //  const form = document.querySelector('.signature-pad-form');
-    //  const clearButton = document.querySelector('.clear-button');
-    //  const ctx = canvas.getContext('2d');
-    //  let writingMode = false;
-    //  canvas.addEventListener('pointerdown', handlePointerDown, {passive: true});
-    //  canvas.addEventListener('pointerup', handlePointerUp, {passive: true});
-    //  canvas.addEventListener('pointermove', handlePointerMove, {passive: true});
-
-    //  const handlePointerDown = (event) => {
-    //     writingMode = true;
-    //     ctx.beginPath();
-    //     const [positionX, positionY] = getCursorPosition(event);
-    //     ctx.moveTo(positionX, positionY);
-    //   }
-
-    //   const handlePointerUp = () => {
-    //     writingMode = false;
-    //   }
-
-    //   const handlePointerMove = (event) => {
-    //     if (!writingMode) return
-    //     const [positionX, positionY] = getCursorPosition(event);
-    //     ctx.lineTo(positionX, positionY);
-    //     ctx.stroke();
-    //   }
-
-    //   const getCursorPosition = (event) => {
-    //      const [positionX, positionY] = getCursorPosition(event);
-    //     positionX = event.clientX - event.target.getBoundingClientRect().x;
-    //     positionY = event.clientY - event.target.getBoundingClientRect().y;
-    //     return [positionX, positionY];
-    //   }
-
-    //   ctx.lineWidth = 3;
-    //   ctx.lineJoin = ctx.lineCap = 'round';
-    //   form.addEventListener('submit', (event) => {
-    //     event.preventDefault();
-    //     const imageURL = canvas.toDataURL();
-    //     const image = document.createElement('img');
-    //     image.src = imageURL;
-    //     image.height = canvas.height;
-    //     image.width = canvas.width;
-    //     image.style.display = 'block';
-    //     form.appendChild(image);
-    //     clearPad();
-    //   })
-
-    //   const clearPad = () => {
-    //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //   }
-    //   clearButton.addEventListener('click', (event) => {
-    //     event.preventDefault();
-    //     clearPad();
-    //   })
-
-    return (
-    <>
-      <FormControl>
-        <CModal
-            show={modal}
-            onClose={toggle}
-        >
-            <CModalHeader closeButton>Confirmation</CModalHeader>
-            <CModalBody>
-            Your Appointment is booked successfully....
-            </CModalBody>
-            <CModalFooter>
-            {/* <CButton color="primary">Do Something</CButton>{' '} */}
-            <CButton
-                color="primary"
-                onClick={toggle}>Ok</CButton>
-            </CModalFooter>
-        </CModal>
-            <FormLabel id="demo-radio-buttons-group-label"><b>Consent Form</b></FormLabel>
-            <RadioGroup
+     
+            return (
+            <><FormControl>
+                <FormLabel id="demo-radio-buttons-group-label"><b>Consent Form</b></FormLabel>
+                <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="I dont"
                 name="radio-buttons-group"
@@ -199,21 +123,20 @@ export default function RadioButtonsGroup() {
             <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="Yes"
-                name="radio-buttons-group">
-            <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-            <FormControlLabel value="No" control={<Radio />} label="No" />
-               
+                name="radio-buttons-group"
+            >   <p><b>Are you interested for vital tracking?</b></p>
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+             <br></br>  
             </RadioGroup>
-            {/* <title>Signature Pad</title>
+            <title>Signature Pad</title>
             <form class="signature-pad-form" action="#" method="POST">
             <p><b>Signature</b></p>
-            <canvas height="100" width="300" class="signature-pad"></canvas>
-            <p><a href="#" class="clear-button">Clear</a></p>
-           
-            </form> */}
-        </FormControl>
-        <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { redirecttoEmail(e); } }>Submit</button>
-        </>
+            <Signature></Signature>
+            
+         </form>
+        </FormControl><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { redirecttoEmail(e); } }>Submit</button></>
         
   )
 }
+
