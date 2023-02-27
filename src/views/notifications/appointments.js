@@ -271,8 +271,7 @@ export default function Appointment() {
           </CCol>
           <CCol>
             <span className="navbar justify-content-between">
-              <p className="navbar-brand"><b>Medical Record Number: </b></p> 
-              <p>{MRN}</p>
+              <p className="navbar-brand"><b>Medical Record Number: </b>{MRN}</p> 
             </span>
           </CCol>
           <CCol >

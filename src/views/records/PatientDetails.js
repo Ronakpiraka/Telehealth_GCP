@@ -132,7 +132,7 @@ export default function PatientDetails() {
 			setAllPurchaseOrderDetails(patientdetails)
 
 			setPosts({ ...patientdetails[0] });
-			// isLoading = false;
+			setisLoading(false)
 
 			// console.log(posts);
 			// console.log('------------------posts***-------------------------------------')
@@ -406,7 +406,7 @@ export default function PatientDetails() {
             <React.Fragment>
 			<section className="content" style={{ padding: '10px 10px 10px 10px', margin: '0px 0px 0px 0px', width: '100%' }}>
 					<LoadingOverlay
-						active={true}
+						active={isLoading}
 						spinner
 						text='Loading the content...'
 						styles={{

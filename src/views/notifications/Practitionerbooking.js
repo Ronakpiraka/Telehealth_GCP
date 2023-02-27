@@ -148,8 +148,6 @@ export default function PractitionerBooking() {
       method: 'GET',
     }).then(resp => resp.json()
     ).then(response => {
-
-
       let Provider_id_list = new Array();
       let Provider_list_index = -1;
       let Patient_condition = "";
@@ -190,94 +188,12 @@ export default function PractitionerBooking() {
   //   setpage(0);
   // };
 
-  const senddata = async() => {
-    var myHeaders = new Headers();
-    var accessToken = localStorage.getItem('Accesstoken')
-      myHeaders.append("Authorization", "Bearer "+ accessToken);
-      myHeaders.append("Content-Type", "application/json");
-      
-      var raw = JSON.stringify({
-        "App_Date": "0001-01-01",
-        "Provider_id": "80e919cc-df1a-3838-b75e-541564a286e5",
-        "Provider_name": providername,
-        "Time_9_AM_10_AM": false,
-        "Time_10_AM_11_AM": false,
-        "Time_11_AM_12_PM": false,
-        "Time_12_PM_1_PM": false,
-        "Time_1_PM_2_PM": false,
-        "Time_2_PM_3_PM": false,
-        "Time_3_PM_4_PM": false,
-        "Time_4_PM_5_PM": false,
-        "Condition_code": "44465007",
-        "Condition_name": conditionName,
-        "Patient_name": Pname,
-        "Patient_id": "003abc72-a814-4a81-bff1-ce6a54b0ce39",
-        "Practitioner_id": "0000016d-3a85-4cca-0000-000000000226",
-        "Practitioner_Speciality": "Orthopedic Specialist",
-        "Practitioner_name": "Dr. Lanny Huels",
-        "MRN": "003abc72-a814-4a81-bff1-ce6a54b0ce39"        
-      });
-
-      // {
-      //   "App_Date": "2001-01-01",
-      //   "Provider_id": "80e919cc-df1a-3838-b75e-541564a286e5",
-      //   "Provider_name": "NANTUCKET COTTAGE HOSPITAL",
-      //   "Time_9_AM_10_AM": false,
-      //   "Time_10_AM_11_AM": false,
-      //   "Time_11_AM_12_PM": false,
-      //   "Time_12_PM_1_PM": false,
-      //   "Time_1_PM_2_PM": false,
-      //   "Time_2_PM_3_PM": true,
-      //   "Time_3_PM_4_PM": false,
-      //   "Time_4_PM_5_PM": false,
-      //   "Condition_code": "44465007",
-      //   "Condition_name": "Sprain of ankle",
-      //   "Patient_name": "Ms. Renda  Kessler",
-      //   "Patient_id": "003abc72-a814-4a81-bff1-ce6a54b0ce39",
-      //   "Practitioner_id": "0000016d-3a85-4cca-0000-000000000226",
-      //   "Practitioner_Speciality": "Orthopedic Specialist",
-      //   "Practitioner_name": "Dr. Lanny Huels",
-      //   "MRN":"003abc72-a814-4a81-bff1-ce6a54b0ce39",
-      //   "provider_contact_number":"508-228-1200",
-      //   "practitioner_email":"Lanny564.Huels583@example.com"
-      // }
-      
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
-      
-      fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-  }
+  
 
   const redirecttoConsent= () => {
     if (selectedProvider != "" && selectedDate != "" && selectedTime != "") {
-
-    senddata()
-      
-    var url = `/notifications/Consent`;
-    history.push(`${url}`);
-    // console.log(selectedProvider);
-    // console.log(selectedSlot);
-
-    //   emailjs.send(
-    //     "service_pgn5fn9",
-    //     "template_03mdlrh",
-    //     { name: name, doctor: doctor, email: guardian_email },
-    //     'xQEzOVKLaHBEVtXtA')
-    //     .then(function (response) {
-    //       console.log('SUCCESS!', response.status, response.text);
-    //       toast.success("Appointment is for " + name + " is scheduled with " + doctor + " = and mail for collecting the document has been sent.");
-    //       senddata(name, doctor, guardian_email);
-    //     }, function (error) {
-    //       console.log('FAILED...', error);
-    //       // alert(error)
-    //     });
+      var url = `/notifications/Consent`;
+      history.push(`${url}`);
     }
     else {
       setModal(!modal);
