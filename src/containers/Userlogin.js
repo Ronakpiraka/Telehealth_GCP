@@ -81,7 +81,7 @@ export default function Login(){
             data-client_id={clientid}
             data-context="signin"
             data-ux_mode="popup"
-            data-login_uri="http://localhost:3000/#/login"
+            data-login_uri="https://telehealth-365911.uc.r.appspot.com/#/login"
             data-nonce=""
             data-auto_prompt="false">
         </div>
