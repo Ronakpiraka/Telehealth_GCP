@@ -216,10 +216,11 @@ export default function EmailNotify() {
                 <TableRow>
                 <TableCell style={{ width: '15%', textAlign: 'center'}}>Patient Name</TableCell>
                 <TableCell style={{ width: '15%', textAlign: 'center'}}>Condition Name</TableCell>
-                <TableCell style={{ width: '20%', textAlign: 'center'}}>Provider Name</TableCell>
-                <TableCell style={{ width: '20%', textAlign: 'center'}}>Booked Slot</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center'}}>Status</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center'}}>Actions</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Provider Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Practitioner Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center'}}>Booked Date and Time</TableCell>
+                <TableCell style={{ width: '12%', textAlign: 'center'}}>Status</TableCell>
+                <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -246,7 +247,8 @@ export default function EmailNotify() {
                         <StyledTableCell style={{ textAlign: 'center'}}>{row.Patient_name}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center'}}>{row.Condition_name}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center'}}>{row.Provider_name}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{slottiming(row.Time_9_AM_10_AM.toString(),row.Time_10_AM_11_AM.toString(),row.Time_11_AM_12_PM.toString(),row.Time_12_PM_1_PM.toString(),row.Time_1_PM_2_PM.toString(),row.Time_2_PM_3_PM.toString(),row.Time_3_PM_4_PM.toString(),row.Time_4_PM_5_PM.toString())}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Practitioner_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{slottiming(row.Time_9_AM_10_AM.toString(),row.Time_10_AM_11_AM.toString(),row.Time_11_AM_12_PM.toString(),row.Time_12_PM_1_PM.toString(),row.Time_1_PM_2_PM.toString(),row.Time_2_PM_3_PM.toString(),row.Time_3_PM_4_PM.toString(),row.Time_4_PM_5_PM.toString(),row.App_Date)}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center'}}>{row.Appointment_Status}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
                       </StyledTableRow>
