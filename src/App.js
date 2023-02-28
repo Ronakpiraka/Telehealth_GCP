@@ -41,8 +41,8 @@ export default function App() {
           <React.Suspense fallback={loading}>
             <Switch>
               <Route path="/dashboard" name="Home" render={props => <TheLayout {...props}/>} />
-              <Route path="/login" name="Login" render={props => <Login {...props}/>} />
-              <Route path="/logout" name="Logout" render={props => <Logout {...props}/>} />
+              {/* <Route path="/login" name="Login" render={props => <Login {...props}/>} />
+              <Route path="/logout" name="Logout" render={props => <Logout {...props}/>} /> */}
               <Route path="/" name="Home" render={props => <TheLayout {...props}/>} />
             </Switch>
           </React.Suspense>
