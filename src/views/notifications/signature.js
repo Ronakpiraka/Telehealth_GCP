@@ -16,9 +16,10 @@ export default class App extends Component {
   }
   render () {
     let {trimmedDataURL} = this.state
-    return <div className={styles.container}>
-      <div className={styles.sigContainer}>
-        <SignaturePad canvasProps={{className: styles.sigPad}}
+    return (
+    <div >
+      <div className={styles.sigContainer} style={{border:'solid', backgroundColor:'white', cursor:'pointer'}}>
+        <SignaturePad 
           ref={(ref) => { this.sigPad = ref }} />
       </div>
       <div>
@@ -34,6 +35,7 @@ export default class App extends Component {
           src={trimmedDataURL} />
         : null}
     </div>
+    )
   }
 }
 

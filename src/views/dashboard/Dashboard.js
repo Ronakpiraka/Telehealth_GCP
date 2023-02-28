@@ -215,15 +215,6 @@ const Dashboard = () => {
   }, [])
 
   console.log(dashdetails)
-  // "Practitioner_count": 2396,
-  // "Provider_count": 2115,
-  // "Condition_count": 200,
-  // "Procedure_count": 199,
-  // "Patient_count": 1270,
-  // "Low_Risk_Patients": 815,
-  // "Non_Critical_Patients": 445,
-  // "Critical_Patients": 10,
-  // "Vaccines_count": 21
   return (
     <>
       <CRow>
