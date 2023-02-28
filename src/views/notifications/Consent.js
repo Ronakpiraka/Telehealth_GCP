@@ -116,15 +116,15 @@ export default function RadioButtonsGroup() {
             >
                 <FormControlLabel value="true" control={<Radio />} label="I give my consent to share my EHR records with practitioner as well as provider ." />
                 <FormControlLabel value="true partial" control={<Radio />} label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days prior to the completion of my appointment . " />
-                <FormControlLabel value="false" control={<Radio />} label="I would not like my records to be disclosed." />
+                <FormControlLabel value="false" control={<Radio defaultValue="true"/>} label="I would not like my records to be disclosed." />
             </RadioGroup>
             <br></br>
-            <FormLabel id="demo-radio-buttons-group-label"><b>Connected Care</b></FormLabel>
+            {/* <FormLabel id="demo-radio-buttons-group-label"><b>Connected Care</b></FormLabel> */}
             <RadioGroup
                 aria-labelledby="demo-radio-buttons-group-label"
                 defaultValue="Yes"
                 name="radio-buttons-group">   
-                <p><b>Are you interested for vital tracking?</b></p>
+                <p><b>Are you interested in <b>Connected Care</b></b></p>
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
              <br></br>  
