@@ -230,22 +230,7 @@ export default function Appointment() {
         </CModalFooter>
       </CModal>
         <h2 className="title"><strong>Book Appointment</strong></h2><br/>
-        <div sm="8" md="8" lg="8">
-        <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search by Condition Name..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              onChange={(e) => { setsearchTerm(e.target.value) }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-        </div>
-      </div><br/><br/><br/><br/>
+       
         <CRow>
           <CCol>
             <span className="navbar justify-content-between">
@@ -253,6 +238,7 @@ export default function Appointment() {
             </span>
           </CCol>
           <CCol >
+          <span className="navbar justify-content-between">
             <FormControl sx={{ minWidth: 200 }}>
               <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
               <Select
@@ -268,20 +254,36 @@ export default function Appointment() {
               })} 
               </Select>
             </FormControl>
+            </span>
           </CCol>
           <CCol>
             <span className="navbar justify-content-between">
-              <p className="navbar-brand"><b>Medical Record Number: </b></p> 
-              <p>{MRN}</p>
+              <p className="navbar-brand"><b>Medical Record Number: </b>  {MRN}</p>
             </span>
           </CCol>
           <CCol >
-          <span className="navbar justify-content-between">
+            <span className="navbar justify-content-between">
               <p className="navbar-brand"><b></b></p> 
             </span>
           </CCol>
         </CRow>
         <CRow>
+        <div sm="8" md="8" lg="8">
+        <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search by Condition Name..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onChange={(e) => { setsearchTerm(e.target.value) }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+        </div>
+      </div>
         <CCol>
         <span className="navbar justify-content-between">
           <p className="navbar-brand"><b>Select your Condition:</b></p> 
@@ -294,7 +296,7 @@ export default function Appointment() {
             {
               return val;
             }
-            else if((val.condition.toLowerCase().includes(searchTerm.toLowerCase())))
+            else if(val.condition.toLowerCase().includes(searchTerm.toLowerCase()))
             {
               return val
             }})

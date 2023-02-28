@@ -215,7 +215,15 @@ const Dashboard = () => {
   }, [])
 
   console.log(dashdetails)
-
+  // "Practitioner_count": 2396,
+  // "Provider_count": 2115,
+  // "Condition_count": 200,
+  // "Procedure_count": 199,
+  // "Patient_count": 1270,
+  // "Low_Risk_Patients": 815,
+  // "Non_Critical_Patients": 445,
+  // "Critical_Patients": 10,
+  // "Vaccines_count": 21
   return (
     <>
       <CRow>
@@ -241,7 +249,7 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-danger"
-          header={dashdetails.high_risk_count}
+          header={dashdetails.Critical_Patients}
           text="Critical Patients"
           footerSlot={
             <ChartBarSimple
@@ -259,7 +267,7 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-warning"
-          header={dashdetails.med_risk_count}
+          header={dashdetails.Non_Critical_Patients}
           text="Non - Critical Patients"
           footerSlot={
             <ChartLineSimple
@@ -280,7 +288,7 @@ const Dashboard = () => {
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-info"
-          header={dashdetails.low_risk_count}
+          header={dashdetails.Low_Risk_Patients}
           text="Low Risk Patients"
           footerSlot={
             <ChartLineSimple
@@ -339,7 +347,7 @@ const Dashboard = () => {
           </CWidgetProgressIcon>
 
           <CWidgetProgressIcon
-            header={dashdetails.Vaccines_ad}
+            header={dashdetails.Vaccines_count}
             text="Vaccines"
             color="gradient-danger"
             inverse
