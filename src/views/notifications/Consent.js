@@ -71,8 +71,8 @@ export default function RadioButtonsGroup() {
           // });
           var raw = JSON.stringify({
             "Patient_id": localStorage.getItem('Patient_MRN'),
-            // "App_Date": localStorage.getItem('11/03/2023'),
-            "App_Date":"2023-03-11",
+            "App_Date": localStorage.getItem('date'),
+            // "App_Date":"2023-03-11",
             "Provider_id": localStorage.getItem('provider_id'),
             "Provider_name": localStorage.getItem('provider_name'),
             "Time_9_AM_10_AM": false,

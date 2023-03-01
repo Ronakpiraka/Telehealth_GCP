@@ -123,15 +123,14 @@ export default function PractitionerBooking() {
   const [selectedDate, setDate] = React.useState('');
   const [selectedTime, setTime] = React.useState('');
   const [modal, setModal] = useState(false);
+  const [selectedProvider, setselectedprovider] = React.useState("");
+  const [selectedSlot, setselectedslot] = React.useState("");
 
   const toggle = ()=>{
     setModal(!modal);
   }
   var stat, flags, Pname, conditionName;
   const location = useLocation();
-
-  const [selectedProvider, setselectedprovider] = React.useState("");
-  const [selectedSlot, setselectedslot] = React.useState("");
   var provider = "";
 
   useEffect(() => {
@@ -200,7 +199,12 @@ export default function PractitionerBooking() {
     if(event.target.value == '3 PM - 4 PM')  { localStorage.setItem("Time_3_PM_4_PM", true)}
     if(event.target.value == '4 PM - 5 PM')  { localStorage.setItem("Time_4_PM_5_PM", true)}
   }
-
+  const options = {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  };
   const handleChange = (event) => {
     setselectedprovider(event.target.value);
     provider = event.target.value;
@@ -277,13 +281,15 @@ export default function PractitionerBooking() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             label="Available Date"
-            inputFormat="DD/MM/YYYY"
+            inputFormat="YYYY/MM/DD"
             value={selectedDate}
             disablePast={true}
             onChange={(newDate) => {
-              console.log(newDate);
-              setDate(newDate);
-              localStorage.setItem('date', newDate);
+              // console.log(newDate);
+              const date = new Date(newDate);
+              const istDate = date.toLocaleString("en-IN", options).replace(/\//g, "-");
+              setDate(istDate);
+              localStorage.setItem('date', istDate);
             }}
             renderInput={(params) => <TextField {...params} />}
           />
