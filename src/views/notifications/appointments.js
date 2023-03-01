@@ -120,6 +120,7 @@ export default function Appointment() {
   const [conditionName, setConditionName] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [MRN, setMRN] = useState('');
+  // const [patientemail, setpatientemail] = useState('');
   const [selectedOptions, setSelectedOptions] = useState();
   const toggle = ()=>{
     setModal(!modal);
@@ -155,9 +156,7 @@ export default function Appointment() {
         }
       }
       setdata(final_data)
-      // const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
-      // const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
-
+     
       console.log(data)
       setisLoading(false)
     }).catch(error => {
@@ -191,16 +190,36 @@ export default function Appointment() {
       target: { value },
     } = event;
     setPersonName(value)
-    localStorage.setItem("Patient",value)
+    // localStorage.setItem("Patient_name",value)
     console.log("selected patient", value)
     let selectedPatientData= data.filter(temp => temp.Patient_name==value);
     // console.log(selectedPatientData.);
     setMRN(selectedPatientData[0].Medical_Record_Number);
+    // setpatientemail(selectedPatientData[0].)
+    localStorage.setItem("Patient_name",selectedPatientData[0].Patient_name);
+    localStorage.setItem("Patient_MRN",selectedPatientData[0].Medical_Record_Number);
+
   };
 
-  const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-  const condition_name = [{condition:'Prediabetes'},{condition:'Diabetes'},{condition:'Viral sinusitis (disorder)'},{condition:'Acute viral pharyngitis (disorder)'},{condition:'Acute bronchitis (disorder)'},{condition:'Anemia (disorder)'},{condition:'Body mass index 30+ - obesity (finding)'},{condition:'Hypertension'},{condition:'Chronic sinusitis (disorder)'},{condition:'Miscarriage in first trimester'},{condition:'Normal pregnancy'},{condition:'Streptococcal sore throat (disorder)'},{condition:'Otitis media'},{condition:'Hyperlipidemia'},{condition:'Sprain of ankle'}]
-
+  // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
+  
+  const condition_name = [
+    {condition:'Prediabetes', code:'15777000'},
+    {condition:'Diabetes',code:'44054006'},
+    {condition:'Viral sinusitis (disorder)',code:'444814009'},
+    {condition:'Acute viral pharyngitis (disorder)',code:'195662009'},
+    {condition:'Acute bronchitis (disorder)',code:'10509002'},
+    {condition:'Anemia (disorder)',code:'271737000'},
+    {condition:'Body mass index 30+ - obesity (finding)',code:'162864005'},
+    {condition:'Hypertension',code:'59621000'},
+    {condition:'Chronic sinusitis (disorder)',code:'40055000'},
+    {condition:'Miscarriage in first trimester',code:'19169002'},
+    {condition:'Normal pregnancy',code:'72892002'},
+    {condition:'Streptococcal sore throat (disorder)',code:'43878008'},
+    {condition:'Otitis media',code:'65363002'},
+    {condition:'Hyperlipidemia',code:'55822004'},
+    {condition:'Sprain of ankle',code:'44465007'}
+    ]
   const redirecttoPractitionerbooking = (e, condition) => {
     if(personName!=""){
       var url = `/Practitionerbookings?condition=${condition}`;
@@ -230,64 +249,56 @@ export default function Appointment() {
         </CModalFooter>
       </CModal>
         <h2 className="title"><strong>Book Appointment</strong></h2><br/>
-        <div sm="8" md="8" lg="8">
-        <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search by Condition Name..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              onChange={(e) => { setsearchTerm(e.target.value) }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-        </div>
-      </div><br/><br/><br/><br/>
         <CRow>
-          <CCol>
-            <span className="navbar justify-content-between">
+          <CCol sm="3" md="3" lg="3">
+            <div className="navbar justify-content-between">
+           
               <p className="navbar-brand"><b>Select Patient Name: </b></p> 
-            </span>
+            </div>
           </CCol>
-          <CCol >
-          <span className="navbar justify-content-between">
-            <FormControl sx={{ minWidth: 200 }}>
-              <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="PName"
-                onChange={handleChange}
-              >
-              {uniquePatientName.map((row,index)=>{
-                return(
-                  <MenuItem value={row.Patient_name} >{row.Patient_name}</MenuItem>
-                )
-              })} 
-              </Select>
-            </FormControl>
-            </span>
+          <CCol sm="3" md="3" lg="3">
+            <div className="navbar justify-content-between">
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" label="PName" onChange={handleChange}>
+                {uniquePatientName.map((row,index)=>{
+                  return( <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>)
+                })} 
+                </Select>
+              </FormControl>
+            </div>
           </CCol>
-          <CCol>
+          <CCol sm="3" md="3" lg="3">
             <span className="navbar justify-content-between">
               <p className="navbar-brand"><b>Medical Record Number: </b>{MRN}</p> 
             </span>
           </CCol>
-          <CCol >
-          <span className="navbar justify-content-between">
-              <p className="navbar-brand"><b></b></p> 
+          <CCol sm="3" md="3" lg="3">
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand"></p> 
             </span>
           </CCol>
         </CRow>
         <CRow>
-        <CCol>
-        <span className="navbar justify-content-between">
-          <p className="navbar-brand"><b>Select your Condition:</b></p> 
-        </span>
-        </CCol>
+          <CCol>
+            <span className="navbar justify-content-between">
+              <div  sm="3" md="3" lg="3" className="navbar-brand"><b>Select your Condition:</b></div> 
+              <div sm="9" md="9" lg="9" className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+              <InputBase
+                placeholder="Search by Condition Name..."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                onChange={(e) => { setsearchTerm(e.target.value) }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+              </div>
+            </span>
+            </CCol>
         </CRow>
         <LoadingOverlay
 						active={isLoading}
@@ -317,7 +328,13 @@ export default function Appointment() {
             .map((row,index)=>{
             return(
             <CCol sm="12" md="8" lg="4">
-              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>redirecttoPractitionerbooking(e, row.condition)} style={{minHeight:'80px', fontSize:'16px', cursor:'pointer'}}><ArrowForwardIosIcon/></CWidgetDropdown>
+              <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>{
+                localStorage.setItem('condition_name', row.condition);
+                localStorage.setItem('condition_code', row.code);
+                redirecttoPractitionerbooking(e, row.condition)
+                }} style={{minHeight:'80px', fontSize:'16px', cursor:'pointer'}}>
+                  <ArrowForwardIosIcon/>
+              </CWidgetDropdown>
             </CCol>
             )
           })}

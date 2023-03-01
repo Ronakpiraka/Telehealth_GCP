@@ -114,6 +114,7 @@ export default function PractitionerBooking() {
   }))(TableRow);
 
   const [data, setdata] = React.useState([]);
+  // const [slot, setslot] = React.useState([]);
   const [finaldata, setfinaldata] = React.useState([]);
   const [finalprac, setpracdata] = React.useState([]);
   const history = useHistory();
@@ -176,22 +177,9 @@ export default function PractitionerBooking() {
   console.log(finaldata);
   const uniqueProviderName = Array.from(new Set(finaldata.map(item => JSON.stringify(item.Provider_name)))).map(item => JSON.parse(item));
   console.log(uniqueProviderName);
-  // const uniquePatientName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Patient_name)))).map(item => JSON.parse(item));
-  // const uniquePractitionerName = final_prac.map(item => JSON.stringify(item.Practitioner_name)).map(item => JSON.parse(item));
-
-  // const handleChangePage = (event, newPage) => {
-  //   setpage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = event => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setpage(0);
-  // };
-
   
-
   const redirecttoConsent= () => {
-    if (selectedProvider != "" && selectedDate != "" && selectedTime != "") {
+    if (selectedProvider != "" && selectedDate != "" && selectedSlot != "") {
       var url = `/notifications/Consent`;
       history.push(`${url}`);
     }
@@ -200,25 +188,17 @@ export default function PractitionerBooking() {
       console.log(modal);  
     }
   };
-
   const handleChangeSlot = (event) => {
     console.log(event.target.value);
     setselectedslot(event.target.value);
-    var final_prac = new Array();
-    let Prac_id_list = new Array();
-    let Prac_list_index = -1;
-    for (var i = 0; i < finalprac.length; i++) {
-      // console.log(response[i]);
-      Prac_list_index = Prac_id_list.indexOf(finalprac[i].Practitioner_id)
-      console.log(finalprac[i][event.target.value]);
-      if (Prac_list_index == -1 && finalprac[i][event.target.value] == false) {
-        final_prac.push(finalprac[i])
-        // console.log(response[i]) 
-        Prac_id_list.push(finalprac[i].Practitioner_id)
-      }
-    }
-    setpracdata(final_prac);
-
+    if(event.target.value == '9 AM - 10 AM') { localStorage.setItem("Time_9_AM_10_AM", true)}
+    if(event.target.value == '10 AM - 11 AM'){ localStorage.setItem("Time_10_AM_11_AM", true)}
+    if(event.target.value == '11 AM - 12 PM'){ localStorage.setItem("Time_11_AM_12_PM", true)}
+    if(event.target.value == '12 PM - 1 PM') { localStorage.setItem("Time_12_PM_1_PM", true)}
+    if(event.target.value == '1 PM - 2 PM')  { localStorage.setItem("Time_1_PM_2_PM", true)}
+    if(event.target.value == '2 PM - 3 PM')  { localStorage.setItem("Time_2_PM_3_PM", true)}
+    if(event.target.value == '3 PM - 4 PM')  { localStorage.setItem("Time_3_PM_4_PM", true)}
+    if(event.target.value == '4 PM - 5 PM')  { localStorage.setItem("Time_4_PM_5_PM", true)}
   }
 
   const handleChange = (event) => {
@@ -226,6 +206,7 @@ export default function PractitionerBooking() {
     provider = event.target.value;
     console.log(provider);
     setProvidername(provider)
+    localStorage.setItem('provider_name', provider);
     var final_prac = new Array();
     let Prac_id_list = new Array();
     let Prac_list_index = -1;
@@ -234,16 +215,26 @@ export default function PractitionerBooking() {
       Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id)
       if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
         final_prac.push(finaldata[i])
-        // console.log(response[i]) 
-        Prac_id_list.push(finaldata[i].Practitioner_id)
+        Prac_id_list.push(finaldata[i].Practitioner_id) 
+        localStorage.setItem('provider_id',finaldata[i].Provider_id);
+        localStorage.setItem('provider_contact_number',finaldata[i].Provider_contact_number);
       }
     }
     setpracdata(final_prac);
   };
+  // useEffect(() => {
+       
+  //  },[])
 
-  // const minTime = (new Date('9:00 AM'));
-  // const maxTime = (new Date('05:00 PM'));
-  const slots = [{ colname: 'Time_9_AM_10_AM', slot: '9 AM - 10 AM' }, { colname: 'Time_10_AM_11_AM', slot: '10 AM - 11 AM' }, { colname: 'Time_11_AM_12_PM', slot: '11 AM - 12 PM' }, { colname: 'Time_12_PM_1_PM', slot: '12 PM - 1 PM' }, { colname: 'Time_1_PM_2_PM', slot: '1 PM - 2 PM' }, { colname: 'Time_2_PM_3_PM', slot: '2 PM - 3 PM' }, { colname: 'Time_3_PM_4_PM', slot: '3 PM - 4 PM' }, { colname: 'Time_4_PM_5_PM', slot: '4 PM - 5 PM' }];
+  const slots = [{  slot: '9 AM - 10 AM' }, 
+  { slot: '10 AM - 11 AM' }, 
+  {  slot: '11 AM - 12 PM' }, 
+  {  slot: '12 PM - 1 PM' }, 
+  {  slot: '1 PM - 2 PM' }, 
+  {  slot: '2 PM - 3 PM' }, 
+  {  slot: '3 PM - 4 PM' }, 
+  {  slot: '4 PM - 5 PM' }];
+
   return (
     <div>
        <CModal
@@ -292,13 +283,32 @@ export default function PractitionerBooking() {
             onChange={(newDate) => {
               console.log(newDate);
               setDate(newDate);
+              localStorage.setItem('date', newDate);
             }}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
         </CCol>
-
         <CCol>
+        <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel id="demo-simple-select-label">Choose Time:</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+              onChange={handleChangeSlot}
+              // value={selectedTime}
+            >
+              {slots.map((row, index) => {
+                return (
+                  <MenuItem value={row.slot}>{row.slot}</MenuItem>
+                )
+              })}
+            </Select>
+          </FormControl>  
+          
+        </CCol>      
+        {/* <CCol>
           <LocalizationProvider dateAdapter={AdapterDayjs}> 
             <TimePicker
             label="Available Time"
@@ -307,21 +317,13 @@ export default function PractitionerBooking() {
             onChange={(newTime) => {
               console.log(newTime);
               setTime(newTime);
+              localStorage.setItem('timeslot', newTime);
             }}
             renderInput={(params) => <TextField {...params} />}
           />
-          {/* <DateTimePicker
-            renderInput={(props) => <TextField {...props} />}
-            label="Availability slots"
-            value={value}
-            disablePast={true}
-            onChange={(newValue) => {
-              console.log(newValue);
-              setValue(newValue);
-            }}
-          /> */}
         </LocalizationProvider>
-        </CCol>
+        </CCol> */}
+
       </CRow>
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Select Practitioner</b></p>
@@ -359,7 +361,14 @@ export default function PractitionerBooking() {
               <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
 
               <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
-              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { redirecttoConsent(e,row.Patient_name, row.Practitioner_name, row.guardian_email) }}>Select</button></span>
+              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { 
+                localStorage.setItem('practitioner_name', row.Practitioner_name);
+                localStorage.setItem('practitioner_id',row.Practitioner_id);
+                localStorage.setItem('practitioner_name',row.Practitioner_name);
+                localStorage.setItem('practitioner_speciality',row.Practitioner_Speciality);
+                localStorage.setItem('practitioner_email',row.practitioner_email);
+                redirecttoConsent(e,row.Patient_name, row.Practitioner_name, row.guardian_email) }
+                }>Select</button></span>
             </CWidgetProgressIcon>
           </CCardGroup>
         )

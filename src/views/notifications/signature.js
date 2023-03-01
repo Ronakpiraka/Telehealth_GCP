@@ -1,3 +1,4 @@
+import { width } from '@mui/system'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import SignaturePad from 'react-signature-canvas'
@@ -18,16 +19,16 @@ export default class App extends Component {
     let {trimmedDataURL} = this.state
     return (
     <div >
-      <div className={styles.sigContainer} style={{border:'solid', backgroundColor:'white', cursor:'pointer'}}>
+      <div className={styles.sigContainer} style={{border:'solid', backgroundColor:'white', cursor:'pointer', width:'455px'}}>
         <SignaturePad 
-          ref={(ref) => { this.sigPad = ref }} />
+          ref = {(ref) => { this.sigPad = ref }}/>
       </div>
       <div>
         <button className={styles.buttons} onClick={this.clear}>
           Clear
         </button>
         <button className={styles.buttons} onClick={this.trim}>
-          Trim
+          Preview
         </button>
       </div>
       {trimmedDataURL
