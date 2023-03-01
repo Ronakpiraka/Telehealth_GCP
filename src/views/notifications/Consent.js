@@ -11,6 +11,7 @@ import SignatureCanvas from 'react-signature-canvas';
 import ReactDOM from 'react-dom';
 import styles from './Consent.css'
 import Signature from './signature'
+import { _ } from 'core-js';
 
 export default function RadioButtonsGroup() {
    
@@ -42,33 +43,7 @@ export default function RadioButtonsGroup() {
     const senddata = () => {
         var myHeaders = new Headers();
           myHeaders.append("Content-Type", "application/json");
-          
-          // var raw = JSON.stringify({
-          //     "Patient_id": "003abc72-a814-4a81-bff1-ce6a54b0ce39",
-          //     "App_Date": "2023-02-27",
-          //     "Provider_id": "80e919cc-df1a-3838-b75e-541564a286e5",
-          //     "Provider_name": "COTTAGE HOSPITAL",
-          //     "Time_9_AM_10_AM": false,
-          //     "Time_10_AM_11_AM": false,
-          //     "Time_11_AM_12_PM": false,
-          //     "Time_12_PM_1_PM": true,
-          //     "Time_1_PM_2_PM": false,
-          //     "Time_2_PM_3_PM": false,
-          //     "Time_3_PM_4_PM": false,
-          //     "Time_4_PM_5_PM": false,
-          //     "Condition_code": "44465007",
-          //     "Condition_name": "Sprain of ankle",
-          //     "Patient_name": "Ms. Komal Kekare",
-          //     "Practitioner_id": "0000016d-3a85-4cca-0000-000000000226",
-          //     "Practitioner_name": "Dr. Leela",
-          //     "Practitioner_Speciality": "Orthopedic Specialist",
-          //     "MRN": "003abc72-a814-4a81-bff1-ce6a54b0ce39",
-          //     "practitioner_email": "Lanny564.Huels583@example.com",
-          //     "provider_contact_number": "508-228-1200",
-          //     "Appointment_Status": "Pending",
-          //     "Consent_form_choice": "True Partial",
-          //     "Connected_Care_Status": false
-          // });
+         
           var raw = JSON.stringify({
             "Patient_id": localStorage.getItem('Patient_MRN'),
             "App_Date": localStorage.getItem('date'),
@@ -120,13 +95,34 @@ export default function RadioButtonsGroup() {
             // console.log(modal);  
             var url = `/notifications/email`;
             history.push(`${url}`);
-            localStorage.removeItem('Patient_name')
-            // ,'Patient_MRN','condition_name','condition_code','provider_name','provider_id','provider_contact_number','date','timeslot','practitioner_name','practitioner_id','practitioner_speciality','practitioner_email','consentValue','connectedCareValue');
-        
+            localStorage.removeItem('Patient_name');
+            localStorage.removeItem('Patient_MRN');
+            // localStorage.removeItem('MRN');
+            localStorage.removeItem('condition_code');
+            localStorage.removeItem('condition_name');
+            localStorage.removeItem('provider_name');
+            localStorage.removeItem('provider_id');
+            localStorage.removeItem('provider_contact_number');
+            localStorage.removeItem('date');
+            localStorage.removeItem('practitioner_name');
+            localStorage.removeItem('practitioner_id');	
+            localStorage.removeItem('practitioner_speciality');
+            localStorage.removeItem('practitioner_email');
+            localStorage.removeItem('consentValue');
+            localStorage.removeItem('connectedCareValue');
+            localStorage.removeItem('Appointment_Status');
+            // if(localStorage.9 AM - 10 AM') { localStorage.setItem("Time_9_AM_10_AM", true)}
+            // if(localStorage.10 AM - 11 AM'){ localStorage.setItem("Time_10_AM_11_AM", true)}
+            // if(localStorage.11 AM - 12 PM'){ localStorage.setItem("Time_11_AM_12_PM", true)}
+            // if(localStorage.12 PM - 1 PM') { localStorage.setItem("Time_12_PM_1_PM", true)}
+            // if(localStorage.1 PM - 2 PM')  { localStorage.setItem("Time_1_PM_2_PM", true)}
+            // if(localStorage.2 PM - 3 PM')  { localStorage.setItem("Time_2_PM_3_PM", true)}
+            // if(localStorage.3 PM - 4 PM')  { localStorage.setItem("Time_3_PM_4_PM", true)}
+            // if(localStorage.4 PM - 5 PM')  { localStorage.setItem("Time_4_PM_5_PM", true)}
      }
      useEffect(() => {
       localStorage.setItem('consentValue','Do not');
-      localStorage.setItem('connectedCareValue', 'Do not');
+      localStorage.setItem('connectedCareValue', 'False');
      },[])
 
     
