@@ -281,7 +281,7 @@ export default function PractitionerBooking() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             label="Available Date"
-            inputFormat="YYYY/MM/DD"
+            inputFormat="DD/MM/YYYY"
             value={selectedDate}
             disablePast={true}
             onChange={(newDate) => {
@@ -295,7 +295,7 @@ export default function PractitionerBooking() {
           />
         </LocalizationProvider>
         </CCol>
-        <CCol>
+        <CCol >
         <FormControl sx={{ minWidth: 200 }}>
             <InputLabel id="demo-simple-select-label">Choose Time:</InputLabel>
             <Select
@@ -314,21 +314,6 @@ export default function PractitionerBooking() {
           </FormControl>  
           
         </CCol>      
-        {/* <CCol>
-          <LocalizationProvider dateAdapter={AdapterDayjs}> 
-            <TimePicker
-            label="Available Time"
-            value={selectedTime}
-            
-            onChange={(newTime) => {
-              console.log(newTime);
-              setTime(newTime);
-              localStorage.setItem('timeslot', newTime);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        </CCol> */}
 
       </CRow>
       <span className="navbar justify-content-between">
@@ -355,26 +340,29 @@ export default function PractitionerBooking() {
       {finalprac.map((row, index) => {
         return (
 
-          <CCardGroup className="mb-4 ">
+          <CCardGroup className="mb-4"  sm="3" md="3" lg="3" >
             <CWidgetProgressIcon
               color="gradient-success"
               inverse
               text={row.practitioner_email}
-              style={{ color: 'white' }}
+              style={{ color: 'black' }}
+             
             >
-
               <CIcon name="cil-userFollow" style={{ float: 'left' }} height="36" />
               <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
-
               <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
-              <span><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { 
+              <span>
+                <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { 
+                redirecttoConsent(e,row.Patient_name, row.Practitioner_name, row.guardian_email) 
                 localStorage.setItem('practitioner_name', row.Practitioner_name);
                 localStorage.setItem('practitioner_id',row.Practitioner_id);
                 localStorage.setItem('practitioner_name',row.Practitioner_name);
                 localStorage.setItem('practitioner_speciality',row.Practitioner_Speciality);
                 localStorage.setItem('practitioner_email',row.practitioner_email);
-                redirecttoConsent(e,row.Patient_name, row.Practitioner_name, row.guardian_email) }
-                }>Select</button></span>
+              }
+                }>Select
+                </button>
+              </span>
             </CWidgetProgressIcon>
           </CCardGroup>
         )

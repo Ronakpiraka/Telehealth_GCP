@@ -170,23 +170,17 @@ export default function EmailNotify() {
               });
         };
        
-        const riskscore=(cluster_label)=>{
-          if(cluster_label === 0)
+        const riskscore=(Appointment_Status)=>{
+          if(Appointment_Status === "Pending")
           {
             return(
-              <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center' >Low Risk</CBadge>
-            )
-          }
-          else if(cluster_label === 2)
-          {
-            return(
-              <CBadge color="danger" className="mfs-auto" fontSize='22px' align='center'>Critical Condition</CBadge>
+              <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >Pending</CBadge>
             )
           }
           else
           {
             return(
-              <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >Non - Critical Condition</CBadge>
+              <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>Booked</CBadge>
             )
           } 
         }
@@ -249,7 +243,7 @@ export default function EmailNotify() {
                         <StyledTableCell style={{ textAlign: 'center'}}>{row.Provider_name}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center'}}>{row.Practitioner_name}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center'}}>{slottiming(row.Time_9_AM_10_AM.toString(),row.Time_10_AM_11_AM.toString(),row.Time_11_AM_12_PM.toString(),row.Time_12_PM_1_PM.toString(),row.Time_1_PM_2_PM.toString(),row.Time_2_PM_3_PM.toString(),row.Time_3_PM_4_PM.toString(),row.Time_4_PM_5_PM.toString(),row.App_Date)}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Appointment_Status}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center'}}>{riskscore(row.Appointment_Status)}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
                       </StyledTableRow>
                     )

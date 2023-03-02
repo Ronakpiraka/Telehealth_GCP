@@ -28,7 +28,7 @@ export default class App extends Component {
           Clear
         </button>
         <button className={styles.buttons} onClick={this.trim}>
-          Preview
+          Verify
         </button>
       </div>
       {trimmedDataURL
