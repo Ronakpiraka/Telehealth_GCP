@@ -19,7 +19,7 @@ import Signature from './signature'
 import { _ } from 'core-js';
 import { alignPropType } from 'react-bootstrap/esm/DropdownMenu';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
+import { message } from 'antd';
 export default function RadioButtonsGroup() {
    
     const history = useHistory();
@@ -30,6 +30,7 @@ export default function RadioButtonsGroup() {
     const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState(false);
     const [deviceId, setDeviceId] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [Appointment_Status, setAppointment_Status] = useState('Booked');
     // const [showModal1, setShowModal1] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const toggle = ()=>{
@@ -42,7 +43,20 @@ export default function RadioButtonsGroup() {
         setDeviceIdValue("No"); // reset device ID value if "No" is selected for "Connected Care"
       }
     };
-    
+    const assignNewDeviceIdAndShare = () => {
+      // const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
+      // const message = `Your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+      const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
+      // console.log(message);
+      // return message;
+    };
+    const handleDeviceIdInputChange = (e) => {
+      setDeviceId(e.target.value);
+    };
+
+    // const handleDeviceIdChange = (event) => {
+    //   setDeviceIdValue(event.target.value);
+    // };
     // const handleOpenModal = () => {
     //   setShowModal(!showModal);
     // };
@@ -81,19 +95,7 @@ export default function RadioButtonsGroup() {
       console.log(newDeviceId);
     };
 
-    const assignNewDeviceIdAndShare = () => {
-      const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
-      const message = `Your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
-      console.log(message);
-      return message;
-    };
-    const handleDeviceIdInputChange = (e) => {
-      setDeviceId(e.target.value);
-    };
-
-    // const handleDeviceIdChange = (event) => {
-    //   setDeviceIdValue(event.target.value);
-    // };
+    
     const handleConsentChange = (event) => {
       const value = event.target.value;
       localStorage.setItem('consentValue', value);
@@ -163,15 +165,29 @@ export default function RadioButtonsGroup() {
         .then(response => response.text())
         .then(result => {
             console.log(result);
-            // setModal(!modal);
-            // console.log(modal); 
         })
         
         .catch(error => console.log('error', error));
   }
-    
-  const redirecttoEmail= () => {
-    senddata()
+ 
+    const consentstatus=()=>{
+        const value = localStorage.getItem("consentValue")
+        console.log(value);
+        if (value == 'Do'){
+          message = "I give my consent to share my EHR records with practitioner as well as provider."
+        }
+        if (value == 'Do partial'){
+          message = "I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
+        }
+        else{
+          message = "I will share my records with practitioner during the visit."
+        }
+        return message;
+        console.log(message);
+    }
+
+    const redirecttoEmail= () => {
+      senddata()
       // var url = `/notifications/email`;
       var url = `/bookAppointment`;
       history.push(`${url}`);
@@ -191,6 +207,7 @@ export default function RadioButtonsGroup() {
       localStorage.removeItem('consentValue');
       localStorage.removeItem('connectedCareValue');
       localStorage.removeItem('Appointment_Status');
+      localStorage.removeItem("timeslot");
       localStorage.removeItem("Time_9_AM_10_AM" );
       localStorage.removeItem("Time_10_AM_11_AM");
       localStorage.removeItem("Time_11_AM_12_PM");
@@ -203,6 +220,7 @@ export default function RadioButtonsGroup() {
      useEffect(() => {
       localStorage.setItem('consentValue','Do not');
       localStorage.setItem('connectedCareValue', 'False');
+      localStorage.setItem('Appointment_Status','Booked');
      },[])
 
     
