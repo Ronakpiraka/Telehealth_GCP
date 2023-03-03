@@ -260,7 +260,7 @@ export default function PractitionerBooking() {
       <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
       <CRow>
         <CCol>
-          <FormControl sx={{ minWidth: 300 }}>
+          <FormControl sx={{ minWidth: 400 }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select
               labelId="demo-simple-select-label"

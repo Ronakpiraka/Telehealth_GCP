@@ -24,7 +24,7 @@ import { CModalFooter } from '@coreui/react';
 import { CModalHeader } from '@coreui/react';
 import { CModalTitle } from '@coreui/react';
 import { CModalBody } from '@coreui/react';
-
+import CryptoJS from 'crypto-js'
 import {
   CCard,
   CCardBody,
@@ -120,15 +120,54 @@ export default function Appointment() {
   const [conditionName, setConditionName] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [MRN, setMRN] = useState('');
-  // const [patientemail, setpatientemail] = useState('');
+  const [patientMrn, setpatientMrn] = useState('');
+  const [decryptedMRN, setdecryptedMRN] = useState('');
+  const [decryptedName, setdecryptedName] = useState('');
+  const [decryptedEmail, setdecryptedEmail] = useState('');
+  const [patientemail, setPatientEmail] = useState('');
   const [selectedOptions, setSelectedOptions] = useState();
+  const [singlepatientid, setsinglepatientid] = useState('');
+	// const [isLoading, setisLoading] = useState(true);
+  const location = useLocation();
+  const [orderDetails, setOrderDetails] = useState('');
+  const [allPurchaseOrderDetails, setAllPurchaseOrderDetails] = useState('');
+  const [posts, setPosts] = useState([]);
   const toggle = ()=>{
     setModal(!modal);
   }
 
-  // const handleChange = (event) => {
-  //   setPatientName(event.target.value);
-  // };
+  useEffect(() => {
+
+    try{
+      const secretKey = "hellotelehealth";
+
+      var mrn = location.search.split('mabc=')[1].split('&')[0];
+      setpatientMrn(mrn);
+      
+      let patientname = location.search.split('pabc=')[1].split('&')[0];
+      setPatientName(patientname)
+  
+      let patientemail = location.search.split('exyz=')[1].split('&')[0];
+      setPatientEmail(patientemail)
+  
+      setdecryptedMRN(CryptoJS.AES.decrypt(patientMrn, secretKey).toString(CryptoJS.enc.Utf8));
+      setdecryptedName(CryptoJS.AES.decrypt(PatientName, secretKey).toString(CryptoJS.enc.Utf8));
+      setdecryptedEmail(CryptoJS.AES.decrypt(patientemail, secretKey).toString(CryptoJS.enc.Utf8)); 
+    }
+    catch(err) {
+      console.log(err)
+    }
+    
+		
+	});
+
+  console.log("mrn",patientMrn)
+  console.log("name",PatientName)
+  console.log('mrn',decryptedMRN);
+  console.log('patient name',decryptedName);
+  console.log('patient email',decryptedEmail);
+
+  localStorage.setItem("Patient_Name",decryptedName)
 
   useEffect(() => {
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
@@ -250,22 +289,31 @@ export default function Appointment() {
       </CModal>
         <h2 className="title"><strong>Book Appointment</strong></h2><br/>
         <CRow>
-          <CCol sm="3" md="3" lg="3">
+          <CCol>
             <div className="navbar justify-content-between">
-           
               <p className="navbar-brand"><b>Select Patient Name: </b></p> 
             </div>
           </CCol>
-          <CCol sm="3" md="3" lg="3">
-            <div className="navbar justify-content-between">
-              <FormControl sx={{ minWidth: 200 }}>
+          <CCol>
+            <div>
+              {decryptedName && (
+                <CCol sm="3" md="3" lg="3">
+                <span className="navbar justify-content-between">
+                  <p className="navbar-brand">{decryptedName}</p> 
+                </span>
+                </CCol>
+              )}
+              {!decryptedName && (
+                <FormControl sx={{ minWidth: 250 }}>
                 <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" label="PName" onChange={handleChange}>
                 {uniquePatientName.map((row,index)=>{
                   return( <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>)
                 })} 
                 </Select>
-              </FormControl>
+                </FormControl>  
+              )}
+                         
             </div>
           </CCol>
           <CCol sm="3" md="3" lg="3">
@@ -274,10 +322,13 @@ export default function Appointment() {
             </span>
           </CCol>
           <CCol sm="3" md="3" lg="3">
+          {decryptedMRN && (
             <span className="navbar justify-content-between">
-              <p className="navbar-brand"></p> 
+              <p className="navbar-brand">{decryptedMRN}</p> 
             </span>
+          )}
           </CCol>
+          
         </CRow>
         <CRow>
           <CCol>

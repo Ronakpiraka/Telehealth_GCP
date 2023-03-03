@@ -57,6 +57,7 @@
     "bootstrap": "^5.1.0",
     "classnames": "^2.2.6",
     "core-js": "^3.9.1",
+    "crypto-js": "^4.1.1",
     "emailjs-com": "^3.2.0",
     "enzyme": "^3.11.0",
     "gapi-script": "^1.2.0",

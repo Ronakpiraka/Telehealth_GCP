@@ -24,10 +24,10 @@ export default class App extends Component {
           ref = {(ref) => { this.sigPad = ref }}/>
       </div>
       <div>
-        <button className={styles.buttons} onClick={this.clear}>
+        <button class="btn btn-secondary" onClick={this.clear}>
           Clear
-        </button>
-        <button className={styles.buttons} onClick={this.trim}>
+        </button>&nbsp;&nbsp;
+        <button class="btn btn-secondary" onClick={this.trim}>
           Verify
         </button>
       </div>

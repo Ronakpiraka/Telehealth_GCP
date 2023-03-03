@@ -18,7 +18,7 @@ import styles from './Consent.css'
 import Signature from './signature'
 import { _ } from 'core-js';
 import { alignPropType } from 'react-bootstrap/esm/DropdownMenu';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function RadioButtonsGroup() {
    
@@ -26,7 +26,7 @@ export default function RadioButtonsGroup() {
     const [modal, setModal] = useState(false);
     const [consentValue, setConsentValue] = useState('Do not');
     const [connectedCareValue, setConnectedCareValue] = useState('No');
-    const [deviceIdValue, setDeviceIdValue] = useState("No");
+    const [deviceIdValue, setDeviceIdValue] = useState();
     const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState(false);
     const [deviceId, setDeviceId] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -71,12 +71,12 @@ export default function RadioButtonsGroup() {
 
     const handleYesChange = () => {
       setDeviceIdPromptOpen(true);
-      handleDeviceIdChange('Yes');
+      // handleDeviceIdChange('Yes');
     };
 
     const handleNoChange = () => {
       setDeviceIdPromptOpen(false);
-      handleDeviceIdChange('No');
+      // handleDeviceIdChange('No');
       const newDeviceId = assignNewDeviceIdAndShare();
       console.log(newDeviceId);
     };
@@ -91,9 +91,9 @@ export default function RadioButtonsGroup() {
       setDeviceId(e.target.value);
     };
 
-    const handleDeviceIdChange = (event) => {
-      setDeviceIdValue(event.target.value);
-    };
+    // const handleDeviceIdChange = (event) => {
+    //   setDeviceIdValue(event.target.value);
+    // };
     const handleConsentChange = (event) => {
       const value = event.target.value;
       localStorage.setItem('consentValue', value);
@@ -101,7 +101,6 @@ export default function RadioButtonsGroup() {
       if(event.target.value == 'Do') { localStorage.setItem("Appointment_Status", "Pending")}
       if(event.target.value == 'Do partial'){ localStorage.setItem("Appointment_Status", "Pending")}
       if(event.target.value == 'Do not'){ localStorage.setItem("Appointment_Status","Booked")}
-      
     };
   
     // const Submit = () =>{
@@ -127,7 +126,7 @@ export default function RadioButtonsGroup() {
     var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       
-      var raw = JSON.stringify({
+      var raw = ({
         "Patient_id": localStorage.getItem('Patient_MRN'),
         "App_Date": localStorage.getItem('date'),
         "Provider_id": localStorage.getItem('provider_id'),
@@ -216,15 +215,14 @@ export default function RadioButtonsGroup() {
           <Modal.Title>Preview Appointment Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <b>You have selected :</b> <br/>
-          <b>Patient_name:</b> {localStorage.getItem("Patient_name")}<br/>
-          <b>Patient_MRN :</b> {localStorage.getItem("Patient_MRN")}<br/>
-          <b>condition :</b> {localStorage.getItem("condition_name")}<br/>
-          <b>provider :</b> {localStorage.getItem("provider_name")}<br/>
-          <b>practitioner :</b> {localStorage.getItem("practitioner_name")}<br/>
-          <b>date  :</b> {localStorage.getItem("date")}<br/>
-          <b>time :</b> {localStorage.getItem("Patient_MRN")}<br/>
-          <b>consent :</b> {localStorage.getItem("consentValue")}<br/>
+          <b>Patient Name :</b> {localStorage.getItem("Patient_name")}<br/><br/>
+          <b>Patient Medical Record Number :</b> {localStorage.getItem("Patient_MRN")}<br/><br/>
+          <b>Condition Name:</b> {localStorage.getItem("condition_name")}<br/><br/>
+          <b>Provider Name:</b> {localStorage.getItem("provider_name")}<br/><br/>
+          <b>Practitioner Name:</b> {localStorage.getItem("practitioner_name")}<br/><br/>
+          <b>Selected Date  :</b> {localStorage.getItem("date")}<br/><br/>
+          <b>Selected Time :</b> {localStorage.getItem("Patient_MRN")}<br/><br/>
+          <b>Consent :</b> {localStorage.getItem("consentValue")}<br/><br/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
@@ -234,14 +232,15 @@ export default function RadioButtonsGroup() {
             Submit data
           </Button>
         </Modal.Footer>
-      </Modal>
+    </Modal>
 
       <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Submit Appointment Request</Modal.Title>
+          <Modal.Title>Appointment Request</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Your response has been submitted successfully.</p>
+          <p>Your appointment has been booked successfully.</p>
+          <CheckCircleIcon style={{color:'green', fontSize:'100px'}}/>
         </Modal.Body>
         <Modal.Footer>
           <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
@@ -271,7 +270,7 @@ export default function RadioButtonsGroup() {
       <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
       <FormControlLabel value="No" control={<Radio />} label="No" />
     </RadioGroup>
-      <br/>
+    <br/>
     {connectedCareValue === "Yes" && (
       <div>
       <h4>Do you have a Medical device?</h4>
@@ -305,16 +304,17 @@ export default function RadioButtonsGroup() {
       <FormControlLabel value="Do partial" control={<Radio />} label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . " />
       <FormControlLabel value="Do not" control={<Radio defaultValue="true"/>} label="I will share my records with practitioner during the visit." />
       </RadioGroup>
-      <form class="signature-pad-form">
+      <br/>
+      <form className="signature-pad-form">
       <h4>Signature</h4>
       <Signature/>
     </form>  
     </FormControl><br/><br/>
-      
-      <div> 
-      <button onClick={handleCloseModal}>Preview</button>
-      </div>
+    
+    <div> 
+      <button class="btn btn-primary" onClick={handleCloseModal}>Preview</button>
     </div>
+  </div>
         </>
   )
 }

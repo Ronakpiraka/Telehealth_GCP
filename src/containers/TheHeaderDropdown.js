@@ -12,6 +12,9 @@ import Avatar from '@material-ui/core/Avatar';
 import img from './1.jpg'
 
 const TheHeaderDropdown = () => {
+
+  let name = localStorage.getItem('Patient_Name');
+
   return (
     <CDropdown
       inNav
@@ -19,7 +22,14 @@ const TheHeaderDropdown = () => {
       direction="down"
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
-      <span style={{marginRight:'15px'}}><b>Welcome Steve</b></span> 
+      <span style={{marginRight:'15px'}}>
+        {name && (
+        <b>Welcome {name}</b>
+        )}
+        {!name && (
+        <b>Welcome Steve</b>
+        )}
+      </span>
         <div className="c-avatar">
         <Avatar alt="Remy Sharp" src={img} />
         </div>
