@@ -33,9 +33,16 @@ export default function RadioButtonsGroup() {
     const [Appointment_Status, setAppointment_Status] = useState('Booked');
     // const [showModal1, setShowModal1] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+
     const toggle = ()=>{
       setModal(!modal);
     }
+
+    useEffect(() => {
+      localStorage.setItem('consentValue','Do not');
+      localStorage.setItem('connectedCareValue', 'False');
+      localStorage.setItem('Appointment_Status','Booked');
+     },[])
 
     const handleConnectedCareChange = (event) => {
       setConnectedCareValue(event.target.value);
@@ -66,7 +73,7 @@ export default function RadioButtonsGroup() {
 
     const handleCloseModal = () => {
       setShowModal(!showModal);
-      console.log(showModal)
+      // console.log(showModal)
       // call the function to be triggered when the modal is closed
       // senddata();
     };
@@ -128,19 +135,19 @@ export default function RadioButtonsGroup() {
     var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       
-      var raw = ({
+      var raw = JSON.stringify({
         "Patient_id": localStorage.getItem('Patient_MRN'),
         "App_Date": localStorage.getItem('date'),
         "Provider_id": localStorage.getItem('provider_id'),
         "Provider_name": localStorage.getItem('provider_name'),
-        "Time_9_AM_10_AM": false,
-        "Time_10_AM_11_AM": false,
-        "Time_11_AM_12_PM": false,
-        "Time_12_PM_1_PM": false,
-        "Time_1_PM_2_PM": false,
-        "Time_2_PM_3_PM": false,
-        "Time_3_PM_4_PM": false,
-        "Time_4_PM_5_PM": false,
+        "Time_9_AM_10_AM": localStorage.getItem('Time_9_AM_10_AM'),
+        "Time_10_AM_11_AM": localStorage.getItem('Time_10_AM_11_AM'),
+        "Time_11_AM_12_PM": localStorage.getItem('Time_11_AM_12_PM'),
+        "Time_12_PM_1_PM": localStorage.getItem('Time_12_PM_1_PM'),
+        "Time_1_PM_2_PM": localStorage.getItem('Time_1_PM_2_PM'),
+        "Time_2_PM_3_PM": localStorage.getItem('Time_2_PM_3_PM'),
+        "Time_3_PM_4_PM": localStorage.getItem('Time_3_PM_4_PM'),
+        "Time_4_PM_5_PM": localStorage.getItem('Time_4_PM_5_PM'),
         "Condition_code": localStorage.getItem('condition_code'),
         "Condition_name": localStorage.getItem('condition_name'),
         "Patient_name": localStorage.getItem('Patient_name'),
@@ -158,8 +165,11 @@ export default function RadioButtonsGroup() {
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
-        body: raw
+        body: raw,
+        mode:'no-cors'
       };
+
+      console.log(raw)
       
       fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
         .then(response => response.text())
@@ -192,38 +202,32 @@ export default function RadioButtonsGroup() {
       var url = `/bookAppointment`;
       history.push(`${url}`);
 
-      localStorage.removeItem('Patient_name');
-      localStorage.removeItem('Patient_MRN');
-      localStorage.removeItem('condition_code');
-      localStorage.removeItem('condition_name');
-      localStorage.removeItem('provider_name');
-      localStorage.removeItem('provider_id');
-      localStorage.removeItem('provider_contact_number');
-      localStorage.removeItem('date');
-      localStorage.removeItem('practitioner_name');
-      localStorage.removeItem('practitioner_id');	
-      localStorage.removeItem('practitioner_speciality');
-      localStorage.removeItem('practitioner_email');
-      localStorage.removeItem('consentValue');
-      localStorage.removeItem('connectedCareValue');
-      localStorage.removeItem('Appointment_Status');
-      localStorage.removeItem("timeslot");
-      localStorage.removeItem("Time_9_AM_10_AM" );
-      localStorage.removeItem("Time_10_AM_11_AM");
-      localStorage.removeItem("Time_11_AM_12_PM");
-      localStorage.removeItem("Time_12_PM_1_PM");
-      localStorage.removeItem("Time_1_PM_2_PM");
-      localStorage.removeItem("Time_2_PM_3_PM");
-      localStorage.removeItem("Time_3_PM_4_PM");
-      localStorage.removeItem("Time_4_PM_5_PM");
+      // localStorage.removeItem('Patient_name');
+      // localStorage.removeItem('Patient_MRN');
+      // localStorage.removeItem('condition_code');
+      // localStorage.removeItem('condition_name');
+      // localStorage.removeItem('provider_name');
+      // localStorage.removeItem('provider_id');
+      // localStorage.removeItem('provider_contact_number');
+      // localStorage.removeItem('date');
+      // localStorage.removeItem('practitioner_name');
+      // localStorage.removeItem('practitioner_id');	
+      // localStorage.removeItem('practitioner_speciality');
+      // localStorage.removeItem('practitioner_email');
+      // localStorage.removeItem('consentValue');
+      // localStorage.removeItem('connectedCareValue');
+      // localStorage.removeItem('Appointment_Status');
+      // localStorage.removeItem("timeslot");
+      // localStorage.removeItem("Time_9_AM_10_AM" );
+      // localStorage.removeItem("Time_10_AM_11_AM");
+      // localStorage.removeItem("Time_11_AM_12_PM");
+      // localStorage.removeItem("Time_12_PM_1_PM");
+      // localStorage.removeItem("Time_1_PM_2_PM");
+      // localStorage.removeItem("Time_2_PM_3_PM");
+      // localStorage.removeItem("Time_3_PM_4_PM");
+      // localStorage.removeItem("Time_4_PM_5_PM");
      }
-     useEffect(() => {
-      localStorage.setItem('consentValue','Do not');
-      localStorage.setItem('connectedCareValue', 'False');
-      localStorage.setItem('Appointment_Status','Booked');
-     },[])
-
-    
+       
      
     return (
     <>
@@ -234,17 +238,17 @@ export default function RadioButtonsGroup() {
         </Modal.Header>
         <Modal.Body>
           <b>Patient Name :</b> {localStorage.getItem("Patient_name")}<br/><br/>
-          <b>Patient Medical Record Number :</b> {localStorage.getItem("Patient_MRN")}<br/><br/>
+          <b>Medical Record Number :</b> {localStorage.getItem("Patient_MRN")}<br/><br/>
           <b>Condition Name:</b> {localStorage.getItem("condition_name")}<br/><br/>
           <b>Provider Name:</b> {localStorage.getItem("provider_name")}<br/><br/>
           <b>Practitioner Name:</b> {localStorage.getItem("practitioner_name")}<br/><br/>
           <b>Selected Date  :</b> {localStorage.getItem("date")}<br/><br/>
-          <b>Selected Time :</b> {localStorage.getItem("Patient_MRN")}<br/><br/>
+          <b>Selected Time :</b> {localStorage.getItem("timeslot")}<br/><br/>
           <b>Consent :</b> {localStorage.getItem("consentValue")}<br/><br/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Close
+            Cancel
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
             Submit data

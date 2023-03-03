@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CBadge,
   CDropdown,
@@ -13,7 +13,12 @@ import img from './1.jpg'
 
 const TheHeaderDropdown = () => {
 
-  let name = localStorage.getItem('Patient_Name');
+  const [name,setname]= useState('');
+
+  useEffect(()=>{
+    let name = localStorage.getItem('Patient_name');
+    setname(name)
+  })
 
   return (
     <CDropdown

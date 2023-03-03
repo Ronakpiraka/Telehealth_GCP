@@ -132,44 +132,50 @@ export default function Appointment() {
   const [orderDetails, setOrderDetails] = useState('');
   const [allPurchaseOrderDetails, setAllPurchaseOrderDetails] = useState('');
   const [posts, setPosts] = useState([]);
+
   const toggle = ()=>{
     setModal(!modal);
-  }
+  }      
 
   useEffect(() => {
 
     try{
       const secretKey = "hellotelehealth";
-
+  
       var mrn = location.search.split('mabc=')[1].split('&')[0];
       setpatientMrn(mrn);
       
       let patientname = location.search.split('pabc=')[1].split('&')[0];
       setPatientName(patientname)
   
-      let patientemail = location.search.split('exyz=')[1].split('&')[0];
-      setPatientEmail(patientemail)
-  
+      let patientEmail = location.search.split('exyz=')[1].split('&')[0];
+      setPatientEmail(patientEmail)
+      
       setdecryptedMRN(CryptoJS.AES.decrypt(patientMrn, secretKey).toString(CryptoJS.enc.Utf8));
       setdecryptedName(CryptoJS.AES.decrypt(PatientName, secretKey).toString(CryptoJS.enc.Utf8));
       setdecryptedEmail(CryptoJS.AES.decrypt(patientemail, secretKey).toString(CryptoJS.enc.Utf8)); 
+
+      localStorage.setItem("Patient_name",decryptedName)
+      localStorage.setItem("Patient_MRN",decryptedMRN)
     }
     catch(err) {
       console.log(err)
-    }
-    
-		
+    }		
+  
+
 	});
 
   console.log("mrn",patientMrn)
   console.log("name",PatientName)
-  console.log('mrn',decryptedMRN);
+  console.log('email',patientemail);
   console.log('patient name',decryptedName);
   console.log('patient email',decryptedEmail);
 
-  localStorage.setItem("Patient_Name",decryptedName)
+  
+
 
   useEffect(() => {
+    // localStorage.clear();
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -222,8 +228,6 @@ export default function Appointment() {
     history.push(`${url}`);
   }
   
-  var name="";
-
   const handleChange = (event) => {
     const {
       target: { value },
@@ -259,10 +263,13 @@ export default function Appointment() {
     {condition:'Hyperlipidemia',code:'55822004'},
     {condition:'Sprain of ankle',code:'44465007'}
     ]
-  const redirecttoPractitionerbooking = (e, condition) => {
-    if(personName!=""){
+  const redirecttoPractitionerbooking = (e, condition,code) => {
+    localStorage.setItem('condition_name', condition);
+    localStorage.setItem('condition_code', code);
+
+    if(personName!="" || decryptedName!=""){
       var url = `/Practitionerbookings?condition=${condition}`;
-    history.push(`${url}`);
+      history.push(`${url}`);
     }
     else{
       setModal(!modal);
@@ -380,9 +387,7 @@ export default function Appointment() {
             return(
             <CCol sm="12" md="8" lg="4">
               <CWidgetDropdown type='button' color="gradient-info" text={row.condition} onClick={(e)=>{
-                localStorage.setItem('condition_name', row.condition);
-                localStorage.setItem('condition_code', row.code);
-                redirecttoPractitionerbooking(e, row.condition)
+                redirecttoPractitionerbooking(e, row.condition, row.code)
                 }} style={{minHeight:'80px', fontSize:'16px', cursor:'pointer'}}>
                   <ArrowForwardIosIcon/>
               </CWidgetDropdown>
