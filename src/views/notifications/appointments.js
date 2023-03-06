@@ -138,7 +138,7 @@ export default function Appointment() {
   }      
 
   useEffect(() => {
-
+    // localStorage.clear();
     try{
       const secretKey = "hellotelehealth";
   
@@ -156,7 +156,9 @@ export default function Appointment() {
       setdecryptedEmail(CryptoJS.AES.decrypt(patientemail, secretKey).toString(CryptoJS.enc.Utf8)); 
 
       localStorage.setItem("Patient_name",decryptedName)
+      sessionStorage.setItem("Patient_name",decryptedName)
       localStorage.setItem("Patient_MRN",decryptedMRN)
+      localStorage.setItem("Patient_email",decryptedEmail)
     }
     catch(err) {
       console.log(err)
@@ -241,7 +243,7 @@ export default function Appointment() {
     // setpatientemail(selectedPatientData[0].)
     localStorage.setItem("Patient_name",selectedPatientData[0].Patient_name);
     localStorage.setItem("Patient_MRN",selectedPatientData[0].Medical_Record_Number);
-
+    localStorage.setItem("Patient_email","kekarekomal@gmail.com")
   };
 
   // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
