@@ -19,7 +19,7 @@ export default class App extends Component {
     let {trimmedDataURL} = this.state
     return (
     <div >
-      <div className={styles.sigContainer} style={{border:'solid', backgroundColor:'white', cursor:'pointer', width:'455px'}}>
+      <div className={styles.sigContainer} style={{border:'solid', backgroundColor:'white', cursor:'pointer', height:'255px',width:'455px'}}>
         <SignaturePad 
           ref = {(ref) => { this.sigPad = ref }}/>
       </div>
