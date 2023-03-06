@@ -19,6 +19,7 @@ import Signature from './signature'
 import { _ } from 'core-js';
 import { alignPropType } from 'react-bootstrap/esm/DropdownMenu';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { message } from 'antd';
 export default function RadioButtonsGroup() {
    
@@ -31,8 +32,11 @@ export default function RadioButtonsGroup() {
     const [deviceId, setDeviceId] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [Appointment_Status, setAppointment_Status] = useState('Booked');
+    const [date,setdate]= useState();
     // const [showModal1, setShowModal1] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [resp, setresp] = useState();
+    const [respok, setrespok] = useState();
 
     const toggle = ()=>{
       setModal(!modal);
@@ -42,7 +46,10 @@ export default function RadioButtonsGroup() {
       localStorage.setItem('consentValue','Do not');
       localStorage.setItem('connectedCareValue', 'False');
       localStorage.setItem('Appointment_Status','Booked');
-     },[])
+
+      var App_Date = new Date(localStorage.getItem('Date'));
+      setdate(App_Date)
+    },[])
 
     const handleConnectedCareChange = (event) => {
       setConnectedCareValue(event.target.value);
@@ -81,12 +88,13 @@ export default function RadioButtonsGroup() {
       handleCloseModal();
       // Submit the data here using fetch or any other library
       setSubmitted(true);
+      redirecttoEmail();
     };
   
     const handleShowSubmittedModal = () => {
       setShowModal(false);
       setSubmitted(false); 
-      redirecttoEmail();// Reset the submitted state
+      // Reset the submitted state
       // Show another modal here to showcase that the response has been submitted
     };
 
@@ -135,19 +143,19 @@ export default function RadioButtonsGroup() {
     var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       
-      var raw = JSON.stringify({
+      var raw = {
         "Patient_id": localStorage.getItem('Patient_MRN'),
-        "App_Date": localStorage.getItem('date'),
+        "App_Date": '2023-03-06',
         "Provider_id": localStorage.getItem('provider_id'),
         "Provider_name": localStorage.getItem('provider_name'),
-        "Time_9_AM_10_AM": localStorage.getItem('Time_9_AM_10_AM'),
-        "Time_10_AM_11_AM": localStorage.getItem('Time_10_AM_11_AM'),
-        "Time_11_AM_12_PM": localStorage.getItem('Time_11_AM_12_PM'),
-        "Time_12_PM_1_PM": localStorage.getItem('Time_12_PM_1_PM'),
-        "Time_1_PM_2_PM": localStorage.getItem('Time_1_PM_2_PM'),
-        "Time_2_PM_3_PM": localStorage.getItem('Time_2_PM_3_PM'),
-        "Time_3_PM_4_PM": localStorage.getItem('Time_3_PM_4_PM'),
-        "Time_4_PM_5_PM": localStorage.getItem('Time_4_PM_5_PM'),
+        "Time_9_AM_10_AM": localStorage.getItem('Time_9_AM_10_AM') == 'true' ? true : false,
+        "Time_10_AM_11_AM": localStorage.getItem('Time_10_AM_11_AM') == 'true' ? true : false,
+        "Time_11_AM_12_PM": localStorage.getItem('Time_11_AM_12_PM') == 'true' ? true : false,
+        "Time_12_PM_1_PM": localStorage.getItem('Time_12_PM_1_PM') == 'true' ? true : false,
+        "Time_1_PM_2_PM": localStorage.getItem('Time_1_PM_2_PM') == 'true' ? true : false,
+        "Time_2_PM_3_PM": localStorage.getItem('Time_2_PM_3_PM') == 'true' ? true : false,
+        "Time_3_PM_4_PM": localStorage.getItem('Time_3_PM_4_PM') == 'true' ? true : false,
+        "Time_4_PM_5_PM": localStorage.getItem('Time_4_PM_5_PM') == 'true' ? true : false,
         "Condition_code": localStorage.getItem('condition_code'),
         "Condition_name": localStorage.getItem('condition_name'),
         "Patient_name": localStorage.getItem('Patient_name'),
@@ -160,24 +168,31 @@ export default function RadioButtonsGroup() {
         "Appointment_Status":localStorage.getItem('Appointment_Status'),
         "Consent_form_choice": localStorage.getItem('consentValue'),
         "Connected_Care_Status":localStorage.getItem('connectedCareValue'),
-    });
+        "Patient_email": "kekarekomal@gmail.com"
+    };
 
+      // console.log('raw',JSON.stringify(raw))
+      
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
-        body: raw,
+        body: JSON.stringify(raw),
         mode:'no-cors'
       };
 
-      console.log(raw)
-      
+
       fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            console.log(result);
+        .then(response => {
+          response.text();
+          console.log(response.ok)
+          setresp(response.ok)
+          setrespok(response.ok)
         })
-        
+        .then(result => {
+            console.log(result.status);
+        })
         .catch(error => console.log('error', error));
+
   }
  
     const consentstatus=()=>{
@@ -199,8 +214,8 @@ export default function RadioButtonsGroup() {
     const redirecttoEmail= () => {
       senddata()
       // var url = `/notifications/email`;
-      var url = `/bookAppointment`;
-      history.push(`${url}`);
+      // var url = `/bookAppointment`;
+      // history.push(`${url}`);
 
       // localStorage.removeItem('Patient_name');
       // localStorage.removeItem('Patient_MRN');
@@ -255,7 +270,7 @@ export default function RadioButtonsGroup() {
           </Button>
         </Modal.Footer>
     </Modal>
-
+      {resp && (
       <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
         <Modal.Header closeButton>
           <Modal.Title>Appointment Request</Modal.Title>
@@ -270,7 +285,23 @@ export default function RadioButtonsGroup() {
           </Button>
         </Modal.Footer>
       </Modal>
-    
+      )}
+      {!respok && (
+      <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Appointment Request</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your appointment is cancelled.</p>
+          <HighlightOffIcon style={{color:'red', fontSize:'100px'}}/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      )}
     <div> 
       <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1> 
     <FormControl>
