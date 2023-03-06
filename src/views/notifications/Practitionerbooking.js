@@ -287,9 +287,11 @@ export default function PractitionerBooking() {
             onChange={(newDate) => {
               // console.log(newDate);
               const date = new Date(newDate);
-              const istDate = date.toLocaleString("en-IN", options).replace(/\//g, "-");
-              setDate(istDate);
-              localStorage.setItem('date', istDate);
+              // const istDate = date.toLocaleString("en-IN", options).replace(/\//g, "-");
+              const isoDateString = date.toISOString(); 
+              const yyyyMmDd = isoDateString.slice(0, 10); 
+              setDate(yyyyMmDd);
+              localStorage.setItem('date', yyyyMmDd);
             }}
             renderInput={(params) => <TextField {...params} />}
           />

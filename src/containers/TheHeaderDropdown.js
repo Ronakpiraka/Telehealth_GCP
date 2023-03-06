@@ -16,7 +16,7 @@ const TheHeaderDropdown = () => {
   const [name,setname]= useState('');
 
   useEffect(()=>{
-    let name = localStorage.getItem('Patient_name');
+    let name = sessionStorage.getItem('Patient_name');
     setname(name)
   })
 
