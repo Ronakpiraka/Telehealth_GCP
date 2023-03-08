@@ -70,12 +70,13 @@ export default function RadioButtonsGroup() {
     const handleSubmit = () => {
       handleCloseModal();
       setSubmitted(true);
-      redirecttoEmail();
+      
     };
   
     const handleShowSubmittedModal = () => {
       setShowModal(false);
       setSubmitted(false); 
+      redirecttoEmail();
     };
 
     const handleYesChange = () => {
@@ -175,30 +176,30 @@ export default function RadioButtonsGroup() {
       var url = `/bookAppointment`;
       history.push(`${url}`);
       localStorage.clear();
-      // localStorage.removeItem('Patient_name');
-      // localStorage.removeItem('Patient_MRN');
-      // localStorage.removeItem('condition_code');
-      // localStorage.removeItem('condition_name');
-      // localStorage.removeItem('provider_name');
-      // localStorage.removeItem('provider_id');
-      // localStorage.removeItem('provider_contact_number');
-      // localStorage.removeItem('date');
-      // localStorage.removeItem('practitioner_name');
-      // localStorage.removeItem('practitioner_id');	
-      // localStorage.removeItem('practitioner_speciality');
-      // localStorage.removeItem('practitioner_email');
-      // localStorage.removeItem('consentValue');
-      // localStorage.removeItem('connectedCareValue');
-      // localStorage.removeItem('Appointment_Status');
-      // localStorage.removeItem("timeslot");
-      // localStorage.removeItem("Time_9_AM_10_AM" );
-      // localStorage.removeItem("Time_10_AM_11_AM");
-      // localStorage.removeItem("Time_11_AM_12_PM");
-      // localStorage.removeItem("Time_12_PM_1_PM");
-      // localStorage.removeItem("Time_1_PM_2_PM");
-      // localStorage.removeItem("Time_2_PM_3_PM");
-      // localStorage.removeItem("Time_3_PM_4_PM");
-      // localStorage.removeItem("Time_4_PM_5_PM");
+      localStorage.removeItem('Patient_name');
+      localStorage.removeItem('Patient_MRN');
+      localStorage.removeItem('condition_code');
+      localStorage.removeItem('condition_name');
+      localStorage.removeItem('provider_name');
+      localStorage.removeItem('provider_id');
+      localStorage.removeItem('provider_contact_number');
+      localStorage.removeItem('date');
+      localStorage.removeItem('practitioner_name');
+      localStorage.removeItem('practitioner_id');	
+      localStorage.removeItem('practitioner_speciality');
+      localStorage.removeItem('practitioner_email');
+      localStorage.removeItem('consentValue');
+      localStorage.removeItem('connectedCareValue');
+      localStorage.removeItem('Appointment_Status');
+      localStorage.removeItem("timeslot");
+      localStorage.removeItem("Time_9_AM_10_AM" );
+      localStorage.removeItem("Time_10_AM_11_AM");
+      localStorage.removeItem("Time_11_AM_12_PM");
+      localStorage.removeItem("Time_12_PM_1_PM");
+      localStorage.removeItem("Time_1_PM_2_PM");
+      localStorage.removeItem("Time_2_PM_3_PM");
+      localStorage.removeItem("Time_3_PM_4_PM");
+      localStorage.removeItem("Time_4_PM_5_PM");
      }
        
      
@@ -226,39 +227,24 @@ export default function RadioButtonsGroup() {
             Submit data
           </Button>
         </Modal.Footer>
-    </Modal>
-      <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Appointment Request</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your appointment has been booked successfully.</p>
-          <CheckCircleIcon style={{color:'green', fontSize:'100px'}}/>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    {/* {!respok && (
-    <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
-      <Modal.Header closeButton>
-        <Modal.Title>Appointment Request</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>Your appointment is cancelled.</p>
-        <HighlightOffIcon style={{color:'red', fontSize:'100px'}}/>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
-    )} */}
-    <div> 
-      <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1> 
+        </Modal>
+          <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Appointment Request</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Your appointment has been booked successfully.</p>
+              <CheckCircleIcon style={{color:'green', fontSize:'100px'}}/>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          
+          <div> 
+          <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1> 
     <FormControl>
    
     <RadioGroup

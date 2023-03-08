@@ -1,35 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Layout, Menu, Input } from 'antd';
 import './PatientInfo.css';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import MenuItem from '@mui/material/MenuItem';
 import CIcon from '@coreui/icons-react';
 import 'react-toastify/dist/ReactToastify.css';
 import { alpha } from '@material-ui/core/styles';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-import emailjs from '@emailjs/browser';
 import FormControl from '@mui/material/FormControl';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory, useLocation } from "react-router-dom";
 import LoadingOverlay from 'react-loading-overlay';
 import "../records/patients.css";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import TextField from '@mui/material/TextField';
 import { CModal } from '@coreui/react';
 import { CModalFooter } from '@coreui/react';
 import { CModalHeader } from '@coreui/react';
-import { CModalTitle } from '@coreui/react';
 import { CModalBody } from '@coreui/react';
 import { CButton } from '@coreui/react';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import dayjs from 'dayjs';
 import {
   CCard,
   CCardBody,
@@ -113,7 +109,10 @@ export default function PractitionerBooking() {
     },
   }))(TableRow);
 
-  const [data, setdata] = React.useState([]);
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
+  // const [data, setdata] = React.useState([]);
   // const [slot, setslot] = React.useState([]);
   const [finaldata, setfinaldata] = React.useState([]);
   const [finalprac, setpracdata] = React.useState([]);
@@ -121,7 +120,7 @@ export default function PractitionerBooking() {
   const [isLoading, setisLoading] = useState(true);
   const [providername, setProvidername] = useState();
   const [selectedDate, setDate] = React.useState('');
-  const [selectedTime, setTime] = React.useState('');
+  // const [selectedTime, setTime] = React.useState('');
   const [modal, setModal] = useState(false);
   const [selectedProvider, setselectedprovider] = React.useState("");
   const [selectedSlot, setselectedslot] = React.useState("");
@@ -199,12 +198,6 @@ export default function PractitionerBooking() {
     if(event.target.value == '3 PM - 4 PM')   {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   true); localStorage.setItem("Time_4_PM_5_PM", false);}
     if(event.target.value == '4 PM - 5 PM')   {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", true);}
   }
-  const options = {
-    timeZone: "Asia/Kolkata",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  };
   const handleChange = (event) => {
     setselectedprovider(event.target.value);
     provider = event.target.value;
@@ -226,9 +219,6 @@ export default function PractitionerBooking() {
     }
     setpracdata(final_prac);
   };
-  // useEffect(() => {
-       
-  //  },[])
 
   const slots = [{  slot: '9 AM - 10 AM' }, 
   { slot: '10 AM - 11 AM' }, 
@@ -259,7 +249,7 @@ export default function PractitionerBooking() {
       </CModal>
       <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
       <CRow>
-        <CCol>
+        <CCol sm="6" md="6" lg="6">
           <FormControl sx={{ minWidth: 400 }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select
@@ -277,7 +267,7 @@ export default function PractitionerBooking() {
           </FormControl>
         </CCol>
         
-        <CCol style={{marginLeft: '37%'}}>
+        <CCol sm="3" md="3" lg="3">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             label="Available Date"
@@ -285,19 +275,15 @@ export default function PractitionerBooking() {
             value={selectedDate}
             disablePast={true}
             onChange={(newDate) => {
-              // console.log(newDate);
-              const date = new Date(newDate);
-              // const istDate = date.toLocaleString("en-IN", options).replace(/\//g, "-");
-              const isoDateString = date.toISOString(); 
-              const yyyyMmDd = isoDateString.slice(0, 10); 
-              setDate(yyyyMmDd);
-              localStorage.setItem('date', yyyyMmDd);
+              const date = dayjs(newDate).tz('Asia/Kolkata').format();
+              setDate(date);
+              localStorage.setItem('date', date);
             }}
             renderInput={(params) => <TextField {...params} />}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> 
         </CCol>
-        <CCol >
+        <CCol sm="3" md="3" lg="3">
         <FormControl sx={{ minWidth: 200 }}>
             <InputLabel id="demo-simple-select-label">Choose Time:</InputLabel>
             <Select
@@ -318,6 +304,7 @@ export default function PractitionerBooking() {
         </CCol>      
 
       </CRow>
+      <br/>
       <span className="navbar justify-content-between">
         <p className="navbar-brand"><b>Select Practitioner</b></p>
       </span>
@@ -342,7 +329,7 @@ export default function PractitionerBooking() {
       {finalprac.map((row, index) => {
         return (
 
-          <CCardGroup className="mb-4"  sm="3" md="3" lg="3" >
+          <CCardGroup className="mb-4">
             <CWidgetProgressIcon
               color="gradient-success"
               inverse
