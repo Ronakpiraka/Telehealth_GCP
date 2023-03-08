@@ -138,46 +138,51 @@ export default function Appointment() {
   }      
 
   useEffect(() => {
-    // localStorage.clear();
-    try{
-      const secretKey = "hellotelehealth";
+    let paramString = location.search.split('?')[1];
+    let queryString = new URLSearchParams(paramString);
+    console.log(queryString);
+    if(queryString)
+    {
+      localStorage.clear();
+      sessionStorage.clear();
+      try{
+        const secretKey = "hellotelehealth";
+    
+        var mrn = location.search.split('mabc=')[1].split('&')[0];
+        setpatientMrn(mrn);
+        
+        let patientname = location.search.split('pabc=')[1].split('&')[0];
+        setPatientName(patientname)
+    
+        let patientEmail = location.search.split('exyz=')[1].split('&')[0];
+        setPatientEmail(patientEmail)
+        
+        setdecryptedMRN(CryptoJS.AES.decrypt(patientMrn, secretKey).toString(CryptoJS.enc.Utf8));
+        setdecryptedName(CryptoJS.AES.decrypt(PatientName, secretKey).toString(CryptoJS.enc.Utf8));
+        setdecryptedEmail(CryptoJS.AES.decrypt(patientemail, secretKey).toString(CryptoJS.enc.Utf8)); 
   
-      var mrn = location.search.split('mabc=')[1].split('&')[0];
-      setpatientMrn(mrn);
-      
-      let patientname = location.search.split('pabc=')[1].split('&')[0];
-      setPatientName(patientname)
-  
-      let patientEmail = location.search.split('exyz=')[1].split('&')[0];
-      setPatientEmail(patientEmail)
-      
-      setdecryptedMRN(CryptoJS.AES.decrypt(patientMrn, secretKey).toString(CryptoJS.enc.Utf8));
-      setdecryptedName(CryptoJS.AES.decrypt(PatientName, secretKey).toString(CryptoJS.enc.Utf8));
-      setdecryptedEmail(CryptoJS.AES.decrypt(patientemail, secretKey).toString(CryptoJS.enc.Utf8)); 
-
-      localStorage.setItem("Patient_name",decryptedName)
-      sessionStorage.setItem("Patient_name",decryptedName)
-      localStorage.setItem("Patient_MRN",decryptedMRN)
-      localStorage.setItem("Patient_email",decryptedEmail)
+        localStorage.setItem("Patient_name",decryptedName)
+        sessionStorage.setItem("Patient_name",decryptedName)
+        localStorage.setItem("Patient_MRN",decryptedMRN)
+        localStorage.setItem("Patient_email",decryptedEmail)
+        }
+        catch(err) {
+          console.log(err)
+        }	  
     }
-    catch(err) {
-      console.log(err)
-    }		
-  
-
 	});
-
+  
   console.log("mrn",patientMrn)
   console.log("name",PatientName)
   console.log('email',patientemail);
   console.log('patient name',decryptedName);
+  console.log('patient mrn',decryptedMRN);
   console.log('patient email',decryptedEmail);
 
   
 
 
   useEffect(() => {
-    // localStorage.clear();
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -304,13 +309,10 @@ export default function Appointment() {
             </div>
           </CCol>
           <CCol>
-            <div>
               {decryptedName && (
-                <CCol sm="3" md="3" lg="3">
-                <span className="navbar justify-content-between">
-                  <p className="navbar-brand">{decryptedName}</p> 
-                </span>
-                </CCol>
+               <FormControl sx={{ minWidth: 200 }}>
+               <InputLabel id="demo-simple-select-label">{decryptedName}</InputLabel>
+               </FormControl>  
               )}
               {!decryptedName && (
                 <FormControl sx={{ minWidth: 250 }}>
@@ -321,9 +323,7 @@ export default function Appointment() {
                 })} 
                 </Select>
                 </FormControl>  
-              )}
-                         
-            </div>
+              )}     
           </CCol>
           <CCol sm="3" md="3" lg="3">
             <span className="navbar justify-content-between">
