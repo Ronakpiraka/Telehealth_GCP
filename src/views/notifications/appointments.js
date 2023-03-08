@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Layout, Menu, Input } from 'antd';
-import './PatientInfo.css';
+// import './PatientInfo.css';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -137,14 +137,13 @@ export default function Appointment() {
     setModal(!modal);
   }      
 
+  let paramString = location.search.split('?')[1];
+  console.log(paramString)
+
   useEffect(() => {
-    let paramString = location.search.split('?')[1];
-    let queryString = new URLSearchParams(paramString);
-    console.log(queryString);
-    if(queryString)
+    
+    if(paramString != undefined)
     {
-      localStorage.clear();
-      sessionStorage.clear();
       try{
         const secretKey = "hellotelehealth";
     
@@ -183,6 +182,8 @@ export default function Appointment() {
 
 
   useEffect(() => {
+    if(paramString == undefined)
+    {
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
       method: 'GET',
     }).then(resp => resp.json()
@@ -214,6 +215,7 @@ export default function Appointment() {
     }).catch(error => {
       console.log(error)
     });
+  }
   }, [])
 
   console.log(data)
@@ -270,7 +272,8 @@ export default function Appointment() {
     {condition:'Hyperlipidemia',code:'55822004'},
     {condition:'Sprain of ankle',code:'44465007'}
     ]
-  const redirecttoPractitionerbooking = (e, condition,code) => {
+  
+    const redirecttoPractitionerbooking = (e, condition,code) => {
     localStorage.setItem('condition_name', condition);
     localStorage.setItem('condition_code', code);
 
@@ -303,18 +306,28 @@ export default function Appointment() {
       </CModal>
         <h2 className="title"><strong>Book Appointment</strong></h2><br/>
         <CRow>
+        {decryptedName && (
+          <>
           <CCol>
             <div className="navbar justify-content-between">
-              <p className="navbar-brand"><b>Select Patient Name: </b></p> 
+              <p className="navbar-brand"><b>Patient Name: </b></p> 
             </div>
           </CCol>
-          <CCol>
-              {decryptedName && (
+            <CCol>
                <FormControl sx={{ minWidth: 200 }}>
-               <InputLabel id="demo-simple-select-label">{decryptedName}</InputLabel>
+               <InputLabel id="demo-simple-select-label"><b>{decryptedName}</b></InputLabel>
                </FormControl>  
-              )}
-              {!decryptedName && (
+            </CCol>
+          </>
+          )} 
+           {!decryptedName && (
+            <>
+             <CCol>
+             <div className="navbar justify-content-between">
+               <p className="navbar-brand"><b>Select Patient Name: </b></p> 
+               </div>
+           </CCol>
+            <CCol>
                 <FormControl sx={{ minWidth: 250 }}>
                 <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" label="PName" onChange={handleChange}>
@@ -323,20 +336,25 @@ export default function Appointment() {
                 })} 
                 </Select>
                 </FormControl>  
-              )}     
-          </CCol>
-          <CCol sm="3" md="3" lg="3">
+            </CCol>
+            </>
+          )} 
+          <CCol>
             <span className="navbar justify-content-between">
-              <p className="navbar-brand"><b>Medical Record Number: </b>{MRN}</p> 
+              <p className="navbar-brand"><b>Medical Record Number: </b></p> 
+              {MRN && (
+              <p><b>{MRN}</b></p>
+              )}
             </span>
           </CCol>
-          <CCol sm="3" md="3" lg="3">
+          
           {decryptedMRN && (
+          <CCol>
             <span className="navbar justify-content-between">
               <p className="navbar-brand">{decryptedMRN}</p> 
             </span>
-          )}
           </CCol>
+          )}
           
         </CRow>
         <CRow>

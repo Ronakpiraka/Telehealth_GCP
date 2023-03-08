@@ -10,15 +10,16 @@ import {
 import CIcon from '@coreui/icons-react'
 import Avatar from '@material-ui/core/Avatar';
 import img from './1.jpg'
+import { useLocation } from "react-router-dom";
 
 const TheHeaderDropdown = () => {
 
-  const [name,setname]= useState('');
+  let name = sessionStorage.getItem('Patient_name');
 
-  useEffect(()=>{
-    let name = sessionStorage.getItem('Patient_name');
-    setname(name)
-  })
+  const location = useLocation();
+  let paramString = location.search.split('?')[1];
+  console.log(paramString)  
+
 
   return (
     <CDropdown
@@ -28,10 +29,10 @@ const TheHeaderDropdown = () => {
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
       <span style={{marginRight:'15px'}}>
-        {name && (
-        <b>Welcome {name}</b>
+        {paramString && (
+          <b>Welcome {name}</b>
         )}
-        {!name && (
+        {!paramString && (
         <b>Welcome Steve</b>
         )}
       </span>

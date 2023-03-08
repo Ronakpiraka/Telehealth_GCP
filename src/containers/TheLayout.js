@@ -5,12 +5,18 @@ import {
   TheFooter,
   TheHeader
 } from './index'
+import { useLocation } from "react-router-dom";
 
 const TheLayout = () => {
+  const location = useLocation();
+  let paramString = location.search.split('?')[1];
+  console.log(paramString)
 
   return (
     <div className="c-app c-default-layout">
-      <TheSidebar/>
+      { paramString == undefined && (
+         <TheSidebar/>
+      )}
       <div className="c-wrapper">
         <TheHeader/>
         <div className="c-body">
