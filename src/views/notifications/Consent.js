@@ -69,8 +69,7 @@ export default function RadioButtonsGroup() {
     };
     const handleSubmit = () => {
       handleCloseModal();
-      setSubmitted(true);
-      
+      setSubmitted(true); 
     };
   
     const handleShowSubmittedModal = () => {

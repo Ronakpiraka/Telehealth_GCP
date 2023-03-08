@@ -277,7 +277,8 @@ export default function PractitionerBooking() {
             onChange={(newDate) => {
               const date = dayjs(newDate).tz('Asia/Kolkata').format();
               setDate(date);
-              localStorage.setItem('date', date);
+              const dateSubstring = date.substring(0, 10);
+              localStorage.setItem('date', dateSubstring);
             }}
             renderInput={(params) => <TextField {...params} />}
           />
