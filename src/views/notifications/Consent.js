@@ -57,51 +57,34 @@ export default function RadioButtonsGroup() {
       // const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
       // const message = `Your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
       const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
-      // console.log(message);
       // return message;
     };
     const handleDeviceIdInputChange = (e) => {
       setDeviceId(e.target.value);
     };
 
-    // const handleDeviceIdChange = (event) => {
-    //   setDeviceIdValue(event.target.value);
-    // };
-    // const handleOpenModal = () => {
-    //   setShowModal(!showModal);
-    // };
-    // const handleCloseModal = () => {
-    //   setShowModal(false);
-    // };
 
     const handleCloseModal = () => {
       setShowModal(!showModal);
-      // console.log(showModal)
-      // call the function to be triggered when the modal is closed
-      // senddata();
     };
     const handleSubmit = () => {
       handleCloseModal();
-      // Submit the data here using fetch or any other library
-      setSubmitted(true);
-      redirecttoEmail();
+      setSubmitted(true); 
     };
   
     const handleShowSubmittedModal = () => {
       setShowModal(false);
       setSubmitted(false); 
-      // Reset the submitted state
-      // Show another modal here to showcase that the response has been submitted
+      redirecttoEmail();
     };
 
     const handleYesChange = () => {
       setDeviceIdPromptOpen(true);
-      // handleDeviceIdChange('Yes');
+      
     };
 
     const handleNoChange = () => {
       setDeviceIdPromptOpen(false);
-      // handleDeviceIdChange('No');
       const newDeviceId = assignNewDeviceIdAndShare();
       console.log(newDeviceId);
     };
@@ -115,25 +98,6 @@ export default function RadioButtonsGroup() {
       if(event.target.value == 'Do partial'){ localStorage.setItem("Appointment_Status", "Pending")}
       if(event.target.value == 'Do not'){ localStorage.setItem("Appointment_Status","Booked")}
     };
-  
-    // const Submit = () =>{
-    //     <CModal show={showModal1} onClose={handleOpenModal}>
-    //       <CModalHeader closeButton onClose={handleOpenModal}>
-    //         <CModalTitle>Preview Window</CModalTitle>
-    //       </CModalHeader>
-    //       <CModalBody>
-    //         HI HELLO
-    //       </CModalBody>
-    //       <CModalFooter>
-            
-    //         <CButton color="primary" onClick={redirecttoEmail}>
-    //           Submit data
-    //         </CButton>
-            
-    //       </CModalFooter>
-          
-    //     </CModal>
-    // };
 
     const senddata = () => {
     var myHeaders = new Headers();
@@ -211,39 +175,38 @@ export default function RadioButtonsGroup() {
       var url = `/bookAppointment`;
       history.push(`${url}`);
       localStorage.clear();
-      // localStorage.removeItem('Patient_name');
-      // localStorage.removeItem('Patient_MRN');
-      // localStorage.removeItem('condition_code');
-      // localStorage.removeItem('condition_name');
-      // localStorage.removeItem('provider_name');
-      // localStorage.removeItem('provider_id');
-      // localStorage.removeItem('provider_contact_number');
-      // localStorage.removeItem('date');
-      // localStorage.removeItem('practitioner_name');
-      // localStorage.removeItem('practitioner_id');	
-      // localStorage.removeItem('practitioner_speciality');
-      // localStorage.removeItem('practitioner_email');
-      // localStorage.removeItem('consentValue');
-      // localStorage.removeItem('connectedCareValue');
-      // localStorage.removeItem('Appointment_Status');
-      // localStorage.removeItem("timeslot");
-      // localStorage.removeItem("Time_9_AM_10_AM" );
-      // localStorage.removeItem("Time_10_AM_11_AM");
-      // localStorage.removeItem("Time_11_AM_12_PM");
-      // localStorage.removeItem("Time_12_PM_1_PM");
-      // localStorage.removeItem("Time_1_PM_2_PM");
-      // localStorage.removeItem("Time_2_PM_3_PM");
-      // localStorage.removeItem("Time_3_PM_4_PM");
-      // localStorage.removeItem("Time_4_PM_5_PM");
+      localStorage.removeItem('Patient_name');
+      localStorage.removeItem('Patient_MRN');
+      localStorage.removeItem('condition_code');
+      localStorage.removeItem('condition_name');
+      localStorage.removeItem('provider_name');
+      localStorage.removeItem('provider_id');
+      localStorage.removeItem('provider_contact_number');
+      localStorage.removeItem('date');
+      localStorage.removeItem('practitioner_name');
+      localStorage.removeItem('practitioner_id');	
+      localStorage.removeItem('practitioner_speciality');
+      localStorage.removeItem('practitioner_email');
+      localStorage.removeItem('consentValue');
+      localStorage.removeItem('connectedCareValue');
+      localStorage.removeItem('Appointment_Status');
+      localStorage.removeItem("timeslot");
+      localStorage.removeItem("Time_9_AM_10_AM" );
+      localStorage.removeItem("Time_10_AM_11_AM");
+      localStorage.removeItem("Time_11_AM_12_PM");
+      localStorage.removeItem("Time_12_PM_1_PM");
+      localStorage.removeItem("Time_1_PM_2_PM");
+      localStorage.removeItem("Time_2_PM_3_PM");
+      localStorage.removeItem("Time_3_PM_4_PM");
+      localStorage.removeItem("Time_4_PM_5_PM");
      }
        
      
     return (
     <>
-    {/* <Modal showModal={true} handleCloseModal={handleCloseModal} /> */}
     <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Preview Appointment Details</Modal.Title>
+          <Modal.Title><b>Preview Appointment Details</b></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <b>Patient Name :</b> {localStorage.getItem("Patient_name")}<br/><br/>
@@ -263,39 +226,24 @@ export default function RadioButtonsGroup() {
             Submit data
           </Button>
         </Modal.Footer>
-    </Modal>
-      <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Appointment Request</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your appointment has been booked successfully.</p>
-          <CheckCircleIcon style={{color:'green', fontSize:'100px'}}/>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    {/* {!respok && (
-    <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
-      <Modal.Header closeButton>
-        <Modal.Title>Appointment Request</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>Your appointment is cancelled.</p>
-        <HighlightOffIcon style={{color:'red', fontSize:'100px'}}/>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
-    )} */}
-    <div> 
-      <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1> 
+        </Modal>
+          <Modal align= "center" show={submitted} onHide={handleShowSubmittedModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Appointment Request</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Your appointment has been booked successfully.</p>
+              <CheckCircleIcon style={{color:'green', fontSize:'100px'}}/>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button alignItems="center" variant="primary" onClick={handleShowSubmittedModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          
+          <div> 
+          <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1> 
     <FormControl>
    
     <RadioGroup
@@ -340,7 +288,6 @@ export default function RadioButtonsGroup() {
     <h4>Consent</h4>
     <RadioGroup
       aria-labelledby="demo-radio-buttons-group-label"
-      // defaultValue="false"
       name="radio-buttons-group"
       value={consentValue}
       onChange={handleConsentChange}
