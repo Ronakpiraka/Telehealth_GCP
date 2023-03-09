@@ -55,10 +55,12 @@ export default function PatientInform() {
     small: {
       width: theme.spacing(3),
       height: theme.spacing(3),
+      // maxHeight: '350'
     },
     large: {
       width: theme.spacing(6),
       height: theme.spacing(6),
+      // maxHeight: '540'
     },
     search: {
       position: 'relative',
@@ -77,7 +79,7 @@ export default function PatientInform() {
       },
     },
     searchIcon: {
-      padding: theme.spacing(0, 2),
+      padding: theme.spacing(0, 1),
       height: '100%',
       position: 'absolute',
       pointerEvents: 'none',
@@ -101,6 +103,14 @@ export default function PatientInform() {
         },
       },
     },
+    // tablewrapper:{
+    //   width: '100%',
+    //   height: '60%',
+    //   maxHeight: 540,
+    //   [theme.breakpoints.down('sm')]: {
+    //   maxHeight: 270,
+    // },
+    // },
   }));
   const [data, setdata] = React.useState([]);
   const [collapsed, setcollapsed] = React.useState(false);
@@ -127,7 +137,7 @@ export default function PatientInform() {
     setmodalopen(false);
   }
   // const displayfun = () => {
-  //   return 
+  //   return ;
   // } 
 
   const handleChange = event => {
@@ -263,6 +273,7 @@ export default function PatientInform() {
   }
   return (
     <>
+      {/* <div style={{ overflowX: "auto" }}> */}
       <h2 className="title"><strong>Patient Information</strong></h2>
       <Modal
           open={modalopen}
@@ -294,13 +305,12 @@ export default function PatientInform() {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-
-        <TableContainer style={{ maxHeight: 300 }}>
+        {/* <div className='tablewrapper'> */}
+        <TableContainer style={{ maxHeight: 260 }}>
+        {/* <TableContainer> */}
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <StyledTableRow style={{ padding: '0px' }}>
-                {/* <TableCell /> */}
-                {/* <TableCell align="center" style={{ fontWeight: 'bold'}}>Id</TableCell> */}
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Patient Name</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Practitioner Name</StyledTableCell>
                 <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Provider Contact</StyledTableCell>
@@ -363,7 +373,9 @@ export default function PatientInform() {
             </TableBody>
           </Table>
         </TableContainer>
+        {/* </div> */}
       </Paper>
+        {/* </div> */}
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
         component="div"

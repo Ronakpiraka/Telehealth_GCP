@@ -74,7 +74,7 @@ export default function Calender() {
             }
         }}>
       <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
-    </ScheduleComponent>;
+    </ScheduleComponent>
     </>
     )
 }

@@ -70,13 +70,13 @@ export default function Appointment() {
       '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.5),
       },
-      margin: '15px',
+      margin: '5px',
       float: 'right',
       boxShadow: '-4px 8px 20px 0px grey',
-      width: '65%',
+      width: '80%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
-        width: '45%',
+        width: '50%',
       },
     },
     searchIcon: {
@@ -308,13 +308,14 @@ export default function Appointment() {
         <CRow>
         {decryptedName && (
           <>
-          <CCol>
+          <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
             <div className="navbar justify-content-between">
               <p className="navbar-brand"><b>Patient Name: </b></p> 
             </div>
           </CCol>
-            <CCol>
-               <FormControl sx={{ minWidth: 200 }}>
+            <CCol sm="8" md="6" lg="8">
+               {/* <FormControl sx={{ minWidth: 200 }}> */}
+               <FormControl>
                <InputLabel id="demo-simple-select-label"><b>{decryptedName}</b></InputLabel>
                </FormControl>  
             </CCol>
@@ -322,12 +323,12 @@ export default function Appointment() {
           )} 
            {!decryptedName && (
             <>
-             <CCol>
+             <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
              <div className="navbar justify-content-between">
                <p className="navbar-brand"><b>Select Patient Name: </b></p> 
                </div>
            </CCol>
-            <CCol>
+            <CCol sm="8" md="6" lg="8">
                 <FormControl sx={{ minWidth: 250 }}>
                 <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" label="PName" onChange={handleChange}>
@@ -339,30 +340,40 @@ export default function Appointment() {
             </CCol>
             </>
           )} 
-          <CCol>
+          <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
             <span className="navbar justify-content-between">
-              <p className="navbar-brand"><b>Medical Record Number: </b></p> 
+              <p className="navbar-brand"><b>Medical Record Number: </b></p>
+              </span>
+          </CCol>
+          <CCol sm="8" md="6" lg="8">
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand"> 
               {MRN && (
-              <p><b>{MRN}</b></p>
-              )}
+              <b>{MRN}</b>
+              )}</p>
             </span>
           </CCol>
           
           {decryptedMRN && (
-          <CCol>
+          <CCol sm="4" md="6" lg="8">
             <span className="navbar justify-content-between">
               <p className="navbar-brand">{decryptedMRN}</p> 
             </span>
           </CCol>
           )}
+
           
         </CRow>
         <CRow>
-          <CCol>
+          <CCol  >
             <span className="navbar justify-content-between">
-              <div  sm="3" md="3" lg="3" className="navbar-brand"><b>Select your Condition:</b></div> 
-              <div sm="9" md="9" lg="9" className={classes.search}>
-                <div className={classes.searchIcon}>
+              <div sm="4" md="4" lg="3" className="navbar-brand" sx={{ minWidth: 230 }}><b>Select your Condition:</b></div> 
+            {/* </span> 
+          </CCol>
+          <CCol > 
+            <span> */}
+              <div sm="1" md="1" lg="1" className={classes.search}>
+                <div sm="7" md="7" lg="8" className={classes.searchIcon}>
                   <SearchIcon />
                 </div>
               <InputBase

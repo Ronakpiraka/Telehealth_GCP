@@ -45,22 +45,31 @@ export default function RadioButtonsGroup() {
       localStorage.setItem('consentValue','Do not');
       localStorage.setItem('connectedCareValue', 'False');
       localStorage.setItem('Appointment_Status','Booked');
+      localStorage.setItem('deviceid','Not enrolled for tracking.')
      },[])
 
     const handleConnectedCareChange = (event) => {
       setConnectedCareValue(event.target.value);
       if (event.target.value === "No") {
-        setDeviceIdValue("No"); // reset device ID value if "No" is selected for "Connected Care"
+        setDeviceIdValue("No"); 
+        localStorage.setItem('deviceid',"Not enrolled for tracking.")
       }
     };
     const assignNewDeviceIdAndShare = () => {
-      // const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
-      // const message = `Your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
-      const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
-      // return message;
+      const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
+      const message = `Your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+      const value = localStorage.setItem('deviceid',newDeviceId)
+      // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
+      return message;
     };
     const handleDeviceIdInputChange = (e) => {
       setDeviceId(e.target.value);
+      if (e.target.value === "") {
+        localStorage.setItem('deviceid',"Please enter a Valid ID")
+      }
+      else{
+        localStorage.setItem('deviceid',e.target.value)
+      }
     };
 
 
@@ -69,7 +78,8 @@ export default function RadioButtonsGroup() {
     };
     const handleSubmit = () => {
       handleCloseModal();
-      setSubmitted(true); 
+      setSubmitted(true);
+ 
     };
   
     const handleShowSubmittedModal = () => {
@@ -80,13 +90,13 @@ export default function RadioButtonsGroup() {
 
     const handleYesChange = () => {
       setDeviceIdPromptOpen(true);
-      
+      localStorage.setItem('deviceid',"No ID provided")
     };
 
     const handleNoChange = () => {
       setDeviceIdPromptOpen(false);
-      const newDeviceId = assignNewDeviceIdAndShare();
-      console.log(newDeviceId);
+      assignNewDeviceIdAndShare();
+      // console.log(newDeviceId);
     };
 
     
@@ -155,16 +165,16 @@ export default function RadioButtonsGroup() {
  
     const consentstatus=()=>{
         const value = localStorage.getItem("consentValue")
-        console.log(value);
-        if (value == 'Do'){
-          message = "I give my consent to share my EHR records with practitioner as well as provider."
-        }
-        if (value == 'Do partial'){
-          message = "I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
-        }
-        else{
-          message = "I will share my records with practitioner during the visit."
-        }
+        // console.log(value);
+          if (value == 'Do'){
+            message = "I give my consent to share my EHR records with practitioner as well as provider."
+          }
+          if (value == 'Do partial'){
+            message = "I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
+          }
+          else{
+            message = "I will share my records with practitioner during the visit."
+          }
         return message;
         console.log(message);
     }
@@ -199,6 +209,7 @@ export default function RadioButtonsGroup() {
       localStorage.removeItem("Time_2_PM_3_PM");
       localStorage.removeItem("Time_3_PM_4_PM");
       localStorage.removeItem("Time_4_PM_5_PM");
+      localStorage.removeItem("deviceid");
      }
        
      
@@ -208,6 +219,7 @@ export default function RadioButtonsGroup() {
         <Modal.Header closeButton>
           <Modal.Title><b>Preview Appointment Details</b></Modal.Title>
         </Modal.Header>
+        {/* message = consentstatus() */}
         <Modal.Body>
           <b>Patient Name :</b> {localStorage.getItem("Patient_name")}<br/><br/>
           <b>Medical Record Number :</b> {localStorage.getItem("Patient_MRN")}<br/><br/>
@@ -216,7 +228,7 @@ export default function RadioButtonsGroup() {
           <b>Practitioner Name:</b> {localStorage.getItem("practitioner_name")}<br/><br/>
           <b>Selected Date  :</b> {localStorage.getItem("date")}<br/><br/>
           <b>Selected Time :</b> {localStorage.getItem("timeslot")}<br/><br/>
-          <b>Consent :</b> {localStorage.getItem("consentValue")}<br/><br/>
+          <b>Consent :</b>  {localStorage.getItem("consentValue")} {consentstatus}<br/><br/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
@@ -278,8 +290,14 @@ export default function RadioButtonsGroup() {
       </RadioGroup>
       {deviceIdPromptOpen && (
         <div>
-          <p>Please enter your device ID:</p>
+          <h6>Please enter your device ID:</h6>
           <input type="text" onChange={handleDeviceIdInputChange} />
+        </div>
+      )}
+      {!deviceIdPromptOpen && (
+        <div>
+          <h6>We are assigning you a new id and will send the same over an email. <br/>
+          {assignNewDeviceIdAndShare()}</h6>
         </div>
       )}
     </div>

@@ -23,17 +23,16 @@
   #tooltip:hover #tooltiptext {
     visibility: visible;
   }
-
   .container {
-    /* overflow-x: auto; */
+    overflow-x: auto;
+    overflow-y: auto;
     margin-right: auto;
     margin-left: auto;
     margin-top: 50px;
     padding: 10px;
     margin: 10px;
   }
-  
-  .title {
+.title {
     /* margin-top: 20px; */
     text-align: center;
   }
@@ -58,4 +57,5 @@
     padding: 5px !important;
     /* text-align: center; */
   }
+ 
   

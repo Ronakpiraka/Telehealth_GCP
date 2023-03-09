@@ -249,43 +249,34 @@ export default function PractitionerBooking() {
       </CModal>
       <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
       <CRow>
-        <CCol sm="6" md="6" lg="6">
-          <FormControl sx={{ minWidth: 400 }}>
+        <CCol sm="4" md="6" lg="2"className="navbar justify-content-between">
+          <p className="navbar-brand"><b>Select Provider</b></p>
+        </CCol>
+        <CCol sm="8" md="6" lg="4">
+          <FormControl sx={{ minWidth: '100%' }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Age"
-              onChange={handleChange}
-            >
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Age" onChange={handleChange}>
               {uniqueProviderName.map((row, index) => {
-                return (
-                  <MenuItem value={row}>{row}</MenuItem>
-                )
+                return ( <MenuItem value={row}>{row}</MenuItem>)
               })}
             </Select>
           </FormControl>
         </CCol>
-        
-        <CCol sm="3" md="3" lg="3">
+        <CCol sm="12" md="6" lg="3" sx={{ minWidth: '100%' }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
-            label="Available Date"
-            inputFormat="DD/MM/YYYY"
-            value={selectedDate}
-            disablePast={true}
-            onChange={(newDate) => {
-              const date = dayjs(newDate).tz('Asia/Kolkata').format();
-              setDate(date);
-              const dateSubstring = date.substring(0, 10);
-              localStorage.setItem('date', dateSubstring);
-            }}
+          <DesktopDatePicker label="Available Date" inputFormat="DD/MM/YYYY" value={selectedDate} disablePast={true} onChange={(newDate) => 
+          {
+            const date = dayjs(newDate).tz('Asia/Kolkata').format();
+            setDate(date);
+            const dateSubstring = date.substring(0, 10);
+            localStorage.setItem('date', dateSubstring);
+          }}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider> 
         </CCol>
-        <CCol sm="3" md="3" lg="3">
-        <FormControl sx={{ minWidth: 200 }}>
+        <CCol sm="12" md="6" lg="3">
+        <FormControl sx={{ minWidth: '100%' }}>
             <InputLabel id="demo-simple-select-label">Choose Time:</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -306,10 +297,10 @@ export default function PractitionerBooking() {
 
       </CRow>
       <br/>
-      <span className="navbar justify-content-between">
-        <p className="navbar-brand"><b>Select Practitioner</b></p>
-      </span>
-
+      <CRow>
+        <CCol className="navbar justify-content-between">
+          <p className="navbar-brand"><b>Select Practitioner</b></p>
+        </CCol>
       <LoadingOverlay
         active={isLoading}
         spinner
@@ -329,6 +320,7 @@ export default function PractitionerBooking() {
 
       {finalprac.map((row, index) => {
         return (
+          <CCol sm="6" md="6" lg="4">
 
           <CCardGroup className="mb-4">
             <CWidgetProgressIcon
@@ -341,7 +333,7 @@ export default function PractitionerBooking() {
               <CIcon name="cil-userFollow" style={{ float: 'left' }} height="36" />
               <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
               <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
-              <span>
+              <p>
                 <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { 
                 redirecttoConsent(e,row.Patient_name, row.Practitioner_name, row.guardian_email) 
                 localStorage.setItem('practitioner_name', row.Practitioner_name);
@@ -352,11 +344,13 @@ export default function PractitionerBooking() {
               }
                 }>Select
                 </button>
-              </span>
+              </p>
             </CWidgetProgressIcon>
           </CCardGroup>
+          </CCol>
         )
       })}
+      </CRow>
     </div>
   )
 }
