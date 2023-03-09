@@ -37,15 +37,16 @@ export default function RadioButtonsGroup() {
     // const [resp, setresp] = useState(true);
     // const [respok, setrespok] = useState();
 
-    const toggle = ()=>{
-      setModal(!modal);
-    }
+    // const toggle = ()=>{
+    //   setModal(!modal);
+    // }
 
     useEffect(() => {
       localStorage.setItem('consentValue','Do not');
       localStorage.setItem('connectedCareValue', 'False');
       localStorage.setItem('Appointment_Status','Booked');
       localStorage.setItem('deviceid','Not enrolled for tracking.')
+      localStorage.setItem("Appointment_Statusvalue", "You will share your records with practitioner during the visit.")
      },[])
 
     const handleConnectedCareChange = (event) => {
@@ -104,9 +105,9 @@ export default function RadioButtonsGroup() {
       const value = event.target.value;
       localStorage.setItem('consentValue', value);
       setConsentValue(value);
-      if(event.target.value == 'Do') { localStorage.setItem("Appointment_Status", "Pending")}
-      if(event.target.value == 'Do partial'){ localStorage.setItem("Appointment_Status", "Pending")}
-      if(event.target.value == 'Do not'){ localStorage.setItem("Appointment_Status","Booked")}
+      if(event.target.value == 'Do') { localStorage.setItem("Appointment_Status", "Pending");localStorage.setItem("Appointment_Statusvalue", "You agree and give your consent to share my EHR records with practitioner as well as provider .")}
+      if(event.target.value == 'Do partial'){ localStorage.setItem("Appointment_Status", "Pending");localStorage.setItem("Appointment_Statusvalue", "You agree and give your consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment .")}
+      if(event.target.value == 'Do not'){ localStorage.setItem("Appointment_Status","Booked");localStorage.setItem("Appointment_Statusvalue", "You will share your records with practitioner during the visit.")}
     };
 
     const senddata = () => {
@@ -152,10 +153,7 @@ export default function RadioButtonsGroup() {
       fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
         .then(response => {
           response.json();
-          // console.log(response)
-          // console.log(response.ok)
-          // setresp(response.ok)
-          // setrespok(response.ok)
+          
         })
         .then(result => {
             console.log(result);
@@ -163,21 +161,21 @@ export default function RadioButtonsGroup() {
         .catch(error => console.log('error', error));
   }
  
-    const consentstatus=()=>{
-        const value = localStorage.getItem("consentValue")
-        // console.log(value);
-          if (value == 'Do'){
-            message = "I give my consent to share my EHR records with practitioner as well as provider."
-          }
-          if (value == 'Do partial'){
-            message = "I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
-          }
-          else{
-            message = "I will share my records with practitioner during the visit."
-          }
-        return message;
-        console.log(message);
-    }
+    // const consentstatus=()=>{
+    //     const value1 = localStorage.getItem("consentValue")
+    //     // console.log(value1);
+    //       if (value1 === 'Do'){
+    //         message = "I give my consent to share my EHR records with practitioner as well as provider."
+    //       }
+    //       if (value1 === 'Do partial'){
+    //         message = "I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
+    //       }
+    //       else{
+    //         message = "I will share my records with practitioner during the visit."
+    //       }
+    //     return message;
+    //     // console.log(message);
+    // }
 
     const redirecttoEmail= () => {
       senddata()
@@ -210,6 +208,7 @@ export default function RadioButtonsGroup() {
       localStorage.removeItem("Time_3_PM_4_PM");
       localStorage.removeItem("Time_4_PM_5_PM");
       localStorage.removeItem("deviceid");
+      localStorage.removeItem("Appointment_Statusvalue");
      }
        
      
@@ -228,7 +227,8 @@ export default function RadioButtonsGroup() {
           <b>Practitioner Name:</b> {localStorage.getItem("practitioner_name")}<br/><br/>
           <b>Selected Date  :</b> {localStorage.getItem("date")}<br/><br/>
           <b>Selected Time :</b> {localStorage.getItem("timeslot")}<br/><br/>
-          <b>Consent :</b>  {localStorage.getItem("consentValue")} {consentstatus}<br/><br/>
+          <b>Device ID information: </b> {localStorage.getItem("deviceid")}<br/><br/>
+          <b>Consent :</b>  {localStorage.getItem("Appointment_Statusvalue")} <br/><br/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
@@ -276,7 +276,7 @@ export default function RadioButtonsGroup() {
       <FormControlLabel value="No" control={<Radio />} label="No" />
     </RadioGroup>
     <br/>
-    {connectedCareValue === "Yes" && (
+    {connectedCareValue == "Yes" && (
       <div>
       <h4>Do you have a Medical device?</h4>
       <RadioGroup
@@ -290,8 +290,9 @@ export default function RadioButtonsGroup() {
       </RadioGroup>
       {deviceIdPromptOpen && (
         <div>
-          <h6>Please enter your device ID:</h6>
-          <input type="text" onChange={handleDeviceIdInputChange} />
+          <p>Please enter your device ID :  
+            <span> </span>            
+          <span><input type="text" className="input-box" onChange={handleDeviceIdInputChange} value={deviceId} /> </span></p>
         </div>
       )}
       {!deviceIdPromptOpen && (

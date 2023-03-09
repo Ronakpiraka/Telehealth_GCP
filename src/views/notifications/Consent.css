@@ -11,10 +11,25 @@
   margin: 0 auto;
   background-color: #fff;
 }
+.input-box {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 40%;
+  margin-top: 8px;
+}
+.input-box:focus {
+  outline: none;
+  border-color: #4da6ff;
+  box-shadow: 0 0 5px #4da6ff;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
 
 .sigPad {
-  width: 50%;
-  height: 50%;
+  width: 455px;
+  height: 255px;
   border: solid;
 }
 
