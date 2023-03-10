@@ -328,8 +328,8 @@ export default function Appointment() {
                <p className="navbar-brand"><b>Select Patient Name: </b></p> 
                </div>
            </CCol>
-            <CCol sm="8" md="6" lg="8">
-                <FormControl sx={{ minWidth: 250 }}>
+            <CCol sm="8" md="6" lg="6">
+                <FormControl sx={{ minWidth: 400 }}>
                 <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" label="PName" onChange={handleChange}>
                 {uniquePatientName.map((row,index)=>{
@@ -345,7 +345,7 @@ export default function Appointment() {
               <p className="navbar-brand"><b>Medical Record Number: </b></p>
               </span>
           </CCol>
-          <CCol sm="8" md="6" lg="8">
+          <CCol sm="8" md="6" lg="6">
             <span className="navbar justify-content-between">
               <p className="navbar-brand"> 
               {MRN && (
@@ -355,7 +355,7 @@ export default function Appointment() {
           </CCol>
           
           {decryptedMRN && (
-          <CCol sm="4" md="6" lg="8">
+          <CCol sm="4" md="6" lg="6">
             <span className="navbar justify-content-between">
               <p className="navbar-brand">{decryptedMRN}</p> 
             </span>

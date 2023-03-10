@@ -249,10 +249,10 @@ export default function PractitionerBooking() {
       </CModal>
       <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
       <CRow>
-        <CCol sm="4" md="6" lg="2"className="navbar justify-content-between">
+        {/* <CCol sm="4" md="6" lg="2"className="navbar justify-content-between">
           <p className="navbar-brand"><b>Select Provider</b></p>
-        </CCol>
-        <CCol sm="8" md="6" lg="4">
+        </CCol> */}
+        <CCol sm="12" md="12" lg="6">
           <FormControl sx={{ minWidth: '100%' }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Age" onChange={handleChange}>

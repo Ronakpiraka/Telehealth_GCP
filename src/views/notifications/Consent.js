@@ -29,9 +29,9 @@ export default function RadioButtonsGroup() {
     const [connectedCareValue, setConnectedCareValue] = useState('No');
     const [deviceIdValue, setDeviceIdValue] = useState();
     const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState(false);
-    const [deviceId, setDeviceId] = useState('');
+    const [deviceId, setDeviceId] = useState();
     const [showModal, setShowModal] = useState(false);
-    const [Appointment_Status, setAppointment_Status] = useState('Booked');
+    // const [Appointment_Status, setAppointment_Status] = useState('Booked');
     // const [showModal1, setShowModal1] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     // const [resp, setresp] = useState(true);
@@ -105,8 +105,8 @@ export default function RadioButtonsGroup() {
       const value = event.target.value;
       localStorage.setItem('consentValue', value);
       setConsentValue(value);
-      if(event.target.value == 'Do') { localStorage.setItem("Appointment_Status", "Pending");localStorage.setItem("Appointment_Statusvalue", "You agree and give your consent to share my EHR records with practitioner as well as provider .")}
-      if(event.target.value == 'Do partial'){ localStorage.setItem("Appointment_Status", "Pending");localStorage.setItem("Appointment_Statusvalue", "You agree and give your consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment .")}
+      if(event.target.value == 'Do') { localStorage.setItem("Appointment_Status", "Pending");localStorage.setItem("Appointment_Statusvalue", "You agree and give your consent to share your EHR records with practitioner as well as provider .")}
+      if(event.target.value == 'Do partial'){ localStorage.setItem("Appointment_Status", "Pending");localStorage.setItem("Appointment_Statusvalue", "You agree and give your consent to share your EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment .")}
       if(event.target.value == 'Do not'){ localStorage.setItem("Appointment_Status","Booked");localStorage.setItem("Appointment_Statusvalue", "You will share your records with practitioner during the visit.")}
     };
 
