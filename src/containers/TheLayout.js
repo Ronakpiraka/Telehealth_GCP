@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 
 const TheLayout = () => {
   const location = useLocation();
-  let paramString = location.search.split('?')[1];
+  let paramString = location.search.split('mabc=')[1];
   console.log(paramString)
 
   return (

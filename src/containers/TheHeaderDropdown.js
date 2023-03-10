@@ -17,7 +17,7 @@ const TheHeaderDropdown = () => {
   let name = sessionStorage.getItem('Patient_name');
 
   const location = useLocation();
-  let paramString = location.search.split('?')[1];
+  let paramString = location.search.split('mabc=')[1];
   console.log(paramString)  
 
 
