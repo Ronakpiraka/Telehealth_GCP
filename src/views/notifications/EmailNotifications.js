@@ -187,7 +187,7 @@ export default function EmailNotify() {
 
     return (
       <div>
-        <h2 className="title"><strong>Patient Appointments</strong></h2>
+        <h2 className="title"><strong>Patient Appointment History</strong></h2>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -208,13 +208,13 @@ export default function EmailNotify() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                <TableCell style={{ width: '15%', textAlign: 'center'}}>Patient Name</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center'}}>Condition Name</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center'}}>Provider Name</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center'}}>Practitioner Name</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center'}}>Booked Date and Time</TableCell>
-                <TableCell style={{ width: '12%', textAlign: 'center'}}>Status</TableCell>
-                <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'left'}}>Patient Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'left'}}>Condition Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'left'}}>Provider Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'left'}}>Practitioner Name</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'left'}}>Booked Date and Time</TableCell>
+                <TableCell style={{ width: '12%', textAlign: 'left'}}>Status</TableCell>
+                {/* <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -238,13 +238,13 @@ export default function EmailNotify() {
                   .map((row, index) => {
                     return(
                       <StyledTableRow>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Patient_name}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Condition_name}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Provider_name}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{row.Practitioner_name}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{row.App_Date}<br/>{slottiming(row.Time_9_AM_10_AM.toString(),row.Time_10_AM_11_AM.toString(),row.Time_11_AM_12_PM.toString(),row.Time_12_PM_1_PM.toString(),row.Time_1_PM_2_PM.toString(),row.Time_2_PM_3_PM.toString(),row.Time_3_PM_4_PM.toString(),row.Time_4_PM_5_PM.toString(),row.App_Date)}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}}>{riskscore(row.Appointment_Status)}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'left'}}>{row.Patient_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'left'}}>{row.Condition_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'left'}}>{row.Provider_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'left'}}>{row.Practitioner_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'left'}}>{row.App_Date}<br/>{slottiming(row.Time_9_AM_10_AM.toString(),row.Time_10_AM_11_AM.toString(),row.Time_11_AM_12_PM.toString(),row.Time_12_PM_1_PM.toString(),row.Time_1_PM_2_PM.toString(),row.Time_2_PM_3_PM.toString(),row.Time_3_PM_4_PM.toString(),row.Time_4_PM_5_PM.toString(),row.App_Date)}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'left'}}>{riskscore(row.Appointment_Status)}</StyledTableCell>
+                        {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                       </StyledTableRow>
                     )
                   }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

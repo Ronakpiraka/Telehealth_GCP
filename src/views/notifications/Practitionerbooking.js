@@ -18,6 +18,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import LoadingOverlay from 'react-loading-overlay';
 import "../records/patients.css";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import TextField from '@mui/material/TextField';
 import { CModal } from '@coreui/react';
@@ -26,6 +27,8 @@ import { CModalHeader } from '@coreui/react';
 import { CModalBody } from '@coreui/react';
 import { CButton } from '@coreui/react';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import {
   CCard,
   CCardBody,
@@ -111,6 +114,7 @@ export default function PractitionerBooking() {
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
+  dayjs.extend(localizedFormat);
 
   // const [data, setdata] = React.useState([]);
   // const [slot, setslot] = React.useState([]);
@@ -119,7 +123,7 @@ export default function PractitionerBooking() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [providername, setProvidername] = useState();
-  const [selectedDate, setDate] = React.useState('');
+  const [selectedDate, setSelectedDate] = React.useState(null);
   // const [selectedTime, setTime] = React.useState('');
   const [modal, setModal] = useState(false);
   const [selectedProvider, setselectedprovider] = React.useState("");
@@ -189,15 +193,37 @@ export default function PractitionerBooking() {
   const handleChangeSlot = (event) => {
     console.log(event.target.value);
     setselectedslot(event.target.value);
-    if(event.target.value == '9 AM - 10 AM')  {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  true); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
-    if(event.target.value == '10 AM - 11 AM') {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", true);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
-    if(event.target.value == '11 AM - 12 PM') {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", true); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
-    if(event.target.value == '12 PM - 1 PM')  {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", true);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
-    if(event.target.value == '1 PM - 2 PM')   {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   true); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
-    if(event.target.value == '2 PM - 3 PM')   {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", true);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
-    if(event.target.value == '3 PM - 4 PM')   {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   true); localStorage.setItem("Time_4_PM_5_PM", false);}
-    if(event.target.value == '4 PM - 5 PM')   {localStorage.setItem("timeslot",event.target.value);localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false);localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false);localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", true);}
+    if(event.target.value == '9 AM - 10 AM')  {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  true);  localStorage.setItem("Time_10_AM_11_AM", false); localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false) ;localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
+    if(event.target.value == '10 AM - 11 AM') {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", true); localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false) ;localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
+    if(event.target.value == '11 AM - 12 PM') {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false); localStorage.setItem("Time_11_AM_12_PM", true); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false); localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
+    if(event.target.value == '12 PM - 1 PM')  {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false); localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", true);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false); localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
+    if(event.target.value == '1 PM - 2 PM')   {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false); localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   true); localStorage.setItem("Time_2_PM_3_PM", false); localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
+    if(event.target.value == '2 PM - 3 PM')   {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false); localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", true); localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", false);}
+    if(event.target.value == '3 PM - 4 PM')   {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false); localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false) ;localStorage.setItem("Time_3_PM_4_PM",   true); localStorage.setItem("Time_4_PM_5_PM", false);}
+    if(event.target.value == '4 PM - 5 PM')   {localStorage.setItem("timeslot",event.target.value); localStorage.setItem("Time_9_AM_10_AM",  false); localStorage.setItem("Time_10_AM_11_AM", false); localStorage.setItem("Time_11_AM_12_PM", false); localStorage.setItem("Time_12_PM_1_PM", false);localStorage.setItem("Time_1_PM_2_PM",   false); localStorage.setItem("Time_2_PM_3_PM", false) ;localStorage.setItem("Time_3_PM_4_PM",   false); localStorage.setItem("Time_4_PM_5_PM", true);}
   }
+
+  const handleDateChange = (newDate) => {
+    if (!newDate) { // if value is null, reset state
+      setSelectedDate(null);
+      localStorage.removeItem('date');
+      return;
+    }
+    const today = dayjs().tz('Asia/Kolkata').startOf('day');
+    const date = dayjs(newDate).tz('Asia/Kolkata').startOf('day');
+    const twoMonthsAhead = today.add(2, 'month');
+    const dateSubstring = date.format('YYYY-MM-DD');
+    
+    if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
+      alert('Please select a date that is not greater than today and not more than 2 months from today.');
+      setSelectedDate(null);
+      return;
+    }
+    
+    setSelectedDate(date);
+    localStorage.setItem('date', dateSubstring);
+  };
+
   const handleChange = (event) => {
     setselectedprovider(event.target.value);
     provider = event.target.value;
@@ -220,14 +246,17 @@ export default function PractitionerBooking() {
     setpracdata(final_prac);
   };
 
-  const slots = [{  slot: '9 AM - 10 AM' }, 
-  { slot: '10 AM - 11 AM' }, 
-  {  slot: '11 AM - 12 PM' }, 
-  {  slot: '12 PM - 1 PM' }, 
-  {  slot: '1 PM - 2 PM' }, 
-  {  slot: '2 PM - 3 PM' }, 
-  {  slot: '3 PM - 4 PM' }, 
-  {  slot: '4 PM - 5 PM' }];
+  const handleGoBack = () => {
+    var url = `/bookAppointment`;
+    history.push(`${url}`);
+  };
+
+  const handleGoAhead = () => {
+    var url = `/notifications/Consent`;
+    history.push(`${url}`);
+  };
+
+  const slots = [{  slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, {  slot: '11 AM - 12 PM' }, {  slot: '12 PM - 1 PM' }, {  slot: '1 PM - 2 PM' }, {  slot: '2 PM - 3 PM' }, {  slot: '3 PM - 4 PM' }, {  slot: '4 PM - 5 PM' }];
 
   return (
     <div>
@@ -237,51 +266,55 @@ export default function PractitionerBooking() {
       >
         <CModalHeader closeButton>Please select the Provider and Available slots</CModalHeader>
         <CModalBody>
-          Choose the Hospital and Available slots before selecting the practitioner...
+          Choose the Hospital and Available slots before selecting the Practitioner...
         </CModalBody>
         <CModalFooter>
-          {/* <CButton color="primary">Do Something</CButton>{' '} */}
-          <CButton
-            color="primary"
-            onClick={toggle}
-          >Ok</CButton>
+          <CButton color="primary" onClick={toggle} >Ok</CButton>
         </CModalFooter>
       </CModal>
-      <h1 className="title"><strong>Practitioner Information</strong></h1><br/><br/>
+      
+      <CRow>
+      <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon/></CCol>
+      <CCol sm="10" md="10" lg="10"><h1 className="title"><strong>Practitioner Information</strong></h1></CCol>
+      <CCol sm="1" md="1" lg="1" alignItems="right" onClick={handleGoAhead}><ArrowCircleRightIcon/></CCol>
+      </CRow>
+      <br/><br/>
+      
       <CRow>
         {/* <CCol sm="4" md="6" lg="2"className="navbar justify-content-between">
           <p className="navbar-brand"><b>Select Provider</b></p>
         </CCol> */}
         <CCol sm="12" md="12" lg="6">
           <FormControl sx={{ minWidth: '100%' }}>
-            <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Age" onChange={handleChange}>
+            <InputLabel labelid="demo-simple-select-label" >Provider Name</InputLabel>
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" label="provider name" onChange={handleChange}>
               {uniqueProviderName.map((row, index) => {
                 return ( <MenuItem value={row}>{row}</MenuItem>)
               })}
             </Select>
           </FormControl>
         </CCol>
+
         <CCol sm="12" md="6" lg="3" sx={{ minWidth: '100%' }}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker label="Available Date" inputFormat="DD/MM/YYYY" value={selectedDate} disablePast={true} onChange={(newDate) => 
-          {
-            const date = dayjs(newDate).tz('Asia/Kolkata').format();
-            setDate(date);
-            const dateSubstring = date.substring(0, 10);
-            localStorage.setItem('date', dateSubstring);
-          }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider> 
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
+              label="Available Date"
+              inputFormat="DD/MM/YYYY"
+              value={selectedDate ? selectedDate : null} 
+              disablePast={true}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
         </CCol>
+
         <CCol sm="12" md="6" lg="3">
         <FormControl sx={{ minWidth: '100%' }}>
-            <InputLabel id="demo-simple-select-label">Choose Time:</InputLabel>
+            <InputLabel labelid="demo-simple-select-label">Choose Time:</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              label="Age"
+              label="choose time  "
               onChange={handleChangeSlot}
               // value={selectedTime}
             >

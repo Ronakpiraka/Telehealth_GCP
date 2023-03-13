@@ -1,5 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
+import HistoryIcon from '@mui/icons-material/History';
 
 const _nav =  [
   {
@@ -43,7 +44,7 @@ const _nav =  [
     _tag: 'CSidebarNavDropdown',
     name: 'Reports',
     route: '/reports',
-    icon: 'cil-puzzle',
+    icon: 'cil-chart-line',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -98,21 +99,24 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Email Notifications',
+    name: '___Appointment History',
     to: '/notifications/email',
-    icon: 'cil-bell',
+    icon: <HistoryIcon/>,
+    badge: {
+      color: 'success',
+      text: '+5',
+    }
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Video Consultations',
+    name: 'Calender Notification',
     to: '/notifications',
-    icon: 'cil-viber',
+    icon: 'cil-calendar',
     badge: {
       color: 'warning',
       text: '+1',
     }
   },
-  
   {
     _tag: 'CSidebarNavTitle',
     _children: ['Services']

@@ -35,11 +35,13 @@ import {
   CWidgetProgressIcon,
 } from '@coreui/react'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import OutlinedInput from '@mui/material/OutlinedInput';
-
+// import ForwardIcon from '@mui/icons-material/Forward';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 export default function Appointment() {
   const modalstyle = {
-    position: 'absolute',
+    position: 'relative',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -52,6 +54,7 @@ export default function Appointment() {
     root: {
       display: 'flex',
       '& > *': {
+        // height: 50,
         margin: theme.spacing(1),
       },
     },
@@ -132,7 +135,6 @@ export default function Appointment() {
   const [orderDetails, setOrderDetails] = useState('');
   const [allPurchaseOrderDetails, setAllPurchaseOrderDetails] = useState('');
   const [posts, setPosts] = useState([]);
-
   const toggle = ()=>{
     setModal(!modal);
   }      
@@ -171,15 +173,6 @@ export default function Appointment() {
     }
 	});
   
-  console.log("mrn",patientMrn)
-  console.log("name",PatientName)
-  console.log('email',patientemail);
-  console.log('patient name',decryptedName);
-  console.log('patient mrn',decryptedMRN);
-  console.log('patient email',decryptedEmail);
-
-  
-
 
   useEffect(() => {
     if(paramString == undefined)
@@ -237,6 +230,17 @@ export default function Appointment() {
     history.push(`${url}`);
   }
   
+
+  const handleGoBack = () => {
+    var url = `/notifications/Consent`;
+    history.push(`${url}`); //url from OPE team
+  };
+
+  const handleGoAhead = () => {
+    var url = `/Practitionerbookings`;
+    history.push(`${url}`);
+  };
+
   const handleChange = (event) => {
     const {
       target: { value },
@@ -304,7 +308,12 @@ export default function Appointment() {
           >Ok</CButton>
         </CModalFooter>
       </CModal>
-        <h2 className="title"><strong>Book Appointment</strong></h2><br/>
+
+        <CRow>
+        <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><b><ArrowCircleLeftIcon/></b></CCol>
+        <CCol sm="10" md="10" lg="10" ><h2 className="title"><strong>Book Appointment</strong></h2><br/></CCol>
+        <CCol sm="1" md="1" lg="1" onClick={handleGoAhead}><b><ArrowCircleRightIcon/></b></CCol>
+        </CRow>
         <CRow>
         {decryptedName && (
           <>
@@ -312,10 +321,9 @@ export default function Appointment() {
             <div className="navbar justify-content-between">
               <p className="navbar-brand"><b>Patient Name: </b></p> 
             </div>
-          </CCol>
-            <CCol sm="8" md="6" lg="8">
-               {/* <FormControl sx={{ minWidth: 200 }}> */}
-               <FormControl>
+          </CCol>:
+            <CCol sm="8" md="6" lg="8" >
+               <FormControl >
                <InputLabel id="demo-simple-select-label"><b>{decryptedName}</b></InputLabel>
                </FormControl>  
             </CCol>
@@ -328,10 +336,10 @@ export default function Appointment() {
                <p className="navbar-brand"><b>Select Patient Name: </b></p> 
                </div>
            </CCol>
-            <CCol sm="8" md="6" lg="6">
-                <FormControl sx={{ minWidth: 400 }}>
-                <InputLabel id="demo-simple-select-label">Patient Name</InputLabel>
-                <Select labelId="demo-simple-select-label" id="demo-simple-select" label="PName" onChange={handleChange}>
+            <CCol sm="8" md="6" lg="6" >
+                <FormControl sx={{ minWidth: 400}}>
+                <InputLabel labelid="demo-simple-select-label">Patient Name</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Patient Name" onChange={handleChange}>
                 {uniquePatientName.map((row,index)=>{
                   return( <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>)
                 })} 

@@ -10,6 +10,9 @@ import FormControl from '@mui/material/FormControl';
 import { CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter, CButton} from '@coreui/react';
 // import Modal from './Modal';
 import FormLabel from '@mui/material/FormLabel';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { CCard, CCardBody, CCardGroup, CWidgetDropdown, CCol, CRow, CWidgetProgressIcon, CCardText } from '@coreui/react'
 // import { Button } from 'antd';
 import { useHistory, useLocation } from "react-router-dom";
 import SignatureCanvas from 'react-signature-canvas';
@@ -28,18 +31,12 @@ export default function RadioButtonsGroup() {
     const [consentValue, setConsentValue] = useState('Do not');
     const [connectedCareValue, setConnectedCareValue] = useState('No');
     const [deviceIdValue, setDeviceIdValue] = useState();
-    const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState(false);
+    const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
     const [deviceId, setDeviceId] = useState();
     const [showModal, setShowModal] = useState(false);
-    // const [Appointment_Status, setAppointment_Status] = useState('Booked');
-    // const [showModal1, setShowModal1] = useState(false);
+    
     const [submitted, setSubmitted] = useState(false);
-    // const [resp, setresp] = useState(true);
-    // const [respok, setrespok] = useState();
-
-    // const toggle = ()=>{
-    //   setModal(!modal);
-    // }
+    
 
     useEffect(() => {
       localStorage.setItem('consentValue','Do not');
@@ -75,8 +72,17 @@ export default function RadioButtonsGroup() {
 
 
     const handleCloseModal = () => {
-      setShowModal(!showModal);
+      if(connectedCareValue === "Yes" && deviceIdValue=== "Yes" && deviceId.length !== 14){
+            alert("please enter a valid device id");
+            setDeviceId("");
+          }
+          else{setShowModal(!showModal);}
+
+      //   else{setShowModal(!showModal);}}
+
+      // else{setShowModal(!showModal);}
     };
+
     const handleSubmit = () => {
       handleCloseModal();
       setSubmitted(true);
@@ -99,8 +105,17 @@ export default function RadioButtonsGroup() {
       assignNewDeviceIdAndShare();
       // console.log(newDeviceId);
     };
+    const handleGoBack = () => {
+      const condition_name = localStorage.getItem('condition_name');
+      var url = `/Practitionerbookings?condition=${condition_name}`;  
+      history.push(`${url}`);
+    };
 
-    
+    // const handleGoAhead = () => {
+    //   var url = `/bookAppointment`; //to Ope's end
+    //   history.push(`${url}`);
+    // };
+
     const handleConsentChange = (event) => {
       const value = event.target.value;
       localStorage.setItem('consentValue', value);
@@ -159,23 +174,7 @@ export default function RadioButtonsGroup() {
             console.log(result);
         })
         .catch(error => console.log('error', error));
-  }
- 
-    // const consentstatus=()=>{
-    //     const value1 = localStorage.getItem("consentValue")
-    //     // console.log(value1);
-    //       if (value1 === 'Do'){
-    //         message = "I give my consent to share my EHR records with practitioner as well as provider."
-    //       }
-    //       if (value1 === 'Do partial'){
-    //         message = "I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
-    //       }
-    //       else{
-    //         message = "I will share my records with practitioner during the visit."
-    //       }
-    //     return message;
-    //     // console.log(message);
-    // }
+      }
 
     const redirecttoEmail= () => {
       senddata()
@@ -183,32 +182,7 @@ export default function RadioButtonsGroup() {
       var url = `/bookAppointment`;
       history.push(`${url}`);
       localStorage.clear();
-      localStorage.removeItem('Patient_name');
-      localStorage.removeItem('Patient_MRN');
-      localStorage.removeItem('condition_code');
-      localStorage.removeItem('condition_name');
-      localStorage.removeItem('provider_name');
-      localStorage.removeItem('provider_id');
-      localStorage.removeItem('provider_contact_number');
-      localStorage.removeItem('date');
-      localStorage.removeItem('practitioner_name');
-      localStorage.removeItem('practitioner_id');	
-      localStorage.removeItem('practitioner_speciality');
-      localStorage.removeItem('practitioner_email');
-      localStorage.removeItem('consentValue');
-      localStorage.removeItem('connectedCareValue');
-      localStorage.removeItem('Appointment_Status');
-      localStorage.removeItem("timeslot");
-      localStorage.removeItem("Time_9_AM_10_AM" );
-      localStorage.removeItem("Time_10_AM_11_AM");
-      localStorage.removeItem("Time_11_AM_12_PM");
-      localStorage.removeItem("Time_12_PM_1_PM");
-      localStorage.removeItem("Time_1_PM_2_PM");
-      localStorage.removeItem("Time_2_PM_3_PM");
-      localStorage.removeItem("Time_3_PM_4_PM");
-      localStorage.removeItem("Time_4_PM_5_PM");
-      localStorage.removeItem("deviceid");
-      localStorage.removeItem("Appointment_Statusvalue");
+      // localStorage.removeItem('Patient_name');
      }
        
      
@@ -254,77 +228,93 @@ export default function RadioButtonsGroup() {
             </Modal.Footer>
           </Modal>
           
-          <div> 
-          <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1> 
+    <div> 
+    
+    <CRow>
+      <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon /></CCol>
+      <CCol sm="10" md="10" lg="10"><h1 className="title"><strong>Consent Form</strong></h1></CCol>
+      {/* <CCol sm="1" md="1" lg="1"onClick={handleGoAhead}>< ArrowCircleRightIcon/></CCol> */}
+    </CRow>
+    
+    {/* <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1>  */}
+    
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <h4>Are you interested in Connected Care?</h4>
+      <Tooltip title="Remote care vital tracking">
+        <IconButton aria-label="success"><InfoIcon/></IconButton>
+      </Tooltip>
+    </div>
     <FormControl>
-   
     <RadioGroup
       aria-labelledby="demo-radio-buttons-group-label"
       name="radio-buttons-group"
       value={connectedCareValue}
       onChange={handleConnectedCareChange}
     >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h4>Are you interested in Connected Care?</h4>
-        <Tooltip title="Remote care vital tracking">
-          <IconButton aria-label="success">
-            <InfoIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-      <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-      <FormControlLabel value="No" control={<Radio />} label="No" />
+      <CRow>
+        <CCol></CCol>
+        <CRow><CCol><FormControlLabel value="Yes" control={<Radio />} label="Yes" /></CCol></CRow><br/><br/>
+        <CCol></CCol>
+        <CRow><CCol><FormControlLabel value="No" control={<Radio />} label="No" /></CCol></CRow></CRow>
     </RadioGroup>
     <br/>
     {connectedCareValue == "Yes" && (
       <div>
-      <h4>Do you have a Medical device?</h4>
+      
+    <h4>Do you have a Medical device?</h4><br/>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="device-id-group"
         value={deviceIdValue}
         onChange={(e) => (e.target.value === 'Yes' ? handleYesChange() : handleNoChange())}
       >
-        <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-        <FormControlLabel value="No" control={<Radio />} label="No" />
+        <CRow>
+        <CCol></CCol>
+        <CRow><CCol><FormControlLabel value="Yes" control={<Radio />} label="Yes" /></CCol></CRow><br/><br/>
+        <CCol></CCol>
+        <CRow><CCol><FormControlLabel value="No" control={<Radio />} label="No" /></CCol></CRow></CRow>
       </RadioGroup>
       {deviceIdPromptOpen && (
-        <div>
-          <p>Please enter your device ID :  
-            <span> </span>            
-          <span><input type="text" className="input-box" onChange={handleDeviceIdInputChange} value={deviceId} /> </span></p>
-        </div>
+        
+          <CRow>
+            <CCol></CCol>
+            <CRow><CCol style={{color:"red"}}>Please enter your device ID : <input type="text" className="input-box" onChange={handleDeviceIdInputChange} value={deviceId} /> </CCol></CRow>
+          </CRow>
+        
       )}
       {!deviceIdPromptOpen && (
-        <div>
-          <h6>We are assigning you a new id and will send the same over an email. <br/>
-          {assignNewDeviceIdAndShare()}</h6>
-        </div>
+        <CRow>
+          <CCol></CCol>
+          <CRow><CCol><h6>We are assigning you a new id and will send the same over an email.</h6></CCol> </CRow><br/>
+          <CCol></CCol>
+          <CRow><CCol><h6>{assignNewDeviceIdAndShare()}</h6></CCol></CRow>
+        </CRow>
       )}
     </div>
     )}
 
-    <h4>Consent</h4>
+    <h4>Consent</h4><br/>
     <RadioGroup
       aria-labelledby="demo-radio-buttons-group-label"
       name="radio-buttons-group"
       value={consentValue}
       onChange={handleConsentChange}
-    >          
-      <FormControlLabel value="Do" control={<Radio />} label="I give my consent to share my EHR records with practitioner as well as provider ." />
-      <FormControlLabel value="Do partial" control={<Radio />} label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . " />
-      <FormControlLabel value="Do not" control={<Radio defaultValue="true"/>} label="I will share my records with practitioner during the visit." />
+    > <CRow>
+      <CCol></CCol><CRow><CCol><FormControlLabel value="Do" control={<Radio />} label="I give my consent to share my EHR records with practitioner as well as provider ." /></CCol></CRow><br/><br/>
+      <CCol></CCol><CRow><CCol><FormControlLabel value="Do partial" control={<Radio />} label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . " /></CCol></CRow><br/><br/>
+      <CCol></CCol><CRow><CCol><FormControlLabel value="Do not" control={<Radio defaultValue="true"/>} label="I will share my records with practitioner during the visit." /></CCol></CRow>
+      </CRow>
       </RadioGroup>
       <br/>
       <form className="signature-pad-form">
-      <h4>Signature</h4>
-      <Signature/>
-    </form>  
-    </FormControl><br/><br/>
-    
-    <div> 
+      <h4>Signature</h4><br/>
+      <CRow><CCol></CCol><CRow><CCol><Signature/></CCol></CRow></CRow>
+      </form>  
+      </FormControl><br/><br/>
+      
+      <div align="center">
       <button class="btn btn-primary" onClick={handleCloseModal}>Preview</button>
-    </div>
+      </div>
   </div>
         </>
   )
