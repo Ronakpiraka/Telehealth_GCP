@@ -1,6 +1,7 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import HistoryIcon from '@mui/icons-material/History';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 
 const _nav =  [
   {
@@ -44,7 +45,7 @@ const _nav =  [
     _tag: 'CSidebarNavDropdown',
     name: 'Reports',
     route: '/reports',
-    icon: 'cil-chart-line',
+    icon: <AssessmentOutlinedIcon style={{marginRight:'16px'}}/>,
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -99,9 +100,9 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: '___Appointment History',
+    name: 'Appointment History',
     to: '/notifications/email',
-    icon: <HistoryIcon/>,
+    icon: <HistoryIcon style={{marginRight:'16px'}}/>,
     badge: {
       color: 'success',
       text: '+5',
