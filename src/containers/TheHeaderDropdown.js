@@ -53,7 +53,7 @@ const TheHeaderDropdown = () => {
           <CIcon name="cil-bell" className="mfe-2" />
           Logout
         </CDropdownItem>
-        {/* <CDropdownItem
+        <CDropdownItem
           header
           tag="div"
           color="light"
@@ -70,9 +70,9 @@ const TheHeaderDropdown = () => {
         </CDropdownItem>
         <CDropdownItem>
           <CIcon name="cil-credit-card" className="mfe-2" />
-          Notifications
-          <CBadge color="secondary" className="mfs-auto">1</CBadge>
-        </CDropdownItem> */}
+          Today's Appointment
+          <CBadge color="secondary" className="mfs-auto" marginWidth={'5px'}>{sessionStorage.getItem('appointmentsToday')}</CBadge>
+        </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   )

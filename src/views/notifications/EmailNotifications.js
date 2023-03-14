@@ -160,13 +160,17 @@ export default function EmailNotify() {
           if (dateA < dateB) {return -1;}
           if (dateA > dateB) {return 1;}
         
-          const slotA = slottiming( a.Time_9_AM_10_AM.toString(), a.Time_10_AM_11_AM.toString(), a.Time_11_AM_12_PM.toString(), a.Time_12_PM_1_PM.toString(), a.Time_1_PM_2_PM.toString(), a.Time_2_PM_3_PM.toString(), a.Time_3_PM_4_PM.toString(), a.Time_4_PM_5_PM.toString(), a.App_Date
-          );
-          const slotB = slottiming( b.Time_9_AM_10_AM.toString(), b.Time_10_AM_11_AM.toString(), b.Time_11_AM_12_PM.toString(), b.Time_12_PM_1_PM.toString(), b.Time_1_PM_2_PM.toString(), b.Time_2_PM_3_PM.toString(), b.Time_3_PM_4_PM.toString(), b.Time_4_PM_5_PM.toString(), b.App_Date
-          );
+          const slotA = slottiming( a.Time_9_AM_10_AM.toString(), a.Time_10_AM_11_AM.toString(), a.Time_11_AM_12_PM.toString(), a.Time_12_PM_1_PM.toString(), a.Time_1_PM_2_PM.toString(), a.Time_2_PM_3_PM.toString(), a.Time_3_PM_4_PM.toString(), a.Time_4_PM_5_PM.toString(), a.App_Date);
+          const slotB = slottiming( b.Time_9_AM_10_AM.toString(), b.Time_10_AM_11_AM.toString(), b.Time_11_AM_12_PM.toString(), b.Time_12_PM_1_PM.toString(), b.Time_1_PM_2_PM.toString(), b.Time_2_PM_3_PM.toString(), b.Time_3_PM_4_PM.toString(), b.Time_4_PM_5_PM.toString(), b.App_Date);
           if (slotA < slotB) {return -1;}
           if (slotA > slotB) {return 1;}
         return 0;
+        });
+
+        const today = new Date();
+        const filteredData = sortedData.filter((row) => {
+          const appDate = new Date(row.App_Date);
+          return appDate >= today || appDate.toDateString() === today.toDateString(); // only include appointments with today's date or later
         });
 
         const sendemail = (name, doctor,guardian_email,provider,provider_contact,prac_email) => {
@@ -187,22 +191,24 @@ export default function EmailNotify() {
        
         const riskscore=(Appointment_Status)=>{
           if(Appointment_Status === "Pending")
-          {
-            return(
-              <CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >Pending</CBadge>
-            )
-          }
+            {return(<CBadge color="warning" className="mfs-auto" fontSize='22px' align='center' >Pending</CBadge>)}
+          if(Appointment_Status == null)
+            {return(<CBadge color="info" className="mfs-auto" fontSize='22px' align='center' >No return</CBadge>)}
           else
-          {
-            return(
-              <CBadge color="warning" className="mfs-auto" fontSize='22px' align='center'>Booked</CBadge>
-            )
-          } 
+            {return(<CBadge color="success" className="mfs-auto" fontSize='22px' align='center'>Booked</CBadge>)} }
+
+        const countAppointmentsToday = () => {
+          const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
+          const appointmentsToday = sortedData.filter(row => row.App_Date === today);
+          const count = appointmentsToday.length;
+          sessionStorage.setItem('appointmentsToday', count);
+          return count;
         }
 
     return (
       <div>
         <h2 className="title"><strong>Patient Appointment History</strong></h2>
+        <h4><b>Appointments Today: {countAppointmentsToday()}</b></h4>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -223,29 +229,35 @@ export default function EmailNotify() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead >
                 <TableRow>
-                <TableCell style={{ width: '15%', textAlign: 'center' }}>Patient Name</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center' }}>Condition Name</TableCell>
-                <TableCell style={{ width: '30%', textAlign: 'center' }}>Provider Name</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center' }}>Practitioner Name</TableCell>
-                <TableCell style={{ width: '15%', textAlign: 'center' }}>Booked Date and Time</TableCell>
-                <TableCell style={{ width: '10%', textAlign: 'center' }}>Status</TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center' }}><b>Patient Name</b></TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center' }}><b>Condition Name</b></TableCell>
+                <TableCell style={{ width: '30%', textAlign: 'center' }}><b>Provider Name</b></TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center' }}><b>Practitioner Name</b></TableCell>
+                <TableCell style={{ width: '15%', textAlign: 'center' }}><b>Booked Date and Time</b></TableCell>
+                <TableCell style={{ width: '10%', textAlign: 'center' }}><b>Status</b></TableCell>
                 {/* <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sortedData.filter(val=>{
+                {filteredData.filter(val=>{
                   if(searchTerm === "")
                   {
                     return val;
                   }
-                  else if((val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Guardian_Email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Risk_Category.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Provider_contact_number.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.provider_name.toString().toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.practitioner_email.toString().toLowerCase().includes(searchTerm.toLowerCase()))
+                  else if((val.App_Date.toLowerCase().includes(searchTerm.toLowerCase())) 
+                  ||(val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase())) 
+                  ||(val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) 
+                  ||(val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) 
+                  ||(val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase())) 
+                  ||(val.MRN.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.provider_contact_number.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.Consent_form_choice.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.Patient_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ||(val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase()))
                   ){
                      return val  
                   }
@@ -255,8 +267,8 @@ export default function EmailNotify() {
                       <StyledTableRow>
                         <StyledTableCell style={{ textAlign: 'center', width: '15%'}}>{row.Patient_name}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center', width: '15%'}}>{row.Condition_name}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'left', width: '30%'}}>{row.Provider_name}</StyledTableCell>
-                        <StyledTableCell style={{ textAlign: 'left', width: '15%'}}>{row.Practitioner_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center', width: '30%'}}>{row.Provider_name}</StyledTableCell>
+                        <StyledTableCell style={{ textAlign: 'center', width: '15%'}}>{row.Practitioner_name}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center', width: '15%'}}><b>{row.App_Date}</b><br/>{slottiming(row.Time_9_AM_10_AM.toString(),row.Time_10_AM_11_AM.toString(),row.Time_11_AM_12_PM.toString(),row.Time_12_PM_1_PM.toString(),row.Time_1_PM_2_PM.toString(),row.Time_2_PM_3_PM.toString(),row.Time_3_PM_4_PM.toString(),row.Time_4_PM_5_PM.toString(),row.App_Date)}</StyledTableCell>
                         <StyledTableCell style={{ textAlign: 'center', width: '10%'}}>{riskscore(row.Appointment_Status)}</StyledTableCell>
                         {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
@@ -271,7 +283,7 @@ export default function EmailNotify() {
         <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
                 component="div"
-                count={data.length}
+                count={filteredData.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
