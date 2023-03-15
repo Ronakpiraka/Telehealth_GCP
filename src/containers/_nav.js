@@ -105,7 +105,7 @@ const _nav =  [
     icon: <HistoryIcon style={{marginRight:'16px'}}/>,
     badge: {
       color: 'success',
-      text: '+5',
+      text: sessionStorage.getItem('appointmentsToday'),
     }
   },
   {
