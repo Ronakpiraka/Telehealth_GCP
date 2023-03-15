@@ -197,18 +197,20 @@ export default function EmailNotify() {
           else
             {return(<CBadge color="success" className="mfs-auto" fontSize='22px' align='center'>Booked</CBadge>)} }
 
-        const countAppointmentsToday = () => {
-          const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
-          const appointmentsToday = sortedData.filter(row => row.App_Date === today);
-          const count = appointmentsToday.length;
-          sessionStorage.setItem('appointmentsToday', count);
-          return count;
-        }
+            const countAppointmentsTodayAndTotal = () => {
+              const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
+              const appointmentsToday = sortedData.filter(row => row.App_Date === today);
+              const countToday = appointmentsToday.length;
+              const countTotal = filteredData.length;
+              sessionStorage.setItem('appointmentsToday', countToday);
+              sessionStorage.setItem('appointmentsTotal', countTotal);
+              return countToday;
+            }
 
     return (
       <div>
-        <h2 className="title"><strong>Patient Appointment History</strong></h2>
-        <h4><b>Appointments Today: {countAppointmentsToday()}</b></h4>
+        <h2 className="title" alignItems="center"><strong>Patient Appointment History</strong></h2>
+        <h4><b>Appointments Today: {countAppointmentsTodayAndTotal()}</b></h4>
           <Paper style={{ width: '100%', overflow: 'hidden' }}>
             <div className={classes.search}>
               <div className={classes.searchIcon}>

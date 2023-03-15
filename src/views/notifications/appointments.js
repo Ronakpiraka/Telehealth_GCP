@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Layout, Menu, Input } from 'antd';
-// import './PatientInfo.css';
+
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -59,12 +59,12 @@ export default function Appointment() {
       },
     },
     small: {
-      width: theme.spacing(4),
-      height: theme.spacing(4),
+      width: theme.spacing(3),
+      height: theme.spacing(3),
     },
     large: {
-      width: theme.spacing(8),
-      height: theme.spacing(8),
+      width: theme.spacing(6),
+      height: theme.spacing(6),
     },
     search: {
       position: 'relative',
@@ -73,7 +73,7 @@ export default function Appointment() {
       '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.5),
       },
-      margin: '5px',
+      margin: '10px',
       float: 'right',
       boxShadow: '-4px 8px 20px 0px grey',
       width: '80%',
@@ -310,9 +310,10 @@ export default function Appointment() {
       </CModal>
 
         <CRow>
-        <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><b><ArrowCircleLeftIcon/></b></CCol>
-        <CCol sm="10" md="10" lg="10" ><h2 className="title"><strong>Book Appointment</strong></h2><br/></CCol>
-        <CCol sm="1" md="1" lg="1" onClick={handleGoAhead}><b><ArrowCircleRightIcon/></b></CCol>
+        {/* <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><b><ArrowCircleLeftIcon/></b></CCol>
+        <CCol sm="10" md="10" lg="10" ><h1 className="title"><strong>Book Appointment</strong></h1><br/></CCol>
+        <CCol sm="1" md="1" lg="1" onClick={handleGoAhead}><b><ArrowCircleRightIcon/></b></CCol> */}
+        <CCol><h1 className="title"><strong>Book Appointment</strong></h1><br/></CCol>
         </CRow>
         <CRow>
         {decryptedName && (
@@ -340,9 +341,7 @@ export default function Appointment() {
                 <FormControl sx={{ minWidth: 400}}>
                 <InputLabel labelid="demo-simple-select-label">Patient Name</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Patient Name" onChange={handleChange}>
-                {uniquePatientName.map((row,index)=>{
-                  return( <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem>)
-                })} 
+                {uniquePatientName.map((row,index)=>{ return( <MenuItem value={row.Patient_name}>{row.Patient_name}</MenuItem> )})} 
                 </Select>
                 </FormControl>  
             </CCol>

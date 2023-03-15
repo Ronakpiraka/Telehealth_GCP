@@ -60,6 +60,7 @@ export default function RadioButtonsGroup() {
       // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
       return message;
     };
+
     const handleDeviceIdInputChange = (e) => {
       setDeviceId(e.target.value);
       if (e.target.value === "") {
@@ -103,11 +104,11 @@ export default function RadioButtonsGroup() {
       assignNewDeviceIdAndShare();
       // console.log(newDeviceId);
     };
-    const handleGoBack = () => {
-      const condition_name = localStorage.getItem('condition_name');
-      var url = `/Practitionerbookings?condition=${condition_name}`;  
-      history.push(`${url}`);
-    };
+    // const handleGoBack = () => {
+    //   const condition_name = localStorage.getItem('condition_name');
+    //   var url = `/Practitionerbookings?condition=${condition_name}`;  
+    //   history.push(`${url}`);
+    // };
 
     // const handleGoAhead = () => {
     //   var url = `/bookAppointment`; //to Ope's end
@@ -176,8 +177,8 @@ export default function RadioButtonsGroup() {
 
     const redirecttoEmail= () => {
       senddata()
-      // var url = `/notifications/email`;
-      var url = `/bookAppointment`;
+      var url = `/notifications/email`;
+      // var url = `/bookAppointment`;
       history.push(`${url}`);
       localStorage.clear();
       // localStorage.removeItem('Patient_name');
@@ -229,9 +230,10 @@ export default function RadioButtonsGroup() {
     <div> 
     
     <CRow>
-      <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon /></CCol>
-      <CCol sm="10" md="10" lg="10"><h1 className="title"><strong>Consent Form</strong></h1></CCol>
+      {/* <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon /></CCol>
+      <CCol sm="10" md="10" lg="10"><h1 className="title"><strong>Consent Form</strong></h1></CCol> */}
       {/* <CCol sm="1" md="1" lg="1"onClick={handleGoAhead}>< ArrowCircleRightIcon/></CCol> */}
+      <CCol><h1 className="title"><strong>Consent Form</strong></h1></CCol>
     </CRow>
     
     {/* <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1>  */}
@@ -243,12 +245,7 @@ export default function RadioButtonsGroup() {
       </Tooltip>
     </div>
     <FormControl>
-    <RadioGroup
-      aria-labelledby="demo-radio-buttons-group-label"
-      name="radio-buttons-group"
-      value={connectedCareValue}
-      onChange={handleConnectedCareChange}
-    >
+    <RadioGroup aria-labelledby="demo-radio-buttons-group-label" name="radio-buttons-group" value={connectedCareValue} onChange={handleConnectedCareChange}>
       <CRow>
         <CCol></CCol>
         <CRow><CCol><FormControlLabel value="Yes" control={<Radio />} label="Yes" /></CCol></CRow><br/><br/>
@@ -276,7 +273,9 @@ export default function RadioButtonsGroup() {
         
           <CRow>
             <CCol></CCol>
-            <CRow><CCol style={{color:"red"}}>Please enter your device ID : <input type="text" className="input-box" onChange={handleDeviceIdInputChange} value={deviceId} /> </CCol></CRow>
+            <CRow><CCol style={{color:"red"}}>Please enter your device ID : <input type="text" className="input-box" onChange={handleDeviceIdInputChange} value={deviceId} /></CCol></CRow>
+            {/* <CCol></CCol>
+            <CRow><CCol style={{color:"red"}}><button onClick={handleVerification}>Verify</button></CCol></CRow> */}
           </CRow>
         
       )}
