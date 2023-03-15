@@ -93,10 +93,10 @@ const _nav =  [
     name: 'Book Appointment',
     to: '/bookAppointment',
     icon: 'cil-bell',
-    badge: {
-      color: 'success',
-      text: '+5',
-    }
+    // badge: {
+    //   color: 'success',
+    //   text: '+5',
+    // }
   },
   {
     _tag: 'CSidebarNavItem',

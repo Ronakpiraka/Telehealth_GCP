@@ -274,9 +274,10 @@ export default function PractitionerBooking() {
       </CModal>
       
       <CRow>
-      <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon/></CCol>
+      {/* <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon/></CCol>
       <CCol sm="10" md="10" lg="10"><h1 className="title"><strong>Practitioner Information</strong></h1></CCol>
-      <CCol sm="1" md="1" lg="1" alignItems="right" onClick={handleGoAhead}><ArrowCircleRightIcon/></CCol>
+      <CCol sm="1" md="1" lg="1" alignItems="right" onClick={handleGoAhead}><ArrowCircleRightIcon/></CCol> */}
+      <CCol><h1 className="title"><strong>Practitioner Information</strong></h1></CCol>
       </CRow>
       <br/><br/>
       
@@ -354,29 +355,19 @@ export default function PractitionerBooking() {
       {finalprac.map((row, index) => {
         return (
           <CCol sm="6" md="6" lg="4">
-
           <CCardGroup className="mb-4">
-            <CWidgetProgressIcon
-              color="gradient-success"
-              inverse
-              text={row.practitioner_email}
-              style={{ color: 'black' }}
-             
-            >
+            <CWidgetProgressIcon color="gradient-success" inverse text={row.practitioner_email} style={{ color: 'black' }} >
               <CIcon name="cil-userFollow" style={{ float: 'left' }} height="36" />
               <p style={{ fontSize: '75%', textAlign: 'left', marginLeft: "50px" }}>{row.Practitioner_name}</p>
               <p style={{ fontSize: '50%', textAlign: 'left' }}>{row.Practitioner_Speciality}</p>
-              <p>
-                <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { 
+              <p><button type="button" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', padding: '1%', fontWeight: 'bolder' }} onClick={(e) => { 
                 redirecttoConsent(e,row.Patient_name, row.Practitioner_name, row.guardian_email) 
                 localStorage.setItem('practitioner_name', row.Practitioner_name);
                 localStorage.setItem('practitioner_id',row.Practitioner_id);
                 localStorage.setItem('practitioner_name',row.Practitioner_name);
                 localStorage.setItem('practitioner_speciality',row.Practitioner_Speciality);
                 localStorage.setItem('practitioner_email',row.practitioner_email);
-              }
-                }>Select
-                </button>
+              }}>Select</button>
               </p>
             </CWidgetProgressIcon>
           </CCardGroup>
