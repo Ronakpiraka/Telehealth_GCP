@@ -30,9 +30,9 @@ export default function RadioButtonsGroup() {
     const [modal, setModal] = useState(false);
     const [consentValue, setConsentValue] = useState('Do not');
     const [connectedCareValue, setConnectedCareValue] = useState('No');
-    const [deviceIdValue, setDeviceIdValue] = useState();
+    const [deviceIdValue, setDeviceIdValue] = useState('No');
     const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
-    const [deviceId, setDeviceId] = useState();
+    const [deviceId, setDeviceId] = useState(0);
     const [showModal, setShowModal] = useState(false);
     
     const [submitted, setSubmitted] = useState(false);
@@ -55,7 +55,7 @@ export default function RadioButtonsGroup() {
     };
     const assignNewDeviceIdAndShare = () => {
       const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
-      const message = `Your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+      const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
       const value = localStorage.setItem('deviceid',newDeviceId)
       // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
       return message;
@@ -72,15 +72,11 @@ export default function RadioButtonsGroup() {
 
 
     const handleCloseModal = () => {
-      if(connectedCareValue === "Yes" && deviceIdValue=== "Yes" && deviceId.length !== 14){
+      if(connectedCareValue === "Yes" && deviceIdValue === "Yes" && deviceId.length !== 14){
             alert("please enter a valid device id");
             setDeviceId("");
-          }
-          else{setShowModal(!showModal);}
-
-      //   else{setShowModal(!showModal);}}
-
-      // else{setShowModal(!showModal);}
+        }
+        else{setShowModal(!showModal);}
     };
 
     const handleSubmit = () => {
@@ -96,11 +92,13 @@ export default function RadioButtonsGroup() {
     };
 
     const handleYesChange = () => {
+      setDeviceIdValue('Yes')
       setDeviceIdPromptOpen(true);
       localStorage.setItem('deviceid',"No ID provided")
     };
 
     const handleNoChange = () => {
+      setDeviceIdValue('No')
       setDeviceIdPromptOpen(false);
       assignNewDeviceIdAndShare();
       // console.log(newDeviceId);
@@ -239,7 +237,7 @@ export default function RadioButtonsGroup() {
     {/* <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1>  */}
     
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <h4>Are you interested in Connected Care?</h4>
+      <h4 style={{fontFamily:'sans-serif'}}>Are you interested in Connected Care?</h4>
       <Tooltip title="Remote care vital tracking">
         <IconButton aria-label="success"><InfoIcon/></IconButton>
       </Tooltip>
@@ -259,9 +257,9 @@ export default function RadioButtonsGroup() {
     </RadioGroup>
     <br/>
     {connectedCareValue == "Yes" && (
-      <div>
+    <div>
       
-    <h4>Do you have a Medical device?</h4><br/>
+    <h4 style={{fontFamily:'sans-serif'}}>Do you have a Medical device?</h4><br/>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="device-id-group"
@@ -272,7 +270,7 @@ export default function RadioButtonsGroup() {
         <CCol></CCol>
         <CRow><CCol><FormControlLabel value="Yes" control={<Radio />} label="Yes" /></CCol></CRow><br/><br/>
         <CCol></CCol>
-        <CRow><CCol><FormControlLabel value="No" control={<Radio />} label="No" /></CCol></CRow></CRow>
+        <CRow><CCol><FormControlLabel value="No" control={<Radio />} label="No" /></CCol></CRow></CRow><br/>
       </RadioGroup>
       {deviceIdPromptOpen && (
         
@@ -284,16 +282,14 @@ export default function RadioButtonsGroup() {
       )}
       {!deviceIdPromptOpen && (
         <CRow>
-          <CCol></CCol>
-          <CRow><CCol><h6>We are assigning you a new id and will send the same over an email.</h6></CCol> </CRow><br/>
-          <CCol></CCol>
-          <CRow><CCol><h6>{assignNewDeviceIdAndShare()}</h6></CCol></CRow>
+          <CRow><CCol><h5 style={{fontFamily:'sans-serif', color:'red'}}>We are assigning you a new id and {assignNewDeviceIdAndShare()}</h5></CCol></CRow><br/>
         </CRow>
       )}
     </div>
     )}
+    <br/>
 
-    <h4>Consent</h4><br/>
+    <h4 style={{fontFamily:'sans-serif'}}>Consent</h4>
     <RadioGroup
       aria-labelledby="demo-radio-buttons-group-label"
       name="radio-buttons-group"
@@ -307,7 +303,7 @@ export default function RadioButtonsGroup() {
       </RadioGroup>
       <br/>
       <form className="signature-pad-form">
-      <h4>Signature</h4><br/>
+      <h4 style={{fontFamily:'sans-serif'}}>Signature</h4>
       <CRow><CCol></CCol><CRow><CCol><Signature/></CCol></CRow></CRow>
       </form>  
       </FormControl><br/><br/>
