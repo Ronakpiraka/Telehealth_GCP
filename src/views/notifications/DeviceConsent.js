@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import Radio from "@mui/material/Radio";
 import { Modal, Button } from "react-bootstrap";
 import "../records/patients.css";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Tooltip, IconButton } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
+import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import {
   CModal,
@@ -96,7 +96,7 @@ export default function RadioButtonsGroup() {
       alert("please enter a valid device id");
       setDeviceId("");
     } else {
-      setShowModal(!showModal);
+      alert("entered value is a valid device id");
     }
   };
 
@@ -121,18 +121,7 @@ export default function RadioButtonsGroup() {
     setDeviceIdValue("No");
     setDeviceIdPromptOpen(false);
     assignNewDeviceIdAndShare();
-    // console.log(newDeviceId);
   };
-  // const handleGoBack = () => {
-  //   const condition_name = localStorage.getItem('condition_name');
-  //   var url = `/Practitionerbookings?condition=${condition_name}`;
-  //   history.push(`${url}`);
-  // };
-
-  // const handleGoAhead = () => {
-  //   var url = `/bookAppointment`; //to Ope's end
-  //   history.push(`${url}`);
-  // };
 
   const handleConsentChange = (event) => {
     const value = event.target.value;
@@ -230,187 +219,162 @@ export default function RadioButtonsGroup() {
 
   return (
     <>
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <b>Preview Appointment Details</b>
-          </Modal.Title>
-        </Modal.Header>
-        {/* message = consentstatus() */}
-        <Modal.Body>
-          <b>Patient Name :</b> {localStorage.getItem("Patient_name")}
-          <br />
-          <br />
-          <b>Medical Record Number :</b> {localStorage.getItem("Patient_MRN")}
-          <br />
-          <br />
-          <b>Condition Name:</b> {localStorage.getItem("condition_name")}
-          <br />
-          <br />
-          <b>Provider Name:</b> {localStorage.getItem("provider_name")}
-          <br />
-          <br />
-          <b>Practitioner Name:</b> {localStorage.getItem("practitioner_name")}
-          <br />
-          <br />
-          <b>Selected Date :</b> {localStorage.getItem("date")}
-          <br />
-          <br />
-          <b>Selected Time :</b> {localStorage.getItem("timeslot")}
-          <br />
-          <br />
-          <b>Device ID information: </b> {localStorage.getItem("deviceid")}
-          <br />
-          <br />
-          <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}{" "}
-          <br />
-          <br />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Submit data
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal align="center" show={submitted} onHide={handleShowSubmittedModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Appointment Request</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your appointment has been booked successfully.</p>
-          <CheckCircleIcon style={{ color: "green", fontSize: "100px" }} />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            alignItems="center"
-            variant="primary"
-            onClick={handleShowSubmittedModal}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
       <div>
-        {/* <CRow> */}
-        {/* <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon /></CCol>
-      <CCol sm="10" md="10" lg="10"><h1 className="title"><strong>Consent Form</strong></h1></CCol> */}
-        {/* <CCol sm="1" md="1" lg="1"onClick={handleGoAhead}>< ArrowCircleRightIcon/></CCol> */}
-        {/* <CCol><h1 className="title"><strong>Consent Form</strong></h1></CCol> */}
-        {/* </CRow> */}
-
-        {/* <h1 id="demo-radio-buttons-group-label" align="center">Consent Form</h1>  */}
-
-        {/* <div style={{ display: 'flex', alignItems: 'center' }}>
-      <h4 style={{fontFamily:'sans-serif'}}>Are you interested in Connected Care?</h4>
-      <Tooltip title="Remote care vital tracking">
-        <IconButton aria-label="success"><InfoIcon/></IconButton>
-      </Tooltip>
-    </div>
-    <FormControl>
-    <RadioGroup aria-labelledby="demo-radio-buttons-group-label" name="radio-buttons-group" value={connectedCareValue} onChange={handleConnectedCareChange}>
-      <CRow>
-        <CCol></CCol>
-        <CRow><CCol><FormControlLabel value="Yes" control={<Radio />} label="Yes" /></CCol></CRow><br/><br/>
-        <CCol></CCol>
-        <CRow><CCol><FormControlLabel value="No" control={<Radio />} label="No" /></CCol></CRow></CRow>
-    </RadioGroup>
-    <br/>
-    {connectedCareValue == "Yes" && (
-    <div>
-      
-    <h4 style={{fontFamily:'sans-serif'}}>Do you have a Medical device?</h4><br/>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        name="device-id-group"
-        value={deviceIdValue}
-        onChange={(e) => (e.target.value === 'Yes' ? handleYesChange() : handleNoChange())}
-      >
-        <CRow>
-        <CCol></CCol>
-        <CRow><CCol><FormControlLabel value="Yes" control={<Radio />} label="Yes" /></CCol></CRow><br/><br/>
-        <CCol></CCol>
-        <CRow><CCol><FormControlLabel value="No" control={<Radio />} label="No" /></CCol></CRow></CRow><br/>
-      </RadioGroup>
-      {deviceIdPromptOpen && (
-        
-          <CRow>
-            <CCol></CCol>
-            <CRow><CCol style={{color:"red"}}>Please enter your device ID : <input type="text" className="input-box" onChange={handleDeviceIdInputChange} value={deviceId} /></CCol></CRow>
-            {/* <CCol></CCol>
-            <CRow><CCol style={{color:"red"}}><button onClick={handleVerification}>Verify</button></CCol></CRow> */}
-        {/* </CRow>
-        
-      )}
-      {!deviceIdPromptOpen && (
-        <CRow>
-          <CRow><CCol><h5 style={{fontFamily:'sans-serif', color:'red'}}>We are assigning you a new id and {assignNewDeviceIdAndShare()}</h5></CCol></CRow><br/>
-        </CRow>
-      )}
-    </div>
-    )}
-    <br/>  */}
-        {/* <h4 style={{fontFamily:'sans-serif'}}>Consent</h4> */}
-        <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          name="radio-buttons-group"
-          value={consentValue}
-          onChange={handleConsentChange}
-        >
-          {" "}
-          <CRow>
-            <CCol></CCol>
+        {/* <div style={{ display: "flex", alignItems: "center" }}>
+          <h4 style={{ fontFamily: "sans-serif" }}>
+            Are you interested in Connected Care?
+          </h4>
+          <Tooltip title="Remote care vital tracking">
+            <InfoIcon />
+          </Tooltip>
+        </div> */}
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            name="radio-buttons-group"
+            value={connectedCareValue}
+            onclick={handleConnectedCareChange}
+          >
             <CRow>
-              <CCol>
-                <FormControlLabel
-                  value="Do"
-                  control={<Radio />}
-                  label="I give my consent to share my EHR records with practitioner as well as provider ."
-                />
-              </CCol>
+              <CCol></CCol>
+              <CRow>
+                <CCol>
+                  <FormControlLabel
+                    value="Yes"
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                </CCol>
+              </CRow>
+              <br />
+              <br />
+              <CCol></CCol>
+              <CRow>
+                <CCol>
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
+                </CCol>
+              </CRow>
             </CRow>
-            <br />
-            <br />
-            <CCol></CCol>
-            <CRow>
-              <CCol>
-                <FormControlLabel
-                  value="Do partial"
-                  control={<Radio />}
-                  label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
-                />
-              </CCol>
-            </CRow>
-            <br />
-            <br />
-            <CCol></CCol>
-            <CRow>
-              <CCol>
-                <FormControlLabel
-                  value="Do not"
-                  control={<Radio defaultValue="true" />}
-                  label="I will share my records with practitioner during the visit."
-                />
-              </CCol>
-            </CRow>
-          </CRow>
-        </RadioGroup>
-        <br />
-        {/* <form className="signature-pad-form">
-      <h4 style={{fontFamily:'sans-serif'}}>Signature</h4>
-      <CRow><CCol></CCol><CRow><CCol><Signature/></CCol></CRow></CRow>
-      </form>   */}
-        {/* </FormControl><br/><br/> */}
-
-        <div align="center">
-          <button class="btn btn-primary" onClick={handleCloseModal}>
-            Preview
-          </button>
-        </div>
-      </div>
-    </>
+          </RadioGroup>
+          <br />
+          </FormControl>
+          </div>
+          </>
+      //    {connectedCareValue == "Yes" && (
+      //       <div>
+      //         <h4 style={{ fontFamily: "sans-serif" }}>
+      //           Do you have a Medical device?
+      //         </h4>
+      //         <RadioGroup
+      //           aria-labelledby="demo-radio-buttons-group-label"
+      //           name="device-id-group"
+      //           value={deviceIdValue}
+      //           onChange={(e) =>
+      //             e.target.value === "Yes"
+      //               ? handleYesChange()
+      //               : handleNoChange()
+      //           }
+      //         >
+      //           <CRow>
+      //             <CCol></CCol>
+      //             <CRow>
+      //               <CCol>
+      //                 <FormControlLabel
+      //                   value="Yes"
+      //                   control={<Radio />}
+      //                   label="Yes"
+      //                 />
+      //               </CCol>
+      //             </CRow>
+      //             <CCol></CCol>
+      //             <CRow>
+      //               <CCol>
+      //                 <FormControlLabel
+      //                   value="No"
+      //                   control={<Radio />}
+      //                   label="No"
+      //                 />
+      //               </CCol>
+      //             </CRow>
+      //           </CRow>
+      //         </RadioGroup>
+      //         {deviceIdPromptOpen && (
+      //           <CRow>
+      //             <CCol></CCol>
+      //             <CRow>
+      //               <CCol style={{ color: "red" }}>
+      //                 Please enter your device ID :{" "}
+      //                 <input
+      //                   type="text"
+      //                   className="input-box"
+      //                   onChange={handleDeviceIdInputChange}
+      //                   value={deviceId}
+      //                   style={{width : '400px'}}
+      //                 />
+      //               </CCol>
+      //             </CRow>
+      //           </CRow>
+      //         )}
+      //         {!deviceIdPromptOpen && (
+      //           <CRow>
+      //             <CRow>
+      //               <CCol>
+      //                 <h5 style={{ fontFamily: "sans-serif", color: "red" }}>
+      //                   We are assigning you a new id and{" "}
+      //                   {assignNewDeviceIdAndShare()}
+      //                 </h5>
+      //               </CCol>
+      //             </CRow>
+      //           </CRow>
+      //         )}
+      //       </div>
+            
+      //     )} 
+      //   </FormControl>
+      //    <div>
+      //     <button
+      //       id="device-id-check"
+      //       class="btn btn-primary"
+      //       onClick={handleCloseModal}
+      //     >
+      //       Preview
+      //     </button>
+      //   </div>
+      // </div> 
+    
   );
 }
+
+// import { useRef, useEffect } from "react";
+
+// export default function InputFocus() {
+//   const inputRef = useRef();
+//   const buttonRef = useRef();
+//   const inputRef2 = useRef();
+
+//   useEffect(() => {
+//     buttonRef.current.focus();
+//   }, []);
+
+//   const handleClick = () => {
+//     inputRef2.current.click();
+//   };
+
+//   const handleClick2 = () => {
+//     console.log("BUTTON 2 Clicked");
+//   };
+
+//   return (
+//     <div>
+//       <input ref={inputRef} type="text" />
+//       <button ref={buttonRef} onClick={handleClick}>
+//         Submit
+//       </button>
+//       <br />
+//       <br />
+//       <button ref={inputRef2} onClick={handleClick2}>
+//         2nd button
+//       </button>
+//     </div>
+//   );
+// }

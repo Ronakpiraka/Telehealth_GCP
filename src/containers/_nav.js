@@ -100,7 +100,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Appointment History',
+    name: 'Scheduled Appointments',
     to: '/notifications/email',
     icon: <HistoryIcon style={{marginRight:'16px'}}/>,
     badge: {
