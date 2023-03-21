@@ -99,14 +99,52 @@ const _nav =  [
     // }
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: 'Scheduled Appointments',
-    to: '/notifications/email',
+    to: '/notifications',
     icon: <HistoryIcon style={{marginRight:'16px'}}/>,
-    badge: {
-      color: 'success',
-      text: sessionStorage.getItem('appointmentsToday'),
-    }
+    // badge: {
+    //   color: 'success',
+    //   text: sessionStorage.getItem('appointmentsToday'),
+    // },
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'All Interactions',
+        to: '/notifications/email',
+        badge: {
+          color: 'info',
+          text: sessionStorage.getItem('appointmentsTodtal'),
+        },
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Past Interactions',
+        to: '/notifications/past',
+        badge: {
+          color: 'danger',
+          text: sessionStorage.getItem('appointmentspast'),
+        },
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: "Today's Engagements",
+        to: '/notifications/today',
+        badge: {
+          color: 'success',
+          text: sessionStorage.getItem('appointmentsToday'),
+        },
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Upcoming Appointments',
+        to: '/notifications/upcoming',
+        badge: {
+          color: 'warning',
+          text: sessionStorage.getItem('appointmentsupcoming'),
+        },
+      },
+    ]
   },
   {
     _tag: 'CSidebarNavItem',
