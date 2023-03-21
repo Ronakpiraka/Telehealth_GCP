@@ -88,16 +88,16 @@ export default function RadioButtonsGroup() {
   };
 
   const handleCloseModal = () => {
-    if (
-      connectedCareValue === "Yes" &&
-      deviceIdValue === "Yes" &&
-      deviceId.length !== 14
-    ) {
-      alert("please enter a valid device id");
-      setDeviceId("");
-    } else {
+    // if (
+    //   connectedCareValue === "Yes" &&
+    //   deviceIdValue === "Yes" &&
+    //   deviceId.length !== 14
+    // ) {
+    //   alert("please enter a valid device id");
+    //   setDeviceId("");
+    // } else {
       setShowModal(!showModal);
-    }
+    // }
   };
 
   const handleSubmit = () => {
@@ -259,9 +259,9 @@ export default function RadioButtonsGroup() {
           <b>Selected Time :</b> {localStorage.getItem("timeslot")}
           <br />
           <br />
-          <b>Device ID information: </b> {localStorage.getItem("deviceid")}
+          {/* <b>Device ID information: </b> {localStorage.getItem("deviceid")}
           <br />
-          <br />
+          <br /> */}
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}{" "}
           <br />
           <br />
@@ -399,10 +399,10 @@ export default function RadioButtonsGroup() {
           </CRow>
         </RadioGroup>
         <br />
-        {/* <form className="signature-pad-form">
+        <form className="signature-pad-form">
       <h4 style={{fontFamily:'sans-serif'}}>Signature</h4>
       <CRow><CCol></CCol><CRow><CCol><Signature/></CCol></CRow></CRow>
-      </form>   */}
+      </form>  
         {/* </FormControl><br/><br/> */}
 
         <div align="center">

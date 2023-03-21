@@ -394,8 +394,7 @@ export default function PractitionerBooking() {
           Please select the Provider and Available slots
         </CModalHeader>
         <CModalBody>
-          Choose the Hospital and Available slots before selecting the
-          Practitioner...
+          Choose the Hospital and Available slots before selecting the Practitioner...
         </CModalBody>
         <CModalFooter>
           <CButton color="primary" onClick={toggle}>
