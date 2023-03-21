@@ -44,7 +44,7 @@ const routes = [
   { path: '/reports/PatientDemography', name: 'PatientDemography', component: PatientDemography, exact: true },
   { path: '/reports/PractitionerInsights', name: 'PractitionerInsights', component: PractitionerInsights, exact: true },
   { path: '/reports/PatientCare', name: 'PatientCare', component: PatientCare, exact: true },
-  { path: '/notifications/email', name: 'Scheduled Appointments', component: EmailNotification, exact: true },
+  { path: '/notifications/email', name: 'All Appointments', component: EmailNotification, exact: true },
   { path: '/notifications/past', name: 'Appointment History', component: EmailNotificationspast, exact: true },
   { path: '/notifications/today', name: "Today's Appointments", component: EmailNotificationstoday, exact: true },
   { path: '/notifications/upcoming', name: 'Upcoming Appointments', component: EmailNotificationsupcoming, exact: true },

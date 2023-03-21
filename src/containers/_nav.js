@@ -122,7 +122,7 @@ const _nav =  [
         name: 'Appointment History',
         to: '/notifications/past',
         badge: {
-          color: 'danger',
+          color: 'secondary',
           text: sessionStorage.getItem('appointmentpast'),
         },
       },

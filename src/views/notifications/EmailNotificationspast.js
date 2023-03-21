@@ -304,18 +304,18 @@ export default function EmailNotify() {
       <CRow>
         <CCol><h4><b>Past Appointments Count: {countAppointmentsTodayAndTotal()}</b></h4></CCol>
       </CRow>
-      <CRow >
+      {/* <CRow >
         <CCol xs="4" className="text-left"><button type="button" class="btn btn-primary" onClick={handleButtonClick1}>Go to All appointment</button></CCol>
         <CCol xs="4" className="text-center"><button type="button" class="btn btn-success" onClick={handleButtonClick2}>Go to today's  appointment</button></CCol>
         <CCol xs="4" className="text-right"><button type="button" class="btn btn-warning" onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
-      </CRow><br/>
+      </CRow><br/> */}
       <Paper style={{ width: "100%", overflow: "hidden" }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
           </div>
           <InputBase
-            placeholder="Search by Code..."
+            placeholder="Search..."
             classes={{
               root: classes.inputRoot,
               input: classes.inputInput,
@@ -343,7 +343,7 @@ export default function EmailNotify() {
                   <b>Practitioner Name</b>
                 </TableCell>
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
-                  <b>Booked Date and Time</b>
+                  <b>Appointment Date and Time</b>
                 </TableCell>
                 <TableCell style={{ width: "10%", textAlign: "center" }}>
                   <b>Status</b>
