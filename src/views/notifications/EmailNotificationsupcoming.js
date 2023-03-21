@@ -228,10 +228,12 @@ return (
     <h2 className="title" alignItems="center"><strong>Upcoming Patient Appointments</strong></h2>
     <CRow>
       <CCol><h4><b>Upcoming Appointments: {countAppointmentsTodayAndTotal()}</b></h4></CCol>
-      <CCol><button onClick={handleButtonClick1}>Go to all appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick2}>Go to past  appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick3}>Go to today's Appointment</button></CCol>
     </CRow>
+    <CRow >
+      <CCol xs="4" className="text-left"><button type="button" class="btn btn-primary" onClick={handleButtonClick1}>Go to all appointment</button></CCol>
+      <CCol xs="4" className="text-center"><button type="button" class="btn btn-danger" onClick={handleButtonClick2}>Go to past  appointment</button></CCol>
+      <CCol xs="4" className="text-right"><button type="button" class="btn btn-success" onClick={handleButtonClick3}>Go to today's Appointment</button></CCol>
+    </CRow><br/>
     
       <Paper style={{ width: '100%', overflow: 'hidden' }}>
         <div className={classes.search}>

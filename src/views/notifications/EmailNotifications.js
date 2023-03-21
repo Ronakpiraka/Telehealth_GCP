@@ -211,12 +211,14 @@ return (
   <div>
     <h2 className="title" alignItems="center"><strong>All Appointments</strong></h2>
     
-    <CRow>
+    <CRow >
       <CCol><h4><b>Appointments Today: {countAppointmentsTodayAndTotal()}</b></h4></CCol>
-      <CCol><button onClick={handleButtonClick1}>Go to past appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick2}>Go to today's  appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
     </CRow>
+    <CRow >
+      <CCol xs="4" className="text-left"><button type="button" class="btn btn-danger" onClick={handleButtonClick1} >Go to past appointment</button></CCol>
+      <CCol xs="4" className="text-center"><button type="button" class="btn btn-success" onClick={handleButtonClick2}>Go to today's  appointment</button></CCol>
+      <CCol xs="4" className="text-right"><button type="button" class="btn btn-warning" onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
+    </CRow><br/>
       <Paper style={{ width: '100%', overflow: 'hidden' }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>

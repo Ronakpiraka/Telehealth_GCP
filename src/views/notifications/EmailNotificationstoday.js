@@ -225,13 +225,15 @@ export default function EmailNotify() {
 
 return (
   <div>
-    <h2 className="title" alignItems="center"><strong>Today's Patient Appointments</strong></h2>
+    <h2 className="title" alignItems="center"><strong>Today's Appointments</strong></h2>
     <CRow>
       <CCol><h4><b>Appointments Today: {countAppointmentsTodayAndTotal()}</b></h4></CCol>
-      <CCol><button onClick={handleButtonClick1}>Go to all appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick2}>Go to past  appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
     </CRow>
+    <CRow >
+      <CCol xs="4" className="text-left"><button type="button" class="btn btn-primary" onClick={handleButtonClick1}>Go to all appointment</button></CCol>
+      <CCol xs="4" className="text-center"><button type="button" class="btn btn-danger" onClick={handleButtonClick2}>Go to past  appointment</button></CCol>
+      <CCol xs="4" className="text-right"><button type="button" class="btn btn-warning" onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
+    </CRow><br/>
       <Paper style={{ width: '100%', overflow: 'hidden' }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>

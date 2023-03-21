@@ -212,10 +212,12 @@ export default function EmailNotify() {
     return 0;
   });
 
-  const today = new Date();
+  const today = new Date().toJSON().slice(0, 10);
+  console.log(today, "hehehehehe")
   const filteredData = sortedData.filter((row) => {
-    const appDate = new Date(row.App_Date);
-    return appDate < today || appDate.toDateString() === today.toDateString(); // only include appointments with today's date or later
+    const appDate = row.App_Date;
+    console.log(appDate, appDate < today)
+    return appDate < (today) ; // only include appointments with today's date or later
   });
 
   // const sendemail = (name, doctor,guardian_email,provider,provider_contact,prac_email) => {
@@ -300,13 +302,13 @@ export default function EmailNotify() {
         <strong>Appointments history</strong>
       </h2>
       <CRow>
-      <CCol><h4>
-        <b>Past Appointments Count: {countAppointmentsTodayAndTotal()}</b>
-      </h4></CCol>
-      <CCol><button onClick={handleButtonClick1}>Go to All appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick2}>Go to today's  appointment</button></CCol>
-      <CCol><button onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
+        <CCol><h4><b>Past Appointments Count: {countAppointmentsTodayAndTotal()}</b></h4></CCol>
       </CRow>
+      <CRow >
+        <CCol xs="4" className="text-left"><button type="button" class="btn btn-primary" onClick={handleButtonClick1}>Go to All appointment</button></CCol>
+        <CCol xs="4" className="text-center"><button type="button" class="btn btn-success" onClick={handleButtonClick2}>Go to today's  appointment</button></CCol>
+        <CCol xs="4" className="text-right"><button type="button" class="btn btn-warning" onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
+      </CRow><br/>
       <Paper style={{ width: "100%", overflow: "hidden" }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>

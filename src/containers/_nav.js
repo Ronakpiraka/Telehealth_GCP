@@ -100,7 +100,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'Scheduled Appointments',
+    name: 'Appointments',
     to: '/notifications',
     icon: <HistoryIcon style={{marginRight:'16px'}}/>,
     // badge: {
@@ -110,25 +110,25 @@ const _nav =  [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'All Interactions',
+        name: 'All Appointments',
         to: '/notifications/email',
         badge: {
-          color: 'info',
-          text: sessionStorage.getItem('appointmentsTodtal'),
+          color: 'primary',
+          text: sessionStorage.getItem('appointmentsTotal'),
         },
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Past Interactions',
+        name: 'Appointment History',
         to: '/notifications/past',
         badge: {
           color: 'danger',
-          text: sessionStorage.getItem('appointmentspast'),
+          text: sessionStorage.getItem('appointmentpast'),
         },
       },
       {
         _tag: 'CSidebarNavItem',
-        name: "Today's Engagements",
+        name: "Today's Appointments",
         to: '/notifications/today',
         badge: {
           color: 'success',
