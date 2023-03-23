@@ -16,6 +16,7 @@ const PatientCare = React.lazy(() => import('./views/reports/PatientCare'));
 const PatientDemography = React.lazy(() => import('./views/reports/PatientDemography'));
 const Device = React.lazy(() => import('./views/device/Device'));
 const Notification = React.lazy(() => import('./views/notifications/calendar.jsx'));
+const CalendarSchedule = React.lazy(() => import('./views/notifications/CalenderSchedule'));
 const AmbulanceService = React.lazy(() => import('./views/services/AmbulanceService'));
 const AmbulanceInform = React.lazy(() => import('./views/services/AmbulanceInform'));
 const Ambulancedetails = React.lazy(() => import('./views/services/AmbulanceDetails'));
@@ -36,6 +37,7 @@ const routes = [
   { path: '/device/devices', name: 'Devices', component: Device, exact: true },
   { path: '/bookAppointment', name: 'Appointment Booking', component: Appointment, exact: true },
   { path: '/Practitionerbookings', name: 'Appointment Booking / Practitioner Booking', component: Practitionerbookings, exact: true },
+  { path: '/notifications/CalenderSchedule', name:'CalenderSchedule', component: CalendarSchedule, exact: true },
   { path: '/reports/ProviderInsights', name: 'ProviderInsights', component: ProviderInsights, exact: true },
   { path: '/reports/PractitionerEngagements', name: 'PractitionerEngagements', component: PractitionerEngagements, exact: true },
   { path: '/reports/PatientDemography', name: 'PatientDemography', component: PatientDemography, exact: true },
@@ -43,6 +45,7 @@ const routes = [
   { path: '/reports/PatientCare', name: 'PatientCare', component: PatientCare, exact: true },
   { path: '/notifications/email', name: 'Scheduled Appointments', component: EmailNotification, exact: true },
   { path: '/notifications', name: '', component: Notification, exact: true },
+
   { path: '/notifications/Consent', name: 'Appointment Booking / Consent', component: Consent , exact: true },
   { path: '/services/ambulance', name: 'AmbulanceService', component: AmbulanceService, exact: true },
   { path: '/services/ambulanceinfo', name: 'AmbulanceInfo', component: AmbulanceInform, exact: true },
