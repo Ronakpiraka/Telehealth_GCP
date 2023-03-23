@@ -171,10 +171,10 @@ export default function EmailNotify() {
     const dateA = new Date(a.App_Date);
     const dateB = new Date(b.App_Date);
     if (dateA < dateB) {
-      return 1;
+      return -1;
     }
     if (dateA > dateB) {
-      return -1;
+      return 1;
     }
 
     const slotA = slottiming(
@@ -200,7 +200,7 @@ export default function EmailNotify() {
       b.App_Date
     );
     if (slotA < slotB) {
-      return 1;
+      return -1;
     }
     if (slotA > slotB) {
       return 1;
@@ -208,11 +208,53 @@ export default function EmailNotify() {
     return 0;
   });
 
-  // const today = new Date();
-  // const filteredData = sortedData.filter((row) => {
-  //   const appDate = new Date(row.App_Date);
-  //   return appDate >= today || appDate.toDateString() === today.toDateString(); // only include appointments with today's date or later
-  // });
+  const today = new Date();
+  const filteredData = sortedData.filter((row) => {
+    const appDate = new Date(row.App_Date);
+    return appDate > today; // only include appointments with today's date or later
+  });
+
+  const sendemail = (
+    name,
+    doctor,
+    guardian_email,
+    provider,
+    provider_contact,
+    prac_email
+  ) => {
+    emailjs
+      .send(
+        "service_jo0oe0n",
+        "template_bqrgux5",
+        {
+          patient_name: name,
+          Doctor: doctor,
+          email: guardian_email,
+          provider_name: provider,
+          provider_number: provider_contact,
+          practitioner_email: prac_email,
+        },
+        "l7yMNcNURVQaRrVQG"
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+          toast.success("Meeting with Patient " + name + " is Scheduled");
+          senddata(
+            name,
+            doctor,
+            guardian_email,
+            provider,
+            provider_contact,
+            prac_email
+          );
+        },
+        function (error) {
+          console.log("FAILED...", error);
+          alert(error);
+        }
+      );
+  };
 
   const riskscore = (Appointment_Status) => {
     if (Appointment_Status === "Pending") {
@@ -253,46 +295,45 @@ export default function EmailNotify() {
   };
 
   const handleButtonClick1 = () => {
-    history.push("/notifications/past");
+    history.push("/notifications/email");
   };
 
   const handleButtonClick2 = () => {
-    history.push("/notifications/today");
+    history.push("/notifications/past");
   };
 
   const handleButtonClick3 = () => {
-    history.push("/notifications/upcoming");
+    history.push("/notifications/today");
   };
 
   const countAppointmentsTodayAndTotal = () => {
-    const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
-    const appointmentsToday = sortedData.filter(
-      (row) => row.App_Date === today
-    );
-    const countToday = appointmentsToday.length;
-    const countTotal = sortedData.length;
-    sessionStorage.setItem("appointmentsTotal", countTotal);
+    // const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
+    // const appointmentsToday = sortedData.filter(row => row.App_Date === today);
+    // const countToday = appointmentsToday.length;
+    const countTotal = filteredData.length;
+    // sessionStorage.setItem('appointmentsToday', countToday);
+    sessionStorage.setItem("appointmentsupcoming", countTotal);
     return countTotal;
   };
 
   return (
     <div>
       <h2 className="title" alignItems="center">
-        <strong>All Appointments</strong>
+        <strong>Upcoming Appointments</strong>
       </h2>
-
       <CRow>
         <CCol>
           <h4>
-            <b>Total Appointments: {countAppointmentsTodayAndTotal()}</b>
+            <b>Upcoming Appointments: {countAppointmentsTodayAndTotal()}</b>
           </h4>
         </CCol>
       </CRow>
       {/* <CRow >
-      <CCol xs="4" className="text-left"><button type="button" class="btn btn-danger" onClick={handleButtonClick1} >Go to past appointment</button></CCol>
-      <CCol xs="4" className="text-center"><button type="button" class="btn btn-success" onClick={handleButtonClick2}>Go to today's  appointment</button></CCol>
-      <CCol xs="4" className="text-right"><button type="button" class="btn btn-warning" onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
+      <CCol xs="4" className="text-left"><button type="button" class="btn btn-primary" onClick={handleButtonClick1}>Go to all appointment</button></CCol>
+      <CCol xs="4" className="text-center"><button type="button" class="btn btn-danger" onClick={handleButtonClick2}>Go to past  appointment</button></CCol>
+      <CCol xs="4" className="text-right"><button type="button" class="btn btn-success" onClick={handleButtonClick3}>Go to today's Appointment</button></CCol>
     </CRow><br/> */}
+
       <Paper style={{ width: "100%", overflow: "hidden" }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
@@ -336,7 +377,7 @@ export default function EmailNotify() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedData
+              {filteredData
                 .filter((val) => {
                   if (searchTerm === "") {
                     return val;
@@ -442,7 +483,7 @@ export default function EmailNotify() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
         component="div"
-        count={sortedData.length}
+        count={filteredData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

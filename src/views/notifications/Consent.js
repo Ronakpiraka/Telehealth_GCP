@@ -199,6 +199,7 @@ export default function RadioButtonsGroup() {
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue"),
       Patient_email: localStorage.getItem("Patient_email"),
+      Timing: localStorage.getItem("timeslot")
     };
 
     var requestOptions = {

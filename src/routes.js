@@ -21,6 +21,9 @@ const AmbulanceService = React.lazy(() => import('./views/services/AmbulanceServ
 const AmbulanceInform = React.lazy(() => import('./views/services/AmbulanceInform'));
 const Ambulancedetails = React.lazy(() => import('./views/services/AmbulanceDetails'));
 const EmailNotification = React.lazy(() => import('./views/notifications/EmailNotifications'));
+const EmailNotificationspast = React.lazy(()=> import('./views/notifications/EmailNotificationspast'));
+const EmailNotificationstoday = React.lazy(() => import('./views/notifications/EmailNotificationstoday'));
+const EmailNotificationsupcoming = React.lazy(()=> import('./views/notifications/EmailNotificationsupcoming'));
 const Appointment = React.lazy(()=> import('./views/notifications/appointments'));
 const Practitionerbookings = React.lazy(()=> import('./views/notifications/Practitionerbooking'));
 // const Modal = React.lazy(() => import('./views/records/modal.js'));
@@ -43,7 +46,10 @@ const routes = [
   { path: '/reports/PatientDemography', name: 'PatientDemography', component: PatientDemography, exact: true },
   { path: '/reports/PractitionerInsights', name: 'PractitionerInsights', component: PractitionerInsights, exact: true },
   { path: '/reports/PatientCare', name: 'PatientCare', component: PatientCare, exact: true },
-  { path: '/notifications/email', name: 'Scheduled Appointments', component: EmailNotification, exact: true },
+  { path: '/notifications/email', name: 'All Appointments', component: EmailNotification, exact: true },
+  { path: '/notifications/past', name: 'Appointment History', component: EmailNotificationspast, exact: true },
+  { path: '/notifications/today', name: "Today's Appointments", component: EmailNotificationstoday, exact: true },
+  { path: '/notifications/upcoming', name: 'Upcoming Appointments', component: EmailNotificationsupcoming, exact: true },
   { path: '/notifications', name: '', component: Notification, exact: true },
 
   { path: '/notifications/Consent', name: 'Appointment Booking / Consent', component: Consent , exact: true },
