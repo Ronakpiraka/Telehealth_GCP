@@ -30,6 +30,7 @@ import Consent from "../notifications/Consent.js";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import {
+  Modal,
   CCard,
   CCardBody,
   CCardGroup,
@@ -39,7 +40,6 @@ import {
   CWidgetProgressIcon,
   CCardText,
 } from "@coreui/react";
-
 export default function PractitionerBooking() {
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -121,12 +121,14 @@ export default function PractitionerBooking() {
   const [selectedDate, setSelectedDate] = React.useState(null);
   const [finalprac, setpracdata] = React.useState([]);
   const [modal, setModal] = useState(false);
-  // const [slot, setslot] = React.useState([]);
+  const [timeslot, settimeslot] = React.useState([]);
   // const history = useHistory();
   const [providername, setProvidername] = useState();
-  const [selectedTime, setTime] = React.useState('');
+  // const [selectedTime, setTime] = React.useState("");
   const [selectedProvider, setselectedprovider] = React.useState("");
-  const [selectedSlot, setselectedslot] = React.useState("");
+  const [selectedSlot, setSelectedSlot] = React.useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [availableSlots, setavailableSlots] = React.useState("");
 
   const toggle = () => {
     setModal(!modal);
@@ -147,7 +149,7 @@ export default function PractitionerBooking() {
           if (a.App_Date > b.App_Date) return 1;
           return 0;
         });
-  
+
         setdata(response);
         console.log("Sorted appointment data", response);
       })
@@ -224,9 +226,20 @@ export default function PractitionerBooking() {
     //     console.log(modal);
     //   }
   };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleChangeSlot1 = () => {
+    setSelectedDate("");
+    // setShowModal(false);
+  };
+
   const handleChangeSlot = (event) => {
     console.log(event.target.value);
-    setselectedslot(event.target.value);
+    setSelectedSlot(event.target.value);
+    // onSelectedSlotChange(event.target.value);
     if (event.target.value == "9 AM - 10 AM") {
       localStorage.setItem("timeslot", event.target.value);
       localStorage.setItem("Time_9_AM_10_AM", true);
@@ -318,16 +331,22 @@ export default function PractitionerBooking() {
   };
 
   const handleDateChange = (newDate) => {
+    setSelectedSlot("");
+
     if (!newDate) {
       // if value is null, reset state
       setSelectedDate(null);
       localStorage.removeItem("date");
       return;
     }
+
     const today = dayjs().tz("Asia/Kolkata").startOf("day");
     const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
     const twoMonthsAhead = today.add(2, "month");
     const dateSubstring = date.format("YYYY-MM-DD");
+    // const day = newDate.toJSON().slice(0, 10);
+    // alert(day)
+    // alert("You have chosen " + dateSubstring + " as the date for appointemnt");
 
     if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
       alert(
@@ -336,13 +355,83 @@ export default function PractitionerBooking() {
       setSelectedDate(null);
       return;
     }
-
-    setSelectedDate(date);
+    // alert("new date",dateSubstring)
+    setSelectedDate(dateSubstring);
+    verify(dateSubstring);
     localStorage.setItem("date", dateSubstring);
+  };
+
+  // const verify = async () => {
+
+  //   let slots = ["9 AM - 10 AM", "10 AM - 11 AM", "11 AM - 12 PM", "12 PM - 1 PM" , "1 PM - 2 PM", "2 PM - 3 PM", "3 PM - 4 PM", "4 PM - 5 PM"];
+
+  //   const practitionerId = localStorage.getItem("practitioner_id");
+  //   const dateSelect = localStorage.getItem("date");
+
+  //   let newarr = [];
+  //   let filteredArray = [];
+
+  //   for (var i = 0; i < data.length; i++)
+  //   {
+  //     if (data[i].Practitioner_id == practitionerId && data[i].App_Date == dateSelect)
+  //     {
+  //       alert("matched");
+  //       for(var j=0; j< slots.length; j++){
+  //         if(slots[j] === data[i].Timing){
+  //           newarr.push(slots[i])
+  //           break;
+  //         }
+  //         console.log(newarr);
+  //       }
+  //       filteredArray = slots.filter((element) => !newarr.includes(element));
+  //       console.log('slot pop',filteredArray)
+  //     }
+  //   }
+  //   console.log(newarr)
+  //   console.log(filteredArray)
+  //   settimeslot(filteredArray)
+  // };
+  const verify = (dateSubstring) => {
+    setSelectedSlot("");
+    const slots = [
+      "9 AM - 10 AM",
+      "10 AM - 11 AM",
+      "11 AM - 12 PM",
+      "12 PM - 1 PM",
+      "1 PM - 2 PM",
+      "2 PM - 3 PM",
+      "3 PM - 4 PM",
+      "4 PM - 5 PM",
+    ];
+
+    const providerId = localStorage.getItem("provider_id");
+    const practitionerId = localStorage.getItem("practitioner_id");
+    const dateSelect = dateSubstring;
+
+    const appointments = data.filter((appointment) => {
+      return (
+        appointment.Practitioner_id === practitionerId &&
+        appointment.Provider_id === providerId &&
+        appointment.App_Date === dateSelect
+      );
+    });
+
+    const reservedSlots = appointments.map((appointment) => appointment.Timing);
+
+    const availableSlots = slots.filter(
+      (slot) => !reservedSlots.includes(slot)
+    );
+
+    console.log("Reserved slots:", reservedSlots);
+    console.log("Available slots:", availableSlots);
+
+    settimeslot(availableSlots);
   };
 
   const handleChange = (event) => {
     setselectedprovider(event.target.value);
+    setSelectedDate("");
+    setSelectedSlot("");
     provider = event.target.value;
     console.log(provider);
     setProvidername(provider);
@@ -376,16 +465,16 @@ export default function PractitionerBooking() {
   //   history.push(`${url}`);
   // };
 
-  const slots = [
-    { slot: "9 AM - 10 AM" },
-    { slot: "10 AM - 11 AM" },
-    { slot: "11 AM - 12 PM" },
-    { slot: "12 PM - 1 PM" },
-    { slot: "1 PM - 2 PM" },
-    { slot: "2 PM - 3 PM" },
-    { slot: "3 PM - 4 PM" },
-    { slot: "4 PM - 5 PM" },
-  ];
+  // const slots = [
+  //   { slot: "9 AM - 10 AM" },
+  //   { slot: "10 AM - 11 AM" },
+  //   { slot: "11 AM - 12 PM" },
+  //   { slot: "12 PM - 1 PM" },
+  //   { slot: "1 PM - 2 PM" },
+  //   { slot: "2 PM - 3 PM" },
+  //   { slot: "3 PM - 4 PM" },
+  //   { slot: "4 PM - 5 PM" },
+  // ];
 
   return (
     <div>
@@ -394,7 +483,8 @@ export default function PractitionerBooking() {
           Please select the Provider and Available slots
         </CModalHeader>
         <CModalBody>
-          Choose the Hospital and Available slots before selecting the Practitioner...
+          Choose the Hospital and Available slots before selecting the
+          Practitioner...
         </CModalBody>
         <CModalFooter>
           <CButton color="primary" onClick={toggle}>
@@ -442,7 +532,7 @@ export default function PractitionerBooking() {
       <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
-            <b>Select Practitioner</b> 
+            <b>Select Practitioner</b>
           </p>
         </CCol>
         <LoadingOverlay
@@ -561,20 +651,35 @@ export default function PractitionerBooking() {
             <InputLabel labelid="demo-simple-select-label">
               Choose Time:
             </InputLabel>
+            {timeslot.length>0 &&
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="choose time  "
               onChange={handleChangeSlot}
-              // value={selectedTime}
+              // disabled={timeslot.length === 0}
+              // value={setselectedslot}
             >
-              {slots.map((row, index) => {
-                return <MenuItem value={row.slot}>{row.slot}</MenuItem>;
-              })}
-            </Select>
+                {timeslot.map((row, index) => {
+                  return(
+                  <MenuItem key={index} value={row}>
+                    {row}
+                  </MenuItem>)}
+                )}
+            </Select>}
+            {timeslot.length === 0 &&
+            <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="choose time  "
+            onChange={handleChangeSlot1}
+            disabled={timeslot.length === 0}
+            // value={setselectedslot}
+          >
+            <p style={{padding: '1 rem'}}> No timeslot are Available, please select another date</p> </Select>}
           </FormControl>
         </CCol>
-      </CRow>
+       </CRow>
       <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
