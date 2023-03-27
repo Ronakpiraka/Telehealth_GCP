@@ -554,7 +554,35 @@ export default function PractitionerBooking() {
         {finalprac.map((row, index) => {
           return (
             <CCol sm="6" md="6" lg="4">
-              <CCardGroup className="mb-4">
+              <CCardGroup className="mb-4" 
+              onClick={(e) => {
+                redirecttoConsent(
+                  e,
+                  row.Patient_name,
+                  row.Practitioner_name,
+                  row.guardian_email
+                );
+                localStorage.setItem(
+                  "practitioner_name",
+                  row.Practitioner_name
+                );
+                localStorage.setItem(
+                  "practitioner_id",
+                  row.Practitioner_id
+                );
+                localStorage.setItem(
+                  "practitioner_name",
+                  row.Practitioner_name
+                );
+                localStorage.setItem(
+                  "practitioner_speciality",
+                  row.Practitioner_Speciality
+                );
+                localStorage.setItem(
+                  "practitioner_email",
+                  row.practitioner_email
+                );
+              }}>
                 <CWidgetProgressIcon
                   color="gradient-success"
                   inverse
@@ -579,7 +607,7 @@ export default function PractitionerBooking() {
                     {row.Practitioner_Speciality}
                   </p>
                   <p>
-                    <button
+                    {/* <button
                       type="button"
                       className="btn btn-secondary btn-sm"
                       style={{
@@ -617,7 +645,7 @@ export default function PractitionerBooking() {
                       }}
                     >
                       Select
-                    </button>
+                    </button> */}
                   </p>
                 </CWidgetProgressIcon>
               </CCardGroup>
@@ -647,7 +675,7 @@ export default function PractitionerBooking() {
         </CCol>
 
         <CCol sm="12" md="6" lg="3">
-          <FormControl sx={{ minWidth: "100%" }}>
+          <FormControl sx={{ minWidth: 350 }}>
             <InputLabel labelid="demo-simple-select-label">
               Choose Time:
             </InputLabel>
@@ -657,8 +685,6 @@ export default function PractitionerBooking() {
               id="demo-simple-select"
               label="choose time  "
               onChange={handleChangeSlot}
-              // disabled={timeslot.length === 0}
-              // value={setselectedslot}
             >
                 {timeslot.map((row, index) => {
                   return(
@@ -666,17 +692,21 @@ export default function PractitionerBooking() {
                     {row}
                   </MenuItem>)}
                 )}
-            </Select>}
+            </Select>
+            }
             {timeslot.length === 0 &&
+            <>
             <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="choose time  "
             onChange={handleChangeSlot1}
             disabled={timeslot.length === 0}
-            // value={setselectedslot}
           >
-            <p style={{padding: '1 rem'}}> No timeslot are Available, please select another date</p> </Select>}
+          </Select>
+          <span style={{color:'red'}}>No time slots available, Please select other date.</span>
+          </>
+          }
           </FormControl>
         </CCol>
        </CRow>

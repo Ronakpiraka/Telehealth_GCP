@@ -16,6 +16,7 @@ import {
   CButton,
 } from "@coreui/react";
 // import Modal from './Modal';
+import axios from 'axios';
 import FormLabel from "@mui/material/FormLabel";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
@@ -40,6 +41,7 @@ import { alignPropType } from "react-bootstrap/esm/DropdownMenu";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { message } from "antd";
+
 export default function RadioButtonsGroup() {
   const history = useHistory();
   const [modal, setModal] = useState(false);
@@ -49,7 +51,6 @@ export default function RadioButtonsGroup() {
   const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
   const [deviceId, setDeviceId] = useState(0);
   const [showModal, setShowModal] = useState(false);
-
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function RadioButtonsGroup() {
       localStorage.setItem("deviceid", "Not enrolled for tracking.");
     }
   };
+
   const assignNewDeviceIdAndShare = () => {
     const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
     const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
@@ -87,17 +89,36 @@ export default function RadioButtonsGroup() {
     }
   };
 
+  const CLIENT_ID = '500600276612-edtf6kqco3sg68nd7173s0re768mf93s.apps.googleusercontent.com';
+  const createEvent = (event) =>{
+
+    var event = {
+      summary: 'Sample Event',
+      location: 'San Francisco, CA',
+      description: 'This is a sample event.',
+      start: {
+        'dateTime': '2023-04-01T09:00:00-07:00',
+        'timeZone': 'America/Los_Angeles'
+      },
+      end: {
+        'dateTime': '2023-04-01T10:00:00-07:00',
+        'timeZone': 'America/Los_Angeles'
+      },
+      reminders: {
+        'useDefault': true
+      }
+    };
+
+   axios.post('http://localhost:8000/create-event',{
+    event
+   }).then(resp=>{
+    console.log(resp.data)
+   }).catch(err=>console.log(err.message))
+  };
+
   const handleCloseModal = () => {
-    // if (
-    //   connectedCareValue === "Yes" &&
-    //   deviceIdValue === "Yes" &&
-    //   deviceId.length !== 14
-    // ) {
-    //   alert("please enter a valid device id");
-    //   setDeviceId("");
-    // } else {
       setShowModal(!showModal);
-    // }
+      createEvent();
   };
 
   const handleSubmit = () => {
@@ -123,17 +144,7 @@ export default function RadioButtonsGroup() {
     assignNewDeviceIdAndShare();
     // console.log(newDeviceId);
   };
-  // const handleGoBack = () => {
-  //   const condition_name = localStorage.getItem('condition_name');
-  //   var url = `/Practitionerbookings?condition=${condition_name}`;
-  //   history.push(`${url}`);
-  // };
-
-  // const handleGoAhead = () => {
-  //   var url = `/bookAppointment`; //to Ope's end
-  //   history.push(`${url}`);
-  // };
-
+  
   const handleConsentChange = (event) => {
     const value = event.target.value;
     localStorage.setItem("consentValue", value);

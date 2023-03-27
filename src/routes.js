@@ -50,7 +50,7 @@ const routes = [
   { path: '/notifications/past', name: 'Appointment History', component: EmailNotificationspast, exact: true },
   { path: '/notifications/today', name: "Today's Appointments", component: EmailNotificationstoday, exact: true },
   { path: '/notifications/upcoming', name: 'Upcoming Appointments', component: EmailNotificationsupcoming, exact: true },
-  { path: '/notifications', name: '', component: Notification, exact: true },
+  { path: '/notifications', name: '', component: CalendarSchedule, exact: true },
 
   { path: '/notifications/Consent', name: 'Appointment Booking / Consent', component: Consent , exact: true },
   { path: '/services/ambulance', name: 'AmbulanceService', component: AmbulanceService, exact: true },
