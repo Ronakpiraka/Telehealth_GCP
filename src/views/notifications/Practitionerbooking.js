@@ -635,7 +635,7 @@ export default function PractitionerBooking() {
         </CCol>
          {/* <CRow> */}
         <CCol sm="12" md="6" lg="3">
-          <FormControl sx={{ minWidth: "100%" }}>
+          <FormControl sx={{ minWidth: 350 }}>
             <InputLabel labelid="demo-simple-select-label">
               Choose Time:
             </InputLabel>
