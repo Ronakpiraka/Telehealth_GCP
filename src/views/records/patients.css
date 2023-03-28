@@ -58,6 +58,11 @@
     /* text-align: center; */
   }
  
-#demo-simple-select {
-  padding: 1rem;
-}
+  #demo-simple-select {
+    padding: 1rem;
+  }
+
+  #avaiable-date-prac div{
+    height: 40px !important;
+    padding: 1 rem;
+  }

@@ -24,6 +24,7 @@ const EmailNotification = React.lazy(() => import('./views/notifications/EmailNo
 const EmailNotificationspast = React.lazy(()=> import('./views/notifications/EmailNotificationspast'));
 const EmailNotificationstoday = React.lazy(() => import('./views/notifications/EmailNotificationstoday'));
 const EmailNotificationsupcoming = React.lazy(()=> import('./views/notifications/EmailNotificationsupcoming'));
+const PatientAppointments = React.lazy(()=> './views/notifications/PatientAppointments')
 const Appointment = React.lazy(()=> import('./views/notifications/appointments'));
 const Practitionerbookings = React.lazy(()=> import('./views/notifications/Practitionerbooking'));
 // const Modal = React.lazy(() => import('./views/records/modal.js'));
@@ -51,7 +52,7 @@ const routes = [
   { path: '/notifications/today', name: "Today's Appointments", component: EmailNotificationstoday, exact: true },
   { path: '/notifications/upcoming', name: 'Upcoming Appointments', component: EmailNotificationsupcoming, exact: true },
   { path: '/notifications', name: '', component: Notification, exact: true },
-
+  { path: '/notifications/PatientAppointments', name: 'Patient Appointments', component: PatientAppointments, exact: true },
   { path: '/notifications/Consent', name: 'Appointment Booking / Consent', component: Consent , exact: true },
   { path: '/services/ambulance', name: 'AmbulanceService', component: AmbulanceService, exact: true },
   { path: '/services/ambulanceinfo', name: 'AmbulanceInfo', component: AmbulanceInform, exact: true },

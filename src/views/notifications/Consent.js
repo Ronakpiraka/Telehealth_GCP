@@ -87,18 +87,51 @@ export default function RadioButtonsGroup() {
     }
   };
 
-  const handleCloseModal = () => {
-    // if (
-    //   connectedCareValue === "Yes" &&
-    //   deviceIdValue === "Yes" &&
-    //   deviceId.length !== 14
-    // ) {
-    //   alert("please enter a valid device id");
-    //   setDeviceId("");
-    // } else {
-      setShowModal(!showModal);
-    // }
+  const handleCloseModal = async() => {
+
+    const providername = localStorage.getItem('provider_name');
+    const pracname = localStorage.getItem('practitioner_name');
+    const date = localStorage.getItem('date');
+    const time = localStorage.getItem('timeslot');
+    const patientname= localStorage.getItem('Patient_name');
+
+    if (!providername || !pracname || !date || !time) {
+      alert('Please select a provider, practitioner, appointment date, and time before proceeding.');
+      
+    } 
+    else {
+      try {
+        const response = await fetch('https://emailnotifications-sh4iojyb3q-uc.a.run.app'); // Replace with the actual endpoint URL
+        const appointments = await response.json();
+        const busyPrac = appointments.find(a => a.Practitioner_name === pracname && a.App_Date === date && a.Timing === time);
+        const busyPatient = appointments.find(a => a.Patient_name === patientname && a.App_Date === date && a.Timing === time);
+  
+        if (busyPrac) {
+          alert('Sorry, the practitioner is already busy at that time.');
+          // console.log('Sorry, the practitioner is already busy at that time.');
+        } else if (busyPatient) {
+          alert('Sorry, the patient already has an appointment at that time.');
+          // console.log('Sorry, the patient already has an appointment at that time.');
+        } else {
+          setShowModal(!showModal);
+        }
+      } catch (error) {
+        console.error('Error fetching appointments data:', error);
+        alert('An error occurred while checking for appointment availability. Please try again later.');
+      }
+    }
   };
+    // if(!pracname || !date || !time){
+    //   sorry doc not available
+    // }
+    // if(!patname || !date || !time){
+    //   sorry the patient already has a appointment that time
+    // }
+  //   else {
+  //     setShowModal(!showModal);
+  //   }
+
+  // };
 
   const handleSubmit = () => {
     handleCloseModal();
@@ -281,7 +314,7 @@ export default function RadioButtonsGroup() {
           <Modal.Title>Appointment Request</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Your appointment has been booked successfully.</p>
+          <p>Your appointment request has been sent successfully. <br/>Please check your email for the confirmation.</p>
           <CheckCircleIcon style={{ color: "green", fontSize: "100px" }} />
         </Modal.Body>
         <Modal.Footer>
@@ -355,6 +388,13 @@ export default function RadioButtonsGroup() {
     )}
     <br/>  */}
         {/* <h4 style={{fontFamily:'sans-serif'}}>Consent</h4> */}
+        <CRow>
+        <CCol className="navbar justify-content-between">
+          <p className="navbar-brand">
+            <b>Provide your consent</b>
+          </p>
+        </CCol>
+      </CRow>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
           name="radio-buttons-group"
@@ -400,11 +440,10 @@ export default function RadioButtonsGroup() {
           </CRow>
         </RadioGroup>
         <br />
-        <form className="signature-pad-form">
+        {/* <form className="signature-pad-form">
       <h4 style={{fontFamily:'sans-serif'}}>Signature</h4>
       <CRow><CCol></CCol><CRow><CCol><Signature/></CCol></CRow></CRow>
-      </form>  
-        {/* </FormControl><br/><br/> */}
+      </form>   */}
 
         <div align="center">
           <button class="btn btn-primary" onClick={handleCloseModal}>

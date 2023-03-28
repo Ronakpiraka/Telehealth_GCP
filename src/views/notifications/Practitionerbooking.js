@@ -26,6 +26,7 @@ import { CModalHeader } from "@coreui/react";
 import { CModalBody } from "@coreui/react";
 import { CButton } from "@coreui/react";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import PatientAppointment from "../notifications/PatientAppointments";
 import Consent from "../notifications/Consent.js";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
@@ -40,6 +41,7 @@ import {
   CWidgetProgressIcon,
   CCardText,
 } from "@coreui/react";
+import { style } from "@mui/system";
 export default function PractitionerBooking() {
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -231,166 +233,146 @@ export default function PractitionerBooking() {
     setShowModal(true);
   };
 
-  const handleChangeSlot1 = () => {
-    setSelectedDate("");
-    // setShowModal(false);
-  };
-
   const handleChangeSlot = (event) => {
-    console.log(event.target.value);
-    setSelectedSlot(event.target.value);
-    // onSelectedSlotChange(event.target.value);
-    if (event.target.value == "9 AM - 10 AM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", true);
-      localStorage.setItem("Time_10_AM_11_AM", false);
-      localStorage.setItem("Time_11_AM_12_PM", false);
-      localStorage.setItem("Time_12_PM_1_PM", false);
-      localStorage.setItem("Time_1_PM_2_PM", false);
-      localStorage.setItem("Time_2_PM_3_PM", false);
-      localStorage.setItem("Time_3_PM_4_PM", false);
-      localStorage.setItem("Time_4_PM_5_PM", false);
-    }
-    if (event.target.value == "10 AM - 11 AM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", false);
-      localStorage.setItem("Time_10_AM_11_AM", true);
-      localStorage.setItem("Time_11_AM_12_PM", false);
-      localStorage.setItem("Time_12_PM_1_PM", false);
-      localStorage.setItem("Time_1_PM_2_PM", false);
-      localStorage.setItem("Time_2_PM_3_PM", false);
-      localStorage.setItem("Time_3_PM_4_PM", false);
-      localStorage.setItem("Time_4_PM_5_PM", false);
-    }
-    if (event.target.value == "11 AM - 12 PM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", false);
-      localStorage.setItem("Time_10_AM_11_AM", false);
-      localStorage.setItem("Time_11_AM_12_PM", true);
-      localStorage.setItem("Time_12_PM_1_PM", false);
-      localStorage.setItem("Time_1_PM_2_PM", false);
-      localStorage.setItem("Time_2_PM_3_PM", false);
-      localStorage.setItem("Time_3_PM_4_PM", false);
-      localStorage.setItem("Time_4_PM_5_PM", false);
-    }
-    if (event.target.value == "12 PM - 1 PM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", false);
-      localStorage.setItem("Time_10_AM_11_AM", false);
-      localStorage.setItem("Time_11_AM_12_PM", false);
-      localStorage.setItem("Time_12_PM_1_PM", true);
-      localStorage.setItem("Time_1_PM_2_PM", false);
-      localStorage.setItem("Time_2_PM_3_PM", false);
-      localStorage.setItem("Time_3_PM_4_PM", false);
-      localStorage.setItem("Time_4_PM_5_PM", false);
-    }
-    if (event.target.value == "1 PM - 2 PM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", false);
-      localStorage.setItem("Time_10_AM_11_AM", false);
-      localStorage.setItem("Time_11_AM_12_PM", false);
-      localStorage.setItem("Time_12_PM_1_PM", false);
-      localStorage.setItem("Time_1_PM_2_PM", true);
-      localStorage.setItem("Time_2_PM_3_PM", false);
-      localStorage.setItem("Time_3_PM_4_PM", false);
-      localStorage.setItem("Time_4_PM_5_PM", false);
-    }
-    if (event.target.value == "2 PM - 3 PM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", false);
-      localStorage.setItem("Time_10_AM_11_AM", false);
-      localStorage.setItem("Time_11_AM_12_PM", false);
-      localStorage.setItem("Time_12_PM_1_PM", false);
-      localStorage.setItem("Time_1_PM_2_PM", false);
-      localStorage.setItem("Time_2_PM_3_PM", true);
-      localStorage.setItem("Time_3_PM_4_PM", false);
-      localStorage.setItem("Time_4_PM_5_PM", false);
-    }
-    if (event.target.value == "3 PM - 4 PM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", false);
-      localStorage.setItem("Time_10_AM_11_AM", false);
-      localStorage.setItem("Time_11_AM_12_PM", false);
-      localStorage.setItem("Time_12_PM_1_PM", false);
-      localStorage.setItem("Time_1_PM_2_PM", false);
-      localStorage.setItem("Time_2_PM_3_PM", false);
-      localStorage.setItem("Time_3_PM_4_PM", true);
-      localStorage.setItem("Time_4_PM_5_PM", false);
-    }
-    if (event.target.value == "4 PM - 5 PM") {
-      localStorage.setItem("timeslot", event.target.value);
-      localStorage.setItem("Time_9_AM_10_AM", false);
-      localStorage.setItem("Time_10_AM_11_AM", false);
-      localStorage.setItem("Time_11_AM_12_PM", false);
-      localStorage.setItem("Time_12_PM_1_PM", false);
-      localStorage.setItem("Time_1_PM_2_PM", false);
-      localStorage.setItem("Time_2_PM_3_PM", false);
-      localStorage.setItem("Time_3_PM_4_PM", false);
-      localStorage.setItem("Time_4_PM_5_PM", true);
+    const date = localStorage.getItem("date");
+    if (!date) {
+      alert("Please select a date first");
+      setSelectedDate("");
+      // setSelectedSlot("");
+      return;
+    } else {
+      console.log(event.target.value);
+      setSelectedSlot(event.target.value);
+      // onSelectedSlotChange(event.target.value);
+      if (event.target.value == "9 AM - 10 AM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", true);
+        localStorage.setItem("Time_10_AM_11_AM", false);
+        localStorage.setItem("Time_11_AM_12_PM", false);
+        localStorage.setItem("Time_12_PM_1_PM", false);
+        localStorage.setItem("Time_1_PM_2_PM", false);
+        localStorage.setItem("Time_2_PM_3_PM", false);
+        localStorage.setItem("Time_3_PM_4_PM", false);
+        localStorage.setItem("Time_4_PM_5_PM", false);
+      }
+      if (event.target.value == "10 AM - 11 AM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", false);
+        localStorage.setItem("Time_10_AM_11_AM", true);
+        localStorage.setItem("Time_11_AM_12_PM", false);
+        localStorage.setItem("Time_12_PM_1_PM", false);
+        localStorage.setItem("Time_1_PM_2_PM", false);
+        localStorage.setItem("Time_2_PM_3_PM", false);
+        localStorage.setItem("Time_3_PM_4_PM", false);
+        localStorage.setItem("Time_4_PM_5_PM", false);
+      }
+      if (event.target.value == "11 AM - 12 PM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", false);
+        localStorage.setItem("Time_10_AM_11_AM", false);
+        localStorage.setItem("Time_11_AM_12_PM", true);
+        localStorage.setItem("Time_12_PM_1_PM", false);
+        localStorage.setItem("Time_1_PM_2_PM", false);
+        localStorage.setItem("Time_2_PM_3_PM", false);
+        localStorage.setItem("Time_3_PM_4_PM", false);
+        localStorage.setItem("Time_4_PM_5_PM", false);
+      }
+      if (event.target.value == "12 PM - 1 PM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", false);
+        localStorage.setItem("Time_10_AM_11_AM", false);
+        localStorage.setItem("Time_11_AM_12_PM", false);
+        localStorage.setItem("Time_12_PM_1_PM", true);
+        localStorage.setItem("Time_1_PM_2_PM", false);
+        localStorage.setItem("Time_2_PM_3_PM", false);
+        localStorage.setItem("Time_3_PM_4_PM", false);
+        localStorage.setItem("Time_4_PM_5_PM", false);
+      }
+      if (event.target.value == "1 PM - 2 PM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", false);
+        localStorage.setItem("Time_10_AM_11_AM", false);
+        localStorage.setItem("Time_11_AM_12_PM", false);
+        localStorage.setItem("Time_12_PM_1_PM", false);
+        localStorage.setItem("Time_1_PM_2_PM", true);
+        localStorage.setItem("Time_2_PM_3_PM", false);
+        localStorage.setItem("Time_3_PM_4_PM", false);
+        localStorage.setItem("Time_4_PM_5_PM", false);
+      }
+      if (event.target.value == "2 PM - 3 PM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", false);
+        localStorage.setItem("Time_10_AM_11_AM", false);
+        localStorage.setItem("Time_11_AM_12_PM", false);
+        localStorage.setItem("Time_12_PM_1_PM", false);
+        localStorage.setItem("Time_1_PM_2_PM", false);
+        localStorage.setItem("Time_2_PM_3_PM", true);
+        localStorage.setItem("Time_3_PM_4_PM", false);
+        localStorage.setItem("Time_4_PM_5_PM", false);
+      }
+      if (event.target.value == "3 PM - 4 PM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", false);
+        localStorage.setItem("Time_10_AM_11_AM", false);
+        localStorage.setItem("Time_11_AM_12_PM", false);
+        localStorage.setItem("Time_12_PM_1_PM", false);
+        localStorage.setItem("Time_1_PM_2_PM", false);
+        localStorage.setItem("Time_2_PM_3_PM", false);
+        localStorage.setItem("Time_3_PM_4_PM", true);
+        localStorage.setItem("Time_4_PM_5_PM", false);
+      }
+      if (event.target.value == "4 PM - 5 PM") {
+        localStorage.setItem("timeslot", event.target.value);
+        localStorage.setItem("Time_9_AM_10_AM", false);
+        localStorage.setItem("Time_10_AM_11_AM", false);
+        localStorage.setItem("Time_11_AM_12_PM", false);
+        localStorage.setItem("Time_12_PM_1_PM", false);
+        localStorage.setItem("Time_1_PM_2_PM", false);
+        localStorage.setItem("Time_2_PM_3_PM", false);
+        localStorage.setItem("Time_3_PM_4_PM", false);
+        localStorage.setItem("Time_4_PM_5_PM", true);
+      }
     }
   };
 
   const handleDateChange = (newDate) => {
     setSelectedSlot("");
 
-    if (!newDate) {
-      // if value is null, reset state
-      setSelectedDate(null);
-      localStorage.removeItem("date");
-      return;
-    }
+    const providerName = localStorage.getItem("provider_name");
+    const practitionerName = localStorage.getItem("practitioner_name");
 
-    const today = dayjs().tz("Asia/Kolkata").startOf("day");
-    const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
-    const twoMonthsAhead = today.add(2, "month");
-    const dateSubstring = date.format("YYYY-MM-DD");
-    // const day = newDate.toJSON().slice(0, 10);
-    // alert(day)
-    // alert("You have chosen " + dateSubstring + " as the date for appointemnt");
-
-    if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
+    if (!providerName || !practitionerName) {
       alert(
-        "Please select a date that is not greater than today and not more than 2 months from today."
+        "Please select a provider and practitioner before choosing a date."
       );
-      setSelectedDate(null);
       return;
+    } else {
+      if (!newDate) {
+        // if value is null, reset state
+        setSelectedDate(null);
+        localStorage.removeItem("date");
+        return;
+      }
+
+      const today = dayjs().tz("Asia/Kolkata").startOf("day");
+      const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
+      const twoMonthsAhead = today.add(2, "month");
+      const dateSubstring = date.format("YYYY-MM-DD");
+
+      if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
+        alert(
+          "Please select a date that is not greater than today and not more than 2 months from today."
+        );
+        setSelectedDate(null);
+        return;
+      }
+      // alert("new date",dateSubstring)
+      setSelectedDate(dateSubstring);
+      verify(dateSubstring);
+      localStorage.setItem("date", dateSubstring);
     }
-    // alert("new date",dateSubstring)
-    setSelectedDate(dateSubstring);
-    verify(dateSubstring);
-    localStorage.setItem("date", dateSubstring);
   };
 
-  // const verify = async () => {
-
-  //   let slots = ["9 AM - 10 AM", "10 AM - 11 AM", "11 AM - 12 PM", "12 PM - 1 PM" , "1 PM - 2 PM", "2 PM - 3 PM", "3 PM - 4 PM", "4 PM - 5 PM"];
-
-  //   const practitionerId = localStorage.getItem("practitioner_id");
-  //   const dateSelect = localStorage.getItem("date");
-
-  //   let newarr = [];
-  //   let filteredArray = [];
-
-  //   for (var i = 0; i < data.length; i++)
-  //   {
-  //     if (data[i].Practitioner_id == practitionerId && data[i].App_Date == dateSelect)
-  //     {
-  //       alert("matched");
-  //       for(var j=0; j< slots.length; j++){
-  //         if(slots[j] === data[i].Timing){
-  //           newarr.push(slots[i])
-  //           break;
-  //         }
-  //         console.log(newarr);
-  //       }
-  //       filteredArray = slots.filter((element) => !newarr.includes(element));
-  //       console.log('slot pop',filteredArray)
-  //     }
-  //   }
-  //   console.log(newarr)
-  //   console.log(filteredArray)
-  //   settimeslot(filteredArray)
-  // };
   const verify = (dateSubstring) => {
     setSelectedSlot("");
     const slots = [
@@ -430,6 +412,14 @@ export default function PractitionerBooking() {
 
   const handleChange = (event) => {
     setselectedprovider(event.target.value);
+    localStorage.removeItem("practitioner_name");
+    localStorage.removeItem("practitioner_id");
+    localStorage.removeItem("practitioner_name");
+    localStorage.removeItem("practitioner_speciality");
+    localStorage.removeItem("practitioner_email");
+    localStorage.removeItem("date");
+    localStorage.removeItem("timeslot");
+
     setSelectedDate("");
     setSelectedSlot("");
     provider = event.target.value;
@@ -454,27 +444,6 @@ export default function PractitionerBooking() {
     }
     setpracdata(final_prac);
   };
-
-  // const handleGoBack = () => {
-  //   var url = `/bookAppointment`;
-  //   history.push(`${url}`);
-  // };
-
-  // const handleGoAhead = () => {
-  //   var url = `/notifications/Consent`;
-  //   history.push(`${url}`);
-  // };
-
-  // const slots = [
-  //   { slot: "9 AM - 10 AM" },
-  //   { slot: "10 AM - 11 AM" },
-  //   { slot: "11 AM - 12 PM" },
-  //   { slot: "12 PM - 1 PM" },
-  //   { slot: "1 PM - 2 PM" },
-  //   { slot: "2 PM - 3 PM" },
-  //   { slot: "3 PM - 4 PM" },
-  //   { slot: "4 PM - 5 PM" },
-  // ];
 
   return (
     <div>
@@ -511,8 +480,23 @@ export default function PractitionerBooking() {
           <p className="navbar-brand"><b>Select Provider</b></p>
         </CCol> */}
         <CCol sm="12" md="12" lg="6">
+          {/* <FormControl sx={{ minWidth: "100%" }}>
+            <InputLabel htmlFor="demo-simple-select-label">
+              Provider Name
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="provider name"
+              onChange={handleChange}
+            >
+              {uniqueProviderName.map((row, index) => {
+                return <MenuItem value={row}>{row}</MenuItem>;
+              })}
+            </Select>
+          </FormControl> */}
           <FormControl sx={{ minWidth: "100%" }}>
-            <InputLabel labelid="demo-simple-select-label">
+            <InputLabel id="demo-simple-select-label">
               Provider Name
             </InputLabel>
             <Select
@@ -554,11 +538,39 @@ export default function PractitionerBooking() {
         {finalprac.map((row, index) => {
           return (
             <CCol sm="6" md="6" lg="4">
-              <CCardGroup className="mb-4">
+              <CCardGroup
+                className="mb-4"
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  redirecttoConsent(
+                    e,
+                    row.Patient_name,
+                    row.Practitioner_name,
+                    row.guardian_email
+                  );
+                  localStorage.setItem(
+                    "practitioner_name",
+                    row.Practitioner_name
+                  );
+                  localStorage.setItem("practitioner_id", row.Practitioner_id);
+                  localStorage.setItem(
+                    "practitioner_name",
+                    row.Practitioner_name
+                  );
+                  localStorage.setItem(
+                    "practitioner_speciality",
+                    row.Practitioner_Speciality
+                  );
+                  localStorage.setItem(
+                    "practitioner_email",
+                    row.practitioner_email
+                  );
+                }}
+              >
                 <CWidgetProgressIcon
                   color="gradient-success"
                   inverse
-                  text={row.practitioner_email}
+                  // text={row.practitioner_email}
                   style={{ color: "black" }}
                 >
                   <CIcon
@@ -578,53 +590,29 @@ export default function PractitionerBooking() {
                   <p style={{ fontSize: "50%", textAlign: "left" }}>
                     {row.Practitioner_Speciality}
                   </p>
-                  <p>
-                    <button
-                      type="button"
-                      className="btn btn-secondary btn-sm"
-                      style={{
-                        cursor: "pointer",
-                        padding: "1%",
-                        fontWeight: "bolder",
-                      }}
-                      onClick={(e) => {
-                        redirecttoConsent(
-                          e,
-                          row.Patient_name,
-                          row.Practitioner_name,
-                          row.guardian_email
-                        );
-                        localStorage.setItem(
-                          "practitioner_name",
-                          row.Practitioner_name
-                        );
-                        localStorage.setItem(
-                          "practitioner_id",
-                          row.Practitioner_id
-                        );
-                        localStorage.setItem(
-                          "practitioner_name",
-                          row.Practitioner_name
-                        );
-                        localStorage.setItem(
-                          "practitioner_speciality",
-                          row.Practitioner_Speciality
-                        );
-                        localStorage.setItem(
-                          "practitioner_email",
-                          row.practitioner_email
-                        );
-                      }}
-                    >
-                      Select
-                    </button>
-                  </p>
+                  {/* <p>
+                    <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: "pointer", padding: "1%", fontWeight: "bolder", }} onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
+                      Select </button> </p>*/}
                 </CWidgetProgressIcon>
               </CCardGroup>
             </CCol>
           );
         })}
       </CRow>
+      {/* <CRow>
+        <CCol className="navbar justify-content-between">
+          <p className="navbar-brand">
+            <b>Patients other appointments</b>
+          </p>
+        </CCol>
+      </CRow> */}
+
+      <CRow>
+        <CCol>
+          <PatientAppointment />
+        </CCol>
+      </CRow>
+
       <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
@@ -633,7 +621,7 @@ export default function PractitionerBooking() {
         </CCol>
       </CRow>
       <CRow>
-        <CCol sm="12" md="6" lg="3" sx={{ minWidth: "100%" }}>
+        <CCol sm="12" md="6" lg="3" sx={{ minWidth: "100%" }} id={"avaiable-date-prac"}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label="Available Date"
@@ -643,50 +631,51 @@ export default function PractitionerBooking() {
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
-          </LocalizationProvider>
+          </LocalizationProvider><br/><br/>
         </CCol>
-
+         {/* <CRow> */}
         <CCol sm="12" md="6" lg="3">
           <FormControl sx={{ minWidth: "100%" }}>
             <InputLabel labelid="demo-simple-select-label">
               Choose Time:
             </InputLabel>
-            {timeslot.length>0 &&
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="choose time  "
-              onChange={handleChangeSlot}
-              // disabled={timeslot.length === 0}
-              // value={setselectedslot}
-            >
+            {timeslot.length > 0 && (
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="choose time  "
+                onChange={handleChangeSlot}
+                disabled={timeslot.length === 0}
+                // value={setSelectedSlot}
+              >
                 {timeslot.map((row, index) => {
-                  return(
-                  <MenuItem key={index} value={row}>
-                    {row}
-                  </MenuItem>)}
-                )}
-            </Select>}
-            {timeslot.length === 0 &&
-            <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="choose time  "
-            onChange={handleChangeSlot1}
-            disabled={timeslot.length === 0}
-            // value={setselectedslot}
-          >
-            <p style={{padding: '1 rem'}}> No timeslot are Available, please select another date</p> </Select>}
+                  return (
+                    <MenuItem key={index} value={row}>
+                      {row}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            )}
+            {timeslot.length === 0 && (
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="choose time  "
+                onChange={handleChangeSlot}
+                disabled={timeslot.length === 0}
+                // value={setselectedslot}
+              >
+                <p style={{ padding: "1 rem" }}>
+                  {" "}
+                  No timeslot are Available, please select another date
+                </p>{" "}
+              </Select>
+            )}
           </FormControl>
         </CCol>
-       </CRow>
-      <CRow>
-        <CCol className="navbar justify-content-between">
-          <p className="navbar-brand">
-            <b>Provide your consent</b>
-          </p>
-        </CCol>
       </CRow>
+      
       <Consent></Consent>
     </div>
   );
