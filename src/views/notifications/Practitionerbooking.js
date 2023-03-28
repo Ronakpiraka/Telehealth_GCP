@@ -496,9 +496,7 @@ export default function PractitionerBooking() {
             </Select>
           </FormControl> */}
           <FormControl sx={{ minWidth: "100%" }}>
-            <InputLabel id="demo-simple-select-label">
-              Provider Name
-            </InputLabel>
+            <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -621,7 +619,13 @@ export default function PractitionerBooking() {
         </CCol>
       </CRow>
       <CRow>
-        <CCol sm="12" md="6" lg="3" sx={{ minWidth: "100%" }} id={"avaiable-date-prac"}>
+        <CCol
+          sm="12"
+          md="6"
+          lg="3"
+          sx={{ minWidth: "100%" }}
+          id={"avaiable-date-prac"}
+        >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label="Available Date"
@@ -631,9 +635,11 @@ export default function PractitionerBooking() {
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
-          </LocalizationProvider><br/><br/>
+          </LocalizationProvider>
+          <br />
+          <br />
         </CCol>
-         {/* <CRow> */}
+        {/* <CRow> */}
         <CCol sm="12" md="6" lg="3">
           <FormControl sx={{ minWidth: 350 }}>
             <InputLabel labelid="demo-simple-select-label">
@@ -675,7 +681,7 @@ export default function PractitionerBooking() {
           </FormControl>
         </CCol>
       </CRow>
-      
+
       <Consent></Consent>
     </div>
   );

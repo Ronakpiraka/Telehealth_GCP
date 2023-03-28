@@ -16,7 +16,7 @@ import {
   CButton,
 } from "@coreui/react";
 // import Modal from './Modal';
-import axios from 'axios';
+import axios from "axios";
 import FormLabel from "@mui/material/FormLabel";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
@@ -89,51 +89,53 @@ export default function RadioButtonsGroup() {
     }
   };
 
-  const handleCloseModal = async() => {
-
-    const providername = localStorage.getItem('provider_name');
-    const pracname = localStorage.getItem('practitioner_name');
-    const date = localStorage.getItem('date');
-    const time = localStorage.getItem('timeslot');
-    const patientname= localStorage.getItem('Patient_name');
+  const handleCloseModal = async () => {
+    const providername = localStorage.getItem("provider_name");
+    const pracname = localStorage.getItem("practitioner_name");
+    const date = localStorage.getItem("date");
+    const time = localStorage.getItem("timeslot");
+    const patientname = localStorage.getItem("Patient_name");
 
     if (!providername || !pracname || !date || !time) {
-      alert('Please select a provider, practitioner, appointment date, and time before proceeding.');
-      
-    } 
-    else {
+      alert(
+        "Please select a provider, practitioner, appointment date, and time before proceeding."
+      );
+    } else {
       try {
-        const response = await fetch('https://emailnotifications-sh4iojyb3q-uc.a.run.app'); // Replace with the actual endpoint URL
+        const response = await fetch(
+          "https://emailnotifications-sh4iojyb3q-uc.a.run.app"
+        ); // Replace with the actual endpoint URL
         const appointments = await response.json();
-        const busyPrac = appointments.find(a => a.Practitioner_name === pracname && a.App_Date === date && a.Timing === time);
-        const busyPatient = appointments.find(a => a.Patient_name === patientname && a.App_Date === date && a.Timing === time);
-  
+        const busyPrac = appointments.find(
+          (a) =>
+            a.Practitioner_name === pracname &&
+            a.App_Date === date &&
+            a.Timing === time
+        );
+        const busyPatient = appointments.find(
+          (a) =>
+            a.Patient_name === patientname &&
+            a.App_Date === date &&
+            a.Timing === time
+        );
+
         if (busyPrac) {
-          alert('Sorry, the practitioner is already busy at that time.');
+          alert("Sorry, the practitioner is already busy at that time.");
           // console.log('Sorry, the practitioner is already busy at that time.');
         } else if (busyPatient) {
-          alert('Sorry, the patient already has an appointment at that time.');
+          alert("Sorry, the patient already has an appointment at that time.");
           // console.log('Sorry, the patient already has an appointment at that time.');
         } else {
           setShowModal(!showModal);
         }
       } catch (error) {
-        console.error('Error fetching appointments data:', error);
-        alert('An error occurred while checking for appointment availability. Please try again later.');
+        console.error("Error fetching appointments data:", error);
+        alert(
+          "An error occurred while checking for appointment availability. Please try again later."
+        );
       }
     }
   };
-    // if(!pracname || !date || !time){
-    //   sorry doc not available
-    // }
-    // if(!patname || !date || !time){
-    //   sorry the patient already has a appointment that time
-    // }
-  //   else {
-  //     setShowModal(!showModal);
-  //   }
-
-  // };
 
   const handleSubmit = () => {
     handleCloseModal();
@@ -158,7 +160,7 @@ export default function RadioButtonsGroup() {
     assignNewDeviceIdAndShare();
     // console.log(newDeviceId);
   };
-  
+
   const handleConsentChange = (event) => {
     const value = event.target.value;
     localStorage.setItem("consentValue", value);
@@ -224,7 +226,7 @@ export default function RadioButtonsGroup() {
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue"),
       Patient_email: localStorage.getItem("Patient_email"),
-      Timing: localStorage.getItem("timeslot")
+      Timing: localStorage.getItem("timeslot"),
     };
 
     var requestOptions = {
@@ -235,7 +237,8 @@ export default function RadioButtonsGroup() {
 
     console.log(raw);
 
-    fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
+    // fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
+    fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((response) => {
         response.json();
       })
@@ -245,12 +248,65 @@ export default function RadioButtonsGroup() {
       .catch((error) => console.log("error", error));
   };
 
+  const bucketurl = () => {
+    const patientMrn = localStorage.getItem("Patient_MRN");
+    const date = localStorage.getItem("date");
+    const time = localStorage.getItem("timeslot");
+    const practitionerid = localStorage.getItem("practitioner_id");
+    const timeslot = "";
+    if (time == "9 AM - 10 AM") {
+      timeslot = "Time_9_AM_10_AM";
+    }
+    if (time == "10 AM - 11 AM") {
+      timeslot = "Time_10_AM_11_AM";
+    }
+    if (time == "11 AM - 12 PM") {
+      timeslot = "Time_11_AM_12_PM";
+    }
+    if (time == "12 PM - 1 PM") {
+      timeslot = "Time_12_PM_1_PM";
+    }
+    if (time == "1 PM - 2 PM") {
+      timeslot = "Time_1_PM_2_PM";
+    }
+    if (time == "2 PM - 3 PM") {
+      timeslot = "Time_2_PM_3_PM";
+    }
+    if (time == "3 PM - 4 PM") {
+      timeslot = "Time_3_PM_4_PM";
+    }
+    if (time == "4 PM - 5 PM") {
+      timeslot = "Time_4_PM_5_PM";
+    }
+
+    // url = 'gs://telehealth_ope_patient/patient_patientMRN/appdate_timing_pracid/FHIR.'
+    var bucket =
+      "gs://telehealth_ope_patient/patient_" +
+      patientMrn +
+      "/" +
+      date +
+      "_" +
+      timeslot +
+      "_" +
+      practitionerid;
+
+    const OPElink = "";
+    //yet to be given;
+    var url = bucket+ OPElink;
+    return url;
+  };
+
   const redirecttoEmail = () => {
     senddata();
-    var url = `/notifications/email`;
+    if (sessionStorage.getItem("Patient_name") == null) {
+      var url = `/notifications/email`;
+    } else {
+      bucketurl();
+    }
     // var url = `/bookAppointment`;
     history.push(`${url}`);
     localStorage.clear();
+    sessionStorage.clear();
     // localStorage.removeItem('Patient_name');
   };
 
@@ -285,9 +341,9 @@ export default function RadioButtonsGroup() {
           <b>Selected Time :</b> {localStorage.getItem("timeslot")}
           <br />
           <br />
-          {/* <b>Device ID information: </b> {localStorage.getItem("deviceid")}
+          <b>Device ID information: </b> {sessionStorage.getItem("Patient_name")}
           <br />
-          <br /> */}
+          <br />
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}{" "}
           <br />
           <br />
@@ -306,7 +362,10 @@ export default function RadioButtonsGroup() {
           <Modal.Title>Appointment Request</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Your appointment request has been sent successfully. <br/>Please check your email for the confirmation.</p>
+          <p>
+            Your appointment request has been sent successfully. <br />
+            Please check your email for the confirmation.
+          </p>
           <CheckCircleIcon style={{ color: "green", fontSize: "100px" }} />
         </Modal.Body>
         <Modal.Footer>
@@ -381,12 +440,12 @@ export default function RadioButtonsGroup() {
     <br/>  */}
         {/* <h4 style={{fontFamily:'sans-serif'}}>Consent</h4> */}
         <CRow>
-        <CCol className="navbar justify-content-between">
-          <p className="navbar-brand">
-            <b>Provide your consent</b>
-          </p>
-        </CCol>
-      </CRow>
+          <CCol className="navbar justify-content-between">
+            <p className="navbar-brand">
+              <b>Provide your consent</b>
+            </p>
+          </CCol>
+        </CRow>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
           name="radio-buttons-group"

@@ -198,7 +198,8 @@ export default function RadioButtonsGroup() {
 
     console.log(raw);
 
-    fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
+    // fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
+    fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((response) => {
         response.json();
       })
