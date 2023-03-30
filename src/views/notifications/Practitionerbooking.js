@@ -124,6 +124,7 @@ export default function PractitionerBooking() {
   const [finalprac, setpracdata] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [timeslot, settimeslot] = React.useState([]);
+  // const [selectedCard, setSelectedCard] = useState(null);
   // const history = useHistory();
   const [providername, setProvidername] = useState();
   // const [selectedTime, setTime] = React.useState("");
@@ -538,8 +539,12 @@ export default function PractitionerBooking() {
             <CCol sm="6" md="6" lg="4">
               <CCardGroup
                 className="mb-4"
-                style={{ cursor: "pointer" }}
+                style={{
+                  cursor: "pointer",
+                }}
+  
                 onClick={(e) => {
+                  // setSelectedCard(index);
                   redirecttoConsent(
                     e,
                     row.Patient_name,
@@ -550,7 +555,10 @@ export default function PractitionerBooking() {
                     "practitioner_name",
                     row.Practitioner_name
                   );
-                  localStorage.setItem("practitioner_id", row.Practitioner_id);
+                  localStorage.setItem(
+                    "practitioner_id",
+                     row.Practitioner_id
+                  );
                   localStorage.setItem(
                     "practitioner_name",
                     row.Practitioner_name
@@ -568,7 +576,6 @@ export default function PractitionerBooking() {
                 <CWidgetProgressIcon
                   color="gradient-success"
                   inverse
-                  // text={row.practitioner_email}
                   style={{ color: "black" }}
                 >
                   <CIcon
@@ -585,25 +592,31 @@ export default function PractitionerBooking() {
                   >
                     {row.Practitioner_name}
                   </p>
-                  <p style={{ fontSize: "50%", textAlign: "left" }}>
+                  <p
+                    sx={{ minWidth: "10 rem" , display: 'flex', justifyContent: 'space-between'}}
+                    style={{ fontSize: "50%", textAlign: "left" }}
+                  >
                     {row.Practitioner_Speciality}
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      style={{
+                        cursor: "pointer",
+                        padding: "1%",
+                        fontWeight: "bolder",
+                        float: "right"
+                      }}
+                      // onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
+                    >
+                      Select{" "}
+                    </button>{" "}
                   </p>
-                  {/* <p>
-                    <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: "pointer", padding: "1%", fontWeight: "bolder", }} onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
-                      Select </button> </p>*/}
                 </CWidgetProgressIcon>
               </CCardGroup>
             </CCol>
           );
         })}
       </CRow>
-      {/* <CRow>
-        <CCol className="navbar justify-content-between">
-          <p className="navbar-brand">
-            <b>Patients other appointments</b>
-          </p>
-        </CCol>
-      </CRow> */}
 
       <CRow>
         <CCol>
@@ -624,7 +637,6 @@ export default function PractitionerBooking() {
           md="6"
           lg="3"
           sx={{ minWidth: "100%" }}
-          id={"avaiable-date-prac"}
         >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
@@ -645,14 +657,14 @@ export default function PractitionerBooking() {
             <InputLabel labelid="demo-simple-select-label">
               Choose Time:
             </InputLabel>
-            {timeslot.length > 0 && (
+            {/* {timeslot.length > 0 && ( */}
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="choose time  "
                 onChange={handleChangeSlot}
                 disabled={timeslot.length === 0}
-                // value={setSelectedSlot}
+                
               >
                 {timeslot.map((row, index) => {
                   return (
@@ -662,7 +674,8 @@ export default function PractitionerBooking() {
                   );
                 })}
               </Select>
-            )}
+            {/*)
+             }
             {timeslot.length === 0 && (
               <Select
                 labelId="demo-simple-select-label"
@@ -677,7 +690,7 @@ export default function PractitionerBooking() {
                   No timeslot are Available, please select another date
                 </p>{" "}
               </Select>
-            )}
+            )} */}
           </FormControl>
         </CCol>
       </CRow>

@@ -89,7 +89,7 @@ export default function RadioButtonsGroup() {
     }
   };
 
-  const handleCloseModal = async () => {
+  const handlepreview = async () => {
     const providername = localStorage.getItem("provider_name");
     const pracname = localStorage.getItem("practitioner_name");
     const date = localStorage.getItem("date");
@@ -137,29 +137,34 @@ export default function RadioButtonsGroup() {
     }
   };
 
+  const handleclosemodal = () =>{
+    setShowModal(!modal);
+  }
   const handleSubmit = () => {
-    handleCloseModal();
+    // handlepreview();
+    setShowModal(!modal);
     setSubmitted(true);
+    senddata();
   };
 
   const handleShowSubmittedModal = () => {
-    setShowModal(false);
+    setShowModal(!modal);
     setSubmitted(false);
-    redirecttoEmail();
+    redirect();
   };
 
-  const handleYesChange = () => {
-    setDeviceIdValue("Yes");
-    setDeviceIdPromptOpen(true);
-    localStorage.setItem("deviceid", "No ID provided");
-  };
+  // const handleYesChange = () => {
+  //   setDeviceIdValue("Yes");
+  //   setDeviceIdPromptOpen(true);
+  //   localStorage.setItem("deviceid", "No ID provided");
+  // };
 
-  const handleNoChange = () => {
-    setDeviceIdValue("No");
-    setDeviceIdPromptOpen(false);
-    assignNewDeviceIdAndShare();
-    // console.log(newDeviceId);
-  };
+  // const handleNoChange = () => {
+  //   setDeviceIdValue("No");
+  //   setDeviceIdPromptOpen(false);
+  //   assignNewDeviceIdAndShare();
+  //   // console.log(newDeviceId);
+  // };
 
   const handleConsentChange = (event) => {
     const value = event.target.value;
@@ -233,12 +238,13 @@ export default function RadioButtonsGroup() {
       method: "POST",
       headers: myHeaders,
       body: JSON.stringify(raw),
+      mode: 'cors',
     };
 
     console.log(raw);
 
-    // fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
-    fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
+    fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
+    // fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((response) => {
         response.json();
       })
@@ -292,16 +298,19 @@ export default function RadioButtonsGroup() {
 
     const OPElink = "";
     //yet to be given;
-    var url = bucket+ OPElink;
+    var url = OPElink+'?url='+bucket;
+    // var url1 = bucket+ OPElink;
+    console.log(url);
     return url;
   };
 
-  const redirecttoEmail = () => {
-    senddata();
+  const redirect = () => {
+    // senddata();
     if (sessionStorage.getItem("Patient_name") == null) {
       var url = `/notifications/email`;
     } else {
-      bucketurl();
+      var url = `/records/providers`;
+      // bucketurl();
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);
@@ -312,7 +321,7 @@ export default function RadioButtonsGroup() {
 
   return (
     <>
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={handlepreview}>
         <Modal.Header closeButton>
           <Modal.Title>
             <b>Preview Appointment Details</b>
@@ -341,15 +350,15 @@ export default function RadioButtonsGroup() {
           <b>Selected Time :</b> {localStorage.getItem("timeslot")}
           <br />
           <br />
-          <b>Device ID information: </b> {sessionStorage.getItem("Patient_name")}
+          {/* <b>Device ID information: </b> {sessionStorage.getItem("Patient_name")}
           <br />
-          <br />
+          <br /> */}
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}{" "}
           <br />
           <br />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant="secondary" onClick={handleclosemodal}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
@@ -497,7 +506,7 @@ export default function RadioButtonsGroup() {
       </form>   */}
 
         <div align="center">
-          <button class="btn btn-primary" onClick={handleCloseModal}>
+          <button class="btn btn-primary" onClick={handlepreview}>
             Preview
           </button>
         </div>

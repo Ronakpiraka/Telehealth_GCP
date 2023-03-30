@@ -122,7 +122,7 @@ export default function Appointment() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [PatientName, setPatientName] = React.useState("");
-  const [personName, setPersonName] = React.useState([]);
+  const [personName, setPersonName] = React.useState('');
   const [conditionName, setConditionName] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [MRN, setMRN] = useState("");
@@ -189,7 +189,7 @@ export default function Appointment() {
   });
 
   useEffect(() => {
-    if (paramString == undefined) {
+    // if (paramString == undefined) {
       const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
         method: "GET",
       })
@@ -222,8 +222,9 @@ export default function Appointment() {
         .catch((error) => {
           console.log(error);
         });
-    }
-  }, []);
+    // }
+  }, 
+  []);
   console.log(data);
 
   const uniquePatientName = Array.from(
@@ -378,13 +379,17 @@ export default function Appointment() {
                 </p>
               </div>
             </CCol>
-            :
+          
             <CCol sm="8" md="6" lg="8">
-              <FormControl>
-                <InputLabel id="demo-simple-select-label">
+              <div className="navbar justify-content-between">
+                <p className="navbar-brand">
+              {/* <FormControl> */}
+                {/* <InputLabel id="demo-simple-select-label"> */}
                   <b>{decryptedName}</b>
-                </InputLabel>
-              </FormControl>
+                {/* </InputLabel> */}
+              {/* </FormControl> */}
+              </p>
+              </div>
             </CCol>
           </>
         )}
@@ -429,11 +434,12 @@ export default function Appointment() {
             </p>
           </span>
         </CCol>
+        {!decryptedMRN && (
         <CCol sm="8" md="6" lg="6">
           <span className="navbar justify-content-between">
             <p className="navbar-brand">{MRN && <b>{MRN}</b>}</p>
           </span>
-        </CCol>
+        </CCol>)}
 
         {decryptedMRN && (
           <CCol sm="4" md="6" lg="6">
@@ -546,7 +552,7 @@ export default function Appointment() {
                   <CWidgetDropdown
                     type="button"
                     color="gradient-info"
-                    text={row.condition}
+                    text = {row.condition}
                     onClick={(e) => {
                       redirecttoPractitionerbooking(e, row.condition, row.code);
                     }}
