@@ -104,7 +104,7 @@ export default function RadioButtonsGroup() {
       try {
         const response = await fetch(
           "https://emailnotifications-sh4iojyb3q-uc.a.run.app"
-        ); // Replace with the actual endpoint URL
+        );
         const appointments = await response.json();
         const busyPrac = appointments.find(
           (a) =>
@@ -137,9 +137,9 @@ export default function RadioButtonsGroup() {
     }
   };
 
-  const handleclosemodal = () =>{
+  const handleclosemodal = () => {
     setShowModal(!modal);
-  }
+  };
   const handleSubmit = () => {
     // handlepreview();
     setShowModal(!modal);
@@ -194,9 +194,13 @@ export default function RadioButtonsGroup() {
   };
 
   const senddata = () => {
+    // const accessToken = fetch(
+    //   "https://generate-access-token-sh4iojyb3q-uc.a.run.app"
+    // );
+    // console.log(accessToken);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
+    // myHeaders.append("Authorization", `Bearer ${accessToken}`);
     var raw = {
       Patient_id: localStorage.getItem("Patient_MRN"),
       App_Date: localStorage.getItem("date"),
@@ -231,6 +235,7 @@ export default function RadioButtonsGroup() {
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue"),
       Patient_email: localStorage.getItem("Patient_email"),
+      Device_Requirement: false,     
       Timing: localStorage.getItem("timeslot"),
     };
 
@@ -238,7 +243,7 @@ export default function RadioButtonsGroup() {
       method: "POST",
       headers: myHeaders,
       body: JSON.stringify(raw),
-      mode: 'cors',
+      mode: "cors",
     };
 
     console.log(raw);
@@ -253,6 +258,81 @@ export default function RadioButtonsGroup() {
       })
       .catch((error) => console.log("error", error));
   };
+
+  // const senddata = () => {
+  //   fetch("https://generate-access-token-sh4iojyb3q-uc.a.run.app")
+  //     .then((response) => {
+  //       return response.text(); // Extract the access token from the response as a string
+  //     })
+  //     .then((accessToken) => {
+  //       var myHeaders = new Headers();
+  //       myHeaders.append("Content-Type", "application/json");
+  //       myHeaders.append("Authorization", `Bearer ${accessToken}`); // Include the access token in the authorization header
+
+  //       var raw = {
+  //         Patient_id: localStorage.getItem("Patient_MRN"),
+  //         App_Date: localStorage.getItem("date"),
+  //         Provider_id: localStorage.getItem("provider_id"),
+  //         Provider_name: localStorage.getItem("provider_name"),
+  //         Time_9_AM_10_AM:
+  //           localStorage.getItem("Time_9_AM_10_AM") == "true" ? true : false,
+  //         Time_10_AM_11_AM:
+  //           localStorage.getItem("Time_10_AM_11_AM") == "true" ? true : false,
+  //         Time_11_AM_12_PM:
+  //           localStorage.getItem("Time_11_AM_12_PM") == "true" ? true : false,
+  //         Time_12_PM_1_PM:
+  //           localStorage.getItem("Time_12_PM_1_PM") == "true" ? true : false,
+  //         Time_1_PM_2_PM:
+  //           localStorage.getItem("Time_1_PM_2_PM") == "true" ? true : false,
+  //         Time_2_PM_3_PM:
+  //           localStorage.getItem("Time_2_PM_3_PM") == "true" ? true : false,
+  //         Time_3_PM_4_PM:
+  //           localStorage.getItem("Time_3_PM_4_PM") == "true" ? true : false,
+  //         Time_4_PM_5_PM:
+  //           localStorage.getItem("Time_4_PM_5_PM") == "true" ? true : false,
+  //         Condition_code: localStorage.getItem("condition_code"),
+  //         Condition_name: localStorage.getItem("condition_name"),
+  //         Patient_name: localStorage.getItem("Patient_name"),
+  //         Practitioner_id: localStorage.getItem("practitioner_id"),
+  //         Practitioner_name: localStorage.getItem("practitioner_name"),
+  //         Practitioner_Speciality: localStorage.getItem(
+  //           "practitioner_speciality"
+  //         ),
+  //         MRN: localStorage.getItem("Patient_MRN"),
+  //         practitioner_email: localStorage.getItem("practitioner_email"),
+  //         provider_contact_number: localStorage.getItem(
+  //           "provider_contact_number"
+  //         ),
+  //         Appointment_Status: localStorage.getItem("Appointment_Status"),
+  //         Consent_form_choice: localStorage.getItem("consentValue"),
+  //         Connected_Care_Status: localStorage.getItem("connectedCareValue"),
+  //         Patient_email: localStorage.getItem("Patient_email"),
+  //         Timing: localStorage.getItem("timeslot"),
+  //       };
+
+  //       var requestOptions = {
+  //         method: "POST",
+  //         headers: myHeaders,
+  //         body: JSON.stringify(raw),
+  //         mode: "cors",
+  //         // Authorization:  `bearer $`+{accessToken},
+  //       };
+
+  //       console.log(raw);
+
+  //       // fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
+  //       fetch(
+  //         "https://appointment-booking-sh4iojyb3q-uc.a.run.app",
+  //         requestOptions
+  //       )
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           console.log(result);
+  //         })
+  //         .catch((error) => console.log("error", error));
+  //     })
+  //     .catch((error) => console.log("error", error));
+  // };
 
   const bucketurl = () => {
     const patientMrn = localStorage.getItem("Patient_MRN");
@@ -298,7 +378,7 @@ export default function RadioButtonsGroup() {
 
     const OPElink = "";
     //yet to be given;
-    var url = OPElink+'?url='+bucket;
+    var url = OPElink + "?url=" + bucket;
     // var url1 = bucket+ OPElink;
     console.log(url);
     return url;
@@ -310,7 +390,7 @@ export default function RadioButtonsGroup() {
       var url = `/notifications/email`;
     } else {
       var url = `/records/providers`;
-      // bucketurl();
+      bucketurl();
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);

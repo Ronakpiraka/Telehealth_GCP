@@ -67,7 +67,7 @@ function AuthPage() {
     console.log('SUCESS LOG OUT');
   };
 
-  con
+  // con
 
   return (
     <div>
