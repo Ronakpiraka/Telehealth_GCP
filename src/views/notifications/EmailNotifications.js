@@ -111,6 +111,8 @@ export default function EmailNotify() {
 
   useEffect(() => {
     const res = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
+
+    // const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
       method: "GET",
     })
       .then((resp) => resp.json())
@@ -317,6 +319,9 @@ export default function EmailNotify() {
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Patient Name</b>
                 </TableCell>
+                {/* <TableCell style={{ width: "15%", textAlign: "center" }}>
+                  <b>Patient MRN</b>
+                </TableCell> */}
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Condition Name</b>
                 </TableCell>
@@ -393,6 +398,11 @@ export default function EmailNotify() {
                       >
                         {row.Patient_name}
                       </StyledTableCell>
+                      {/* <StyledTableCell
+                        style={{ textAlign: "center", width: "15%" }}
+                      >
+                        {row.MRN}
+                      </StyledTableCell> */}
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >

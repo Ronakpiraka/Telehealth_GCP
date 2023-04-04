@@ -182,6 +182,45 @@ export default function PatientInform() {
       .catch(error => console.log('error', error));
     
   }
+
+  // const fetchpatientdata = async () => {
+  //   const requestOptions = {
+  //     method: 'GET',
+  //     // mode:'no-cors'
+  //   };
+  
+  //   // const accessToken = sessionStorage.getItem("Accesstoken");
+  
+  //   try {
+  //     const response = await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions);
+  //     const data = await response.json();
+  
+  //     const patientMap = new Map();
+  //     const finalData = data.map((patient) => {
+  //       const patientId = patient.Patient_id;
+  //       if (!patientMap.has(patientId)) {
+  //         patientMap.set(patientId, patient);
+  //         return patient;
+  //       } else {
+  //         const lastEncounter = Date.parse(patientMap.get(patientId).Encounter_start);
+  //         const newEncounter = Date.parse(patient.Encounter_start);
+  //         if (newEncounter > lastEncounter) {
+  //           patientMap.set(patientId, patient);
+  //           return patient;
+  //         } else {
+  //           return null;
+  //         }
+  //       }
+  //     }).filter(patient => patient !== null);
+  
+  //     console.log("Data to be seen: ", finalData);
+  //     setdata(finalData);
+  //     setisLoading(false);
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
+  
   const RemoteStatus=(status)=>{
     if(status === "Vitals Tracked")
     {

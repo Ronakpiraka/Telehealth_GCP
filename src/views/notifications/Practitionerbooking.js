@@ -28,8 +28,8 @@ import { CButton } from "@coreui/react";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import PatientAppointment from "../notifications/PatientAppointments";
 import Consent from "../notifications/Consent.js";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+// import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+// import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import {
   Modal,
   CCard,
@@ -41,7 +41,7 @@ import {
   CWidgetProgressIcon,
   CCardText,
 } from "@coreui/react";
-import { style } from "@mui/system";
+// import { style } from "@mui/system";
 export default function PractitionerBooking() {
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -163,7 +163,8 @@ export default function PractitionerBooking() {
 
   useEffect(() => {
     flags = location.search.split("^")[1];
-    conditionName = location.search.split("=")[1].split("%")[0];
+    // conditionName = location.search.split("=")[1].split("%")[0];
+    conditionName = localStorage.getItem('condition_name')
     console.log("condition", conditionName);
 
     Pname = sessionStorage.getItem("Patient");
@@ -186,7 +187,7 @@ export default function PractitionerBooking() {
           );
           if (
             Provider_list_index == -1 &&
-            response[i].Condition_name == conditionName
+            response[i].Condition_name === conditionName
           ) {
             final_data.push(response[i]);
             Provider_id_list.push(response[i].Provider_id);
@@ -532,7 +533,8 @@ export default function PractitionerBooking() {
               },
             }),
           }}
-        ></LoadingOverlay>
+        >
+        </LoadingOverlay>
 
         {finalprac.map((row, index) => {
           return (
@@ -544,7 +546,6 @@ export default function PractitionerBooking() {
                 }}
   
                 onClick={(e) => {
-                  // setSelectedCard(index);
                   redirecttoConsent(
                     e,
                     row.Patient_name,
