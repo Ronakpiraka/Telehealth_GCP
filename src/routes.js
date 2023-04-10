@@ -15,7 +15,7 @@ const PractitionerInsights = React.lazy(() => import('./views/reports/Practition
 const PatientCare = React.lazy(() => import('./views/reports/PatientCare'));
 const PatientDemography = React.lazy(() => import('./views/reports/PatientDemography'));
 const Device = React.lazy(() => import('./views/device/Device'));
-const Notification = React.lazy(() => import('./views/notifications/calendar.jsx'));
+const Notification = React.lazy(() => import('./views/notifications/calendar'));
 const CalendarSchedule = React.lazy(() => import('./views/notifications/CalenderSchedule'));
 const AmbulanceService = React.lazy(() => import('./views/services/AmbulanceService'));
 const AmbulanceInform = React.lazy(() => import('./views/services/AmbulanceInform'));
