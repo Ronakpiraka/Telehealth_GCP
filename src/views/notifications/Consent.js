@@ -32,62 +32,62 @@ import {
 } from "@coreui/react";
 // import { Button } from 'antd';
 import { useHistory, useLocation } from "react-router-dom";
-import SignatureCanvas from "react-signature-canvas";
-import ReactDOM from "react-dom";
-import styles from "./Consent.css";
-import Signature from "./signature";
+// import SignatureCanvas from "react-signature-canvas";
+// import ReactDOM from "react-dom";
+// import styles from "./Consent.css";
+// import Signature from "./signature";
 import { _ } from "core-js";
-import { alignPropType } from "react-bootstrap/esm/DropdownMenu";
+// import { alignPropType } from "react-bootstrap/esm/DropdownMenu";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { message } from "antd";
+// import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+// import { message } from "antd";
 
 export default function RadioButtonsGroup() {
   const history = useHistory();
   const [modal, setModal] = useState(false);
   const [consentValue, setConsentValue] = useState("Do not");
-  const [connectedCareValue, setConnectedCareValue] = useState("No");
-  const [deviceIdValue, setDeviceIdValue] = useState("No");
-  const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
-  const [deviceId, setDeviceId] = useState(0);
+  // const [connectedCareValue, setConnectedCareValue] = useState("No");
+  // const [deviceIdValue, setDeviceIdValue] = useState("No");
+  // const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
+  // const [deviceId, setDeviceId] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("consentValue", "Do not");
-    localStorage.setItem("connectedCareValue", "False");
+    // localStorage.setItem("connectedCareValue", "False");
     localStorage.setItem("Appointment_Status", "Booked");
-    localStorage.setItem("deviceid", "Not enrolled for tracking.");
+    // localStorage.setItem("deviceid", "Not enrolled for tracking.");
     localStorage.setItem(
       "Appointment_Statusvalue",
       "You will share your records with practitioner during the visit."
     );
   }, []);
 
-  const handleConnectedCareChange = (event) => {
-    setConnectedCareValue(event.target.value);
-    if (event.target.value === "No") {
-      setDeviceIdValue("No");
-      localStorage.setItem("deviceid", "Not enrolled for tracking.");
-    }
-  };
+  // const handleConnectedCareChange = (event) => {
+  //   setConnectedCareValue(event.target.value);
+  //   if (event.target.value === "No") {
+  //     setDeviceIdValue("No");
+  //     localStorage.setItem("deviceid", "Not enrolled for tracking.");
+  //   }
+  // };
 
-  const assignNewDeviceIdAndShare = () => {
-    const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
-    const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
-    const value = localStorage.setItem("deviceid", newDeviceId);
-    // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
-    return message;
-  };
+  // const assignNewDeviceIdAndShare = () => {
+  //   const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
+  //   const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+  //   const value = localStorage.setItem("deviceid", newDeviceId);
+  //   // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
+  //   return message;
+  // };
 
-  const handleDeviceIdInputChange = (e) => {
-    setDeviceId(e.target.value);
-    if (e.target.value === "") {
-      localStorage.setItem("deviceid", "Please enter a Valid ID");
-    } else {
-      localStorage.setItem("deviceid", e.target.value);
-    }
-  };
+  // const handleDeviceIdInputChange = (e) => {
+  //   setDeviceId(e.target.value);
+  //   if (e.target.value === "") {
+  //     localStorage.setItem("deviceid", "Please enter a Valid ID");
+  //   } else {
+  //     localStorage.setItem("deviceid", e.target.value);
+  //   }
+  // };
 
   const handlepreview = async () => {
     const providername = localStorage.getItem("provider_name");
@@ -198,6 +198,8 @@ export default function RadioButtonsGroup() {
     //   "https://generate-access-token-sh4iojyb3q-uc.a.run.app"
     // );
     // console.log(accessToken);
+    // const accessToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjFhYWU4ZDdjOTIwNThiNWVlYTQ1Njg5NWJmODkwODQ1NzFlMzA2ZjMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNjE4MTA0NzA4MDU0LTlyOXMxYzRhbGczNmVybGl1Y2hvOXQ1Mm4zMm42ZGdxLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTEwMDU3NzI0Mzc5NjAzNjM2NzU0IiwiaGQiOiJicmlsbGlvLmNvbSIsImVtYWlsIjoicm9uYWsucGlyYWthQGJyaWxsaW8uY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJHLTFadGFia09LSnl4WE9USTZEQVpRIiwiaWF0IjoxNjgwNDk4ODk5LCJleHAiOjE2ODA1MDI0OTksImp0aSI6IjE5MjRjYWI3MmFhMzMxY2I0ZWVjOGM2MWQ2YzA1MjNjOGVkZDIxYWUifQ.STpi8n4b0YvoGiJVu7IEkpX7Q_gfbM7w2VL5l_E10-OJA_-nZTMASI569_0YsYG1fFfxfXZrny2JAecPSCFwD2GK2CkfXkj9HxoEgTXLWS_9pcppan1Qdv1phP63PdlI0gIWHRKp7S2DCNBXBqhfuqtdZw0r3FFMyvyHCeaKzkdI78p5XdXFR0fh0p-FeK2rmRSy0kP-o4M8oH_IvzhYTS5ZY3TpCYgWPsmnIzdCAERuN9AtRyu72Dlosb_vYqG6dbqDBlRRmJYIQ3kNTU0CsG6TY3y-3eqqg6U6c_74UeRfVN5kv_zZCKo76nqhk7wdF04rWjqWaSFYgLe_2CBpbg';
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     // myHeaders.append("Authorization", `Bearer ${accessToken}`);
@@ -235,8 +237,10 @@ export default function RadioButtonsGroup() {
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue"),
       Patient_email: localStorage.getItem("Patient_email"),
-      Device_Requirement: false,     
+      Device_Requirement: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,    
       Timing: localStorage.getItem("timeslot"),
+      // Devices: "a,b,c,d,r[]"
+      Devices: localStorage.getItem("Patient_MRN"),
     };
 
     var requestOptions = {
@@ -258,81 +262,6 @@ export default function RadioButtonsGroup() {
       })
       .catch((error) => console.log("error", error));
   };
-
-  // const senddata = () => {
-  //   fetch("https://generate-access-token-sh4iojyb3q-uc.a.run.app")
-  //     .then((response) => {
-  //       return response.text(); // Extract the access token from the response as a string
-  //     })
-  //     .then((accessToken) => {
-  //       var myHeaders = new Headers();
-  //       myHeaders.append("Content-Type", "application/json");
-  //       myHeaders.append("Authorization", `Bearer ${accessToken}`); // Include the access token in the authorization header
-
-  //       var raw = {
-  //         Patient_id: localStorage.getItem("Patient_MRN"),
-  //         App_Date: localStorage.getItem("date"),
-  //         Provider_id: localStorage.getItem("provider_id"),
-  //         Provider_name: localStorage.getItem("provider_name"),
-  //         Time_9_AM_10_AM:
-  //           localStorage.getItem("Time_9_AM_10_AM") == "true" ? true : false,
-  //         Time_10_AM_11_AM:
-  //           localStorage.getItem("Time_10_AM_11_AM") == "true" ? true : false,
-  //         Time_11_AM_12_PM:
-  //           localStorage.getItem("Time_11_AM_12_PM") == "true" ? true : false,
-  //         Time_12_PM_1_PM:
-  //           localStorage.getItem("Time_12_PM_1_PM") == "true" ? true : false,
-  //         Time_1_PM_2_PM:
-  //           localStorage.getItem("Time_1_PM_2_PM") == "true" ? true : false,
-  //         Time_2_PM_3_PM:
-  //           localStorage.getItem("Time_2_PM_3_PM") == "true" ? true : false,
-  //         Time_3_PM_4_PM:
-  //           localStorage.getItem("Time_3_PM_4_PM") == "true" ? true : false,
-  //         Time_4_PM_5_PM:
-  //           localStorage.getItem("Time_4_PM_5_PM") == "true" ? true : false,
-  //         Condition_code: localStorage.getItem("condition_code"),
-  //         Condition_name: localStorage.getItem("condition_name"),
-  //         Patient_name: localStorage.getItem("Patient_name"),
-  //         Practitioner_id: localStorage.getItem("practitioner_id"),
-  //         Practitioner_name: localStorage.getItem("practitioner_name"),
-  //         Practitioner_Speciality: localStorage.getItem(
-  //           "practitioner_speciality"
-  //         ),
-  //         MRN: localStorage.getItem("Patient_MRN"),
-  //         practitioner_email: localStorage.getItem("practitioner_email"),
-  //         provider_contact_number: localStorage.getItem(
-  //           "provider_contact_number"
-  //         ),
-  //         Appointment_Status: localStorage.getItem("Appointment_Status"),
-  //         Consent_form_choice: localStorage.getItem("consentValue"),
-  //         Connected_Care_Status: localStorage.getItem("connectedCareValue"),
-  //         Patient_email: localStorage.getItem("Patient_email"),
-  //         Timing: localStorage.getItem("timeslot"),
-  //       };
-
-  //       var requestOptions = {
-  //         method: "POST",
-  //         headers: myHeaders,
-  //         body: JSON.stringify(raw),
-  //         mode: "cors",
-  //         // Authorization:  `bearer $`+{accessToken},
-  //       };
-
-  //       console.log(raw);
-
-  //       // fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
-  //       fetch(
-  //         "https://appointment-booking-sh4iojyb3q-uc.a.run.app",
-  //         requestOptions
-  //       )
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           console.log(result);
-  //         })
-  //         .catch((error) => console.log("error", error));
-  //     })
-  //     .catch((error) => console.log("error", error));
-  // };
 
   const bucketurl = () => {
     const patientMrn = localStorage.getItem("Patient_MRN");
@@ -395,7 +324,8 @@ export default function RadioButtonsGroup() {
     // var url = `/bookAppointment`;
     history.push(`${url}`);
     localStorage.clear();
-    sessionStorage.clear();
+    sessionStorage.removeItem('Patient_name');
+    // sessionStorage.clear();
     // localStorage.removeItem('Patient_name');
   };
 
@@ -430,9 +360,9 @@ export default function RadioButtonsGroup() {
           <b>Selected Time :</b> {localStorage.getItem("timeslot")}
           <br />
           <br />
-          {/* <b>Device ID information: </b> {sessionStorage.getItem("Patient_name")}
+          <b>Device ID information: </b> {localStorage.getItem("devices")}
           <br />
-          <br /> */}
+          <br />
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}{" "}
           <br />
           <br />
@@ -549,6 +479,7 @@ export default function RadioButtonsGroup() {
                 <FormControlLabel
                   value="Do"
                   control={<Radio />}
+                  disabled={sessionStorage.getItem('Patient_name') == null}
                   label="I give my consent to share my EHR records with practitioner as well as provider ."
                 />
               </CCol>
@@ -561,6 +492,7 @@ export default function RadioButtonsGroup() {
                 <FormControlLabel
                   value="Do partial"
                   control={<Radio />}
+                  // disabled={sessionStorage.getItem('Patient_name') == null}
                   label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
                 />
               </CCol>

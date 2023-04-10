@@ -44,8 +44,8 @@ export default function RadioButtonsGroup() {
   const history = useHistory();
   const [modal, setModal] = useState(false);
   const [consentValue, setConsentValue] = useState("Do not");
-  const [connectedCareValue, setConnectedCareValue] = useState("No");
-  const [deviceIdValue, setDeviceIdValue] = useState("No");
+  const [connectedCareValue, setConnectedCareValue] = useState();
+  const [deviceIdValue, setDeviceIdValue] = useState();
   const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
   const [deviceId, setDeviceId] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -219,130 +219,121 @@ export default function RadioButtonsGroup() {
   };
 
   return (
-    <>
-      <div>
-        {/* <div style={{ display: "flex", alignItems: "center" }}>
-          <h4 style={{ fontFamily: "sans-serif" }}>
-            Are you interested in Connected Care?
-          </h4>
-          <Tooltip title="Remote care vital tracking">
-            <InfoIcon />
-          </Tooltip>
-        </div> */}
-        <FormControl>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
-            value={connectedCareValue}
-            onclick={handleConnectedCareChange}
-          >
+    <div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <h4 style={{ fontFamily: "sans-serif" }}>
+          Are you interested in Connected Care?
+        </h4>
+        <Tooltip title="Remote care vital tracking">
+          <InfoIcon />
+        </Tooltip>
+      </div>
+      <FormControl>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          name="radio-buttons-group"
+          value = {connectedCareValue}
+          onclick={handleConnectedCareChange}
+        >
+          <CRow>
+            <CCol></CCol>
             <CRow>
-              <CCol></CCol>
-              <CRow>
-                <CCol>
-                  <FormControlLabel
-                    value="Yes"
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                </CCol>
-              </CRow>
-              <br />
-              <br />
-              <CCol></CCol>
-              <CRow>
-                <CCol>
-                  <FormControlLabel value="No" control={<Radio />} label="No" />
-                </CCol>
-              </CRow>
+              <CCol>
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+              </CCol>
             </CRow>
-          </RadioGroup>
-          <br />
-          </FormControl>
+            <br />
+            <br />
+            <CCol></CCol>
+            <CRow>
+              <CCol>
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </CCol>
+            </CRow>
+          </CRow>
+        </RadioGroup>
+        <br />
+        {/* </FormControl> */}
+        {/* </div> */}
+        {/* </> */}
+        {connectedCareValue === "Yes" && (
+          <div>
+            <h4 style={{ fontFamily: "sans-serif" }}>
+              Do you have a Medical device?
+            </h4>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="device-id-group"
+              value={deviceIdValue}
+              onChange={(e) =>
+                e.target.value === "Yes" ? handleYesChange() : handleNoChange()
+              }
+            >
+              <CRow>
+                <CCol></CCol>
+                <CRow>
+                  <CCol>
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                  </CCol>
+                </CRow>
+                <CCol></CCol>
+                <CRow>
+                  <CCol>
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
+                  </CCol>
+                </CRow>
+              </CRow>
+            </RadioGroup>
+            {deviceIdPromptOpen && (
+              <CRow>
+                <CCol></CCol>
+                <CRow>
+                  <CCol style={{ color: "red" }}>
+                    Please enter your device ID :{" "}
+                    <input
+                      type="text"
+                      className="input-box"
+                      onChange={handleDeviceIdInputChange}
+                      value={deviceId}
+                      style={{ width: "400px" }}
+                    />
+                  </CCol>
+                </CRow>
+              </CRow>
+            )}
+            {!deviceIdPromptOpen && (
+              <CRow>
+                <CRow>
+                  <CCol>
+                    <h5 style={{ fontFamily: "sans-serif", color: "red" }}>
+                      We are assigning you a new id and{" "}
+                      {assignNewDeviceIdAndShare()}
+                    </h5>
+                  </CCol>
+                </CRow>
+              </CRow>
+            )}
           </div>
-          </>
-      //    {connectedCareValue == "Yes" && (
-      //       <div>
-      //         <h4 style={{ fontFamily: "sans-serif" }}>
-      //           Do you have a Medical device?
-      //         </h4>
-      //         <RadioGroup
-      //           aria-labelledby="demo-radio-buttons-group-label"
-      //           name="device-id-group"
-      //           value={deviceIdValue}
-      //           onChange={(e) =>
-      //             e.target.value === "Yes"
-      //               ? handleYesChange()
-      //               : handleNoChange()
-      //           }
-      //         >
-      //           <CRow>
-      //             <CCol></CCol>
-      //             <CRow>
-      //               <CCol>
-      //                 <FormControlLabel
-      //                   value="Yes"
-      //                   control={<Radio />}
-      //                   label="Yes"
-      //                 />
-      //               </CCol>
-      //             </CRow>
-      //             <CCol></CCol>
-      //             <CRow>
-      //               <CCol>
-      //                 <FormControlLabel
-      //                   value="No"
-      //                   control={<Radio />}
-      //                   label="No"
-      //                 />
-      //               </CCol>
-      //             </CRow>
-      //           </CRow>
-      //         </RadioGroup>
-      //         {deviceIdPromptOpen && (
-      //           <CRow>
-      //             <CCol></CCol>
-      //             <CRow>
-      //               <CCol style={{ color: "red" }}>
-      //                 Please enter your device ID :{" "}
-      //                 <input
-      //                   type="text"
-      //                   className="input-box"
-      //                   onChange={handleDeviceIdInputChange}
-      //                   value={deviceId}
-      //                   style={{width : '400px'}}
-      //                 />
-      //               </CCol>
-      //             </CRow>
-      //           </CRow>
-      //         )}
-      //         {!deviceIdPromptOpen && (
-      //           <CRow>
-      //             <CRow>
-      //               <CCol>
-      //                 <h5 style={{ fontFamily: "sans-serif", color: "red" }}>
-      //                   We are assigning you a new id and{" "}
-      //                   {assignNewDeviceIdAndShare()}
-      //                 </h5>
-      //               </CCol>
-      //             </CRow>
-      //           </CRow>
-      //         )}
-      //       </div>
-            
-      //     )} 
-      //   </FormControl>
-      //    <div>
-      //     <button
-      //       id="device-id-check"
-      //       class="btn btn-primary"
-      //       onClick={handleCloseModal}
-      //     >
-      //       Preview
-      //     </button>
-      //   </div>
-      // </div> 
-    
+        )}
+      </FormControl>
+      <div>
+        <button
+          id="device-id-check"
+          class="btn btn-primary"
+          onClick={handleCloseModal}
+        >
+          Preview
+        </button>
+      </div>
+    </div>
   );
 }
 

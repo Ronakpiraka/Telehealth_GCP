@@ -17,6 +17,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import LoadingOverlay from "react-loading-overlay";
 import { CBadge, CButton } from "@coreui/react";
+import { Checkbox } from "@material-ui/core";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -113,17 +114,12 @@ export default function Appointment() {
   }));
 
   const [data, setdata] = React.useState([]);
-  const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState("");
-  const [page, setpage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [ordPlaced, setordPlaced] = React.useState(5);
   const classes = useStyles();
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [PatientName, setPatientName] = React.useState("");
-  const [personName, setPersonName] = React.useState('');
-  const [conditionName, setConditionName] = React.useState([]);
+  const [personName, setPersonName] = React.useState("");
   const [modal, setModal] = useState(false);
   const [MRN, setMRN] = useState("");
   const [patientMrn, setpatientMrn] = useState("");
@@ -131,17 +127,25 @@ export default function Appointment() {
   const [decryptedName, setdecryptedName] = useState("");
   const [decryptedEmail, setdecryptedEmail] = useState("");
   const [patientemail, setPatientEmail] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState();
-  const [singlepatientid, setsinglepatientid] = useState("");
   const [deviceId, setDeviceId] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const [connectedCareValue, setConnectedCareValue] = useState('No');
+  const [connectedCareValue, setConnectedCareValue] = useState("No");
   const [deviceIdValue, setDeviceIdValue] = useState("No");
   const location = useLocation();
-  const [orderDetails, setOrderDetails] = useState("");
+  const [selectedDevices, setSelectedDevices] = useState();
+  const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
   // const [connectedCareValue, setConnectedCareValue] = useState("No");
+  const [orderDetails, setOrderDetails] = useState("");
+  const [conditionName, setConditionName] = React.useState([]);
+  const [page, setpage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [ordPlaced, setordPlaced] = React.useState(5);
+  const [collapsed, setcollapsed] = React.useState(false);
   const [allPurchaseOrderDetails, setAllPurchaseOrderDetails] = useState("");
   const [posts, setPosts] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState();
+  const [singlepatientid, setsinglepatientid] = useState("");
+
   const toggle = () => {
     setModal(!modal);
   };
@@ -190,59 +194,43 @@ export default function Appointment() {
 
   useEffect(() => {
     // if (paramString == undefined) {
-      const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
-        method: "GET",
-      })
-        .then((resp) => resp.json())
-        .then((response) => {
-          let final_data = new Array();
-          let Patient_id_list = new Array();
-          let Patient_list_index = -1;
-          for (var i = 0; i < response.length; i++) {
-            Patient_list_index = Patient_id_list.indexOf(
-              response[i].Patient_id
+    const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((response) => {
+        let final_data = new Array();
+        let Patient_id_list = new Array();
+        let Patient_list_index = -1;
+        for (var i = 0; i < response.length; i++) {
+          Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id);
+          if (Patient_list_index == -1) {
+            final_data.push(response[i]);
+            Patient_id_list.push(response[i].Patient_id);
+          } else {
+            let lst_encounter = new Date(
+              final_data[Patient_list_index].Encounter_start
             );
-            if (Patient_list_index == -1) {
-              final_data.push(response[i]);
-              Patient_id_list.push(response[i].Patient_id);
-            } else {
-              let lst_encounter = new Date(
-                final_data[Patient_list_index].Encounter_start
-              );
-              let new_encounter = new Date(response[i].Encounter_start);
-              if (new_encounter > lst_encounter) {
-                final_data[Patient_list_index] = response[i];
-              }
+            let new_encounter = new Date(response[i].Encounter_start);
+            if (new_encounter > lst_encounter) {
+              final_data[Patient_list_index] = response[i];
             }
           }
-          setdata(final_data);
-          console.log(data);
-          setisLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        }
+        setdata(final_data);
+        console.log(data);
+        setisLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     // }
-  }, 
-  []);
+  }, []);
   console.log(data);
 
   const uniquePatientName = Array.from(
     new Set(data.map((item) => JSON.stringify(item)))
   ).map((item) => JSON.parse(item));
-  // console.log(uniquePatientName);
-
-  // const uniquePatientName = Array.from(
-  //   new Set(
-  //     data.map((item) => {
-  //       const parsedItem = JSON.parse(item);
-  //       if (parsedItem.Patient_name) {
-  //         parsedItem.Patient_name = parsedItem.Patient_name.replace(/^mr\.|^mrs\.|^ms\./i, "").trim();
-  //       }
-  //       return JSON.stringify(parsedItem);
-  //     })
-  //   )
-  // ).map((item) => JSON.parse(item));
 
   uniquePatientName.sort((a, b) => {
     if (a.Patient_name < b.Patient_name) {
@@ -299,10 +287,70 @@ export default function Appointment() {
   };
 
   // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
+  const devicetype = [
+    { device_code: "528388", device_display: "Pulse Oximeter" },
+  ];
+
+  const device_details = [
+    { code: "528388", Display: "Pulse Oximeter" },
+    { code: "528391", Display: "Blood Pressure Cuff" },
+    { code: "528404", Display: "Body Composition Analyzer" },
+    { code: "528425", Display: "Cardiovascular Device" },
+    { code: "528402", Display: "Coagulation meter" },
+    { code: "528409", Display: "Continuous Glucose Monitor" },
+    { code: "528390", Display: "Electro cardiograph" },
+    { code: "528457", Display: "Generic 20601 Device" },
+    { code: "528401", Display: "Glucose Monitor" },
+    { code: "528455", Display: "Independent Activity/Living Hub" },
+    { code: "528403", Display: "Insulin Pump" },
+    { code: "528405", Display: "Peak Flow meter" },
+    { code: "528397", Display: "Respiration rate" },
+    { code: "528408", Display: "Sleep Apnea Breathing Equipment" },
+    { code: "528426", Display: "Strength Equipment" },
+    { code: "528392", Display: "Thermometer" },
+    { code: "528399", Display: "Weight Scale" },
+  ];
+
+  const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
+    if (isChecked) {
+      setSelectedDevices([...selectedDevices, deviceName]);
+    } else { 
+      setSelectedDevices(selectedDevices.filter((name) => name !== deviceName));
+    }
+  };
+
+  useEffect(() => {
+    if (connectedCareValue === 'No') {
+      setSelectedDevices([]);
+      localStorage.removeItem('devices');
+    }
+  }, [connectedCareValue]);
+  
+  useEffect(() => {
+    const storedDevices = localStorage.getItem("devices");
+    if (storedDevices) {
+      setSelectedDevices(JSON.parse(storedDevices));
+    }
+  }, []);
+
+  useEffect(() => {
+    
+    localStorage.setItem("devices",(selectedDevices));
+    console.log(localStorage.getItem('devices'));
+    console.log(typeof(localStorage.getItem('devices')));
+  }, [selectedDevices]);
+
+  const assignNewDeviceIdAndShare = () => {
+    const newDeviceId = Math.floor(Math.random() * 10000000000000000); // generate a random 6-digit number for the new device ID
+    const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+    const value = localStorage.setItem("deviceid", newDeviceId);
+    // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
+    return message;
+  };
 
   const condition_name = [
     { condition: "Prediabetes", code: "15777000" },
-    { condition: "Diabetes", code: "44054006" },
+    { condition: "Diabetes", code: "44054006", device_code: "528388" },
     { condition: "Viral sinusitis (disorder)", code: "444814009" },
     { condition: "Acute viral pharyngitis (disorder)", code: "195662009" },
     { condition: "Acute bronchitis (disorder)", code: "10509002" },
@@ -331,14 +379,50 @@ export default function Appointment() {
     }
   };
 
+  const handleYesChange = () => {
+    setDeviceIdValue("Yes");
+    setDeviceIdPromptOpen(true);
+    localStorage.setItem("deviceid", "No ID provided");
+  };
+
+  const handleNoChange = () => {
+    setDeviceIdValue("No");
+    setDeviceIdPromptOpen(false);
+    assignNewDeviceIdAndShare();
+  };
+
+  const handleDeviceIdInputChange = (e) => {
+    setDeviceId(e.target.value);
+    if (e.target.value === "") {
+      localStorage.setItem("deviceid", "Please enter a Valid ID");
+    } else {
+      localStorage.setItem("deviceid", e.target.value);
+    }
+  };
+
+  // const handledeviceclicks = (e, Display, code) => {
+  //   setDeviceId(code);
+  // };
   const redirecttoPractitionerbooking = (e, condition, code) => {
     localStorage.setItem("condition_name", condition);
     localStorage.setItem("condition_code", code);
+
     if (personName !== "" || decryptedName !== "") {
+      if (
+        connectedCareValue === "Yes" &&
+        deviceIdValue === "Yes" &&
+        deviceId.length !== 14
+      ) {
+        alert("please enter a valid device id");
+        setDeviceId("");
+      } else {
+        var url = `/Practitionerbookings?condition=${condition}`;
+        history.push(`${url}`);
+      }
+
       // handleCloseModal();
-      var url = `/Practitionerbookings?condition=${condition}`;
-      history.push(`${url}`);
-     
+      // var url = `/Practitionerbookings?condition=${condition}`;
+      // history.push(`${url}`);
     } else {
       setModal(!modal);
       console.log(modal);
@@ -348,15 +432,17 @@ export default function Appointment() {
   const handleConnectedCareChange = (event) => {
     setConnectedCareValue(event.target.value);
     localStorage.setItem("connectedCareValue", event.target.value);
-
-  }
+  };
 
   return (
     <div>
       <CModal show={modal} onClose={toggle}>
-        <CModalHeader closeButton>Please select a Patient and connected care</CModalHeader>
+        <CModalHeader closeButton>
+          Please select a Patient and connected care
+        </CModalHeader>
         <CModalBody>
-          Choose the Patient and choose their connected care status before selecting the condition...
+          Choose the Patient and choose their connected care status before
+          selecting the condition...
         </CModalBody>
         <CModalFooter>
           <CButton color="primary" onClick={toggle}>
@@ -379,16 +465,16 @@ export default function Appointment() {
                 </p>
               </div>
             </CCol>
-          
+
             <CCol sm="8" md="6" lg="8">
               <div className="navbar justify-content-between">
                 <p className="navbar-brand">
-              {/* <FormControl> */}
-                {/* <InputLabel id="demo-simple-select-label"> */}
+                  {/* <FormControl> */}
+                  {/* <InputLabel id="demo-simple-select-label"> */}
                   <b>{decryptedName}</b>
-                {/* </InputLabel> */}
-              {/* </FormControl> */}
-              </p>
+                  {/* </InputLabel> */}
+                  {/* </FormControl> */}
+                </p>
               </div>
             </CCol>
           </>
@@ -435,11 +521,12 @@ export default function Appointment() {
           </span>
         </CCol>
         {!decryptedMRN && (
-        <CCol sm="8" md="6" lg="6">
-          <span className="navbar justify-content-between">
-            <p className="navbar-brand">{MRN && <b>{MRN}</b>}</p>
-          </span>
-        </CCol>)}
+          <CCol sm="8" md="6" lg="6">
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand">{MRN && <b>{MRN}</b>}</p>
+            </span>
+          </CCol>
+        )}
 
         {decryptedMRN && (
           <CCol sm="4" md="6" lg="6">
@@ -449,47 +536,152 @@ export default function Appointment() {
           </CCol>
         )}
       </CRow>
+
       <CRow>
-      
         <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
           <span className="navbar justify-content-between">
             <p className="navbar-brand">
-              <b>Are you intersted in Connected Care?</b>
+              <b>Do the patient wants to opt for Connected/ Critical Care?</b>
             </p>
           </span>
         </CCol>
-       
       </CRow>
-      <FormControl>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
-            value={connectedCareValue}
-            onChange={handleConnectedCareChange}
-          >
-            <CRow>
-              <CCol></CCol>
-              <CRow>
-                <CCol>
-                  <FormControlLabel
-                    value="Yes"
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                </CCol>
-              </CRow>
-              <br />
-              <br />
-              <CCol></CCol>
-              <CRow>
-                <CCol>
-                  <FormControlLabel value="No" control={<Radio />} label="No" />
-                </CCol>
-              </CRow>
-            </CRow>
-          </RadioGroup>
-      </FormControl>
 
+      <FormControl>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          name="radio-buttons-group"
+          value={connectedCareValue}
+          onChange={handleConnectedCareChange}
+        >
+          <CRow>
+            <CCol></CCol>
+            <CRow>
+              <CCol sm="4" md="6" lg="4">
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+              </CCol>
+
+              <CCol sm="4" md="6" lg="4">
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+              </CCol>
+            </CRow>
+          </CRow>
+        </RadioGroup>
+        {connectedCareValue === "Yes" && (
+          <div>
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand">
+                <b>Choose the device you want: </b>
+              </p>
+            </span>
+            <CRow>
+              {device_details.map((row, index) => {
+                return (
+                  <CCol sm="6" md="4" lg="2" key={index}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={selectedDevices.includes(row.Display)}
+                          onChange={(e) => {
+                            handledeviceclicks(
+                              e.target.checked,
+                              row.Display,
+                              row.code
+                            );
+                          }}
+                          name={row.Display}
+                        />
+                      }
+                      label={row.Display}
+                      // disabled={row.code !== "528388"}
+                    />
+                  </CCol>
+                );
+              })}
+            </CRow>
+          </div>
+          
+        )}
+        {/* </FormControl> */}
+
+        {/* {connectedCareValue === "Yes" && (
+          <div>
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand">
+                <b>Do you have a Medical device?</b>
+              </p>
+            </span> 
+             <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              name="device-id-group"
+              value={deviceIdValue}
+              onChange={(e) =>
+                e.target.value === "Yes" ? handleYesChange() : handleNoChange()
+              }
+            >
+              <CRow>
+                <CCol></CCol>
+                <CRow>
+                  <CCol sm="4" md="6" lg="4">
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                  </CCol>
+                  </CRow>
+                <CCol></CCol>
+                <CRow> 
+                  <CCol sm="4" md="6" lg="4">
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
+                  </CCol>
+                </CRow>
+              </CRow>
+            </RadioGroup>
+            {deviceIdPromptOpen && (
+              <CRow>
+                <CCol></CCol>
+                <CRow>
+                  <CCol style={{ color: "red" }}>
+                    Please enter your device ID :{" "}
+                    <input
+                      type="text"
+                      className="input-box"
+                      onChange={handleDeviceIdInputChange}
+                      value={deviceId}
+                      style={{ width: "400px" }}
+                    />
+                  </CCol>
+                </CRow>
+              </CRow>
+            )}
+            {!deviceIdPromptOpen && (
+              <CRow>
+                <CRow>
+                  <CCol></CCol> 
+                <CCol>
+                  <span className="navbar justify-content-between">
+                    <p className="navbar-brand">
+                       <b>Do you have a Medical device?</b>
+                      We are assigning you a new id and{" "}
+                      {assignNewDeviceIdAndShare()}
+                    </p>
+                  </span> 
+                   <h5 style={{ fontFamily: "sans-serif", color: "red" }}>
+                      We are assigning you a new id and{" "}
+                      {assignNewDeviceIdAndShare()}
+                    </h5> 
+                </CCol>
+              </CRow>
+              // </CRow>
+            )}
+          </div> 
+        )} */}
+      </FormControl>
       <CRow>
         <CCol>
           <span className="navbar justify-content-between">
@@ -552,7 +744,7 @@ export default function Appointment() {
                   <CWidgetDropdown
                     type="button"
                     color="gradient-info"
-                    text = {row.condition}
+                    text={row.condition}
                     onClick={(e) => {
                       redirecttoPractitionerbooking(e, row.condition, row.code);
                     }}
