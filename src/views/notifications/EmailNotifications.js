@@ -319,9 +319,9 @@ export default function EmailNotify() {
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Patient Name</b>
                 </TableCell>
-                {/* <TableCell style={{ width: "15%", textAlign: "center" }}>
-                  <b>Patient MRN</b>
-                </TableCell> */}
+                <TableCell style={{ width: "15%", textAlign: "center" }}>
+                  <b>Patient Devices</b>
+                </TableCell>
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Condition Name</b>
                 </TableCell>
@@ -398,11 +398,11 @@ export default function EmailNotify() {
                       >
                         {row.Patient_name}
                       </StyledTableCell>
-                      {/* <StyledTableCell
+                      <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.MRN}
-                      </StyledTableCell> */}
+                        {row.Devices}
+                      </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >

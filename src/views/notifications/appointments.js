@@ -17,6 +17,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import LoadingOverlay from "react-loading-overlay";
 import { CBadge, CButton } from "@coreui/react";
+import { Checkbox } from "@material-ui/core";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -131,6 +132,7 @@ export default function Appointment() {
   const [connectedCareValue, setConnectedCareValue] = useState("No");
   const [deviceIdValue, setDeviceIdValue] = useState("No");
   const location = useLocation();
+  const [selectedDevices, setSelectedDevices] = useState();
   const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
   // const [connectedCareValue, setConnectedCareValue] = useState("No");
   const [orderDetails, setOrderDetails] = useState("");
@@ -229,19 +231,6 @@ export default function Appointment() {
   const uniquePatientName = Array.from(
     new Set(data.map((item) => JSON.stringify(item)))
   ).map((item) => JSON.parse(item));
-  // console.log(uniquePatientName);
-
-  // const uniquePatientName = Array.from(
-  //   new Set(
-  //     data.map((item) => {
-  //       const parsedItem = JSON.parse(item);
-  //       if (parsedItem.Patient_name) {
-  //         parsedItem.Patient_name = parsedItem.Patient_name.replace(/^mr\.|^mrs\.|^ms\./i, "").trim();
-  //       }
-  //       return JSON.stringify(parsedItem);
-  //     })
-  //   )
-  // ).map((item) => JSON.parse(item));
 
   uniquePatientName.sort((a, b) => {
     if (a.Patient_name < b.Patient_name) {
@@ -252,14 +241,6 @@ export default function Appointment() {
       return 0;
     }
   });
-
-  const assignNewDeviceIdAndShare = () => {
-    const newDeviceId = Math.floor(Math.random() * 10000000000000000); // generate a random 6-digit number for the new device ID
-    const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
-    const value = localStorage.setItem("deviceid", newDeviceId);
-    // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
-    return message;
-  };
 
   // const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
   // const handleChangePage = (event, newPage) => {
@@ -306,10 +287,70 @@ export default function Appointment() {
   };
 
   // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
+  const devicetype = [
+    { device_code: "528388", device_display: "Pulse Oximeter" },
+  ];
+
+  const device_details = [
+    { code: "528388", Display: "Pulse Oximeter" },
+    { code: "528391", Display: "Blood Pressure Cuff" },
+    { code: "528404", Display: "Body Composition Analyzer" },
+    { code: "528425", Display: "Cardiovascular Device" },
+    { code: "528402", Display: "Coagulation meter" },
+    { code: "528409", Display: "Continuous Glucose Monitor" },
+    { code: "528390", Display: "Electro cardiograph" },
+    { code: "528457", Display: "Generic 20601 Device" },
+    { code: "528401", Display: "Glucose Monitor" },
+    { code: "528455", Display: "Independent Activity/Living Hub" },
+    { code: "528403", Display: "Insulin Pump" },
+    { code: "528405", Display: "Peak Flow meter" },
+    { code: "528397", Display: "Respiration rate" },
+    { code: "528408", Display: "Sleep Apnea Breathing Equipment" },
+    { code: "528426", Display: "Strength Equipment" },
+    { code: "528392", Display: "Thermometer" },
+    { code: "528399", Display: "Weight Scale" },
+  ];
+
+  const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
+    if (isChecked) {
+      setSelectedDevices([...selectedDevices, deviceName]);
+    } else { 
+      setSelectedDevices(selectedDevices.filter((name) => name !== deviceName));
+    }
+  };
+
+  useEffect(() => {
+    if (connectedCareValue === 'No') {
+      setSelectedDevices([]);
+      localStorage.removeItem('devices');
+    }
+  }, [connectedCareValue]);
+  
+  useEffect(() => {
+    const storedDevices = localStorage.getItem("devices");
+    if (storedDevices) {
+      setSelectedDevices(JSON.parse(storedDevices));
+    }
+  }, []);
+
+  useEffect(() => {
+    
+    localStorage.setItem("devices",(selectedDevices));
+    console.log(localStorage.getItem('devices'));
+    console.log(typeof(localStorage.getItem('devices')));
+  }, [selectedDevices]);
+
+  const assignNewDeviceIdAndShare = () => {
+    const newDeviceId = Math.floor(Math.random() * 10000000000000000); // generate a random 6-digit number for the new device ID
+    const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+    const value = localStorage.setItem("deviceid", newDeviceId);
+    // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
+    return message;
+  };
 
   const condition_name = [
     { condition: "Prediabetes", code: "15777000" },
-    { condition: "Diabetes", code: "44054006" },
+    { condition: "Diabetes", code: "44054006", device_code: "528388" },
     { condition: "Viral sinusitis (disorder)", code: "444814009" },
     { condition: "Acute viral pharyngitis (disorder)", code: "195662009" },
     { condition: "Acute bronchitis (disorder)", code: "10509002" },
@@ -359,10 +400,12 @@ export default function Appointment() {
     }
   };
 
+  // const handledeviceclicks = (e, Display, code) => {
+  //   setDeviceId(code);
+  // };
   const redirecttoPractitionerbooking = (e, condition, code) => {
     localStorage.setItem("condition_name", condition);
     localStorage.setItem("condition_code", code);
-    
 
     if (personName !== "" || decryptedName !== "") {
       if (
@@ -376,7 +419,7 @@ export default function Appointment() {
         var url = `/Practitionerbookings?condition=${condition}`;
         history.push(`${url}`);
       }
-      
+
       // handleCloseModal();
       // var url = `/Practitionerbookings?condition=${condition}`;
       // history.push(`${url}`);
@@ -498,7 +541,7 @@ export default function Appointment() {
         <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
           <span className="navbar justify-content-between">
             <p className="navbar-brand">
-              <b>Are you intersted in Connected Care?</b>
+              <b>Do the patient wants to opt for Connected/ Critical Care?</b>
             </p>
           </span>
         </CCol>
@@ -528,13 +571,47 @@ export default function Appointment() {
           <div>
             <span className="navbar justify-content-between">
               <p className="navbar-brand">
-                <b>Do you have a Medical device?</b>
+                <b>Choose the device you want: </b>
               </p>
             </span>
-            {/* <h4 style={{ fontFamily: "sans-serif" }}>
-              Do you have a Medical device?
-            </h4> */}
-            <RadioGroup
+            <CRow>
+              {device_details.map((row, index) => {
+                return (
+                  <CCol sm="6" md="4" lg="2" key={index}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={selectedDevices.includes(row.Display)}
+                          onChange={(e) => {
+                            handledeviceclicks(
+                              e.target.checked,
+                              row.Display,
+                              row.code
+                            );
+                          }}
+                          name={row.Display}
+                        />
+                      }
+                      label={row.Display}
+                      // disabled={row.code !== "528388"}
+                    />
+                  </CCol>
+                );
+              })}
+            </CRow>
+          </div>
+          
+        )}
+        {/* </FormControl> */}
+
+        {/* {connectedCareValue === "Yes" && (
+          <div>
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand">
+                <b>Do you have a Medical device?</b>
+              </p>
+            </span> 
+             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               name="device-id-group"
               value={deviceIdValue}
@@ -552,9 +629,9 @@ export default function Appointment() {
                       label="Yes"
                     />
                   </CCol>
-                  {/* </CRow>
+                  </CRow>
                 <CCol></CCol>
-                <CRow> */}
+                <CRow> 
                   <CCol sm="4" md="6" lg="4">
                     <FormControlLabel
                       value="No"
@@ -584,27 +661,26 @@ export default function Appointment() {
             )}
             {!deviceIdPromptOpen && (
               <CRow>
-                {/* <CRow>
-                  <CCol></CCol> */}
+                <CRow>
+                  <CCol></CCol> 
                 <CCol>
                   <span className="navbar justify-content-between">
                     <p className="navbar-brand">
-                      {/* <b>Do you have a Medical device?</b> */}
+                       <b>Do you have a Medical device?</b>
                       We are assigning you a new id and{" "}
                       {assignNewDeviceIdAndShare()}
                     </p>
-                  </span>
-                  {/* <h5 style={{ fontFamily: "sans-serif", color: "red" }}>
+                  </span> 
+                   <h5 style={{ fontFamily: "sans-serif", color: "red" }}>
                       We are assigning you a new id and{" "}
                       {assignNewDeviceIdAndShare()}
-                    </h5> */}
+                    </h5> 
                 </CCol>
               </CRow>
               // </CRow>
             )}
-          </div>
-          // </FormControl>
-        )}
+          </div> 
+        )} */}
       </FormControl>
       <CRow>
         <CCol>

@@ -237,8 +237,10 @@ export default function RadioButtonsGroup() {
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue"),
       Patient_email: localStorage.getItem("Patient_email"),
-      Device_Requirement: false,     
+      Device_Requirement: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,    
       Timing: localStorage.getItem("timeslot"),
+      // Devices: "a,b,c,d,r[]"
+      Devices: localStorage.getItem("Patient_MRN"),
     };
 
     var requestOptions = {
@@ -358,9 +360,9 @@ export default function RadioButtonsGroup() {
           <b>Selected Time :</b> {localStorage.getItem("timeslot")}
           <br />
           <br />
-          {/* <b>Device ID information: </b> {sessionStorage.getItem("Patient_name")}
+          <b>Device ID information: </b> {localStorage.getItem("devices")}
           <br />
-          <br /> */}
+          <br />
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}{" "}
           <br />
           <br />
@@ -490,7 +492,7 @@ export default function RadioButtonsGroup() {
                 <FormControlLabel
                   value="Do partial"
                   control={<Radio />}
-                  disabled={sessionStorage.getItem('Patient_name') == null}
+                  // disabled={sessionStorage.getItem('Patient_name') == null}
                   label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
                 />
               </CCol>
