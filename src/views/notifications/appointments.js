@@ -287,9 +287,7 @@ export default function Appointment() {
   };
 
   // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-  const devicetype = [
-    { device_code: "528388", device_display: "Pulse Oximeter" },
-  ];
+ 
 
   const device_details = [
     { code: "528388", Display: "Pulse Oximeter" },
@@ -335,7 +333,7 @@ export default function Appointment() {
 
   useEffect(() => {
     
-    localStorage.setItem("devices",(selectedDevices));
+    localStorage.setItem("devices",JSON.stringify(selectedDevices));
     console.log(localStorage.getItem('devices'));
     console.log(typeof(localStorage.getItem('devices')));
   }, [selectedDevices]);
@@ -409,12 +407,14 @@ export default function Appointment() {
 
     if (personName !== "" || decryptedName !== "") {
       if (
-        connectedCareValue === "Yes" &&
-        deviceIdValue === "Yes" &&
-        deviceId.length !== 14
+        connectedCareValue === "Yes" 
+        // && deviceIdValue === "Yes" &&
+        // deviceId.length !== 14
       ) {
-        alert("please enter a valid device id");
-        setDeviceId("");
+        var url = `/CriticalPractitionerbookings?condition=${condition}`;
+        history.push(`${url}`);
+        // alert("please enter a valid device id");
+        // setDeviceId("");
       } else {
         var url = `/Practitionerbookings?condition=${condition}`;
         history.push(`${url}`);
@@ -432,6 +432,13 @@ export default function Appointment() {
   const handleConnectedCareChange = (event) => {
     setConnectedCareValue(event.target.value);
     localStorage.setItem("connectedCareValue", event.target.value);
+    if (personName !== "" || decryptedName !== "") {
+      // Allow user to choose for connected care
+    } else {
+      
+      alert("Please select a patient first.");
+      setConnectedCareValue("");
+    }
   };
 
   return (
@@ -541,7 +548,7 @@ export default function Appointment() {
         <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
           <span className="navbar justify-content-between">
             <p className="navbar-brand">
-              <b>Do the patient wants to opt for Connected/ Critical Care?</b>
+              <b>Does the patient wants to opt for Connected/ Critical Care?</b>
             </p>
           </span>
         </CCol>

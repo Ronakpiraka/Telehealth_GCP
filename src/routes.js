@@ -27,6 +27,7 @@ const EmailNotificationsupcoming = React.lazy(()=> import('./views/notifications
 const PatientAppointments = React.lazy(()=> './views/notifications/PatientAppointments')
 const Appointment = React.lazy(()=> import('./views/notifications/appointments'));
 const Practitionerbookings = React.lazy(()=> import('./views/notifications/Practitionerbooking'));
+const CriticalPractitionerbookings = React.lazy(()=> import('./views/notifications/CriticalPractitionerbooking'));
 // const Modal = React.lazy(() => import('./views/records/modal.js'));
 const Consent = React.lazy(()=> import('./views/notifications/Consent'));
 const routes = [
@@ -41,6 +42,7 @@ const routes = [
   { path: '/device/devices', name: 'Devices', component: Device, exact: true },
   { path: '/bookAppointment', name: 'Appointment Booking', component: Appointment, exact: true },
   { path: '/Practitionerbookings', name: 'Appointment Booking / Practitioner Booking', component: Practitionerbookings, exact: true },
+  { path: '/CriticalPractitionerbookings', name: 'Appointment Booking / Urgent Practitioner Booking', component: CriticalPractitionerbookings, exact: true },
   { path: '/notifications/CalenderSchedule', name:'CalenderSchedule', component: CalendarSchedule, exact: true },
   { path: '/reports/ProviderInsights', name: 'ProviderInsights', component: ProviderInsights, exact: true },
   { path: '/reports/PractitionerEngagements', name: 'PractitionerEngagements', component: PractitionerEngagements, exact: true },

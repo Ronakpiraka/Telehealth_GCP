@@ -109,22 +109,38 @@ export default function EmailNotify() {
   const { Header, Sider, Content } = Layout;
   const { Search } = Input;
 
-  useEffect(() => {
-    const res = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
+  // useEffect(() => {
+  //   const res = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
 
-    // const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
-      method: "GET",
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setdata(resp);
+  //   // const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
+  //     method: "GET",
+  //   })
+  //     .then((resp) => resp.json())
+  //     .then((resp) => {
+  //       setdata(resp);
+  //       console.log(data);
+  //       setisLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
+        const data = await response.json();
+        setdata(data);
         console.log(data);
         setisLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
-      });
+      }
+    };
+    fetchData();
   }, []);
+  
 
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -401,7 +417,7 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.Devices}
+                        {/* {row.Devices[values]} */}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}

@@ -235,12 +235,12 @@ export default function RadioButtonsGroup() {
       provider_contact_number: localStorage.getItem("provider_contact_number"),
       Appointment_Status: localStorage.getItem("Appointment_Status"),
       Consent_form_choice: localStorage.getItem("consentValue"),
-      Connected_Care_Status: localStorage.getItem("connectedCareValue"),
+      Connected_Care_Status: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,
       Patient_email: localStorage.getItem("Patient_email"),
       Device_Requirement: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,    
       Timing: localStorage.getItem("timeslot"),
       // Devices: "a,b,c,d,r[]"
-      Devices: localStorage.getItem("Patient_MRN"),
+      Devices: '{"values":'+localStorage.getItem("devices")+'}',
     };
 
     var requestOptions = {
