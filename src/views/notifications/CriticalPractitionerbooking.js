@@ -165,8 +165,8 @@ export default function PractitionerBooking() {
     flags = location.search.split("^")[1];
     // conditionName = location.search.split("=")[1].split("%")[0];
     conditionName = localStorage.getItem("condition_name");
-    date = localStorage.getItem("");
-    time = localStorage.getItem("");
+    var date = localStorage.getItem("");
+    var time = localStorage.getItem("");
     console.log("condition", conditionName);
 
     Pname = sessionStorage.getItem("Patient");

@@ -33,7 +33,6 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import PatientAppointment from "../notifications/PatientAppointments";
 import Consent from "../notifications/Consent.js";
 // import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
