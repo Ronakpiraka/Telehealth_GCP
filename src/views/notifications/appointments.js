@@ -292,21 +292,21 @@ export default function Appointment() {
   const device_details = [
     { code: "528388", Display: "Pulse Oximeter" },
     { code: "528391", Display: "Blood Pressure Cuff" },
-    { code: "528404", Display: "Body Composition Analyzer" },
-    { code: "528425", Display: "Cardiovascular Device" },
-    { code: "528402", Display: "Coagulation meter" },
-    { code: "528409", Display: "Continuous Glucose Monitor" },
-    { code: "528390", Display: "Electro cardiograph" },
-    { code: "528457", Display: "Generic 20601 Device" },
     { code: "528401", Display: "Glucose Monitor" },
-    { code: "528455", Display: "Independent Activity/Living Hub" },
-    { code: "528403", Display: "Insulin Pump" },
-    { code: "528405", Display: "Peak Flow meter" },
-    { code: "528397", Display: "Respiration rate" },
-    { code: "528408", Display: "Sleep Apnea Breathing Equipment" },
-    { code: "528426", Display: "Strength Equipment" },
-    { code: "528392", Display: "Thermometer" },
-    { code: "528399", Display: "Weight Scale" },
+    // { code: "528404", Display: "Body Composition Analyzer" },
+    // { code: "528425", Display: "Cardiovascular Device" },
+    // { code: "528402", Display: "Coagulation meter" },
+    // { code: "528409", Display: "Continuous Glucose Monitor" },
+    // { code: "528390", Display: "Electro cardiograph" },
+    // { code: "528457", Display: "Generic 20601 Device" },
+    // { code: "528455", Display: "Independent Activity/Living Hub" },
+    // { code: "528403", Display: "Insulin Pump" },
+    // { code: "528405", Display: "Peak Flow meter" },
+    // { code: "528397", Display: "Respiration rate" },
+    // { code: "528408", Display: "Sleep Apnea Breathing Equipment" },
+    // { code: "528426", Display: "Strength Equipment" },
+    // { code: "528392", Display: "Thermometer" },
+    // { code: "528399", Display: "Weight Scale" },
   ];
 
   const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
@@ -411,7 +411,7 @@ export default function Appointment() {
         // && deviceIdValue === "Yes" &&
         // deviceId.length !== 14
       ) {
-        var url = `/CriticalPractitionerbookings?condition=${condition}`;
+        var url = `/Practitionerbookings?condition=${condition}`;
         history.push(`${url}`);
         // alert("please enter a valid device id");
         // setDeviceId("");
