@@ -12,17 +12,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { alpha } from "@material-ui/core/styles";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-
 import FormControl from "@mui/material/FormControl";
 import { useHistory, useLocation } from "react-router-dom";
 import LoadingOverlay from "react-loading-overlay";
 import "../records/patients.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
-
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import TextField from "@mui/material/TextField";
 import { CModal } from "@coreui/react";
 import { CModalFooter } from "@coreui/react";
@@ -30,12 +26,8 @@ import { CModalHeader } from "@coreui/react";
 import { CModalBody } from "@coreui/react";
 import { CButton } from "@coreui/react";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import PatientAppointment from "../notifications/PatientAppointments";
-import Consent from "../notifications/Consent.js";
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-
+import PatientAppointment from "./PatientAppointments";
+import Consent from "./Consent.js";
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 // import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import {
@@ -173,6 +165,8 @@ export default function PractitionerBooking() {
     flags = location.search.split("^")[1];
     // conditionName = location.search.split("=")[1].split("%")[0];
     conditionName = localStorage.getItem("condition_name");
+    date = localStorage.getItem("");
+    time = localStorage.getItem("");
     console.log("condition", conditionName);
 
     Pname = sessionStorage.getItem("Patient");
@@ -195,7 +189,9 @@ export default function PractitionerBooking() {
           );
           if (
             Provider_list_index == -1 &&
-            response[i].Condition_name === conditionName
+            response[i].Condition_name === conditionName &&
+            response[i].App_Date === conditionName &&
+            response[i].timeslot === conditionName
           ) {
             final_data.push(response[i]);
             Provider_id_list.push(response[i].Provider_id);
@@ -229,14 +225,7 @@ export default function PractitionerBooking() {
   console.log(uniqueProviderName);
 
   const redirecttoConsent = () => {
-    //   if (selectedProvider != "" && selectedDate != "" && selectedSlot != "") {
-    //     var url = `/notifications/Consent`;
-    //     history.push(`${url}`);
-    //   }
-    //   else {
-    //     setModal(!modal);
-    //     console.log(modal);
-    //   }
+    
   };
 
   const handleOpenModal = () => {
@@ -351,36 +340,36 @@ export default function PractitionerBooking() {
     const providerName = localStorage.getItem("provider_name");
     const practitionerName = localStorage.getItem("practitioner_name");
 
-    if (!providerName || !practitionerName) {
-      alert(
-        "Please select a provider and practitioner before choosing a date."
-      );
+    // if (!providerName || !practitionerName) {
+    //   alert(
+    //     "Please select a provider and practitioner before choosing a date."
+    //   );
+    //   return;
+    // } else {
+    if (!newDate) {
+      // if value is null, reset state
+      setSelectedDate(null);
+      localStorage.removeItem("date");
       return;
-    } else {
-      if (!newDate) {
-        // if value is null, reset state
-        setSelectedDate(null);
-        localStorage.removeItem("date");
-        return;
-      }
-
-      const today = dayjs().tz("Asia/Kolkata").startOf("day");
-      const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
-      const twoMonthsAhead = today.add(2, "month");
-      const dateSubstring = date.format("YYYY-MM-DD");
-
-      if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
-        alert(
-          "Please select a date that is not greater than today and not more than 2 months from today."
-        );
-        setSelectedDate(null);
-        return;
-      }
-      // alert("new date",dateSubstring)
-      setSelectedDate(dateSubstring);
-      verify(dateSubstring);
-      localStorage.setItem("date", dateSubstring);
     }
+
+    const today = dayjs().tz("Asia/Kolkata").startOf("day");
+    const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
+    const twoMonthsAhead = today.add(2, "month");
+    const dateSubstring = date.format("YYYY-MM-DD");
+
+    if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
+      alert(
+        "Please select a date that is not greater than today and not more than 2 months from today."
+      );
+      setSelectedDate(null);
+      return;
+    }
+    // alert("new date",dateSubstring)
+    setSelectedDate(dateSubstring);
+    verify(dateSubstring);
+    localStorage.setItem("date", dateSubstring);
+    // }
   };
 
   const verify = (dateSubstring) => {
@@ -427,11 +416,10 @@ export default function PractitionerBooking() {
     localStorage.removeItem("practitioner_name");
     localStorage.removeItem("practitioner_speciality");
     localStorage.removeItem("practitioner_email");
-    localStorage.removeItem("date");
-    localStorage.removeItem("timeslot");
-
-    setSelectedDate("");
-    setSelectedSlot("");
+    // localStorage.removeItem("date");
+    // localStorage.removeItem("timeslot");
+    // setSelectedDate("");
+    // setSelectedSlot("");
     provider = event.target.value;
     console.log(provider);
     setProvidername(provider);
@@ -459,11 +447,10 @@ export default function PractitionerBooking() {
     <div>
       <CModal show={modal} onClose={toggle}>
         <CModalHeader closeButton>
-          Please select the Provider and Available slots
+          Please select the Provider and Practitioner
         </CModalHeader>
         <CModalBody>
-          Choose the Hospital and Available slots before selecting the
-          Practitioner...
+          Choose the Hospital before selecting the Practitioner...
         </CModalBody>
         <CModalFooter>
           <CButton color="primary" onClick={toggle}>
@@ -473,35 +460,26 @@ export default function PractitionerBooking() {
       </CModal>
 
       <CRow>
-        {/* <CCol sm="1" md="1" lg="1" onClick={handleGoBack}><ArrowCircleLeftIcon/></CCol>
-      <CCol sm="10" md="10" lg="10"><h1 className="title"><strong>Practitioner Information</strong></h1></CCol>
-      <CCol sm="1" md="1" lg="1" alignItems="right" onClick={handleGoAhead}><ArrowCircleRightIcon/></CCol> */}
         <CCol>
           <h1 className="title">
-            <strong>Practitioner Information</strong>
+            <strong>Critical Practitioner Information</strong>
           </h1>
         </CCol>
       </CRow>
       <br />
       <br />
       <h4>Condition Name : {localStorage.getItem("condition_name")}</h4>
-
-      {/* <CRow>
+      <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
             <b>Select Visit Date and Time</b>
           </p>
         </CCol>
-      </CRow> */}
-
+      </CRow>
       <CRow>
-        <CCol
-          sm="12"
-          md="6"
-          lg="3"
-        >
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-         <DesktopDatePicker
+        <CCol sm="12" md="6" lg="3" sx={{ minWidth: "100%" }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
               label="Available Date"
               inputFormat="DD/MM/YYYY"
               value={selectedDate ? selectedDate : null}
@@ -509,28 +487,42 @@ export default function PractitionerBooking() {
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
-        </LocalizationProvider>
+          </LocalizationProvider>
           <br />
           <br />
         </CCol>
-
-        <CCol sm="12"
-          md="6"
-          lg="3">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer
-            components={['MobileTimePicker', 'MobileTimePicker', 'MobileTimePicker']}
-            sx={{ minWidth: 100 }}>
-            
-            <MobileTimePicker label={'"hours"'} views={['hours']} />
-          
-          </DemoContainer>
-        </LocalizationProvider>
+        <CCol sm="12" md="6" lg="3">
+          <FormControl sx={{ minWidth: 350 }}>
+            <InputLabel labelid="demo-simple-select-label">
+              Choose Time:
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="choose time  "
+              onChange={handleChangeSlot}
+              disabled={timeslot.length === 0}
+            >
+              {timeslot.map((row, index) => {
+                return (
+                  <MenuItem key={index} value={row}>
+                    {row}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </CCol>
       </CRow>
-      {/* <CRow>
+      <CRow>
+        <CCol className="navbar justify-content-between">
+          <p className="navbar-brand">
+            <b>Select Provider</b>
+          </p>
+        </CCol>
+      </CRow>
+      <CRow>
         <CCol sm="12" md="12" lg="6">
-          <Map/>
           <FormControl sx={{ minWidth: "100%" }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select
@@ -545,7 +537,7 @@ export default function PractitionerBooking() {
             </Select>
           </FormControl>
         </CCol>
-      </CRow> */}
+      </CRow>
       <br />
       <CRow>
         <CCol className="navbar justify-content-between">
@@ -642,8 +634,8 @@ export default function PractitionerBooking() {
                       }}
                       // onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
                     >
-                      Select
-                    </button>
+                      Select{" "}
+                    </button>{" "}
                   </p>
                 </CWidgetProgressIcon>
               </CCardGroup>
@@ -657,72 +649,11 @@ export default function PractitionerBooking() {
           <PatientAppointment />
         </CCol>
       </CRow>
-
       <CRow>
-        <CCol className="navbar justify-content-between">
-          <p className="navbar-brand">
-            <b>Select Visit Date and Time</b>
-          </p>
+        <CCol>
+          <Consent />
         </CCol>
       </CRow>
-      <CRow>
-        <CCol sm="12" md="6" lg="3" sx={{ minWidth: "100%" }}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label="Available Date"
-              inputFormat="DD/MM/YYYY"
-              value={selectedDate ? selectedDate : null}
-              disablePast={true}
-              onChange={handleDateChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-          <br />
-          <br />
-        </CCol>
-        {/* <CRow> */}
-        <CCol sm="12" md="6" lg="3">
-          <FormControl sx={{ minWidth: 350 }}>
-            <InputLabel labelid="demo-simple-select-label">
-              Choose Time:
-            </InputLabel>
-            {/* {timeslot.length > 0 && ( */}
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="choose time  "
-              onChange={handleChangeSlot}
-              disabled={timeslot.length === 0}
-            >
-              {timeslot.map((row, index) => {
-                  return (
-                    <MenuItem key={index} value={row}>
-                      {row}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
-            {/*)
-             }
-            {timeslot.length === 0 && (
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="choose time  "
-                onChange={handleChangeSlot}
-                disabled={timeslot.length === 0}
-                // value={setselectedslot}
-              >
-                <p style={{ padding: "1 rem" }}>
-                  {" "}
-                  No timeslot are Available, please select another date
-                </p>{" "}
-              </Select>
-            )} */}
-          </FormControl>
-        </CCol>
-      </CRow>
-      <Consent></Consent>
     </div>
   );
 }
