@@ -26,11 +26,8 @@ import { CModalHeader } from "@coreui/react";
 import { CModalBody } from "@coreui/react";
 import { CButton } from "@coreui/react";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import PatientAppointment from "../notifications/PatientAppointments";
-import Consent from "../notifications/Consent.js";
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-
+import PatientAppointment from "./PatientAppointments";
+import Consent from "./Consent.js";
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 // import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import {
@@ -127,8 +124,6 @@ export default function PractitionerBooking() {
   const [finalprac, setpracdata] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [timeslot, settimeslot] = React.useState([]);
-  const [pincode, setPincode] = useState('');
-  
   // const [selectedCard, setSelectedCard] = useState(null);
   // const history = useHistory();
   const [providername, setProvidername] = useState();
@@ -170,8 +165,8 @@ export default function PractitionerBooking() {
     flags = location.search.split("^")[1];
     // conditionName = location.search.split("=")[1].split("%")[0];
     conditionName = localStorage.getItem("condition_name");
-    // date = localStorage.getItem("");
-    // time = localStorage.getItem("");
+    var date = localStorage.getItem("");
+    var time = localStorage.getItem("");
     console.log("condition", conditionName);
 
     Pname = sessionStorage.getItem("Patient");
@@ -194,9 +189,9 @@ export default function PractitionerBooking() {
           );
           if (
             Provider_list_index == -1 &&
-            response[i].Condition_name === conditionName 
-            // &&response[i].App_Date === date &&
-            // response[i].timeslot === conditionName
+            response[i].Condition_name === conditionName &&
+            response[i].App_Date === conditionName &&
+            response[i].timeslot === conditionName
           ) {
             final_data.push(response[i]);
             Provider_id_list.push(response[i].Provider_id);
@@ -229,7 +224,9 @@ export default function PractitionerBooking() {
   });
   console.log(uniqueProviderName);
 
-  const redirecttoConsent = () => {};
+  const redirecttoConsent = () => {
+    
+  };
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -412,12 +409,6 @@ export default function PractitionerBooking() {
     settimeslot(availableSlots);
   };
 
-  function handlezipSubmit(e) {
-    e.preventDefault();
-    console.log(pincode); // replace with your desired action, e.g. submit to server
-  }
-
-
   const handleChange = (event) => {
     setselectedprovider(event.target.value);
     localStorage.removeItem("practitioner_name");
@@ -478,23 +469,17 @@ export default function PractitionerBooking() {
       <br />
       <br />
       <h4>Condition Name : {localStorage.getItem("condition_name")}</h4>
-
-      {/* <CRow>
+      <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
             <b>Select Visit Date and Time</b>
           </p>
         </CCol>
-      </CRow> */}
-
+      </CRow>
       <CRow>
-        <CCol
-          sm="12"
-          md="6"
-          lg="3"
-        >
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-         <DesktopDatePicker
+        <CCol sm="12" md="6" lg="3" sx={{ minWidth: "100%" }}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
               label="Available Date"
               inputFormat="DD/MM/YYYY"
               value={selectedDate ? selectedDate : null}
@@ -502,28 +487,42 @@ export default function PractitionerBooking() {
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
-        </LocalizationProvider>
+          </LocalizationProvider>
           <br />
           <br />
         </CCol>
-
-        <CCol sm="12"
-          md="6"
-          lg="3">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer
-            components={['MobileTimePicker', 'MobileTimePicker', 'MobileTimePicker']}
-            sx={{ minWidth: 100 }}>
-            
-            <MobileTimePicker label={'"hours"'} views={['hours']} />
-          
-          </DemoContainer>
-        </LocalizationProvider>
+        <CCol sm="12" md="6" lg="3">
+          <FormControl sx={{ minWidth: 350 }}>
+            <InputLabel labelid="demo-simple-select-label">
+              Choose Time:
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="choose time  "
+              onChange={handleChangeSlot}
+              disabled={timeslot.length === 0}
+            >
+              {timeslot.map((row, index) => {
+                return (
+                  <MenuItem key={index} value={row}>
+                    {row}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </CCol>
       </CRow>
-      {/* <CRow>
+      <CRow>
+        <CCol className="navbar justify-content-between">
+          <p className="navbar-brand">
+            <b>Select Provider</b>
+          </p>
+        </CCol>
+      </CRow>
+      <CRow>
         <CCol sm="12" md="12" lg="6">
-          <Map/>
           <FormControl sx={{ minWidth: "100%" }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select
@@ -538,7 +537,7 @@ export default function PractitionerBooking() {
             </Select>
           </FormControl>
         </CCol>
-      </CRow> */}
+      </CRow>
       <br />
       <CRow>
         <CCol className="navbar justify-content-between">
@@ -635,8 +634,8 @@ export default function PractitionerBooking() {
                       }}
                       // onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
                     >
-                      Select
-                    </button>
+                      Select{" "}
+                    </button>{" "}
                   </p>
                 </CWidgetProgressIcon>
               </CCardGroup>
