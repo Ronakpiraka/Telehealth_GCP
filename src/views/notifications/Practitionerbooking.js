@@ -28,6 +28,10 @@ import { CButton } from "@coreui/react";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import PatientAppointment from "../notifications/PatientAppointments";
 import Consent from "../notifications/Consent.js";
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 // import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import {
@@ -477,26 +481,52 @@ export default function PractitionerBooking() {
       <br />
       <br />
       <h4>Condition Name : {localStorage.getItem("condition_name")}</h4>
+
+      {/* <CRow>
+        <CCol className="navbar justify-content-between">
+          <p className="navbar-brand">
+            <b>Select Visit Date and Time</b>
+          </p>
+        </CCol>
+      </CRow> */}
+
       <CRow>
-        {/* <CCol sm="4" md="6" lg="2"className="navbar justify-content-between">
-          <p className="navbar-brand"><b>Select Provider</b></p>
-        </CCol> */}
+        <CCol
+          sm="12"
+          md="6"
+          lg="3"
+        >
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+         <DesktopDatePicker
+              label="Available Date"
+              inputFormat="DD/MM/YYYY"
+              value={selectedDate ? selectedDate : null}
+              disablePast={true}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+        </LocalizationProvider>
+          <br />
+          <br />
+        </CCol>
+
+        <CCol sm="12"
+          md="6"
+          lg="3">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer
+            components={['MobileTimePicker', 'MobileTimePicker', 'MobileTimePicker']}
+            sx={{ minWidth: 100 }}>
+            
+            <MobileTimePicker label={'"hours"'} views={['hours']} />
+          
+          </DemoContainer>
+        </LocalizationProvider>
+        </CCol>
+      </CRow>
+      {/* <CRow>
         <CCol sm="12" md="12" lg="6">
-          {/* <FormControl sx={{ minWidth: "100%" }}>
-            <InputLabel htmlFor="demo-simple-select-label">
-              Provider Name
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="provider name"
-              onChange={handleChange}
-            >
-              {uniqueProviderName.map((row, index) => {
-                return <MenuItem value={row}>{row}</MenuItem>;
-              })}
-            </Select>
-          </FormControl> */}
+          <Map/>
           <FormControl sx={{ minWidth: "100%" }}>
             <InputLabel id="demo-simple-select-label">Provider Name</InputLabel>
             <Select
@@ -511,7 +541,7 @@ export default function PractitionerBooking() {
             </Select>
           </FormControl>
         </CCol>
-      </CRow>
+      </CRow> */}
       <br />
       <CRow>
         <CCol className="navbar justify-content-between">
@@ -609,8 +639,8 @@ export default function PractitionerBooking() {
                       }}
                       // onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
                     >
-                      Select{" "}
-                    </button>{" "}
+                      Select
+                    </button>
                   </p>
                 </CWidgetProgressIcon>
               </CCardGroup>
@@ -622,77 +652,6 @@ export default function PractitionerBooking() {
       <CRow>
         <CCol>
           <PatientAppointment />
-        </CCol>
-      </CRow>
-
-      <CRow>
-        <CCol className="navbar justify-content-between">
-          <p className="navbar-brand">
-            <b>Select Visit Date and Time</b>
-          </p>
-        </CCol>
-      </CRow>
-      <CRow>
-        <CCol
-          sm="12"
-          md="6"
-          lg="3"
-          sx={{ minWidth: "100%" }}
-        >
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label="Available Date"
-              inputFormat="DD/MM/YYYY"
-              value={selectedDate ? selectedDate : null}
-              disablePast={true}
-              onChange={handleDateChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-          <br />
-          <br />
-        </CCol>
-        {/* <CRow> */}
-        <CCol sm="12" md="6" lg="3">
-          <FormControl sx={{ minWidth: 350 }}>
-            <InputLabel labelid="demo-simple-select-label">
-              Choose Time:
-            </InputLabel>
-            {/* {timeslot.length > 0 && ( */}
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="choose time  "
-                onChange={handleChangeSlot}
-                disabled={timeslot.length === 0}
-                
-              >
-                {timeslot.map((row, index) => {
-                  return (
-                    <MenuItem key={index} value={row}>
-                      {row}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            {/*)
-             }
-            {timeslot.length === 0 && (
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="choose time  "
-                onChange={handleChangeSlot}
-                disabled={timeslot.length === 0}
-                // value={setselectedslot}
-              >
-                <p style={{ padding: "1 rem" }}>
-                  {" "}
-                  No timeslot are Available, please select another date
-                </p>{" "}
-              </Select>
-            )} */}
-          </FormControl>
         </CCol>
       </CRow>
 
