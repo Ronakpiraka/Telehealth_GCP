@@ -128,7 +128,7 @@ export default function PractitionerBooking() {
   const [modal, setModal] = useState(false);
   const [timeslot, settimeslot] = React.useState([]);
   const [pincode, setPincode] = useState('');
-  
+
   // const [selectedCard, setSelectedCard] = useState(null);
   // const history = useHistory();
   const [providername, setProvidername] = useState();
@@ -194,7 +194,7 @@ export default function PractitionerBooking() {
           );
           if (
             Provider_list_index == -1 &&
-            response[i].Condition_name === conditionName 
+            response[i].Condition_name === conditionName
             // &&response[i].App_Date === date &&
             // response[i].timeslot === conditionName
           ) {
@@ -229,7 +229,7 @@ export default function PractitionerBooking() {
   });
   console.log(uniqueProviderName);
 
-  const redirecttoConsent = () => {};
+  const redirecttoConsent = () => { };
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -417,7 +417,11 @@ export default function PractitionerBooking() {
     console.log(pincode); // replace with your desired action, e.g. submit to server
   }
 
-
+  const handleTimePickerChange = (newValue) => {
+    setSelectedSlot(newValue);
+    localStorage.setItem('selectedSlot', newValue);
+  }
+  
   const handleChange = (event) => {
     setselectedprovider(event.target.value);
     localStorage.removeItem("practitioner_name");
@@ -493,8 +497,8 @@ export default function PractitionerBooking() {
           md="6"
           lg="3"
         >
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-         <DesktopDatePicker
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DesktopDatePicker
               label="Available Date"
               inputFormat="DD/MM/YYYY"
               value={selectedDate ? selectedDate : null}
@@ -502,7 +506,7 @@ export default function PractitionerBooking() {
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
-        </LocalizationProvider>
+          </LocalizationProvider>
           <br />
           <br />
         </CCol>
@@ -510,12 +514,11 @@ export default function PractitionerBooking() {
         <CCol sm="12"
           md="6"
           lg="3">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer
-            components={['MobileTimePicker', 'MobileTimePicker', 'MobileTimePicker']}>
-            <MobileTimePicker label={'"hours"'} views={['hours']} />
-          </DemoContainer>
-        </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['MobileTimePicker', 'MobileTimePicker', 'MobileTimePicker']} sx={{ minWidth: 100 }}>
+              <MobileTimePicker label={'"hours"'} views={['hours']} onChange={handleTimePickerChange} />
+            </DemoContainer>
+          </LocalizationProvider>
         </CCol>
       </CRow>
       {/* <CRow>
@@ -630,7 +633,7 @@ export default function PractitionerBooking() {
                         fontWeight: "bolder",
                         float: "right",
                       }}
-                      // onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
+                    // onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
                     >
                       Select
                     </button>
