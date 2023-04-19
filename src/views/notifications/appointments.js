@@ -41,6 +41,8 @@ import {
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import Map from './Map1'
+// import Map1 from './Map2'
 // import ForwardIcon from '@mui/icons-material/Forward';
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 export default function Appointment() {
@@ -461,7 +463,8 @@ export default function Appointment() {
         <strong>Book Appointment</strong>
       </h1>
       <br />
-
+      {/* <Map/> */}
+      {/* <Map1/> */}
       <CRow>
         {decryptedName && (
           <>

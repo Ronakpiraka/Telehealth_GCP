@@ -30,7 +30,7 @@ import PatientAppointment from "../notifications/PatientAppointments";
 import Consent from "../notifications/Consent.js";
 // import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 // import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import {
@@ -512,11 +512,8 @@ export default function PractitionerBooking() {
           lg="3">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer
-            components={['MobileTimePicker', 'MobileTimePicker', 'MobileTimePicker']}
-            sx={{ minWidth: 100 }}>
-            
+            components={['MobileTimePicker', 'MobileTimePicker', 'MobileTimePicker']}>
             <MobileTimePicker label={'"hours"'} views={['hours']} />
-          
           </DemoContainer>
         </LocalizationProvider>
         </CCol>
