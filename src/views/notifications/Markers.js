@@ -1,0 +1,48 @@
+import React, { useState, useEffect } from 'react';
+import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
+import axios from 'axios';
+
+const API_KEY = process.env.REACT_APP_MAP_API_KEY;
+
+const Map = withScriptjs(withGoogleMap(props => {
+  const [markers, setMarkers] = useState([]);
+ 
+  useEffect(() => {
+    axios.get('https://appointmentbook-sh4iojyb3q-uc.a.run.app/')
+      .then(response => {
+        setMarkers(response.data);
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
+
+  return (
+    <GoogleMap
+      defaultZoom={8}
+      defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+    >
+      {markers.map(marker => (
+        <Marker
+          key={marker.id}
+          position={{ lat: marker.Provider_lat, lng: marker.Provider_long }}
+        />
+      ))}
+    </GoogleMap>
+  );
+}));
+
+const MapComponent = () => {
+
+  return (
+    <Map
+      googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}`}
+      loadingElement={<div style={{ height: '100%' }} />}
+      containerElement={<div style={{ height: '500px' }} />}
+      mapElement={<div style={{ height: '100%' }} />}
+    />
+  );
+};
+
+export default MapComponent;

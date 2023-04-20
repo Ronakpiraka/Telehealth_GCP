@@ -29,6 +29,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import PatientAppointment from "../notifications/PatientAppointments";
 import Consent from "../notifications/Consent.js";
 // import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import Map from './Markers'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
@@ -479,6 +480,8 @@ export default function PractitionerBooking() {
           </h1>
         </CCol>
       </CRow>
+      <Map/>
+      {/* <Autocomplete/> */}
       <br />
       <br />
       <h4>Condition Name : {localStorage.getItem("condition_name")}</h4>

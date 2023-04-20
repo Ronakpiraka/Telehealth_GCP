@@ -208,7 +208,7 @@ export default function EmailNotify() {
   const filteredData = sortedData.filter((row) => {
     const mrnNo = localStorage.getItem('Patient_MRN');
     const condition = localStorage.getItem('condition_name');
-    console.log(row['MRN'],row['Condition_name'],mrnNo,condition,'hiiiiiiiiiiiiiiiiiiiiiiiiiiii')
+    // console.log(row['MRN'],row['Condition_name'],mrnNo,condition,'hiiiiiiiiiiiiiiiiiiiiiiiiiiii')
     // const appDate = new Date(row.App_Date);
     // return appDate >= today || appDate.toDateString() === today.toDateString(); // only include appointments with today's date or later
     return row['MRN'] === mrnNo && row['Condition_name'] === condition ;
