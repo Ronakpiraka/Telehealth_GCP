@@ -45,7 +45,9 @@ import {
   CWidgetProgressIcon,
   CCardText,
 } from "@coreui/react";
-// import { style } from "@mui/system";
+import DatePicker from 'react-datepicker/dist/react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 export default function PractitionerBooking() {
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -124,7 +126,7 @@ export default function PractitionerBooking() {
   const [data, setdata] = React.useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [finaldata, setfinaldata] = React.useState([]);
-  const [selectedDate, setSelectedDate] = React.useState(null);
+  const [selectedDate, setSelectedDate] = React.useState();
   const [finalprac, setpracdata] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [timeslot, settimeslot] = React.useState([]);
@@ -139,12 +141,30 @@ export default function PractitionerBooking() {
   const [showModal, setShowModal] = useState(false);
   const [availableSlots, setavailableSlots] = React.useState("");
 
-  const toggle = () => {
-    setModal(!modal);
-  };
   var stat, flags, Pname, conditionName;
   const location = useLocation();
   var provider = "";
+
+  const toggle = () => {
+    setModal(!modal);
+  };
+
+  const HourPicker = ({ selected, onChange }) => (
+    <DatePicker
+    selected={selected}
+    onChange={onChange}
+    showTimeSelect
+    timeFormat="HH:mm"
+    timeIntervals={60}
+    showDisabledMonthNavigation
+    dateFormat="MMMM d, yyyy h:mm aa"
+    withPortal
+    placeholderText="Click to select a date"
+    isClearable={true}
+    />
+  );
+  
+
 
   useEffect(() => {
     fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
@@ -338,6 +358,10 @@ export default function PractitionerBooking() {
     }
   };
 
+  const handleHourChange =(date) =>{
+    setSelectedDate(date);
+  }
+
   const handleDateChange = (newDate) => {
     setSelectedSlot("");
 
@@ -358,6 +382,7 @@ export default function PractitionerBooking() {
     }
 
     const today = dayjs().tz("Asia/Kolkata").startOf("day");
+    console.log(today)
     const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
     const twoMonthsAhead = today.add(2, "month");
     const dateSubstring = date.format("YYYY-MM-DD");
@@ -480,11 +505,15 @@ export default function PractitionerBooking() {
           </h1>
         </CCol>
       </CRow>
-      <Map/>
-      {/* <Autocomplete/> */}
       <br />
       <br />
       <h4>Condition Name : {localStorage.getItem("condition_name")}</h4>
+
+      <div>
+        <HourPicker selected={selectedDate} onChange={handleHourChange} />
+      </div>
+
+
 
       {/* <CRow>
         <CCol className="navbar justify-content-between">
@@ -494,7 +523,7 @@ export default function PractitionerBooking() {
         </CCol>
       </CRow> */}
 
-      <CRow>
+      {/* <CRow>
         <CCol
           sm="12"
           md="6"
@@ -511,7 +540,6 @@ export default function PractitionerBooking() {
             />
           </LocalizationProvider>
           <br />
-          <br />
         </CCol>
 
         <CCol sm="12"
@@ -523,7 +551,7 @@ export default function PractitionerBooking() {
             </DemoContainer>
           </LocalizationProvider>
         </CCol>
-      </CRow>
+      </CRow> */}
       {/* <CRow>
         <CCol sm="12" md="12" lg="6">
           <Map/>
@@ -543,6 +571,7 @@ export default function PractitionerBooking() {
         </CCol>
       </CRow> */}
       <br />
+      <Map/>
       <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
