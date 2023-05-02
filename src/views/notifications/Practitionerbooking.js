@@ -643,6 +643,18 @@ export default function PractitionerBooking() {
   //   // }
   // };
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    localStorage.setItem('selectedDateTime', date.toISOString());
+    const storedValue = localStorage.getItem('selectedDateTime');
+    const [storedDate, storedTime] = storedValue.split('T');
+    localStorage.setItem('selectedDate', storedDate);
+    localStorage.setItem('selectedTime', storedTime);
+    const [storedHour, storedMinute] = storedTime.split(':');
+    localStorage.setItem('selectedhour', storedHour);
+
+  };
+
   const timeSlots = [
     { a: "9:0", b: "17:0", c: "1:0" },
     { a: "10:0", b: "18:0", c: "2:0" },
@@ -709,15 +721,17 @@ export default function PractitionerBooking() {
     //   // }
     // };
 
+    
     const timeSlots = [
-      { a: "9:0", b: "17:0", c: "1:0" },
-      { a: "10:0", b: "18:0", c: "2:0" },
-      { a: "11:0", b: "19:0", c: "3:0" },
-      { a: "12:0", b: "20:0", c: "4:0" },
-      { a: "13:0", b: "21:0", c: "5:0" },
-      { a: "14:0", b: "22:0", c: "6:0" },
-      { a: "15:0", b: "23:0", c: "7:0" },
-      { a: "16:0", b: "00:0", c: "8:0" },
+      
+      { a: "9", b: "17", c: "1" },
+      { a: "10", b: "18", c: "2" },
+      { a: "11", b: "19", c: "3" },
+      { a: "12", b: "20", c: "4" },
+      { a: "13", b: "21", c: "5" },
+      { a: "14", b: "22", c: "6" },
+      { a: "15", b: "23", c: "7" },
+      { a: "16", b: "00", c: "8" },
     ];
 
     const handleTimeChange = (date) => {
@@ -771,7 +785,7 @@ export default function PractitionerBooking() {
       setpracdata(myArray)
     };
 
-
+    
 
     const verify = (dateSubstring) => {
       setSelectedSlot("");
@@ -820,74 +834,76 @@ export default function PractitionerBooking() {
       setSelectedSlot(newValue);
       localStorage.setItem('selectedSlot', newValue);
     }
-  }
-  // const handleChange = (event) => {
-  //   setselectedprovider(event.target.value);
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_id");
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_speciality");
-  //   localStorage.removeItem("practitioner_email");
-  //   // localStorage.removeItem("date");
-  //   // localStorage.removeItem("timeslot");
-  //   // setSelectedDate("");
-  //   // setSelectedSlot("");
-  //   provider = event.target.value;
-  //   console.log(provider);
-  //   setProvidername(provider);
-  //   localStorage.setItem("provider_name", provider);
-  //   var final_prac = new Array();
-  //   let Prac_id_list = new Array();
-  //   let Prac_list_index = -1;
-  //   for (var i = 0; i < finaldata.length; i++) {
-  //     // console.log(response[i]);
-  //     Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id);
-  //     if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
-  //       final_prac.push(finaldata[i]);
-  //       Prac_id_list.push(finaldata[i].Practitioner_id);
-  //       localStorage.setItem("provider_id", finaldata[i].Provider_id);
-  //       localStorage.setItem(
-  //         "provider_contact_number",
-  //         finaldata[i].Provider_contact_number
-  //       );
-  //     }
-  //   }
-  //   setpracdata(final_prac);
-  // };
-  // const handleChange = (event) => {
-  //   setselectedprovider(event.target.value);
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_id");
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_speciality");
-  //   localStorage.removeItem("practitioner_email");
-  //   // localStorage.removeItem("date");
-  //   // localStorage.removeItem("timeslot");
-  //   // setSelectedDate("");
-  //   // setSelectedSlot("");
-  //   provider = event.target.value;
-  //   console.log(provider);
-  //   setProvidername(provider);
-  //   localStorage.setItem("provider_name", provider);
-  //   var final_prac = new Array();
-  //   let Prac_id_list = new Array();
-  //   let Prac_list_index = -1;
-  //   for (var i = 0; i < finaldata.length; i++) {
-  //     // console.log(response[i]);
-  //     Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id);
-  //     if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
-  //       final_prac.push(finaldata[i]);
-  //       Prac_id_list.push(finaldata[i].Practitioner_id);
-  //       localStorage.setItem("provider_id", finaldata[i].Provider_id);
-  //       localStorage.setItem(
-  //         "provider_contact_number",
-  //         finaldata[i].Provider_contact_number
-  //       );
-  //     }
-  //   }
-  //   setpracdata(final_prac);
-  // };
+   
+    
 
+  // const handleChange = (event) => {
+  //   setselectedprovider(event.target.value);
+  //   localStorage.removeItem("practitioner_name");
+  //   localStorage.removeItem("practitioner_id");
+  //   localStorage.removeItem("practitioner_name");
+  //   localStorage.removeItem("practitioner_speciality");
+  //   localStorage.removeItem("practitioner_email");
+  //   // localStorage.removeItem("date");
+  //   // localStorage.removeItem("timeslot");
+  //   // setSelectedDate("");
+  //   // setSelectedSlot("");
+  //   provider = event.target.value;
+  //   console.log(provider);
+  //   setProvidername(provider);
+  //   localStorage.setItem("provider_name", provider);
+  //   var final_prac = new Array();
+  //   let Prac_id_list = new Array();
+  //   let Prac_list_index = -1;
+  //   for (var i = 0; i < finaldata.length; i++) {
+  //     // console.log(response[i]);
+  //     Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id);
+  //     if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
+  //       final_prac.push(finaldata[i]);
+  //       Prac_id_list.push(finaldata[i].Practitioner_id);
+  //       localStorage.setItem("provider_id", finaldata[i].Provider_id);
+  //       localStorage.setItem(
+  //         "provider_contact_number",
+  //         finaldata[i].Provider_contact_number
+  //       );
+  //     }
+  //   }
+  //   setpracdata(final_prac);
+  // };
+  // const handleChange = (event) => {
+  //   setselectedprovider(event.target.value);
+  //   localStorage.removeItem("practitioner_name");
+  //   localStorage.removeItem("practitioner_id");
+  //   localStorage.removeItem("practitioner_name");
+  //   localStorage.removeItem("practitioner_speciality");
+  //   localStorage.removeItem("practitioner_email");
+  //   // localStorage.removeItem("date");
+  //   // localStorage.removeItem("timeslot");
+  //   // setSelectedDate("");
+  //   // setSelectedSlot("");
+  //   provider = event.target.value;
+  //   console.log(provider);
+  //   setProvidername(provider);
+  //   localStorage.setItem("provider_name", provider);
+  //   var final_prac = new Array();
+  //   let Prac_id_list = new Array();
+  //   let Prac_list_index = -1;
+  //   for (var i = 0; i < finaldata.length; i++) {
+  //     // console.log(response[i]);
+  //     Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id);
+  //     if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
+  //       final_prac.push(finaldata[i]);
+  //       Prac_id_list.push(finaldata[i].Practitioner_id);
+  //       localStorage.setItem("provider_id", finaldata[i].Provider_id);
+  //       localStorage.setItem(
+  //         "provider_contact_number",
+  //         finaldata[i].Provider_contact_number
+  //       );
+  //     }
+  //   }
+  //   setpracdata(final_prac);
+  // };
+  }
   return (
     <div>
       <CModal show={modal} onClose={toggle}>
@@ -917,10 +933,18 @@ export default function PractitionerBooking() {
 
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
-          <MobileDateTimePicker label={'Date & Time'} openTo="hours" ampm={false} minutesStep={60} />
-        </DemoContainer>
-      </LocalizationProvider>
+      <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
+        <MobileDateTimePicker
+          label={'Date & Time'}
+          openTo="hours"
+          ampm={false}
+          minutesStep={60}
+          value={selectedDate}
+          disablePast = {true}
+          onChange={handleDateChange}
+        />
+      </DemoContainer>
+    </LocalizationProvider>
 
       <br />
       <div>
