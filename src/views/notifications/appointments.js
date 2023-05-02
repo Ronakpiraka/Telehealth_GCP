@@ -127,14 +127,15 @@ export default function Appointment() {
   const [patientMrn, setpatientMrn] = useState("");
   const [decryptedMRN, setdecryptedMRN] = useState("");
   const [decryptedName, setdecryptedName] = useState("");
-  const [decryptedEmail, setdecryptedEmail] = useState("");
-  const [patientemail, setPatientEmail] = useState("");
-  const [deviceId, setDeviceId] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [connectedCareValue, setConnectedCareValue] = useState("No");
-  const [deviceIdValue, setDeviceIdValue] = useState("No");
-  const location = useLocation();
   const [selectedDevices, setSelectedDevices] = useState();
+  const [decryptedEmail, setdecryptedEmail] = useState("");
+  const [connectedCareValue, setConnectedCareValue] = useState("No");
+  const [patientemail, setPatientEmail] = useState("");
+  const location = useLocation();
+  
+  const [showModal, setShowModal] = useState(false);
+  const [deviceId, setDeviceId] = useState(0);
+  const [deviceIdValue, setDeviceIdValue] = useState("No");
   const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
   // const [connectedCareValue, setConnectedCareValue] = useState("No");
   const [orderDetails, setOrderDetails] = useState("");
@@ -293,8 +294,8 @@ export default function Appointment() {
 
   const device_details = [
     { code: "528388", Display: "Pulse Oximeter" },
-    { code: "528391", Display: "Blood Pressure Cuff" },
-    { code: "528401", Display: "Glucose Monitor" },
+    // { code: "528391", Display: "Blood Pressure Cuff" },
+    // { code: "528401", Display: "Glucose Monitor" },
     // { code: "528404", Display: "Body Composition Analyzer" },
     // { code: "528425", Display: "Cardiovascular Device" },
     // { code: "528402", Display: "Coagulation meter" },
@@ -321,31 +322,33 @@ export default function Appointment() {
 
   useEffect(() => {
     if (connectedCareValue === 'No') {
-      setSelectedDevices([]);
+      setSelectedDevices();
       localStorage.removeItem('devices');
     }
   }, [connectedCareValue]);
   
-  useEffect(() => {
-    const storedDevices = localStorage.getItem("devices");
-    if (storedDevices) {
-      setSelectedDevices(JSON.parse(storedDevices));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedDevices = localStorage.getItem("devices");
+  //   if (storedDevices) {
+  //     setSelectedDevices(JSON.parse(storedDevices));
+  //   }
+  // }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    localStorage.setItem("devices",JSON.stringify(selectedDevices));
-    console.log(localStorage.getItem('devices'));
-    console.log(typeof(localStorage.getItem('devices')));
-  }, [selectedDevices]);
+  //   localStorage.setItem("devices",JSON.stringify(selectedDevices));
+  //   console.log(localStorage.getItem('devices'));
+  //   console.log(typeof(localStorage.getItem('devices')));
+  // }, [selectedDevices]);
 
   const assignNewDeviceIdAndShare = () => {
-    const newDeviceId = Math.floor(Math.random() * 10000000000000000); // generate a random 6-digit number for the new device ID
-    const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
-    const value = localStorage.setItem("deviceid", newDeviceId);
+    const newDeviceId = Math.floor(Math.random() * 10000000000000000);
+    localStorage.setItem('devices',newDeviceId);
+    // generate a random 6-digit number for the new device ID
+    // const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+    // const value = localStorage.setItem("deviceid", newDeviceId);
     // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
-    return message;
+    return newDeviceId;
   };
 
   const condition_name = [
@@ -366,39 +369,47 @@ export default function Appointment() {
     { condition: "Sprain of ankle", code: "44465007" },
   ];
 
-  const handleCloseModal = () => {
-    if (
-      connectedCareValue === "Yes" &&
-      deviceIdValue === "Yes" &&
-      deviceId.length !== 14
-    ) {
-      alert("please enter a valid device id");
-      setDeviceId("");
-    } else {
-      setShowModal(!showModal);
-    }
-  };
+  // const handleCloseModal = () => {
+  //   if (
+  //     connectedCareValue === "Yes" &&
+  //     deviceIdValue === "Yes" &&
+  //     deviceId.length !== 14
+  //   ) {
+  //     alert("please enter a valid device id");
+  //     setDeviceId("");
+  //   } else {
+  //     setShowModal(!showModal);
+  //   }
+  // };
 
-  const handleYesChange = () => {
-    setDeviceIdValue("Yes");
-    setDeviceIdPromptOpen(true);
-    localStorage.setItem("deviceid", "No ID provided");
-  };
+  // const handleYesChange = () => {
+  //   setDeviceIdValue("Yes");
+  //   setDeviceIdPromptOpen(true);
+  //   localStorage.setItem("deviceid", "No ID provided");
+  // };
 
-  const handleNoChange = () => {
-    setDeviceIdValue("No");
-    setDeviceIdPromptOpen(false);
-    assignNewDeviceIdAndShare();
-  };
+  // const handleNoChange = () => {
+  //   setDeviceIdValue("No");
+  //   setDeviceIdPromptOpen(false);
+  //   assignNewDeviceIdAndShare();
+  // };
 
-  const handleDeviceIdInputChange = (e) => {
-    setDeviceId(e.target.value);
-    if (e.target.value === "") {
-      localStorage.setItem("deviceid", "Please enter a Valid ID");
-    } else {
-      localStorage.setItem("deviceid", e.target.value);
-    }
-  };
+  // const handleDeviceIdInputChange = (e) => {
+  //   setDeviceId(e.target.value);
+  //   if (e.target.value === "") {
+  //     localStorage.setItem("deviceid", "Please enter a Valid ID");
+  //   } else {
+  //     localStorage.setItem("deviceid", e.target.value);
+  //   }
+  // };
+
+  // const assignNewDeviceIdAndShare = () => {
+  //   const newDeviceId = Math.floor(Math.random() * 1000000); // generate a random 6-digit number for the new device ID
+  //   const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
+  //   const value = localStorage.setItem("deviceid", newDeviceId);
+  //   // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
+  //   return message;
+  // };
 
   // const handledeviceclicks = (e, Display, code) => {
   //   setDeviceId(code);
@@ -581,10 +592,10 @@ export default function Appointment() {
           <div>
             <span className="navbar justify-content-between">
               <p className="navbar-brand">
-                <b>Choose the device you want: </b>
+                <b>Your Device ID is: {assignNewDeviceIdAndShare()} We would be sharing the same over email.</b>
               </p>
             </span>
-            <CRow>
+            {/* <CRow>
               {device_details.map((row, index) => {
                 return (
                   <CCol sm="6" md="4" lg="2" key={index}>
@@ -606,9 +617,9 @@ export default function Appointment() {
                       // disabled={row.code !== "528388"}
                     />
                   </CCol>
-                );
+                ); 
               })}
-            </CRow>
+            </CRow>*/}
           </div>
           
         )}
