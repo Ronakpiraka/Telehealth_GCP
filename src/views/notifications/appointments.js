@@ -45,7 +45,6 @@ import Map from './Map1'
 // import Map1 from './Map2'
 // import ForwardIcon from '@mui/icons-material/Forward';
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-
 export default function Appointment() {
   const modalstyle = {
     position: "relative",
@@ -291,7 +290,7 @@ export default function Appointment() {
   };
 
   // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
- 
+
 
   const device_details = [
     { code: "528388", Display: "Pulse Oximeter" },
@@ -316,7 +315,7 @@ export default function Appointment() {
   const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
     if (isChecked) {
       setSelectedDevices([...selectedDevices, deviceName]);
-    } else { 
+    } else {
       setSelectedDevices(selectedDevices.filter((name) => name !== deviceName));
     }
   };
@@ -328,8 +327,8 @@ export default function Appointment() {
     }
   }, [connectedCareValue]);
 
-  
-  
+
+
   // useEffect(() => {
   //   const storedDevices = localStorage.getItem("devices");
   //   if (storedDevices) {
@@ -338,7 +337,7 @@ export default function Appointment() {
   // }, []);
 
   // useEffect(() => {
-    
+
   //   localStorage.setItem("devices",JSON.stringify(selectedDevices));
   //   console.log(localStorage.getItem('devices'));
   //   console.log(typeof(localStorage.getItem('devices')));
@@ -346,10 +345,10 @@ export default function Appointment() {
 
   const assignNewDeviceIdAndShare = () => {
     const newDeviceId = Math.floor(Math.random() * 10000000000000000);
-    localStorage.setItem('devices',newDeviceId);
+    localStorage.setItem('devices', newDeviceId);
     return newDeviceId;
   };
- 
+
   const condition_name = [
     { condition: "Prediabetes", code: "15777000" , speciality: "Endocrinologists"},
     { condition: "Diabetes", code: "44054006", device_code: "528388", speciality: "Endocrinologists" },
@@ -367,6 +366,7 @@ export default function Appointment() {
     { condition: "Hyperlipidemia", code: "55822004" , speciality: "Lipidologist"},
     { condition: "Sprain of ankle", code: "44465007" , speciality: "Orthopedic Specialist"},
   ];
+
 
   // const handleCloseModal = () => {
   //   if (
@@ -417,10 +417,10 @@ export default function Appointment() {
     localStorage.setItem("condition_name", condition);
     localStorage.setItem("condition_code", code);
     localStorage.setItem("condition_speciality", speciality);
-    
+
     if (personName !== "" || decryptedName !== "") {
       if (
-        connectedCareValue === "Yes" 
+        connectedCareValue === "Yes"
       ) {
         var url = `/Practitionerbookings?condition=${condition}`;
         history.push(`${url}`);
@@ -440,7 +440,7 @@ export default function Appointment() {
     if (personName !== "" || decryptedName !== "") {
       // Allow user to choose for connected care
     } else {
-      
+
       alert("Please select a patient first.");
       setConnectedCareValue("");
     }
@@ -580,15 +580,15 @@ export default function Appointment() {
             </CRow>
           </CRow>
         </RadioGroup>
-       
-          <div>
+
+        <div>
           {connectedCareValue === "Yes" && (
             <span className="navbar justify-content-between">
               <p className="navbar-brand">
                 <b>Your Device ID is: {assignNewDeviceIdAndShare()} We would be sharing the same over email.</b>
               </p>
             </span>)}
-            {/* <CRow>
+          {/* <CRow>
               {device_details.map((row, index) => {
                 return (
                   <CCol sm="6" md="4" lg="2" key={index}>
@@ -613,9 +613,9 @@ export default function Appointment() {
                 ); 
               })}
             </CRow>*/}
-          </div>
-          
-      
+        </div>
+
+
         {/* </FormControl> */}
 
         {/* {connectedCareValue === "Yes" && (

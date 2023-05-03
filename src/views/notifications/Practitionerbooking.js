@@ -49,6 +49,7 @@ import {
 } from "@coreui/react";
 import DatePicker from 'react-datepicker/dist/react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Day } from "@syncfusion/ej2-schedule";
 
 export default function PractitionerBooking() {
   const useStyles = makeStyles((theme) => ({
@@ -199,6 +200,13 @@ export default function PractitionerBooking() {
   console.log('ayaya', data)
 
   useEffect(() => {
+    if (checkccfunction() === 1) {
+      handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
+      selectpractitioner();
+    }
+  }, []);
+
+  useEffect(() => {
     fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
       .then((response) => response.json())
       .then((data) => {
@@ -226,6 +234,16 @@ export default function PractitionerBooking() {
   console.log("here is finaldata", finaldata);
 
   const redirecttoConsent = () => { };
+
+  const checkccfunction = () => {
+    if (localStorage.getItem('connectedCareValue') === 'Yes') {
+      console.log('ayeayeayeaye',localStorage.getItem('connectedCareValue'))
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  };
 
   const handleDateTimeChange = (newDateTime) => {
     setSelectedDateTime(""); // reset the selected slot state
@@ -340,8 +358,9 @@ export default function PractitionerBooking() {
         </CCol>
       </CRow>
       <br />
-      <h4 style={{color:"indigo"}}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("condition_speciality")}</h4>
-     
+      <h4 style={{ color: "indigo" }}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("condition_speciality")}</h4>
+      {/* localStorage.setItem("practitioner_speciality", row.Practitioner_Speciality); */}
+
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
           <MobileDateTimePicker
@@ -349,8 +368,9 @@ export default function PractitionerBooking() {
             openTo="hours"
             ampm={false}
             minutesStep={60}
-            value={newDateTime}
+            value={checkccfunction() === 1 ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
             disablePast={true}
+            disableFuture = {checkccfunction() === 1}
             onChange={handleDateTimeChange}
           />
         </DemoContainer>
@@ -435,10 +455,10 @@ export default function PractitionerBooking() {
                     style={{ float: "left" }}
                     height="24"
                   />
-                  <p style={{ fontSize: "50%", textAlign: "left", marginLeft: "25px", color: "indigo"}} > Practitioner Name: {row.Practitioner_name} </p>
+                  <p style={{ fontSize: "50%", textAlign: "left", marginLeft: "25px", color: "indigo" }} > Practitioner Name: {row.Practitioner_name} </p>
                   <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Provider Name: {row.Provider_name} </p>
                   <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Address: {row.Provider_address} </p>
-                  <p sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between", }}
+                  <p sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between", marginLeft: "25px" }}
                     style={{ fontSize: "30%", textAlign: "left" }}>
                     {/* Speciality: {row.Practitioner_Speciality}  <br/> */}
                     <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: "pointer", padding: "1%", fontWeight: "bolder", float: "right", }}>

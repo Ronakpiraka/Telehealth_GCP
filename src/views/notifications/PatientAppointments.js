@@ -174,25 +174,11 @@ export default function EmailNotify() {
     }
 
     const slotA = slottiming(
-      a.Time_9_AM_10_AM.toString(),
-      a.Time_10_AM_11_AM.toString(),
-      a.Time_11_AM_12_PM.toString(),
-      a.Time_12_PM_1_PM.toString(),
-      a.Time_1_PM_2_PM.toString(),
-      a.Time_2_PM_3_PM.toString(),
-      a.Time_3_PM_4_PM.toString(),
-      a.Time_4_PM_5_PM.toString(),
+      a.Timing,
       a.App_Date
     );
     const slotB = slottiming(
-      b.Time_9_AM_10_AM.toString(),
-      b.Time_10_AM_11_AM.toString(),
-      b.Time_11_AM_12_PM.toString(),
-      b.Time_12_PM_1_PM.toString(),
-      b.Time_1_PM_2_PM.toString(),
-      b.Time_2_PM_3_PM.toString(),
-      b.Time_3_PM_4_PM.toString(),
-      b.Time_4_PM_5_PM.toString(),
+      b.Timing,
       b.App_Date
     );
     if (slotA < slotB) {
