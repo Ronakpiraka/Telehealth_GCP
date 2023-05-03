@@ -198,31 +198,6 @@ export default function PractitionerBooking() {
   }, []);
   console.log('ayaya', data)
 
-
-  // useEffect(() => {
-  //   fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
-  //     .then((resp) => resp.json())
-  //     .then((response) => {
-  //       const uniqueProviders = response.reduce((acc, item) => {
-  //         const practitionerExists = acc.some(provider => provider.data.some(existingItem => existingItem.Practitioner_id === item.Practitioner_id));
-  //         if (!practitionerExists) {
-  //           const index = acc.findIndex(provider => provider.Provider_name === item.Provider_name);
-  //           if (index === -1) {
-  //             acc.push({ Provider_name: item.Provider_name, data: [item] });
-  //           } else {
-  //             acc[index].data.push(item);
-  //           }
-  //         }
-  //         return acc;
-  //       }, []);
-  //       setfinaldata(uniqueProviders);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  // console.log("here is finaldata", finaldata);
   useEffect(() => {
     fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
       .then((response) => response.json())
@@ -252,22 +227,6 @@ export default function PractitionerBooking() {
 
   const redirecttoConsent = () => { };
 
-  // const handleOpenModal = () => {
-  //   setShowModal(true);
-  // };
-
-  // const handleHourChange = (date) => {
-  //   setSelectedDate(date);
-  //   console.log("selecteddate", date)
-  //   console.log("selecteddate", date)
-  // }
-
-  // const handleDateTimeChange = (dateOrTime) => {
-  //     setSelectedDateTime(dateOrTime);
-  //     console.log('hiiiiiiiiiiiiiiiiiiiiiiiiii',dateOrTime);
-  //     console.log(selectedDateTime);
-  //   };
-
   const handleDateTimeChange = (newDateTime) => {
     setSelectedDateTime(""); // reset the selected slot state
 
@@ -277,7 +236,7 @@ export default function PractitionerBooking() {
       return;
     }
     console.log('newdatetime', newDateTime);
-    console.log('selected date time', selectedDateTime);
+    // console.log('selected date time', selectedDateTime);
 
     const today = dayjs().startOf("day");
     const dateTime = newDateTime; // convert the selected date-time to the Indian time zone
@@ -314,8 +273,8 @@ export default function PractitionerBooking() {
     selectpractitioner();
   };
 
-  // on condition name match condtion name, date and hour, get location
-  const selectpractitioner = async () => {
+
+  const selectpractitioner = () => {
     const condition = localStorage.getItem("condition_name");
     const date = localStorage.getItem("selectedDate");
     const hour = localStorage.getItem("selectedHour");
@@ -325,9 +284,9 @@ export default function PractitionerBooking() {
     let array2 = [];
     let array3 = [];
 
-    array1 = await finaldata.filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
+    array1 = finaldata.filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
 
-    array2 = await data.filter(item => item.Condition_name === condition && item.App_Date === date && item.Timing === hour && item.slot === slab);
+    array2 = data.filter(item => item.Condition_name === condition && item.App_Date === date && item.Timing === hour && item.slot === slab);
 
     // Loop through each element in array1 and check if it exists in array2
     for (let i = 0; i < array1.length; i++) {
@@ -342,178 +301,10 @@ export default function PractitionerBooking() {
     console.log("3rd array", array3);
     setpracdata(array3);
     return array3;
+    setisLoading(false);
   }
 
-console.log('final prac data', finalprac);
-  // const handleTimeChange = (date) => {
-  //   setEnteredTime(date);
-  //   const dateObj = new Date(date);
-  //   const timeString = dateObj.getHours() + ":" + dateObj.getMinutes();
-  //   console.log(timeString)
-  //   var count = 0
-  //   conditionName = localStorage.getItem("condition_name");
-  //   let myArray = [];
-  //   // Loop through the timeSlots array and check if the entered time matches any of the time slots
-  //   for (let i = 0; i < timeSlots.length; i++) {
-  //     if (timeSlots[i].a === timeString) {
-  //       console.log("Slot A");
-  //       const slotARows = finaldata.filter(row => {
-  //         if (row.Practitioner_Slot === "A" && row.Condition_name === conditionName) {
-  //           count++
-  //           console.log(row.Practitioner_Slot)
-  //           myArray.push(row)
-  //         }
-  //         const slotALocations = slotARows.map(row => ({
-  //           lat: row.Provider_lat,
-  //           lng: row.Provider_long
-  //         }));
-  //         setlocations(slotALocations)
-  //       });
-  //     }
-  //     else if (timeSlots[i].b === timeString) {
-  //       console.log("Slot B");
-  //       const slotBRows = finaldata.filter(row => {
-  //         if (row.Practitioner_Slot === "B" && row.Condition_name === conditionName)
-  //           count++
-  //         console.log(row)
-  //         myArray.push(row)
-  //       });
-  //     }
-  //     else if (timeSlots[i].c === timeString) {
-  //       console.log("Slot C");
-  //       const slotCRows = finaldata.filter(row => {
-  //         if (row.Practitioner_Slot === "C" && row.Condition_name === conditionName)
-  //           count++
-  //         console.log(row)
-  //         myArray.push(row)
-  //       });
-  //     }
-  //     else {
-  //       console.log("No Match", timeslot[i], timeString)
-  //     }
-  //   }
-  //   console.log(count)
-  //   setpracdata(myArray)}
-  //   setSelectedDate(dateSubstring);
-  //   verify(dateSubstring);
-  //   localStorage.setItem("date", dateSubstring);
-  //   // }
-  // };
-
-
-  // const timeSlots = [
-
-  //   { a: "9", b: "17", c: "1" },
-  //   { a: "10", b: "18", c: "2" },
-  //   { a: "11", b: "19", c: "3" },
-  //   { a: "12", b: "20", c: "4" },
-  //   { a: "13", b: "21", c: "5" },
-  //   { a: "14", b: "22", c: "6" },
-  //   { a: "15", b: "23", c: "7" },
-  //   { a: "16", b: "00", c: "8" },
-  // ];
-
-  // const handleTimeChange = (date) => {
-  //   setEnteredTime(date);
-  //   const dateObj = new Date(date);
-  //   const timeString = dateObj.getHours() + ":" + dateObj.getMinutes();
-  //   console.log(timeString)
-  //   var count = 0
-  //   conditionName = localStorage.getItem("condition_name");
-  //   let myArray = [];
-  //   // Loop through the timeSlots array and check if the entered time matches any of the time slots
-  //   for (let i = 0; i < timeSlots.length; i++) {
-  //     if (timeSlots[i].a === timeString) {
-  //       console.log("Slot A");
-  //       const slotARows = finaldata.filter(row => {
-  //         if (row.Practitioner_Slot === "A" && row.Condition_name === conditionName) {
-  //           count++
-  //           console.log(row.Practitioner_Slot)
-  //           myArray.push(row)
-  //         }
-  //         const slotALocations = slotARows.map(row => ({
-  //           lat: row.Provider_lat,
-  //           lng: row.Provider_long
-  //         }));
-  //         setlocations(slotALocations)
-  //       });
-  //     }
-  //     else if (timeSlots[i].b === timeString) {
-  //       console.log("Slot B");
-  //       const slotBRows = finaldata.filter(row => {
-  //         if (row.Practitioner_Slot === "B" && row.Condition_name === conditionName)
-  //           count++
-  //         console.log(row)
-  //         myArray.push(row)
-  //       });
-  //     }
-  //     else if (timeSlots[i].c === timeString) {
-  //       console.log("Slot C");
-  //       const slotCRows = finaldata.filter(row => {
-  //         if (row.Practitioner_Slot === "C" && row.Condition_name === conditionName)
-  //           count++
-  //         console.log(row)
-  //         myArray.push(row)
-  //       });
-  //     }
-  //     else {
-  //       console.log("No Match", timeslot[i], timeString)
-  //     }
-  //   }
-  //   console.log(count)
-  //   setpracdata(myArray)
-  // };
-
-
-
-  // const verify = (dateSubstring) => {
-  //   setSelectedSlot("");
-
-  //   const slots = [
-  //     "9 AM - 10 AM",
-  //     "10 AM - 11 AM",
-  //     "11 AM - 12 PM",
-  //     "12 PM - 1 PM",
-  //     "1 PM - 2 PM",
-  //     "2 PM - 3 PM",
-  //     "3 PM - 4 PM",
-  //     "4 PM - 5 PM",
-  //   ];
-
-  //   const providerId = localStorage.getItem("provider_id");
-  //   const practitionerId = localStorage.getItem("practitioner_id");
-  //   const dateSelect = dateSubstring;
-
-  //   const appointments = data.filter((appointment) => {
-  //     return (
-  //       appointment.Practitioner_id === practitionerId &&
-  //       appointment.Provider_id === providerId &&
-  //       appointment.App_Date === dateSelect
-  //     );
-  //   });
-
-  //   const reservedSlots = appointments.map((appointment) => appointment.Timing);
-
-  //   const availableSlots = slots.filter(
-  //     (slot) => !reservedSlots.includes(slot)
-  //   );
-
-  //   console.log("Reserved slots:", reservedSlots);
-  //   console.log("Available slots:", availableSlots);
-
-  //   settimeslot(availableSlots);
-  // };
-
-  // const handlezipSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log(pincode); // replace with your desired action, e.g. submit to server
-  // }
-
-  // const handleTimePickerChange = (newValue) => {
-  //   setSelectedSlot(newValue);
-  //   localStorage.setItem('selectedSlot', newValue);
-  // }
-
+  console.log('final prac data', finalprac);
 
   return (
     <div>
@@ -539,8 +330,8 @@ console.log('final prac data', finalprac);
         </CCol>
       </CRow>
       <br />
-      <br />
-      <h4>Condition Name : {localStorage.getItem("condition_name")}</h4>
+      <h4 style={{color:"indigo"}}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("practitioner_speciality")}</h4>
+      {/* localStorage.setItem("practitioner_speciality", row.Practitioner_Speciality); */}
 
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -558,14 +349,14 @@ console.log('final prac data', finalprac);
       </LocalizationProvider>
 
       <br />
-      {/* <div>
+      <div>
         <Map
           containerElement={<div style={{ height: `500px`, width: "100%" }} />}
           mapElement={<div style={{ height: `100%` }} />}
           markers={locations}
         />
-      </div> */}
-      {/* <Map/> */}
+      </div>
+
 
       <CRow>
         <CCol className="navbar justify-content-between">
@@ -600,27 +391,30 @@ console.log('final prac data', finalprac);
                 onClick={(e) => {
                   redirecttoConsent(
                     e,
-                    row.Patient_name,
+                    // row.Patient_name,
+                    // row.guardian_email,
+                    row.Practitioner_id,
                     row.Practitioner_name,
-                    row.guardian_email
-                  );
-                  localStorage.setItem(
-                    "practitioner_name",
-                    row.Practitioner_name
+                    row.Practitioner_Slot,
+                    row.practitioner_email,
+                    row.Provider_id,
+                    row.Provider_name,
+                    row.Provider_address,
+                    row.Provider_lat,
+                    row.Provider_long,
+                    row.Provider_contact_number,
+
                   );
                   localStorage.setItem("practitioner_id", row.Practitioner_id);
-                  localStorage.setItem(
-                    "practitioner_name",
-                    row.Practitioner_name
-                  );
-                  localStorage.setItem(
-                    "practitioner_speciality",
-                    row.Practitioner_Speciality
-                  );
-                  localStorage.setItem(
-                    "practitioner_email",
-                    row.practitioner_email
-                  );
+                  localStorage.setItem("practitioner_name", row.Practitioner_name);
+                  localStorage.setItem("practitioner_speciality", row.Practitioner_Speciality);
+                  localStorage.setItem("practitioner_email", row.practitioner_email);
+                  localStorage.setItem("prac_slab", row.Practitioner_Slot);
+                  localStorage.setItem("provider_id", row.Provider_id);
+                  localStorage.setItem("provider_name", row.Provider_name);
+                  localStorage.setItem("provider_lat", row.Provider_lat);
+                  localStorage.setItem("provider_long", row.Provider_long);
+                  localStorage.setItem("provider_contact", row.Provider_contact_number);
                 }}
               >
                 <CWidgetProgressIcon
@@ -633,37 +427,16 @@ console.log('final prac data', finalprac);
                     style={{ float: "left" }}
                     height="24"
                   />
-                  <p
-                    style={{
-                      fontSize: "75%",
-                      textAlign: "left",
-                      marginLeft: "50px",
-                    }}
-                  >
-                    {row.Practitioner_name}
-                  </p>
-                  <p
-                    sx={{
-                      minWidth: "10 rem",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                    style={{ fontSize: "50%", textAlign: "left" }}
-                  >
-                    {row.Practitioner_Speciality}
-                    <button
-                      type="button"
-                      className="btn btn-secondary btn-sm"
-                      style={{
-                        cursor: "pointer",
-                        padding: "1%",
-                        fontWeight: "bolder",
-                        float: "right",
-                      }}
-                    // onClick={(e) => { redirecttoConsent( e, row.Patient_name, row.Practitioner_name, row.guardian_email ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_id", row.Practitioner_id ); localStorage.setItem( "practitioner_name", row.Practitioner_name ); localStorage.setItem( "practitioner_speciality", row.Practitioner_Speciality ); localStorage.setItem( "practitioner_email", row.practitioner_email ); }}>
-                    >
+                  <p style={{ fontSize: "50%", textAlign: "left", marginLeft: "25px", color: "indigo"}} > Practitioner Name: {row.Practitioner_name} </p>
+                  <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Provider Name: {row.Provider_name} </p>
+                  <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Address: {row.Provider_address} </p>
+                  <p sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between", marginLeft: "25px"}}
+                    style={{ fontSize: "30%", textAlign: "left" }}>
+                    {/* Speciality: {row.Practitioner_Speciality}  <br/> */}
+                    <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: "pointer", padding: "1%", fontWeight: "bolder", float: "right", }}>
                       Select
                     </button>
+                    Practitioner email: {row.practitioner_email}
                   </p>
                 </CWidgetProgressIcon>
               </CCardGroup>

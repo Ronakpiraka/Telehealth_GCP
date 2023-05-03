@@ -11,7 +11,7 @@ const Map = withScriptjs(withGoogleMap(props => {
     axios.get('https://appointmentbook-sh4iojyb3q-uc.a.run.app/')
       .then(response => {
         setMarkers(response.data);
-        console.log(response.data)
+        // console.log(response.data)
       })
       .catch(error => {
         console.log(error);

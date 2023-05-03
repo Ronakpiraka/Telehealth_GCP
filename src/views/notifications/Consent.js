@@ -92,8 +92,8 @@ export default function RadioButtonsGroup() {
   const handlepreview = async () => {
     const providername = localStorage.getItem("provider_name");
     const pracname = localStorage.getItem("practitioner_name");
-    const date = localStorage.getItem("date");
-    const time = localStorage.getItem("timeslot");
+    const date = localStorage.getItem("selectedDate");
+    const time = localStorage.getItem("selectedHour");
     const patientname = localStorage.getItem("Patient_name");
 
     if (!providername || !pracname || !date || !time) {
@@ -205,42 +205,25 @@ export default function RadioButtonsGroup() {
     // myHeaders.append("Authorization", `Bearer ${accessToken}`);
     var raw = {
       Patient_id: localStorage.getItem("Patient_MRN"),
-      App_Date: localStorage.getItem("date"),
+      App_Date: localStorage.getItem("selectedDate"),
       Provider_id: localStorage.getItem("provider_id"),
       Provider_name: localStorage.getItem("provider_name"),
-      Time_9_AM_10_AM:
-        localStorage.getItem("Time_9_AM_10_AM") == "true" ? true : false,
-      Time_10_AM_11_AM:
-        localStorage.getItem("Time_10_AM_11_AM") == "true" ? true : false,
-      Time_11_AM_12_PM:
-        localStorage.getItem("Time_11_AM_12_PM") == "true" ? true : false,
-      Time_12_PM_1_PM:
-        localStorage.getItem("Time_12_PM_1_PM") == "true" ? true : false,
-      Time_1_PM_2_PM:
-        localStorage.getItem("Time_1_PM_2_PM") == "true" ? true : false,
-      Time_2_PM_3_PM:
-        localStorage.getItem("Time_2_PM_3_PM") == "true" ? true : false,
-      Time_3_PM_4_PM:
-        localStorage.getItem("Time_3_PM_4_PM") == "true" ? true : false,
-      Time_4_PM_5_PM:
-        localStorage.getItem("Time_4_PM_5_PM") == "true" ? true : false,
       Condition_code: localStorage.getItem("condition_code"),
       Condition_name: localStorage.getItem("condition_name"),
       Patient_name: localStorage.getItem("Patient_name"),
       Practitioner_id: localStorage.getItem("practitioner_id"),
       Practitioner_name: localStorage.getItem("practitioner_name"),
       Practitioner_Speciality: localStorage.getItem("practitioner_speciality"),
-      MRN: localStorage.getItem("Patient_MRN"),
       practitioner_email: localStorage.getItem("practitioner_email"),
+      MRN: localStorage.getItem("Patient_MRN"),
       provider_contact_number: localStorage.getItem("provider_contact_number"),
       Appointment_Status: localStorage.getItem("Appointment_Status"),
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,
-      Patient_email: localStorage.getItem("Patient_email"),
-      Device_Requirement: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,    
-      Timing: localStorage.getItem("timeslot"),
-      // Devices: "a,b,c,d,r[]"
+      Patient_email: localStorage.getItem("Patient_email"), 
+      Timing: localStorage.getItem("selectedHour"),
       Devices: localStorage.getItem("devices"),
+      Slot:localStorage.getItem("selectedSlab"),
     };
 
     var requestOptions = {
@@ -354,16 +337,16 @@ export default function RadioButtonsGroup() {
           <b>Practitioner Name:</b> {localStorage.getItem("practitioner_name")}
           <br />
           <br />
-          <b>Selected Date :</b> {localStorage.getItem("date")}
+          <b>Selected Date :</b> {localStorage.getItem("selectedDate")}
           <br />
           <br />
-          <b>Selected Time :</b> {localStorage.getItem("timeslot")}
+          <b>Selected Time :</b> {localStorage.getItem("selectedHour")}
           <br />
           <br />
           <b>Device ID information: </b> {localStorage.getItem("devices")}
           <br />
           <br />
-          <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}{" "}
+          <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}
           <br />
           <br />
         </Modal.Body>
