@@ -330,10 +330,8 @@ export default function PractitionerBooking() {
         </CCol>
       </CRow>
       <br />
-      <h4 style={{color:"indigo"}}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("practitioner_speciality")}</h4>
-      {/* localStorage.setItem("practitioner_speciality", row.Practitioner_Speciality); */}
-
-
+      <h4 style={{color:"indigo"}}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("condition_speciality")}</h4>
+     
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
           <MobileDateTimePicker
@@ -430,7 +428,7 @@ export default function PractitionerBooking() {
                   <p style={{ fontSize: "50%", textAlign: "left", marginLeft: "25px", color: "indigo"}} > Practitioner Name: {row.Practitioner_name} </p>
                   <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Provider Name: {row.Provider_name} </p>
                   <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Address: {row.Provider_address} </p>
-                  <p sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between", marginLeft: "25px"}}
+                  <p sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between", }}
                     style={{ fontSize: "30%", textAlign: "left" }}>
                     {/* Speciality: {row.Practitioner_Speciality}  <br/> */}
                     <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: "pointer", padding: "1%", fontWeight: "bolder", float: "right", }}>

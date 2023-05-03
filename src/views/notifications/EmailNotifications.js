@@ -185,46 +185,46 @@ export default function EmailNotify() {
     }
   };
 
-  const sortedData = data.sort((a, b) => {
-    const dateA = new Date(a.App_Date);
-    const dateB = new Date(b.App_Date);
-    if (dateA < dateB) {
-      return 1;
-    }
-    if (dateA > dateB) {
-      return -1;
-    }
+  // const sortedData = data.sort((a, b) => {
+  //   const dateA = new Date(a.App_Date);
+  //   const dateB = new Date(b.App_Date);
+  //   if (dateA < dateB) {
+  //     return 1;
+  //   }
+  //   if (dateA > dateB) {
+  //     return -1;
+  //   }
 
-    const slotA = slottiming(
-      a.Time_9_AM_10_AM.toString(),
-      a.Time_10_AM_11_AM.toString(),
-      a.Time_11_AM_12_PM.toString(),
-      a.Time_12_PM_1_PM.toString(),
-      a.Time_1_PM_2_PM.toString(),
-      a.Time_2_PM_3_PM.toString(),
-      a.Time_3_PM_4_PM.toString(),
-      a.Time_4_PM_5_PM.toString(),
-      a.App_Date
-    );
-    const slotB = slottiming(
-      b.Time_9_AM_10_AM.toString(),
-      b.Time_10_AM_11_AM.toString(),
-      b.Time_11_AM_12_PM.toString(),
-      b.Time_12_PM_1_PM.toString(),
-      b.Time_1_PM_2_PM.toString(),
-      b.Time_2_PM_3_PM.toString(),
-      b.Time_3_PM_4_PM.toString(),
-      b.Time_4_PM_5_PM.toString(),
-      b.App_Date
-    );
-    if (slotA < slotB) {
-      return 1;
-    }
-    if (slotA > slotB) {
-      return 1;
-    }
-    return 0;
-  });
+  //   const slotA = slottiming(
+  //     a.Time_9_AM_10_AM.toString(),
+  //     a.Time_10_AM_11_AM.toString(),
+  //     a.Time_11_AM_12_PM.toString(),
+  //     a.Time_12_PM_1_PM.toString(),
+  //     a.Time_1_PM_2_PM.toString(),
+  //     a.Time_2_PM_3_PM.toString(),
+  //     a.Time_3_PM_4_PM.toString(),
+  //     a.Time_4_PM_5_PM.toString(),
+  //     a.App_Date
+  //   );
+  //   const slotB = slottiming(
+  //     b.Time_9_AM_10_AM.toString(),
+  //     b.Time_10_AM_11_AM.toString(),
+  //     b.Time_11_AM_12_PM.toString(),
+  //     b.Time_12_PM_1_PM.toString(),
+  //     b.Time_1_PM_2_PM.toString(),
+  //     b.Time_2_PM_3_PM.toString(),
+  //     b.Time_3_PM_4_PM.toString(),
+  //     b.Time_4_PM_5_PM.toString(),
+  //     b.App_Date
+  //   );
+  //   if (slotA < slotB) {
+  //     return 1;
+  //   }
+  //   if (slotA > slotB) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
 
   // const today = new Date();
   // const filteredData = sortedData.filter((row) => {
@@ -284,11 +284,11 @@ export default function EmailNotify() {
 
   const countAppointmentsTodayAndTotal = () => {
     const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
-    const appointmentsToday = sortedData.filter(
+    const appointmentsToday = data.filter(
       (row) => row.App_Date === today
     );
     const countToday = appointmentsToday.length;
-    const countTotal = sortedData.length;
+    const countTotal = data.length;
     sessionStorage.setItem("appointmentsTotal", countTotal);
     return countTotal;
   };
@@ -335,9 +335,9 @@ export default function EmailNotify() {
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Patient Name</b>
                 </TableCell>
-                <TableCell style={{ width: "15%", textAlign: "center" }}>
+                {/* <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Patient Devices</b>
-                </TableCell>
+                </TableCell> */}
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Condition Name</b>
                 </TableCell>
@@ -357,7 +357,7 @@ export default function EmailNotify() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedData
+              {data
                 .filter((val) => {
                   if (searchTerm === "") {
                     return val;
@@ -414,11 +414,11 @@ export default function EmailNotify() {
                       >
                         {row.Patient_name}
                       </StyledTableCell>
-                      <StyledTableCell
+                      {/* <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {/* {row.Devices[values]} */}
-                      </StyledTableCell>
+                        {row.Devices[values]}
+                      </StyledTableCell> */}
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
@@ -439,17 +439,7 @@ export default function EmailNotify() {
                       >
                         <b>{row.App_Date}</b>
                         <br />
-                        {slottiming(
-                          row.Time_9_AM_10_AM.toString(),
-                          row.Time_10_AM_11_AM.toString(),
-                          row.Time_11_AM_12_PM.toString(),
-                          row.Time_12_PM_1_PM.toString(),
-                          row.Time_1_PM_2_PM.toString(),
-                          row.Time_2_PM_3_PM.toString(),
-                          row.Time_3_PM_4_PM.toString(),
-                          row.Time_4_PM_5_PM.toString(),
-                          row.App_Date
-                        )}
+                       {row.Timing}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
@@ -468,7 +458,7 @@ export default function EmailNotify() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
         component="div"
-        count={sortedData.length}
+        count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

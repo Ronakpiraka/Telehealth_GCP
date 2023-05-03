@@ -45,6 +45,7 @@ import Map from './Map1'
 // import Map1 from './Map2'
 // import ForwardIcon from '@mui/icons-material/Forward';
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+
 export default function Appointment() {
   const modalstyle = {
     position: "relative",
@@ -344,29 +345,25 @@ export default function Appointment() {
   const assignNewDeviceIdAndShare = () => {
     const newDeviceId = Math.floor(Math.random() * 10000000000000000);
     localStorage.setItem('devices',newDeviceId);
-    // generate a random 6-digit number for the new device ID
-    // const message = `your new device ID is ${newDeviceId}. We will send this ID to you via email shortly.`;
-    // const value = localStorage.setItem("deviceid", newDeviceId);
-    // const message = `Your new device ID is newDeviceId. We will send this ID to you via email shortly.`;
     return newDeviceId;
   };
-
+ 
   const condition_name = [
-    { condition: "Prediabetes", code: "15777000" },
-    { condition: "Diabetes", code: "44054006", device_code: "528388" },
-    { condition: "Viral sinusitis (disorder)", code: "444814009" },
-    { condition: "Acute viral pharyngitis (disorder)", code: "195662009" },
-    { condition: "Acute bronchitis (disorder)", code: "10509002" },
-    { condition: "Anemia (disorder)", code: "271737000" },
-    { condition: "Body mass index 30+ - obesity (finding)", code: "162864005" },
-    { condition: "Hypertension", code: "59621000" },
-    { condition: "Chronic sinusitis (disorder)", code: "40055000" },
-    { condition: "Miscarriage in first trimester", code: "19169002" },
-    { condition: "Normal pregnancy", code: "72892002" },
-    { condition: "Streptococcal sore throat (disorder)", code: "43878008" },
-    { condition: "Otitis media", code: "65363002" },
-    { condition: "Hyperlipidemia", code: "55822004" },
-    { condition: "Sprain of ankle", code: "44465007" },
+    { condition: "Prediabetes", code: "15777000" , speciality: "Endocrinologists"},
+    { condition: "Diabetes", code: "44054006", device_code: "528388", speciality: "Endocrinologists" },
+    { condition: "Viral sinusitis (disorder)", code: "444814009", speciality: "Otolaryngologist" },
+    { condition: "Acute viral pharyngitis (disorder)", code: "195662009" , speciality: "Otolaryngologist"},
+    { condition: "Acute bronchitis (disorder)", code: "10509002" , speciality: "Pulmonologist"},
+    { condition: "Anemia (disorder)", code: "271737000" , speciality: "Hematologist"},
+    { condition: "Body mass index 30+ - obesity (finding)", code: "162864005" , speciality: "Bariatrician"},
+    { condition: "Hypertension", code: "59621000", speciality: "Cardiologist" },
+    { condition: "Chronic sinusitis (disorder)", code: "40055000" , speciality: "Otolaryngologist"},
+    { condition: "Miscarriage in first trimester", code: "19169002" , speciality: "Gynecologist"},
+    { condition: "Normal pregnancy", code: "72892002" , speciality: "Obstetrician"},
+    { condition: "Streptococcal sore throat (disorder)", code: "43878008", speciality: "Infectious disease specialist" },
+    { condition: "Otitis media", code: "65363002" , speciality: "Otolaryngologist"},
+    { condition: "Hyperlipidemia", code: "55822004" , speciality: "Lipidologist"},
+    { condition: "Sprain of ankle", code: "44465007" , speciality: "Orthopedic Specialist"},
   ];
 
   // const handleCloseModal = () => {
@@ -414,10 +411,11 @@ export default function Appointment() {
   // const handledeviceclicks = (e, Display, code) => {
   //   setDeviceId(code);
   // };
-  const redirecttoPractitionerbooking = (e, condition, code) => {
+  const redirecttoPractitionerbooking = (e, condition, code, speciality) => {
     localStorage.setItem("condition_name", condition);
     localStorage.setItem("condition_code", code);
-
+    localStorage.setItem("condition_speciality", speciality);
+    
     if (personName !== "" || decryptedName !== "") {
       if (
         connectedCareValue === "Yes" 
@@ -759,7 +757,7 @@ export default function Appointment() {
                     color="gradient-info"
                     text={row.condition}
                     onClick={(e) => {
-                      redirecttoPractitionerbooking(e, row.condition, row.code);
+                      redirecttoPractitionerbooking(e, row.condition, row.code, row.speciality);
                     }}
                     style={{
                       minHeight: "80px",
