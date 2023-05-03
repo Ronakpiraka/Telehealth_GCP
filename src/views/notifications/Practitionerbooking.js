@@ -306,6 +306,16 @@ export default function PractitionerBooking() {
 
   console.log('final prac data', finalprac);
 
+  // const handlezipSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(pincode); // replace with your desired action, e.g. submit to server
+  // }
+
+  // const handleTimePickerChange = (newValue) => {
+  //   setSelectedSlot(newValue);
+  //   localStorage.setItem('selectedSlot', newValue);
+  // }
+
   return (
     <div>
       <CModal show={modal} onClose={toggle}>

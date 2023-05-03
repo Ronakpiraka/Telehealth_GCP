@@ -130,7 +130,7 @@ export default function Appointment() {
   const [decryptedName, setdecryptedName] = useState("");
   const [selectedDevices, setSelectedDevices] = useState();
   const [decryptedEmail, setdecryptedEmail] = useState("");
-  const [connectedCareValue, setConnectedCareValue] = useState("No");
+  const [connectedCareValue, setConnectedCareValue] = useState("");
   const [patientemail, setPatientEmail] = useState("");
   const location = useLocation();
 
@@ -327,6 +327,8 @@ export default function Appointment() {
       localStorage.removeItem('devices');
     }
   }, [connectedCareValue]);
+
+  
   
   // useEffect(() => {
   //   const storedDevices = localStorage.getItem("devices");
@@ -578,13 +580,14 @@ export default function Appointment() {
             </CRow>
           </CRow>
         </RadioGroup>
-        {connectedCareValue === "Yes" && (
+       
           <div>
+          {connectedCareValue === "Yes" && (
             <span className="navbar justify-content-between">
               <p className="navbar-brand">
                 <b>Your Device ID is: {assignNewDeviceIdAndShare()} We would be sharing the same over email.</b>
               </p>
-            </span>
+            </span>)}
             {/* <CRow>
               {device_details.map((row, index) => {
                 return (
@@ -612,7 +615,7 @@ export default function Appointment() {
             </CRow>*/}
           </div>
           
-        )}
+      
         {/* </FormControl> */}
 
         {/* {connectedCareValue === "Yes" && (
