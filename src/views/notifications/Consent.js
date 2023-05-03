@@ -240,7 +240,7 @@ export default function RadioButtonsGroup() {
       Device_Requirement: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,    
       Timing: localStorage.getItem("timeslot"),
       // Devices: "a,b,c,d,r[]"
-      Devices: '{"values":'+localStorage.getItem("devices")+'}',
+      Devices: localStorage.getItem("devices"),
     };
 
     var requestOptions = {

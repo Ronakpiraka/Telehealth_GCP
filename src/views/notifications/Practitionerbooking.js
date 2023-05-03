@@ -143,7 +143,11 @@ export default function PractitionerBooking() {
   const [data, setdata] = React.useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [finaldata, setfinaldata] = React.useState([]);
+
+  const [selectedDateTime, setSelectedDateTime] = React.useState();
+  const [newDateTime, setnewDateTime] = React.useState();
   const [selectedDate, setSelectedDate] = React.useState();
+  const [selectedTime, setSelectedTime] = React.useState();
   const [finalprac, setpracdata] = React.useState([]);
   const [modal, setModal] = useState(false);
   const [timeslot, settimeslot] = React.useState([]);
@@ -172,37 +176,6 @@ export default function PractitionerBooking() {
   };
 
 
-  // const HourPicker = ({ selected, onChange }) => (
-  //   <DatePicker
-  //   selected={selected}
-  //   onChange={onChange}
-  //   showTimeSelect
-  //   timeFormat="HH:mm"
-  //   timeIntervals={60}
-  //   showDisabledMonthNavigation
-  //   dateFormat="MMMM d, yyyy h:mm aa"
-  //   withPortal
-  //   placeholderText="Click to select a date"
-  //   isClearable={true}
-  //   />
-  // );
-
-
-  // const HourPicker = ({ selected, onChange }) => (
-  //   <DatePicker
-  //   selected={selected}
-  //   onChange={onChange}
-  //   showTimeSelect
-  //   timeFormat="HH:mm"
-  //   timeIntervals={60}
-  //   showDisabledMonthNavigation
-  //   dateFormat="MMMM d, yyyy h:mm aa"
-  //   withPortal
-  //   placeholderText="Click to select a date"
-  //   isClearable={true}
-  //   />
-  // );
-
   useEffect(() => {
     fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
       method: "GET",
@@ -217,676 +190,330 @@ export default function PractitionerBooking() {
         });
 
         setdata(response);
-        console.log("Sorted appointment data", response);
+        console.log("data", response);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-
+  console.log('ayaya', data)
 
 
   // useEffect(() => {
-  //   flags = location.search.split("^")[1];
-  //   // conditionName = location.search.split("=")[1].split("%")[0];
-  //   conditionName = localStorage.getItem("condition_name");
-  //   // date = localStorage.getItem("");
-  //   // time = localStorage.getItem("");
-  //   console.log("condition", conditionName);
-
-  //   Pname = sessionStorage.getItem("Patient");
-  //   console.log(Pname, conditionName);
-
-  //   const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app ", {
-  //     method: "GET",
-  //   })
+  //   fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
   //     .then((resp) => resp.json())
   //     .then((response) => {
-  //       let Provider_id_list = new Array();
-  //       let Provider_list_index = -1;
-  //       // let Patient_condition = "";
-  //       var final_data = new Array();
-  //       console.log(response);
-  //       for (var i = 0; i < response.length; i++) {
-  //         // console.log(response[i]);
-  //         Provider_list_index = Provider_id_list.indexOf(
-  //           response[i].Provider_id
-  //         );
-  //         if (
-  //           Provider_list_index == -1 &&
-  //           response[i].Condition_name === conditionName
-  //           // &&response[i].App_Date === date &&
-  //           // response[i].timeslot === conditionName
-  //         ) {
-  //           final_data.push(response[i]);
-  //           Provider_id_list.push(response[i].Provider_id);
+  //       const uniqueProviders = response.reduce((acc, item) => {
+  //         const practitionerExists = acc.some(provider => provider.data.some(existingItem => existingItem.Practitioner_id === item.Practitioner_id));
+  //         if (!practitionerExists) {
+  //           const index = acc.findIndex(provider => provider.Provider_name === item.Provider_name);
+  //           if (index === -1) {
+  //             acc.push({ Provider_name: item.Provider_name, data: [item] });
+  //           } else {
+  //             acc[index].data.push(item);
+  //           }
   //         }
-  //       }
-  //       console.log(final_data);
-  //       setfinaldata(final_data);
-  //       setpracdata(final_data);
-  //       setisLoading(false);
+  //         return acc;
+  //       }, []);
+  //       setfinaldata(uniqueProviders);
   //     })
   //     .catch((error) => {
   //       console.log(error);
   //     });
   // }, []);
 
-
-  // useEffect(() => {
-  //   flags = location.search.split("^")[1];
-  //   // conditionName = location.search.split("=")[1].split("%")[0];
-  //   conditionName = localStorage.getItem("condition_name");
-  //   // date = localStorage.getItem("");
-  //   // time = localStorage.getItem("");
-  //   console.log("condition", conditionName);
-
-  //   Pname = sessionStorage.getItem("Patient");
-  //   console.log(Pname, conditionName);
-
-  //   const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app ", {
-  //     method: "GET",
-  //   })
-  //     .then((resp) => resp.json())
-  //     .then((response) => {
-  //       let Provider_id_list = new Array();
-  //       let Provider_list_index = -1;
-  //       // let Patient_condition = "";
-  //       var final_data = new Array();
-  //       console.log(response);
-  //       for (var i = 0; i < response.length; i++) {
-  //         // console.log(response[i]);
-  //         Provider_list_index = Provider_id_list.indexOf(
-  //           response[i].Provider_id
-  //         );
-  //         if (
-  //           Provider_list_index == -1 &&
-  //           response[i].Condition_name === conditionName
-  //           // &&response[i].App_Date === date &&
-  //           // response[i].timeslot === conditionName
-  //         ) {
-  //           final_data.push(response[i]);
-  //           Provider_id_list.push(response[i].Provider_id);
-  //         }
-  //       }
-  //       console.log(final_data);
-  //       setfinaldata(final_data);
-  //       setpracdata(final_data);
-  //       setisLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+  // console.log("here is finaldata", finaldata);
   useEffect(() => {
-    flags = location.search.split("^")[1];
-    // conditionName = location.search.split("=")[1].split("%")[0];
-    conditionName = localStorage.getItem("condition_name");
-    // date = localStorage.getItem("");
-    // time = localStorage.getItem("");
-    console.log("condition", conditionName);
+    fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
+      .then((response) => response.json())
+      .then((data) => {
+        // Create an object to store the unique data
+        const uniqueData = {};
 
-    Pname = sessionStorage.getItem("Patient");
-    console.log(Pname, conditionName);
+        // Loop through the data and add the first entry for each unique practitioner ID
+        data.forEach((row) => {
+          if (!uniqueData[row.Practitioner_id]) {
+            uniqueData[row.Practitioner_id] = row;
+          }
+        });
 
-    const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app ", {
-      method: "GET",
-    })
-      .then((resp) => resp.json())
-      .then((response) => {
-        console.log(response);
-        setfinaldata(response);
-        setisLoading(false);
-        console.log(response);
-        setfinaldata(response);
-        setisLoading(false);
+        // Convert the object of unique data back to an array
+        const newFinalData = Object.values(uniqueData);
+
+        // Update the state with the new data
+        setfinaldata(newFinalData);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  console.log(finaldata);
 
-  const uniqueProviderName = Array.from(
-    new Set(finaldata.map((item) => JSON.stringify(item.Provider_name)))
-  ).map((item) => JSON.parse(item));
-
-  uniqueProviderName.sort((a, b) => {
-    if (a < b) {
-      return -1;
-    } else if (a > b) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
-  console.log(uniqueProviderName);
+  console.log("here is finaldata", finaldata);
 
   const redirecttoConsent = () => { };
 
-  const handleOpenModal = () => {
-    setShowModal(true);
+  // const handleOpenModal = () => {
+  //   setShowModal(true);
+  // };
+
+  // const handleHourChange = (date) => {
+  //   setSelectedDate(date);
+  //   console.log("selecteddate", date)
+  //   console.log("selecteddate", date)
+  // }
+
+  // const handleDateTimeChange = (dateOrTime) => {
+  //     setSelectedDateTime(dateOrTime);
+  //     console.log('hiiiiiiiiiiiiiiiiiiiiiiiiii',dateOrTime);
+  //     console.log(selectedDateTime);
+  //   };
+
+  const handleDateTimeChange = (newDateTime) => {
+    setSelectedDateTime(""); // reset the selected slot state
+
+    if (!newDateTime) {
+      setSelectedDateTime(null);
+      localStorage.removeItem("selectedDateTime");
+      return;
+    }
+    console.log('newdatetime', newDateTime);
+    console.log('selected date time', selectedDateTime);
+
+    const today = dayjs().startOf("day");
+    const dateTime = newDateTime; // convert the selected date-time to the Indian time zone
+    console.log('dateTime', dateTime);
+    if (dateTime.isBefore(today) || dateTime.isAfter(today.add(2, "month"))) {
+      // if the selected date-time is not within the range of today and the next two months
+      alert(
+        "Please select a date that is not greater than today and not more than 2 months from today."
+      );
+      setSelectedDateTime(""); // reset the selected date-time state to null
+      localStorage.removeItem("selectedDateTime");
+      return;
+    }
+
+    const selectedDate = dateTime.startOf("day").format("YYYY-MM-DD");
+    setSelectedDate(selectedDate); // set the selected date state to the formatted date string
+    localStorage.setItem("selectedDate", selectedDate); // store the selected date in local storage
+
+    setSelectedTime(dateTime.toISOString()); // set the selected date-time state
+    // localStorage.setItem("selectedTime", selectedTime ); // store the selected date-time in local storage
+
+    const [selectedHour, selectedMinute] = dateTime.format("HH:mm").split(":"); // get the selected hour and minute
+    localStorage.setItem("selectedHour", selectedHour);
+    const slabhour = parseInt(selectedHour)
+    let slab;
+    if ([9, 10, 11, 12, 13, 14, 15, 16].includes(slabhour)) {
+      slab = "A";
+    } else if ([17, 18, 19, 20, 21, 22, 23, 0].includes(slabhour)) {
+      slab = "B";
+    } else if ([1, 2, 3, 4, 5, 6, 7, 8].includes(slabhour)) {
+      slab = "C";
+    }
+    localStorage.setItem("selectedSlab", slab)
+    selectpractitioner();
   };
 
-  // const handleChangeSlot = (event) => {
-  //   const date = localStorage.getItem("date");
-  //   if (!date) {
-  //     alert("Please select a date first");
-  //     setSelectedDate("");
-  //     // setSelectedSlot("");
-  //     return;
-  //   } else {
-  //     console.log(event.target.value);
-  //     setSelectedSlot(event.target.value);
-  //     // onSelectedSlotChange(event.target.value);
-  //     if (event.target.value == "9 AM - 10 AM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", true);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "10 AM - 11 AM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", true);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "11 AM - 12 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", true);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "12 PM - 1 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", true);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "1 PM - 2 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", true);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "2 PM - 3 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", true);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "3 PM - 4 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", true);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "4 PM - 5 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", true);
-  //     }
-  //   }
-  // };
-  // const handleChangeSlot = (event) => {
-  //   const date = localStorage.getItem("date");
-  //   if (!date) {
-  //     alert("Please select a date first");
-  //     setSelectedDate("");
-  //     // setSelectedSlot("");
-  //     return;
-  //   } else {
-  //     console.log(event.target.value);
-  //     setSelectedSlot(event.target.value);
-  //     // onSelectedSlotChange(event.target.value);
-  //     if (event.target.value == "9 AM - 10 AM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", true);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "10 AM - 11 AM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", true);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "11 AM - 12 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", true);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "12 PM - 1 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", true);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "1 PM - 2 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", true);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "2 PM - 3 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", true);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "3 PM - 4 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", true);
-  //       localStorage.setItem("Time_4_PM_5_PM", false);
-  //     }
-  //     if (event.target.value == "4 PM - 5 PM") {
-  //       localStorage.setItem("timeslot", event.target.value);
-  //       localStorage.setItem("Time_9_AM_10_AM", false);
-  //       localStorage.setItem("Time_10_AM_11_AM", false);
-  //       localStorage.setItem("Time_11_AM_12_PM", false);
-  //       localStorage.setItem("Time_12_PM_1_PM", false);
-  //       localStorage.setItem("Time_1_PM_2_PM", false);
-  //       localStorage.setItem("Time_2_PM_3_PM", false);
-  //       localStorage.setItem("Time_3_PM_4_PM", false);
-  //       localStorage.setItem("Time_4_PM_5_PM", true);
-  //     }
-  //   }
-  // };
+  // on condition name match condtion name, date and hour, get location
+  const selectpractitioner = async () => {
+    const condition = localStorage.getItem("condition_name");
+    const date = localStorage.getItem("selectedDate");
+    const hour = localStorage.getItem("selectedHour");
+    const slab = localStorage.getItem("selectedSlab");
+    console.log('justcheck', condition, date, hour, slab);
+    let array1 = [];
+    let array2 = [];
+    let array3 = [];
 
-  const handleHourChange = (date) => {
-    setSelectedDate(date);
-    console.log("selecteddate", date)
-    console.log("selecteddate", date)
+    array1 = await finaldata.filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
+
+    array2 = await data.filter(item => item.Condition_name === condition && item.App_Date === date && item.Timing === hour && item.slot === slab);
+
+    // Loop through each element in array1 and check if it exists in array2
+    for (let i = 0; i < array1.length; i++) {
+      const found = array2.find(item => item.Practitioner_id === array1[i].Practitioner_id);
+      if (!found) {
+        array3.push(array1[i]);
+      }
+    }
+
+    console.log("1st array", array1);
+    console.log("2nd array", array2);
+    console.log("3rd array", array3);
+    setpracdata(array3);
+    return array3;
   }
 
-  // const handleDateChange = (newDate) => {
-  //   setSelectedSlot("");
-
-  //   const providerName = localStorage.getItem("provider_name");
-  //   const practitionerName = localStorage.getItem("practitioner_name");
-
-  //   // if (!providerName || !practitionerName) {
-  //   //   alert(
-  //   //     "Please select a provider and practitioner before choosing a date."
-  //   //   );
-  //   //   return;
-  //   // } else {
-  //   if (!newDate) {
-  //     // if value is null, reset state
-  //     setSelectedDate(null);
-  //     localStorage.removeItem("date");
-  //     return;
+console.log('final prac data', finalprac);
+  // const handleTimeChange = (date) => {
+  //   setEnteredTime(date);
+  //   const dateObj = new Date(date);
+  //   const timeString = dateObj.getHours() + ":" + dateObj.getMinutes();
+  //   console.log(timeString)
+  //   var count = 0
+  //   conditionName = localStorage.getItem("condition_name");
+  //   let myArray = [];
+  //   // Loop through the timeSlots array and check if the entered time matches any of the time slots
+  //   for (let i = 0; i < timeSlots.length; i++) {
+  //     if (timeSlots[i].a === timeString) {
+  //       console.log("Slot A");
+  //       const slotARows = finaldata.filter(row => {
+  //         if (row.Practitioner_Slot === "A" && row.Condition_name === conditionName) {
+  //           count++
+  //           console.log(row.Practitioner_Slot)
+  //           myArray.push(row)
+  //         }
+  //         const slotALocations = slotARows.map(row => ({
+  //           lat: row.Provider_lat,
+  //           lng: row.Provider_long
+  //         }));
+  //         setlocations(slotALocations)
+  //       });
+  //     }
+  //     else if (timeSlots[i].b === timeString) {
+  //       console.log("Slot B");
+  //       const slotBRows = finaldata.filter(row => {
+  //         if (row.Practitioner_Slot === "B" && row.Condition_name === conditionName)
+  //           count++
+  //         console.log(row)
+  //         myArray.push(row)
+  //       });
+  //     }
+  //     else if (timeSlots[i].c === timeString) {
+  //       console.log("Slot C");
+  //       const slotCRows = finaldata.filter(row => {
+  //         if (row.Practitioner_Slot === "C" && row.Condition_name === conditionName)
+  //           count++
+  //         console.log(row)
+  //         myArray.push(row)
+  //       });
+  //     }
+  //     else {
+  //       console.log("No Match", timeslot[i], timeString)
+  //     }
   //   }
-  // const handleDateChange = (newDate) => {
-  //   setSelectedSlot("");
-
-  //   const providerName = localStorage.getItem("provider_name");
-  //   const practitionerName = localStorage.getItem("practitioner_name");
-
-  //   // if (!providerName || !practitionerName) {
-  //   //   alert(
-  //   //     "Please select a provider and practitioner before choosing a date."
-  //   //   );
-  //   //   return;
-  //   // } else {
-  //   if (!newDate) {
-  //     // if value is null, reset state
-  //     setSelectedDate(null);
-  //     localStorage.removeItem("date");
-  //     return;
-  //   }
-
-  // const today = dayjs().tz("Asia/Kolkata").startOf("day");
-  // console.log(today)
-  // const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
-  // const twoMonthsAhead = today.add(2, "month");
-  // const dateSubstring = date.format("YYYY-MM-DD");
-  // const today = dayjs().tz("Asia/Kolkata").startOf("day");
-  // console.log(today)
-  // const date = dayjs(newDate).tz("Asia/Kolkata").startOf("day");
-  // const twoMonthsAhead = today.add(2, "month");
-  // const dateSubstring = date.format("YYYY-MM-DD");
-
-  // if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
-  // if (date.isBefore(today) || date.isAfter(twoMonthsAhead)) {
-  //   alert(
-  //     "Please select a date that is not greater than today and not more than 2 months from today."
-  //     "Please select a date that is not greater than today and not more than 2 months from today."
-  //   );
-  //   setSelectedDate(null);
-  //   setSelectedDate(null);
-  //   return;
-  // }
-  // }
-  // alert("new date",dateSubstring)
+  //   console.log(count)
+  //   setpracdata(myArray)}
   //   setSelectedDate(dateSubstring);
   //   verify(dateSubstring);
   //   localStorage.setItem("date", dateSubstring);
   //   // }
   // };
 
-  const timeSlots = [
-    { a: "9:0", b: "17:0", c: "1:0" },
-    { a: "10:0", b: "18:0", c: "2:0" },
-    { a: "11:0", b: "19:0", c: "3:0" },
-    { a: "12:0", b: "20:0", c: "4:0" },
-    { a: "13:0", b: "21:0", c: "5:0" },
-    { a: "14:0", b: "22:0", c: "6:0" },
-    { a: "15:0", b: "23:0", c: "7:0" },
-    { a: "16:0", b: "00:0", c: "8:0" },
-  ];
 
-  const handleTimeChange = (date) => {
-    setEnteredTime(date);
-    const dateObj = new Date(date);
-    const timeString = dateObj.getHours() + ":" + dateObj.getMinutes();
-    console.log(timeString)
-    var count = 0
-    conditionName = localStorage.getItem("condition_name");
-    let myArray = [];
-    // Loop through the timeSlots array and check if the entered time matches any of the time slots
-    for (let i = 0; i < timeSlots.length; i++) {
-      if (timeSlots[i].a === timeString) {
-        console.log("Slot A");
-        const slotARows = finaldata.filter(row => {
-          if (row.Practitioner_Slot === "A" && row.Condition_name === conditionName) {
-            count++
-            console.log(row.Practitioner_Slot)
-            myArray.push(row)
-          }
-          const slotALocations = slotARows.map(row => ({
-            lat: row.Provider_lat,
-            lng: row.Provider_long
-          }));
-          setlocations(slotALocations)
-        });
-      }
-      else if (timeSlots[i].b === timeString) {
-        console.log("Slot B");
-        const slotBRows = finaldata.filter(row => {
-          if (row.Practitioner_Slot === "B" && row.Condition_name === conditionName)
-            count++
-          console.log(row)
-          myArray.push(row)
-        });
-      }
-      else if (timeSlots[i].c === timeString) {
-        console.log("Slot C");
-        const slotCRows = finaldata.filter(row => {
-          if (row.Practitioner_Slot === "C" && row.Condition_name === conditionName)
-            count++
-          console.log(row)
-          myArray.push(row)
-        });
-      }
-      else {
-        console.log("No Match", timeslot[i], timeString)
-      }
-    }
-    console.log(count)
-    setpracdata(myArray)
-    //   setSelectedDate(dateSubstring);
-    //   verify(dateSubstring);
-    //   localStorage.setItem("date", dateSubstring);
-    //   // }
-    // };
+  // const timeSlots = [
 
-    const timeSlots = [
-      { a: "9:0", b: "17:0", c: "1:0" },
-      { a: "10:0", b: "18:0", c: "2:0" },
-      { a: "11:0", b: "19:0", c: "3:0" },
-      { a: "12:0", b: "20:0", c: "4:0" },
-      { a: "13:0", b: "21:0", c: "5:0" },
-      { a: "14:0", b: "22:0", c: "6:0" },
-      { a: "15:0", b: "23:0", c: "7:0" },
-      { a: "16:0", b: "00:0", c: "8:0" },
-    ];
+  //   { a: "9", b: "17", c: "1" },
+  //   { a: "10", b: "18", c: "2" },
+  //   { a: "11", b: "19", c: "3" },
+  //   { a: "12", b: "20", c: "4" },
+  //   { a: "13", b: "21", c: "5" },
+  //   { a: "14", b: "22", c: "6" },
+  //   { a: "15", b: "23", c: "7" },
+  //   { a: "16", b: "00", c: "8" },
+  // ];
 
-    const handleTimeChange = (date) => {
-      setEnteredTime(date);
-      const dateObj = new Date(date);
-      const timeString = dateObj.getHours() + ":" + dateObj.getMinutes();
-      console.log(timeString)
-      var count = 0
-      conditionName = localStorage.getItem("condition_name");
-      let myArray = [];
-      // Loop through the timeSlots array and check if the entered time matches any of the time slots
-      for (let i = 0; i < timeSlots.length; i++) {
-        if (timeSlots[i].a === timeString) {
-          console.log("Slot A");
-          const slotARows = finaldata.filter(row => {
-            if (row.Practitioner_Slot === "A" && row.Condition_name === conditionName) {
-              count++
-              console.log(row.Practitioner_Slot)
-              myArray.push(row)
-            }
-            const slotALocations = slotARows.map(row => ({
-              lat: row.Provider_lat,
-              lng: row.Provider_long
-            }));
-            setlocations(slotALocations)
-          });
-        }
-        else if (timeSlots[i].b === timeString) {
-          console.log("Slot B");
-          const slotBRows = finaldata.filter(row => {
-            if (row.Practitioner_Slot === "B" && row.Condition_name === conditionName)
-              count++
-            console.log(row)
-            myArray.push(row)
-          });
-        }
-        else if (timeSlots[i].c === timeString) {
-          console.log("Slot C");
-          const slotCRows = finaldata.filter(row => {
-            if (row.Practitioner_Slot === "C" && row.Condition_name === conditionName)
-              count++
-            console.log(row)
-            myArray.push(row)
-          });
-        }
-        else {
-          console.log("No Match", timeslot[i], timeString)
-        }
-      }
-      console.log(count)
-      setpracdata(myArray)
-    };
-
-
-
-    const verify = (dateSubstring) => {
-      setSelectedSlot("");
-
-      const slots = [
-        "9 AM - 10 AM",
-        "10 AM - 11 AM",
-        "11 AM - 12 PM",
-        "12 PM - 1 PM",
-        "1 PM - 2 PM",
-        "2 PM - 3 PM",
-        "3 PM - 4 PM",
-        "4 PM - 5 PM",
-      ];
-
-      const providerId = localStorage.getItem("provider_id");
-      const practitionerId = localStorage.getItem("practitioner_id");
-      const dateSelect = dateSubstring;
-
-      const appointments = data.filter((appointment) => {
-        return (
-          appointment.Practitioner_id === practitionerId &&
-          appointment.Provider_id === providerId &&
-          appointment.App_Date === dateSelect
-        );
-      });
-
-      const reservedSlots = appointments.map((appointment) => appointment.Timing);
-
-      const availableSlots = slots.filter(
-        (slot) => !reservedSlots.includes(slot)
-      );
-
-      console.log("Reserved slots:", reservedSlots);
-      console.log("Available slots:", availableSlots);
-
-      settimeslot(availableSlots);
-    };
-
-    function handlezipSubmit(e) {
-      e.preventDefault();
-      console.log(pincode); // replace with your desired action, e.g. submit to server
-    }
-
-    const handleTimePickerChange = (newValue) => {
-      setSelectedSlot(newValue);
-      localStorage.setItem('selectedSlot', newValue);
-    }
-  }
-  // const handleChange = (event) => {
-  //   setselectedprovider(event.target.value);
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_id");
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_speciality");
-  //   localStorage.removeItem("practitioner_email");
-  //   // localStorage.removeItem("date");
-  //   // localStorage.removeItem("timeslot");
-  //   // setSelectedDate("");
-  //   // setSelectedSlot("");
-  //   provider = event.target.value;
-  //   console.log(provider);
-  //   setProvidername(provider);
-  //   localStorage.setItem("provider_name", provider);
-  //   var final_prac = new Array();
-  //   let Prac_id_list = new Array();
-  //   let Prac_list_index = -1;
-  //   for (var i = 0; i < finaldata.length; i++) {
-  //     // console.log(response[i]);
-  //     Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id);
-  //     if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
-  //       final_prac.push(finaldata[i]);
-  //       Prac_id_list.push(finaldata[i].Practitioner_id);
-  //       localStorage.setItem("provider_id", finaldata[i].Provider_id);
-  //       localStorage.setItem(
-  //         "provider_contact_number",
-  //         finaldata[i].Provider_contact_number
-  //       );
+  // const handleTimeChange = (date) => {
+  //   setEnteredTime(date);
+  //   const dateObj = new Date(date);
+  //   const timeString = dateObj.getHours() + ":" + dateObj.getMinutes();
+  //   console.log(timeString)
+  //   var count = 0
+  //   conditionName = localStorage.getItem("condition_name");
+  //   let myArray = [];
+  //   // Loop through the timeSlots array and check if the entered time matches any of the time slots
+  //   for (let i = 0; i < timeSlots.length; i++) {
+  //     if (timeSlots[i].a === timeString) {
+  //       console.log("Slot A");
+  //       const slotARows = finaldata.filter(row => {
+  //         if (row.Practitioner_Slot === "A" && row.Condition_name === conditionName) {
+  //           count++
+  //           console.log(row.Practitioner_Slot)
+  //           myArray.push(row)
+  //         }
+  //         const slotALocations = slotARows.map(row => ({
+  //           lat: row.Provider_lat,
+  //           lng: row.Provider_long
+  //         }));
+  //         setlocations(slotALocations)
+  //       });
+  //     }
+  //     else if (timeSlots[i].b === timeString) {
+  //       console.log("Slot B");
+  //       const slotBRows = finaldata.filter(row => {
+  //         if (row.Practitioner_Slot === "B" && row.Condition_name === conditionName)
+  //           count++
+  //         console.log(row)
+  //         myArray.push(row)
+  //       });
+  //     }
+  //     else if (timeSlots[i].c === timeString) {
+  //       console.log("Slot C");
+  //       const slotCRows = finaldata.filter(row => {
+  //         if (row.Practitioner_Slot === "C" && row.Condition_name === conditionName)
+  //           count++
+  //         console.log(row)
+  //         myArray.push(row)
+  //       });
+  //     }
+  //     else {
+  //       console.log("No Match", timeslot[i], timeString)
   //     }
   //   }
-  //   setpracdata(final_prac);
+  //   console.log(count)
+  //   setpracdata(myArray)
   // };
-  // const handleChange = (event) => {
-  //   setselectedprovider(event.target.value);
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_id");
-  //   localStorage.removeItem("practitioner_name");
-  //   localStorage.removeItem("practitioner_speciality");
-  //   localStorage.removeItem("practitioner_email");
-  //   // localStorage.removeItem("date");
-  //   // localStorage.removeItem("timeslot");
-  //   // setSelectedDate("");
-  //   // setSelectedSlot("");
-  //   provider = event.target.value;
-  //   console.log(provider);
-  //   setProvidername(provider);
-  //   localStorage.setItem("provider_name", provider);
-  //   var final_prac = new Array();
-  //   let Prac_id_list = new Array();
-  //   let Prac_list_index = -1;
-  //   for (var i = 0; i < finaldata.length; i++) {
-  //     // console.log(response[i]);
-  //     Prac_list_index = Prac_id_list.indexOf(finaldata[i].Practitioner_id);
-  //     if (Prac_list_index == -1 && finaldata[i].Provider_name == provider) {
-  //       final_prac.push(finaldata[i]);
-  //       Prac_id_list.push(finaldata[i].Practitioner_id);
-  //       localStorage.setItem("provider_id", finaldata[i].Provider_id);
-  //       localStorage.setItem(
-  //         "provider_contact_number",
-  //         finaldata[i].Provider_contact_number
-  //       );
-  //     }
-  //   }
-  //   setpracdata(final_prac);
+
+
+
+  // const verify = (dateSubstring) => {
+  //   setSelectedSlot("");
+
+  //   const slots = [
+  //     "9 AM - 10 AM",
+  //     "10 AM - 11 AM",
+  //     "11 AM - 12 PM",
+  //     "12 PM - 1 PM",
+  //     "1 PM - 2 PM",
+  //     "2 PM - 3 PM",
+  //     "3 PM - 4 PM",
+  //     "4 PM - 5 PM",
+  //   ];
+
+  //   const providerId = localStorage.getItem("provider_id");
+  //   const practitionerId = localStorage.getItem("practitioner_id");
+  //   const dateSelect = dateSubstring;
+
+  //   const appointments = data.filter((appointment) => {
+  //     return (
+  //       appointment.Practitioner_id === practitionerId &&
+  //       appointment.Provider_id === providerId &&
+  //       appointment.App_Date === dateSelect
+  //     );
+  //   });
+
+  //   const reservedSlots = appointments.map((appointment) => appointment.Timing);
+
+  //   const availableSlots = slots.filter(
+  //     (slot) => !reservedSlots.includes(slot)
+  //   );
+
+  //   console.log("Reserved slots:", reservedSlots);
+  //   console.log("Available slots:", availableSlots);
+
+  //   settimeslot(availableSlots);
   // };
+
+  // const handlezipSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(pincode); // replace with your desired action, e.g. submit to server
+  // }
+
+  // const handleTimePickerChange = (newValue) => {
+  //   setSelectedSlot(newValue);
+  //   localStorage.setItem('selectedSlot', newValue);
+  // }
+
 
   return (
     <div>
@@ -907,7 +534,7 @@ export default function PractitionerBooking() {
       <CRow>
         <CCol>
           <h1 className="title">
-            <strong>Critical Practitioner Information</strong>
+            <strong>Practitioner Information</strong>
           </h1>
         </CCol>
       </CRow>
@@ -918,18 +545,26 @@ export default function PractitionerBooking() {
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
-          <MobileDateTimePicker label={'Date & Time'} openTo="hours" ampm={false} minutesStep={60} />
+          <MobileDateTimePicker
+            label={'Date & Time'}
+            openTo="hours"
+            ampm={false}
+            minutesStep={60}
+            value={newDateTime}
+            disablePast={true}
+            onChange={handleDateTimeChange}
+          />
         </DemoContainer>
       </LocalizationProvider>
 
       <br />
-      <div>
+      {/* <div>
         <Map
           containerElement={<div style={{ height: `500px`, width: "100%" }} />}
           mapElement={<div style={{ height: `100%` }} />}
           markers={locations}
         />
-      </div>
+      </div> */}
       {/* <Map/> */}
 
       <CRow>
