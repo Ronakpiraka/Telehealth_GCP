@@ -132,7 +132,7 @@ export default function Appointment() {
   const [connectedCareValue, setConnectedCareValue] = useState("");
   const [patientemail, setPatientEmail] = useState("");
   const location = useLocation();
-  
+
   const [showModal, setShowModal] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [deviceIdValue, setDeviceIdValue] = useState("No");
@@ -423,21 +423,13 @@ export default function Appointment() {
     if (personName !== "" || decryptedName !== "") {
       if (
         connectedCareValue === "Yes" 
-        // && deviceIdValue === "Yes" &&
-        // deviceId.length !== 14
       ) {
         var url = `/Practitionerbookings?condition=${condition}`;
         history.push(`${url}`);
-        // alert("please enter a valid device id");
-        // setDeviceId("");
       } else {
         var url = `/Practitionerbookings?condition=${condition}`;
         history.push(`${url}`);
       }
-
-      // handleCloseModal();
-      // var url = `/Practitionerbookings?condition=${condition}`;
-      // history.push(`${url}`);
     } else {
       setModal(!modal);
       console.log(modal);
