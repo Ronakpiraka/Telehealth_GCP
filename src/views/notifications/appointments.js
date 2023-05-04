@@ -417,17 +417,17 @@ export default function Appointment() {
     localStorage.setItem("condition_name", condition);
     localStorage.setItem("condition_code", code);
     localStorage.setItem("condition_speciality", speciality);
-
-    if (personName !== "" || decryptedName !== "") {
-      if (
-        connectedCareValue === "Yes"
-      ) {
+    console.log("connectcare value is " ,connectedCareValue);
+    if ((personName !== "" || decryptedName !== "" ) && connectedCareValue !== "") {
+      // if (
+      //   connectedCareValue === "Yes"
+      // ) {
+      //   var url = `/Practitionerbookings?condition=${condition}`;
+      //   history.push(`${url}`);
+      // } else {
         var url = `/Practitionerbookings?condition=${condition}`;
         history.push(`${url}`);
-      } else {
-        var url = `/Practitionerbookings?condition=${condition}`;
-        history.push(`${url}`);
-      }
+      // }
     } else {
       setModal(!modal);
       console.log(modal);

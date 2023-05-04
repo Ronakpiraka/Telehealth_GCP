@@ -142,18 +142,18 @@ export default function PractitionerBooking() {
   // dayjs.extend(localizedFormat);
 
   const [data, setdata] = React.useState([]);
+  
+  const [isLoad, setisLoad] = useState(true);
   const [isLoading, setisLoading] = useState(true);
   const [finaldata, setfinaldata] = React.useState([]);
-
+  const [finalprac, setpracdata] = React.useState([]);
+  const [modal, setModal] = useState(false);
   const [selectedDateTime, setSelectedDateTime] = React.useState();
   const [newDateTime, setnewDateTime] = React.useState();
   const [selectedDate, setSelectedDate] = React.useState();
   const [selectedTime, setSelectedTime] = React.useState();
-  const [finalprac, setpracdata] = React.useState([]);
-  const [modal, setModal] = useState(false);
   const [timeslot, settimeslot] = React.useState([]);
   const [pincode, setPincode] = useState('');
-
   // const [selectedCard, setSelectedCard] = useState(null);
   // const history = useHistory();
   const [providername, setProvidername] = useState();
@@ -162,7 +162,6 @@ export default function PractitionerBooking() {
   const [selectedSlot, setSelectedSlot] = React.useState("");
   const [showModal, setShowModal] = useState(false);
   const [availableSlots, setavailableSlots] = React.useState("");
-
   const [matchedSlot, setMatchedSlot] = useState("");
   const [locations, setlocations] = useState("");
   const [enteredTime, setEnteredTime] = useState("");
@@ -200,9 +199,10 @@ export default function PractitionerBooking() {
   console.log('ayaya', data)
 
   useEffect(() => {
-    if (checkccfunction() === 1) {
+    if (checkccfunction() === 1 && isLoad == false) {
+      console.log("this is activated", isLoad)
       handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
-      selectpractitioner();
+      // selectpractitioner();
     }
   }, []);
 
@@ -220,11 +220,10 @@ export default function PractitionerBooking() {
           }
         });
 
-        // Convert the object of unique data back to an array
         const newFinalData = Object.values(uniqueData);
 
-        // Update the state with the new data
         setfinaldata(newFinalData);
+        setisLoad(false);
       })
       .catch((error) => {
         console.log(error);
@@ -288,15 +287,15 @@ export default function PractitionerBooking() {
       slab = "C";
     }
     localStorage.setItem("selectedSlab", slab)
-    selectpractitioner();
+    selectpractitioner(selectedDate, selectedHour, slab);
   };
 
 
-  const selectpractitioner = () => {
+  const selectpractitioner = (date, hour, slab) => {
     const condition = localStorage.getItem("condition_name");
-    const date = localStorage.getItem("selectedDate");
-    const hour = localStorage.getItem("selectedHour");
-    const slab = localStorage.getItem("selectedSlab");
+    // const date = localStorage.getItem("selectedDate");
+    // const hour = localStorage.getItem("selectedHour");
+    // const slab = localStorage.getItem("selectedSlab");
     console.log('justcheck', condition, date, hour, slab);
     let array1 = [];
     let array2 = [];
@@ -318,8 +317,9 @@ export default function PractitionerBooking() {
     console.log("2nd array", array2);
     console.log("3rd array", array3);
     setpracdata(array3);
-    return array3;
+    localStorage.setItem("prac_map",finalprac)
     setisLoading(false);
+    return array3;
   }
 
   console.log('final prac data', finalprac);
@@ -371,6 +371,7 @@ export default function PractitionerBooking() {
             value={checkccfunction() === 1 ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
             disablePast={true}
             disableFuture = {checkccfunction() === 1}
+            disabled =  {checkccfunction() === 1}
             onChange={handleDateTimeChange}
           />
         </DemoContainer>
@@ -381,7 +382,7 @@ export default function PractitionerBooking() {
         <Map
           containerElement={<div style={{ height: `500px`, width: "100%" }} />}
           mapElement={<div style={{ height: `100%` }} />}
-          markers={locations}
+          markers={finalprac}
         />
       </div>
 
