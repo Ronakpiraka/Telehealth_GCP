@@ -585,7 +585,7 @@ export default function Appointment() {
           {connectedCareValue === "Yes" && (
             <span className="navbar justify-content-between">
               <p className="navbar-brand">
-                <b>Your Device ID is: {assignNewDeviceIdAndShare()} We would be sharing the same over email.</b>
+                <b>Your Device ID is: {assignNewDeviceIdAndShare()}. We would be sharing the same over email.</b>
               </p>
             </span>)}
           {/* <CRow>

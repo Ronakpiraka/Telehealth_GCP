@@ -109,7 +109,7 @@ export default function Device() {
       method: "GET",
     };
 
-    fetch("https://device-sh4iojyb3q-uc.a.run.app/", requestOptions)
+    fetch("https://device-data-sh4iojyb3q-uc.a.run.app", requestOptions)
       // .then((resp) => resp.json())
       // .then((response) => {
       //   setdata(response)
@@ -122,11 +122,11 @@ export default function Device() {
       .then((response) => {
         const data = response.reduce((acc, cur) => {
           if (
-            !acc[cur.s.device_id] ||
+            !acc[cur.Device_id] ||
             new Date(cur.s.timestamp) >
-              new Date(acc[cur.s.device_id].s.timestamp)
+              new Date(acc[cur.Device_id].s.timestamp)
           ) {
-            acc[cur.s.device_id] = cur;
+            acc[cur.Device_id] = cur;
           }
           return acc;
         }, {});
@@ -199,25 +199,16 @@ export default function Device() {
                   Device ID
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
-                  Device Name
-                </TableCell>
-                <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
                   Patient Name
                 </TableCell>
-                <TableCell
-                  style={{
-                    fontWeight: "bold",
-                    width: "15%",
-                    textAlign: "center",
-                  }}
-                >
-                  Device Value
+                <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
+                  Device Status
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
-                  Message
+                  Start Date
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
-                  DateTime
+                  End Date
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -228,21 +219,22 @@ export default function Device() {
                   if (searchTerm === "") {
                     return val;
                   } else if (
-                    val.s.device_id
+                    val.s.Device_id
                       .toLowerCase()
                       .includes(searchTerm.toLowerCase()) ||
-                    val.Full_name.toLowerCase().includes(
+                    val.Patient_name.toLowerCase().includes(
                       searchTerm.toLowerCase()
-                    ) ||
-                    val.s.device_value
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    val.s.message
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    val.s.send_time
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase())
+                    ) 
+                    // ||
+                    // val.s.device_value
+                    //   .toLowerCase()
+                    //   .includes(searchTerm.toLowerCase()) ||
+                    // val.s.message
+                    //   .toLowerCase()
+                    //   .includes(searchTerm.toLowerCase()) ||
+                    // val.s.send_time
+                    //   .toLowerCase()
+                    //   .includes(searchTerm.toLowerCase())
                   ) {
                     return val;
                   }
@@ -251,22 +243,19 @@ export default function Device() {
                 .map((row) => (
                   <TableRow key={row.Patient_id}>
                     <StyledTableCell style={{ textAlign: "center" }}>
-                      {row.s.device_id}
+                      {row.Device_id}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
-                      Blood-Oxygen Monitor
+                      {row.Patient_name}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
-                      {row.Full_name}
+                      {row.Status}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
-                      {row.s.device_value}
+                      {row.Start_Date}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
-                      {row.s.message}
-                    </StyledTableCell>
-                    <StyledTableCell style={{ textAlign: "center" }}>
-                      {row.s.send_time}
+                      {row.End_Date}
                     </StyledTableCell>
                   </TableRow>
                 ))}
