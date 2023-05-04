@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import axios from 'axios';
+import PractitionerBooking from './Practitionerbooking';
 
 const API_KEY = process.env.REACT_APP_MAP_API_KEY;
 
 const Map = withScriptjs(withGoogleMap(props => {
   const [markers, setMarkers] = useState([]);
  
-  useEffect(() => {
-    axios.get('https://appointmentbook-sh4iojyb3q-uc.a.run.app/')
-      .then(response => {
-        setMarkers(response.data);
-        // console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('https://appointmentbook-sh4iojyb3q-uc.a.run.app/')
+  //     .then(response => {
+  //       setMarkers(response.data);
+  //       // console.log(response.data)
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }, []);
+  // setMarkers(PractitionerBooking.finalprac)
+  // setMarkers( localStorage.getItem('prac_map'));
 
   return (
     <GoogleMap
@@ -33,8 +36,9 @@ const Map = withScriptjs(withGoogleMap(props => {
   );
 }));
 
-const MapComponent = () => {
-
+const MapComponent = (props) => {
+  const data = props;
+  
   return (
     <Map
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}`}
