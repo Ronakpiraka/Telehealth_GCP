@@ -198,6 +198,9 @@ export default function Device() {
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
                   Device ID
                 </TableCell>
+                {/* <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
+                  Patient_MRN
+                </TableCell> */}
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
                   Patient Name
                 </TableCell>
@@ -245,6 +248,9 @@ export default function Device() {
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {row.Device_id}
                     </StyledTableCell>
+                    {/* <StyledTableCell style={{ textAlign: "center" }}>
+                      {row.Patient_id}
+                    </StyledTableCell> */}
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {row.Patient_name}
                     </StyledTableCell>

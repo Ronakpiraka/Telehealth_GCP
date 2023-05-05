@@ -204,7 +204,7 @@ export default function RadioButtonsGroup() {
     myHeaders.append("Content-Type", "application/json");
     // myHeaders.append("Authorization", `Bearer ${accessToken}`);
     var raw = {
-      Patient_id: localStorage.getItem("Patient_MRN"),
+      Patient_id: localStorage.getItem("Patient_id"),
       App_Date: localStorage.getItem("selectedDate"),
       Provider_id: localStorage.getItem("provider_id"),
       Provider_name: localStorage.getItem("provider_name"),

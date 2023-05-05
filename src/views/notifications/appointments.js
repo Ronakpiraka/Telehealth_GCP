@@ -28,6 +28,12 @@ import { CModalHeader } from "@coreui/react";
 import { CModalTitle } from "@coreui/react";
 import DeviceConsent from "../notifications/DeviceConsent";
 import { CModalBody } from "@coreui/react";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from "dayjs";
+
 import CryptoJS from "crypto-js";
 import {
   CCard,
@@ -121,6 +127,9 @@ export default function Appointment() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [PatientName, setPatientName] = React.useState("");
+
+  const [vitatrac, setvitatrac] = React.useState("");
+  const [Patient_id, setPatient_id] = React.useState("");
   const [personName, setPersonName] = React.useState("");
   const [modal, setModal] = useState(false);
   const [MRN, setMRN] = useState("");
@@ -132,10 +141,13 @@ export default function Appointment() {
   const [connectedCareValue, setConnectedCareValue] = useState("");
   const [patientemail, setPatientEmail] = useState("");
   const location = useLocation();
+  const [deviceIdValue, setDeviceIdValue] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [endDateOpt, setEndDateOpt] = useState("");
 
   const [showModal, setShowModal] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
-  const [deviceIdValue, setDeviceIdValue] = useState("No");
   const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
   // const [connectedCareValue, setConnectedCareValue] = useState("No");
   const [orderDetails, setOrderDetails] = useState("");
@@ -280,14 +292,47 @@ export default function Appointment() {
     let selectedPatientData = data.filter((temp) => temp.Patient_name == value);
     // console.log(selectedPatientData.);
     setMRN(selectedPatientData[0].Medical_Record_Number);
+    setPatient_id(selectedPatientData[0].Patient_id);
     // setpatientemail(selectedPatientData[0].)
     localStorage.setItem("Patient_name", selectedPatientData[0].Patient_name);
-    localStorage.setItem(
-      "Patient_MRN",
-      selectedPatientData[0].Medical_Record_Number
-    );
+    localStorage.setItem("Patient_id", selectedPatientData[0].Patient_id);
+    localStorage.setItem("Patient_MRN", selectedPatientData[0].Medical_Record_Number);
     localStorage.setItem("Patient_email", "telehealthgcp@gmail.com");
+    criticalpatient();
+
+
   };
+
+  const criticalpatient = () => {
+    const mrnno = localStorage.getItem('Patient_MRN');
+    fetch("https://device-data-sh4iojyb3q-uc.a.run.app/")
+      .then((response) => response.json())
+      .then((cricdata) => {
+        // console.log("cricdata:", cricdata);
+        let vitatrack = 'false';
+
+        for (let i = 0; i < cricdata.length; i++) {
+          if (cricdata[i].Patient_MRN === mrnno && cricdata[i].Status === "Active") {
+            vitatrack = 'true';
+            setDeviceIdValue(cricdata[i].Device_id);
+            localStorage.setItem('devices', deviceIdValue);
+            setEndDate(cricdata[i].End_Date);
+            // setvitatrac(vitatrack)
+            break;
+          }
+        }
+        setvitatrac(vitatrack)
+        console.log("is the patient vitally tracked:", vitatrack);
+        console.log("vitatrac", vitatrac);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  // Example usage:
+  criticalpatient("123456789");  // Replace with a valid MRN value
+
 
   // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
 
@@ -312,6 +357,11 @@ export default function Appointment() {
     // { code: "528399", Display: "Weight Scale" },
   ];
 
+  const handleDateChange = (newDate) => {
+    setEndDate(newDate);
+    console.log("date option choosen is:", newDate, "date.target.value", endDate);
+
+  }
   const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
     if (isChecked) {
       setSelectedDevices([...selectedDevices, deviceName]);
@@ -350,21 +400,21 @@ export default function Appointment() {
   };
 
   const condition_name = [
-    { condition: "Prediabetes", code: "15777000" , speciality: "Endocrinologists"},
+    { condition: "Prediabetes", code: "15777000", speciality: "Endocrinologists" },
     { condition: "Diabetes", code: "44054006", device_code: "528388", speciality: "Endocrinologists" },
     { condition: "Viral sinusitis (disorder)", code: "444814009", speciality: "Otolaryngologist" },
-    { condition: "Acute viral pharyngitis (disorder)", code: "195662009" , speciality: "Otolaryngologist"},
-    { condition: "Acute bronchitis (disorder)", code: "10509002" , speciality: "Pulmonologist"},
-    { condition: "Anemia (disorder)", code: "271737000" , speciality: "Hematologist"},
-    { condition: "Body mass index 30+ - obesity (finding)", code: "162864005" , speciality: "Bariatrician"},
+    { condition: "Acute viral pharyngitis (disorder)", code: "195662009", speciality: "Otolaryngologist" },
+    { condition: "Acute bronchitis (disorder)", code: "10509002", speciality: "Pulmonologist" },
+    { condition: "Anemia (disorder)", code: "271737000", speciality: "Hematologist" },
+    { condition: "Body mass index 30+ - obesity (finding)", code: "162864005", speciality: "Bariatrician" },
     { condition: "Hypertension", code: "59621000", speciality: "Cardiologist" },
-    { condition: "Chronic sinusitis (disorder)", code: "40055000" , speciality: "Otolaryngologist"},
-    { condition: "Miscarriage in first trimester", code: "19169002" , speciality: "Gynecologist"},
-    { condition: "Normal pregnancy", code: "72892002" , speciality: "Obstetrician"},
+    { condition: "Chronic sinusitis (disorder)", code: "40055000", speciality: "Otolaryngologist" },
+    { condition: "Miscarriage in first trimester", code: "19169002", speciality: "Gynecologist" },
+    { condition: "Normal pregnancy", code: "72892002", speciality: "Obstetrician" },
     { condition: "Streptococcal sore throat (disorder)", code: "43878008", speciality: "Infectious disease specialist" },
-    { condition: "Otitis media", code: "65363002" , speciality: "Otolaryngologist"},
-    { condition: "Hyperlipidemia", code: "55822004" , speciality: "Lipidologist"},
-    { condition: "Sprain of ankle", code: "44465007" , speciality: "Orthopedic Specialist"},
+    { condition: "Otitis media", code: "65363002", speciality: "Otolaryngologist" },
+    { condition: "Hyperlipidemia", code: "55822004", speciality: "Lipidologist" },
+    { condition: "Sprain of ankle", code: "44465007", speciality: "Orthopedic Specialist" },
   ];
 
 
@@ -417,16 +467,16 @@ export default function Appointment() {
     localStorage.setItem("condition_name", condition);
     localStorage.setItem("condition_code", code);
     localStorage.setItem("condition_speciality", speciality);
-    console.log("connectcare value is " ,connectedCareValue);
-    if ((personName !== "" || decryptedName !== "" ) && connectedCareValue !== "") {
+    console.log("connectcare value is ", connectedCareValue);
+    if ((personName !== "" || decryptedName !== "") && connectedCareValue !== "") {
       // if (
       //   connectedCareValue === "Yes"
       // ) {
       //   var url = `/Practitionerbookings?condition=${condition}`;
       //   history.push(`${url}`);
       // } else {
-        var url = `/Practitionerbookings?condition=${condition}`;
-        history.push(`${url}`);
+      var url = `/Practitionerbookings?condition=${condition}`;
+      history.push(`${url}`);
       // }
     } else {
       setModal(!modal);
@@ -445,6 +495,12 @@ export default function Appointment() {
       setConnectedCareValue("");
     }
   };
+
+  const handleEndDateChange = (event) => {
+    console.log("event option choosen is:", event, "event.target.value", event.target.value);
+    setEndDateOpt(event.target.value);
+  }
+  console.log("enddate option choosen is:", endDateOpt);
 
   return (
     <div>
@@ -582,12 +638,85 @@ export default function Appointment() {
         </RadioGroup>
 
         <div>
-          {connectedCareValue === "Yes" && (
+          {connectedCareValue === "Yes" && vitatrac === 'false' && (
             <span className="navbar justify-content-between">
               <p className="navbar-brand">
+
                 <b>Your Device ID is: {assignNewDeviceIdAndShare()}. We would be sharing the same over email.</b>
               </p>
             </span>)}
+
+          {connectedCareValue === "Yes" && vitatrac === 'true' && (
+            <span className="navbar justify-content-between">
+              <p className="navbar-brand">
+                <b>Your Device ID is: {deviceIdValue}. Your vitals are already been tracked. <br /> Your Subsciption Ends at {endDate}. Do you wish to change the End Date?<br /></b>
+              </p>
+              <CRow>
+                <CCol></CCol>
+                <CRow>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    name="radio-buttons-group"
+                    value={endDateOpt}
+                    onChange={handleEndDateChange}
+                  >
+                    <CRow>
+                      <CCol></CCol>
+                      <CRow>
+                        <CCol sm="4" md="6" lg="4">
+                          <FormControlLabel value="Yes" control={<Radio />} label="Extend" />
+                        </CCol>
+
+                        <CCol sm="4" md="6" lg="4">
+                          <FormControlLabel value="No" control={<Radio />} label="Closure" />
+                        </CCol>
+                      </CRow>
+                    </CRow>
+                  </RadioGroup>
+                </CRow>
+                <CRow>
+                  <CCol></CCol>
+                  <CRow>
+                    
+                      {endDateOpt === "Yes" && (
+                        <p>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DateField']}>
+                              <DatePicker
+                                label="Controlled picker"
+                                value={newDate}
+                                onChange={handleDateChange}
+                              />
+                            </DemoContainer>
+                          </LocalizationProvider></p>
+                        // <p> Hi I am here</p>
+                      )}
+                    {/* </CCol> */}
+                  </CRow>
+                </CRow>
+                </CRow>
+            </span>)}
+          {/*<CRow>
+                <CCol></CCol>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
+                    <MobileDateTimePicker
+                      label={'Date & Time'}
+                      openTo="hours"
+                      ampm={false}
+                      minutesStep={60}
+                      value={endDate}
+                      disablePast={true}
+                      // disableFuture={checkccfunction() === 1}
+                      // disabled={checkccfunction() === 1}
+                      onChange={handleDateChange}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </CRow> */}
+
+
+
           {/* <CRow>
               {device_details.map((row, index) => {
                 return (
