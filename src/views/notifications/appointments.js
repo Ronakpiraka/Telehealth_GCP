@@ -331,7 +331,7 @@ export default function Appointment() {
   };
 
   // Example usage:
-  criticalpatient("123456789");  // Replace with a valid MRN value
+  // criticalpatient("123456789");  // Replace with a valid MRN value
 
 
   // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
@@ -357,10 +357,12 @@ export default function Appointment() {
     // { code: "528399", Display: "Weight Scale" },
   ];
 
-  const handleDateChange = (newDate) => {
-    setEndDate(newDate);
-    console.log("date option choosen is:", newDate, "date.target.value", endDate);
+  const handleExtDateChange = (newDate) => {
+    localStorage.setItem('Enddate',newDate)
+  };
 
+  const handleCloDateChange = (newDate) => {
+    localStorage.setItem('Enddate',newDate)
   }
   const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
     if (isChecked) {
@@ -678,14 +680,27 @@ export default function Appointment() {
                   <CCol></CCol>
                   <CRow>
                     
-                      {endDateOpt === "Yes" && (
+                      {endDateOpt === "Yes"  && (
                         <p>
                           <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DemoContainer components={['DateField']}>
                               <DatePicker
-                                label="Controlled picker"
+                                label="Extended Date"
                                 value={newDate}
-                                onChange={handleDateChange}
+                                onChange={handleExtDateChange}
+                              />
+                            </DemoContainer>
+                          </LocalizationProvider></p>
+                        // <p> Hi I am here</p>
+                      )}
+                      {endDateOpt === "No"  && (
+                        <p>
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={['DateField']}>
+                              <DatePicker
+                                label="Closure Date"
+                                value={newDate}
+                                onChange={handleCloDateChange}
                               />
                             </DemoContainer>
                           </LocalizationProvider></p>
