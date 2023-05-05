@@ -360,7 +360,7 @@ export default function Appointment() {
   const handleExtDateChange = (newDate) => {
     const endDatePlus3Months = dayjs(endDate).add(3, 'months');
   if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months)) {
-    alert("Please select a date that is greater than enddate ("+endDate+") and not exceed the 3 months ("+ endDatePlus3Months+")  from the end date of your Subscription.");
+    alert("Please select a date that is greater than enddate ("+endDate+") and not exceed the 3 months from the end date of your Subscription.");
     setNewDate(null);
   } else {
     setNewDate(newDate);
@@ -402,6 +402,7 @@ export default function Appointment() {
     if (connectedCareValue === 'No') {
       setSelectedDevices();
       localStorage.removeItem('devices');
+      localStorage.removeItem('EndDate');
     }
   }, [connectedCareValue]);
 
