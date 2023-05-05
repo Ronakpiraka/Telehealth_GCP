@@ -439,7 +439,7 @@ export default function EmailNotify() {
                       >
                         <b>{row.App_Date}</b>
                         <br />
-                       {row.Timing}
+                       {row.Timing}:00 hrs
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}

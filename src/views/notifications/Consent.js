@@ -224,6 +224,7 @@ export default function RadioButtonsGroup() {
       Timing: localStorage.getItem("selectedHour"),
       Devices: localStorage.getItem("devices"),
       Slot:localStorage.getItem("selectedSlab"),
+      New_closure_date : localStorage.getItem("Enddate"),
     };
 
     var requestOptions = {
