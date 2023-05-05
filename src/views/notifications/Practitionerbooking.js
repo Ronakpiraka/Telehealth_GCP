@@ -254,7 +254,7 @@ export default function PractitionerBooking() {
       localStorage.removeItem("selectedDateTime");
       return;
     }
-    console.log('newdatetime', newDateTime);
+    console.log('newdatetime', newDateTime);  
     // console.log('selected date time', selectedDateTime);
 
     const today = dayjs().startOf("day");
@@ -264,7 +264,7 @@ export default function PractitionerBooking() {
     if (dateTime.isBefore(today) || dateTime.isAfter(today.add(2, "month"))) {
       // if the selected date-time is not within the range of today and the next two months
       alert(
-        "Please select a date that is not greater than today and not more than 2 months from today."
+        "Please select a date that is greater than today and not more than 2 months from today."
       );
       setSelectedDateTime(""); // reset the selected date-time state to null
       localStorage.removeItem("selectedDateTime");
