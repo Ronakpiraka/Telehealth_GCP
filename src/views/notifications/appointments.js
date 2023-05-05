@@ -358,24 +358,51 @@ export default function Appointment() {
   ];
 
   const handleExtDateChange = (newDate) => {
-    localStorage.setItem('Enddate',newDate)
+    const endDatePlus3Months = dayjs(endDate).add(3, 'months');
+  if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months)) {
+    alert("Please select a date that is greater than enddate ("+endDate+") and not exceed the 3 months from the end date of your Subscription.");
+    setNewDate(null);
+  } else {
+    setNewDate(newDate);
+    localStorage.setItem('Enddate',dayjs(newDate).format('YYYY-MM-DD'));
+  };
   };
 
   const handleCloDateChange = (newDate) => {
-    localStorage.setItem('Enddate',newDate)
-  }
-  const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
-    if (isChecked) {
-      setSelectedDevices([...selectedDevices, deviceName]);
+    const minDate = dayjs();
+    const maxDate = dayjs(endDate);
+
+    if (newDate.isBefore(minDate) || newDate.isAfter(maxDate)) {
+      alert("Please select a date that is greater than today and not exceed the end date ("+endDate+") of your Subscription.");
+      setNewDate(null);
     } else {
-      setSelectedDevices(selectedDevices.filter((name) => name !== deviceName));
+      setNewDate(newDate);
+      localStorage.setItem('Enddate', dayjs(newDate).format('YYYY-MM-DD'));
     }
   };
+  // const handleCloDateChange = (newDate) => {
+  //   const formattedDate = dayjs(newDate).format('YYYY-MM-DD');
+  //   if (dayjs(newDate).isSameOrAfter(dayjs()) && dayjs(newDate).isSameOrBefore(dayjs(endDate))) {
+  //     setNewDate(newDate);
+  //     localStorage.setItem('Enddate', formattedDate);
+  //   } else {
+  //     alert("Please select a date that is greater than today and not exceed the end date of your Subscription.");
+  //     setNewDate(null);
+  //   }
+  // };
+  // const handledeviceclicks = (isChecked, deviceName, deviceCode) => {
+  //   if (isChecked) {
+  //     setSelectedDevices([...selectedDevices, deviceName]);
+  //   } else {
+  //     setSelectedDevices(selectedDevices.filter((name) => name !== deviceName));
+  //   }
+  // };
 
   useEffect(() => {
     if (connectedCareValue === 'No') {
       setSelectedDevices();
       localStorage.removeItem('devices');
+      localStorage.removeItem('EndDate');
     }
   }, [connectedCareValue]);
 
@@ -627,6 +654,7 @@ export default function Appointment() {
         >
           <CRow>
             <CCol></CCol>
+
             <CRow>
               <CCol sm="4" md="6" lg="4">
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
@@ -639,206 +667,93 @@ export default function Appointment() {
           </CRow>
         </RadioGroup>
 
-        <div>
-          {connectedCareValue === "Yes" && vitatrac === 'false' && (
-            <span className="navbar justify-content-between">
-              <p className="navbar-brand">
+        {connectedCareValue === "Yes" && (
+          <div className="navbar justify-content-between">
+            <CRow>
+              <CCol>
+                <div>
+                  {vitatrac === 'false' ? (
+                    <b>Your Device ID is: {assignNewDeviceIdAndShare()}. We would be sharing the same over email.</b>
+                  ) : (
+                    <b>Your Device ID is: {deviceIdValue}. Your vitals are already being tracked.<br /> Your subscription ends at {endDate}. Do you wish to change the end date?/</b>
+                  )}
+                </div>
+              </CCol>
 
-                <b>Your Device ID is: {assignNewDeviceIdAndShare()}. We would be sharing the same over email.</b>
-              </p>
-            </span>)}
-
-          {connectedCareValue === "Yes" && vitatrac === 'true' && (
-            <span className="navbar justify-content-between">
-              <p className="navbar-brand">
-                <b>Your Device ID is: {deviceIdValue}. Your vitals are already been tracked. <br /> Your Subsciption Ends at {endDate}. Do you wish to change the End Date?<br /></b>
-              </p>
-              <CRow>
-                <CCol></CCol>
-                <CRow>
-                  <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    name="radio-buttons-group"
-                    value={endDateOpt}
-                    onChange={handleEndDateChange}
-                  >
+              <div>
+                {vitatrac === 'true' && (
+                  <>
                     <CRow>
-                      <CCol></CCol>
-                      <CRow>
-                        <CCol sm="4" md="6" lg="4">
-                          <FormControlLabel value="Yes" control={<Radio />} label="Extend" />
-                        </CCol>
+                      <CCol>
+                        <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          name="radio-buttons-group"
+                          value={endDateOpt}
+                          onChange={handleEndDateChange}
+                        >
 
-                        <CCol sm="4" md="6" lg="4">
-                          <FormControlLabel value="No" control={<Radio />} label="Closure" />
-                        </CCol>
-                      </CRow>
+                          <CRow>
+                            <CCol></CCol>
+
+                            <CRow>
+                              <CCol sm="4" md="6" lg="4">
+                                <FormControlLabel value="Yes" control={<Radio />} label="Extend" />
+
+                              </CCol>
+
+                              <CCol sm="4" md="6" lg="4">
+                                <FormControlLabel value="No" control={<Radio />} label="Closure" />
+
+                              </CCol>
+                            </CRow>
+                          </CRow>
+                        </RadioGroup>
+                      </CCol>
                     </CRow>
-                  </RadioGroup>
-                </CRow>
-                <CRow>
-                  <CCol></CCol>
-                  <CRow>
-                    
-                      {endDateOpt === "Yes"  && (
-                        <p>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DateField']}>
-                              <DatePicker
-                                label="Extended Date"
-                                value={newDate}
-                                onChange={handleExtDateChange}
-                              />
-                            </DemoContainer>
-                          </LocalizationProvider></p>
-                        // <p> Hi I am here</p>
-                      )}
-                      {endDateOpt === "No"  && (
-                        <p>
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DateField']}>
-                              <DatePicker
-                                label="Closure Date"
-                                value={newDate}
-                                onChange={handleCloDateChange}
-                              />
-                            </DemoContainer>
-                          </LocalizationProvider></p>
-                        // <p> Hi I am here</p>
-                      )}
-                    {/* </CCol> */}
-                  </CRow>
-                </CRow>
-                </CRow>
-            </span>)}
-          {/*<CRow>
-                <CCol></CCol>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
-                    <MobileDateTimePicker
-                      label={'Date & Time'}
-                      openTo="hours"
-                      ampm={false}
-                      minutesStep={60}
-                      value={endDate}
-                      disablePast={true}
-                      // disableFuture={checkccfunction() === 1}
-                      // disabled={checkccfunction() === 1}
-                      onChange={handleDateChange}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
-              </CRow> */}
 
+                    <CRow>
+                      <CCol>
+                        {endDateOpt === "Yes" && (
+                          <div>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DemoContainer components={['DateField']}>
+                                <DatePicker
+                                  label="Extended Date"
+                                  value={newDate}
+                                  disablePast={true}
+                                  onChange={handleExtDateChange}
+                                  minDate={dayjs(endDate)}
+                                  maxDate={dayjs(endDate).add(3, 'months')}
+                                />
+                              </DemoContainer>
+                            </LocalizationProvider>
 
-
-          {/* <CRow>
-              {device_details.map((row, index) => {
-                return (
-                  <CCol sm="6" md="4" lg="2" key={index}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={selectedDevices.includes(row.Display)}
-                          onChange={(e) => {
-                            handledeviceclicks(
-                              e.target.checked,
-                              row.Display,
-                              row.code
-                            );
-                          }}
-                          name={row.Display}
-                        />
-                      }
-                      label={row.Display}
-                      // disabled={row.code !== "528388"}
-                    />
-                  </CCol>
-                ); 
-              })}
-            </CRow>*/}
-        </div>
-
-
-        {/* </FormControl> */}
-
-        {/* {connectedCareValue === "Yes" && (
-          <div>
-            <span className="navbar justify-content-between">
-              <p className="navbar-brand">
-                <b>Do you have a Medical device?</b>
-              </p>
-            </span> 
-             <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="device-id-group"
-              value={deviceIdValue}
-              onChange={(e) =>
-                e.target.value === "Yes" ? handleYesChange() : handleNoChange()
-              }
-            >
-              <CRow>
-                <CCol></CCol>
-                <CRow>
-                  <CCol sm="4" md="6" lg="4">
-                    <FormControlLabel
-                      value="Yes"
-                      control={<Radio />}
-                      label="Yes"
-                    />
-                  </CCol>
-                  </CRow>
-                <CCol></CCol>
-                <CRow> 
-                  <CCol sm="4" md="6" lg="4">
-                    <FormControlLabel
-                      value="No"
-                      control={<Radio />}
-                      label="No"
-                    />
-                  </CCol>
-                </CRow>
-              </CRow>
-            </RadioGroup>
-            {deviceIdPromptOpen && (
-              <CRow>
-                <CCol></CCol>
-                <CRow>
-                  <CCol style={{ color: "red" }}>
-                    Please enter your device ID :{" "}
-                    <input
-                      type="text"
-                      className="input-box"
-                      onChange={handleDeviceIdInputChange}
-                      value={deviceId}
-                      style={{ width: "400px" }}
-                    />
-                  </CCol>
-                </CRow>
-              </CRow>
-            )}
-            {!deviceIdPromptOpen && (
-              <CRow>
-                <CRow>
-                  <CCol></CCol> 
-                <CCol>
-                  <span className="navbar justify-content-between">
-                    <p className="navbar-brand">
-                       <b>Do you have a Medical device?</b>
-                      We are assigning you a new id and{" "}
-                      {assignNewDeviceIdAndShare()}
-                    </p>
-                  </span> 
-                   <h5 style={{ fontFamily: "sans-serif", color: "red" }}>
-                      We are assigning you a new id and{" "}
-                      {assignNewDeviceIdAndShare()}
-                    </h5> 
-                </CCol>
-              </CRow>
-              // </CRow>
-            )}
-          </div> 
-        )} */}
+                          </div>
+                        )}
+                        {endDateOpt === "No" && (
+                          <div>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DemoContainer components={['DateField']}>
+                                <DatePicker
+                                  label="Closure Date"
+                                  value={newDate}
+                                  disablePast={true}
+                                  onChange={handleCloDateChange}
+                                  minDate={dayjs()}
+                                  maxDate={dayjs(endDate)}
+                                />
+                              </DemoContainer>
+                            </LocalizationProvider>
+                            {/* </p> */}
+                          </div>
+                        )}
+                      </CCol>
+                    </CRow></>
+                )}</div>
+            </CRow>
+          </div>
+        )}
+        {/* </div> */}
       </FormControl>
       <CRow>
         <CCol>
