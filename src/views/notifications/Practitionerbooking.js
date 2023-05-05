@@ -36,6 +36,8 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 // import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 // import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+
+
 import {
   Modal,
   CCard,
@@ -258,6 +260,7 @@ export default function PractitionerBooking() {
     const today = dayjs().startOf("day");
     const dateTime = newDateTime; // convert the selected date-time to the Indian time zone
     console.log('dateTime', dateTime);
+    
     if (dateTime.isBefore(today) || dateTime.isAfter(today.add(2, "month"))) {
       // if the selected date-time is not within the range of today and the next two months
       alert(
