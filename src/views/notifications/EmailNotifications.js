@@ -270,17 +270,17 @@ export default function EmailNotify() {
     }
   };
 
-  const handleButtonClick1 = () => {
-    history.push("/notifications/past");
-  };
+  // const handleButtonClick1 = () => {
+  //   history.push("/notifications/past");
+  // };
 
-  const handleButtonClick2 = () => {
-    history.push("/notifications/today");
-  };
+  // const handleButtonClick2 = () => {
+  //   history.push("/notifications/today");
+  // };
 
-  const handleButtonClick3 = () => {
-    history.push("/notifications/upcoming");
-  };
+  // const handleButtonClick3 = () => {
+  //   history.push("/notifications/upcoming");
+  // };
 
   const countAppointmentsTodayAndTotal = () => {
     const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
