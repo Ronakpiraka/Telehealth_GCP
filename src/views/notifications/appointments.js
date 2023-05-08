@@ -675,7 +675,7 @@ export default function Appointment() {
                   {vitatrac === 'false' ? (
                     <b>Your Device ID is: {assignNewDeviceIdAndShare()}. We would be sharing the same over email.</b>
                   ) : (
-                    <b>Your Device ID is: {deviceIdValue}. Your vitals are already being tracked.<br /> Your subscription ends at {endDate}. Do you wish to change the end date?/</b>
+                    <b style={{color:'red'}}>Your Device ID is: {deviceIdValue}. Your vitals are already being tracked.<br /> Your subscription ends at {endDate}. Do you wish to change your end date?</b>
                   )}
                 </div>
               </CCol>

@@ -25,7 +25,7 @@ import "../records/patients.css";
 import LoadingOverlay from "react-loading-overlay";
 import { CCol, CRow } from "@coreui/react";
 
-export default function EmailNotify() {
+export default function EmailNotify(props) {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -96,33 +96,35 @@ export default function EmailNotify() {
     },
   }))(TableRow);
 
-  const [data, setdata] = React.useState([]);
-  const [collapsed, setcollapsed] = React.useState(false);
+  const data = props.data;
+  console.log("PA Data", data);
+
+  // const [data, setdata] = React.useState([]);
+  // const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState("");
   const [page, setpage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [ordPlaced, setordPlaced] = React.useState(5);
+  // const [ordPlaced, setordPlaced] = React.useState(5);
   const classes = useStyles();
-  const history = useHistory();
-  const [isLoading, setisLoading] = useState(true);
-  const form = useRef();
-  const { Header, Sider, Content } = Layout;
-  const { Search } = Input;
+  // const history = useHistory();
+  // const [isLoading, setisLoading] = useState(true);
+  // const { Header, Sider, Content } = Layout;
+  // const { Search } = Input;
 
-  useEffect(() => {
-    const res = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
-      method: "GET",
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setdata(resp);
-        console.log(data);
-        setisLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   const res = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
+  //     method: "GET",
+  //   })
+  //     .then((resp) => resp.json())
+  //     .then((resp) => {
+  //       setdata(resp);
+  //       console.log(data);
+  //       setisLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -397,7 +399,7 @@ export default function EmailNotify() {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />      
 
-      <LoadingOverlay
+      {/* <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -411,7 +413,7 @@ export default function EmailNotify() {
             },
           }),
         }}
-      ></LoadingOverlay>
+      ></LoadingOverlay> */}
       
     </div>
     // </Layout>

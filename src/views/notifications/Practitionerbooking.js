@@ -472,7 +472,7 @@ export default function PractitionerBooking() {
 
       <CRow>
         <CCol>
-          <PatientAppointment />
+          <PatientAppointment data={data}/>
         </CCol>
       </CRow>
       <CRow>

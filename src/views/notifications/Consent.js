@@ -42,7 +42,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 // import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 // import { message } from "antd";
 
-export default function RadioButtonsGroup() {
+export default function RadioButtonsGroup(props) {
+
+  const data = props.data;
   const history = useHistory();
   const [modal, setModal] = useState(false);
   const [consentValue, setConsentValue] = useState("Do not");
@@ -102,10 +104,10 @@ export default function RadioButtonsGroup() {
       );
     } else {
       try {
-        const response = await fetch(
-          "https://emailnotifications-sh4iojyb3q-uc.a.run.app"
-        );
-        const appointments = await response.json();
+        // const response = await fetch(
+        //   "https://emailnotifications-sh4iojyb3q-uc.a.run.app"
+        // );
+        const appointments = data;
         const busyPrac = appointments.find(
           (a) =>
             a.Practitioner_name === pracname &&
