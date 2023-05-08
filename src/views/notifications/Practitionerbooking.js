@@ -201,6 +201,7 @@ export default function PractitionerBooking() {
   console.log('ayaya', data)
 
   useEffect(() => {
+    
     if (checkccfunction() === 1 && isLoad == false) {
       console.log("this is activated", isLoad)
       handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
@@ -234,7 +235,7 @@ export default function PractitionerBooking() {
 
   console.log("here is finaldata", finaldata);
 
-  const redirecttoConsent = () => { };
+  // const redirecttoConsent = () => { };
 
   const checkccfunction = () => {
     if (localStorage.getItem('connectedCareValue') === 'Yes') {
@@ -390,10 +391,10 @@ export default function PractitionerBooking() {
       </div>
 
 
-      <CRow>
+       <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
-            <b>Select Practitioner</b>
+            {/* <b>Select Practitioner</b> */}
           </p>
         </CCol>
         <LoadingOverlay
@@ -412,7 +413,7 @@ export default function PractitionerBooking() {
           }}
         ></LoadingOverlay>
 
-        {finalprac.map((row, index) => {
+       {finalprac.map((row, index) => {
           return (
             <CCol sm="6" md="6" lg="4">
               <CCardGroup
@@ -421,22 +422,6 @@ export default function PractitionerBooking() {
                   cursor: "pointer",
                 }}
                 onClick={(e) => {
-                  redirecttoConsent(
-                    e,
-                    // row.Patient_name,
-                    // row.guardian_email,
-                    row.Practitioner_id,
-                    row.Practitioner_name,
-                    row.Practitioner_Slot,
-                    row.practitioner_email,
-                    row.Provider_id,
-                    row.Provider_name,
-                    row.Provider_address,
-                    row.Provider_lat,
-                    row.Provider_long,
-                    row.Provider_contact_number,
-
-                  );
                   localStorage.setItem("practitioner_id", row.Practitioner_id);
                   localStorage.setItem("practitioner_name", row.Practitioner_name);
                   localStorage.setItem("practitioner_speciality", row.Practitioner_Speciality);
@@ -464,7 +449,7 @@ export default function PractitionerBooking() {
                   <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Address: {row.Provider_address} </p>
                   <p sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between", marginLeft: "25px" }}
                     style={{ fontSize: "30%", textAlign: "left" }}>
-                    {/* Speciality: {row.Practitioner_Speciality}  <br/> */}
+                    {/* // Speciality: {row.Practitioner_Speciality}  <br/>  */}
                     <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: "pointer", padding: "1%", fontWeight: "bolder", float: "right", }}>
                       Select
                     </button>

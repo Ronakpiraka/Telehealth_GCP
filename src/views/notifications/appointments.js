@@ -407,21 +407,6 @@ export default function Appointment() {
   }, [connectedCareValue]);
 
 
-
-  // useEffect(() => {
-  //   const storedDevices = localStorage.getItem("devices");
-  //   if (storedDevices) {
-  //     setSelectedDevices(JSON.parse(storedDevices));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-
-  //   localStorage.setItem("devices",JSON.stringify(selectedDevices));
-  //   console.log(localStorage.getItem('devices'));
-  //   console.log(typeof(localStorage.getItem('devices')));
-  // }, [selectedDevices]);
-
   const assignNewDeviceIdAndShare = () => {
     const newDeviceId = Math.floor(Math.random() * 10000000000000000);
     localStorage.setItem('devices', newDeviceId);
@@ -498,15 +483,8 @@ export default function Appointment() {
     localStorage.setItem("condition_speciality", speciality);
     console.log("connectcare value is ", connectedCareValue);
     if ((personName !== "" || decryptedName !== "") && connectedCareValue !== "") {
-      // if (
-      //   connectedCareValue === "Yes"
-      // ) {
-      //   var url = `/Practitionerbookings?condition=${condition}`;
-      //   history.push(`${url}`);
-      // } else {
       var url = `/Practitionerbookings?condition=${condition}`;
       history.push(`${url}`);
-      // }
     } else {
       setModal(!modal);
       console.log(modal);
@@ -567,11 +545,7 @@ export default function Appointment() {
             <CCol sm="8" md="6" lg="8">
               <div className="navbar justify-content-between">
                 <p className="navbar-brand">
-                  {/* <FormControl> */}
-                  {/* <InputLabel id="demo-simple-select-label"> */}
                   <b>{decryptedName}</b>
-                  {/* </InputLabel> */}
-                  {/* </FormControl> */}
                 </p>
               </div>
             </CCol>
@@ -673,14 +647,15 @@ export default function Appointment() {
               <CCol>
                 <div>
                   {vitatrac === 'false' ? (
-                    <b>Your Device ID is: {assignNewDeviceIdAndShare()}. We would be sharing the same over email.</b>
+                    <p>Your Device ID is: <b>{assignNewDeviceIdAndShare()}</b>. We would be sharing the same over email.</p>
                   ) : (
-                    <b>Your Device ID is: {deviceIdValue}. Your vitals are already being tracked.<br /> Your subscription ends at {endDate}. Do you wish to change the end date?/</b>
+                    <p>Your Device ID is: <b>{deviceIdValue}</b>. Your vitals are already being tracked. Your subscription ends at <b>{endDate}</b>. <br/><br/></p>
                   )}
                 </div>
               </CCol>
 
               <div>
+              <p><b>Do you wish to change the end date?</b></p>
                 {vitatrac === 'true' && (
                   <>
                     <CRow>
