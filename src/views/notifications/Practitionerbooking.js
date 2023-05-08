@@ -36,8 +36,6 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 // import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 // import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 // import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-
-
 import {
   Modal,
   CCard,
@@ -437,24 +435,19 @@ export default function PractitionerBooking() {
                 <CWidgetProgressIcon
                   color="gradient-success"
                   inverse
-                  style={{ color: "black" }}
                 >
                   <CIcon
                     name="cil-userFollow"
                     style={{ float: "left" }}
                     height="24"
                   />
-                  <p style={{ fontSize: "50%", textAlign: "left", marginLeft: "25px", color: "indigo" }} > Practitioner Name: {row.Practitioner_name} </p>
-                  <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Provider Name: {row.Provider_name} </p>
-                  <p style={{ fontSize: "35%", textAlign: "left", marginLeft: "25px", }} > Address: {row.Provider_address} </p>
-                  <p sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between", marginLeft: "25px" }}
-                    style={{ fontSize: "30%", textAlign: "left" }}>
-                    {/* // Speciality: {row.Practitioner_Speciality}  <br/>  */}
-                    <button type="button" className="btn btn-secondary btn-sm" style={{ cursor: "pointer", padding: "1%", fontWeight: "bolder", float: "right", }}>
-                      Select
-                    </button>
-                    Practitioner email: {row.practitioner_email}
-                  </p>
+                  <h5 style={{textAlign: "left", marginLeft: "25px", color: "indigo"}} > Practitioner: {row.Practitioner_name} </h5>
+                  <h6 style={{textAlign: "left"}}> Provider Name: {row.Provider_name} </h6>
+                  <h6 style={{textAlign: "left"}}> Address: {row.Provider_address} </h6>
+                  <h6 sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between"}} style={{textAlign: "left" }}>
+                    <button type="button" className="btn btn-primary btn-sm" style={{ cursor: "pointer", fontWeight: "bolder", float: "right"}}> Select </button>
+                    Email: {row.practitioner_email}
+                  </h6>
                 </CWidgetProgressIcon>
               </CCardGroup>
             </CCol>
