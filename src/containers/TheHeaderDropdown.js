@@ -33,7 +33,7 @@ const TheHeaderDropdown = () => {
           <b>Welcome {name}</b>
         )}
         {!paramString && (
-        <b>Welcome Steve</b>
+        <b>Welcome Ronak</b>
         )}
       </span>
         <div className="c-avatar">
@@ -69,7 +69,7 @@ const TheHeaderDropdown = () => {
           Settings
         </CDropdownItem>
         <CDropdownItem>
-          <CIcon name="cil-credit-card" className="mfe-2" />
+          <CIcon name="cil-credit-card" className="mfe-2"/>
           Today's Appointment
           <CBadge color="secondary" className="mfs-auto" marginWidth={'5px'}>{sessionStorage.getItem('appointmentsToday')}</CBadge>
         </CDropdownItem>

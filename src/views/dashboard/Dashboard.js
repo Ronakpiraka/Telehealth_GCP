@@ -12,7 +12,7 @@ import CIcon from '@coreui/icons-react'
 import Iframe from 'react-iframe'
 import ChartLineSimple from '../charts/ChartLineSimple'
 import ChartBarSimple from '../charts/ChartBarSimple'
-import {useHistory, useLocation} from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
@@ -28,7 +28,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import {CBadge} from '@coreui/react';
+import { CBadge } from '@coreui/react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { array } from 'prop-types'
@@ -59,7 +59,7 @@ const Dashboard = () => {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    };
+  };
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -118,7 +118,7 @@ const Dashboard = () => {
       },
     },
   }));
-  const [data,setdata] =  React.useState([]);
+  const [data, setdata] = React.useState([]);
   const [dashdetails, setdashdetails] = React.useState([]);
   const [page, setpage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -153,16 +153,17 @@ const Dashboard = () => {
     };
     // var accessToken = sessionStorage.getItem("Accesstoken");
     await fetch("https://dashboarddata-sh4iojyb3q-uc.a.run.app", requestOptions)
-    .then((resp) => resp.json())
-    .then((response) => {
-      setdashdetails(response[0])
-    })
-    .catch(error => console.log('error', error));
+      .then((resp) => resp.json())
+      .then((response) => {
+        setdashdetails(response[0])
+      })
+      .catch(error => console.log('error', error));
   }
 
   const fetchpatientdata = async () => {
      var requestOptions = {
        method: 'GET',
+       mode : 'no-cors'
      };
      var accessToken = sessionStorage.getItem("Accesstoken");
      await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
@@ -172,7 +173,6 @@ const Dashboard = () => {
          let critical_data = new Array();
          let Patient_id_list = new Array();
          let Patient_list_index = -1;
- 
          for (var i=0; i<response.length; i++) {
            Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id)
            if (Patient_list_index == -1) {
@@ -185,20 +185,22 @@ const Dashboard = () => {
                final_data[Patient_list_index] = response[i]
              }
            }
+           setdata(final_data)
          }
          console.log("Data to be seen: ", final_data)
-        //  setdata(final_data)
-         for (var i=0; i<final_data.length; i++) {
-          if (final_data[i].RemoteCareText=='Vitals Tracked')
-          {
-            critical_data.push(final_data[i])
-          }
-
-        } setdata(critical_data)
-        console.log(critical_data)
+        //  for (var i=0; i<final_data.length; i++) {
+        //   if (final_data[i].Remote_Care_Text=='Vitals Tracked')
+        //   {
+        //     critical_data.push(final_data[i])
+        //   }
+        // } 
+        // setdata(critical_data)
+        // console.log("crictical data is here",critical_data)
        })
        .catch(error => console.log('error', error));
-   }
+    };
+
+  
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
   };
@@ -207,266 +209,275 @@ const Dashboard = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setpage(0);
   };
-  
+
 
   useEffect(() => {
     fetchdashdetails();
     fetchpatientdata();
   }, [])
 
-  console.log(dashdetails)
+  // console.log(dashdetails)
   return (
     <>
       <CRow>
-      <CCol sm="6" lg="3">
-        <CWidgetDropdown
-          color="gradient-primary"
-          header={dashdetails.Patient_count}
-          text="Total Patients"
-          footerSlot={
-            <ChartLineSimple
-              pointed
-              className="c-chart-wrapper mt-3 mx-3"
-              style={{height: '70px'}}
-              dataPoints={[65, 59, 84, 84, 51, 55, 40]}
-              pointHoverBackgroundColor="primary"
-              label="Members"
-              labels="months"
-            />
-          }
-        >
-        </CWidgetDropdown>
-      </CCol>
-      <CCol sm="6" lg="3">
-        <CWidgetDropdown
-          color="gradient-danger"
-          header={dashdetails.Critical_Patients}
-          text="Critical Patients"
-          footerSlot={
-            <ChartBarSimple
-              className="mt-3 mx-3"
-              style={{height: '70px'}}
-              backgroundColor="rgb(250, 152, 152)"
-              label="Members"
-              labels="months"
-            />
-          }
-        >
-        </CWidgetDropdown>
-      </CCol>
-
-      <CCol sm="6" lg="3">
-        <CWidgetDropdown
-          color="gradient-warning"
-          header={dashdetails.Non_Critical_Patients}
-          text="Non - Critical Patients"
-          footerSlot={
-            <ChartLineSimple
-              className="mt-3"
-              style={{height: '70px'}}
-              backgroundColor="rgba(255,255,255,.2)"
-              dataPoints={[78, 81, 80, 45, 34, 12, 40]}
-              options={{ elements: { line: { borderWidth: 2.5 }}}}
-              pointHoverBackgroundColor="warning"
-              label="Members"
-              labels="months"
-            />
-          }
-        >
-        </CWidgetDropdown>
-      </CCol>
-      
-      <CCol sm="6" lg="3">
-        <CWidgetDropdown
-          color="gradient-info"
-          header={dashdetails.Low_Risk_Patients}
-          text="Low Risk Patients"
-          footerSlot={
-            <ChartLineSimple
-              pointed
-              className="mt-3 mx-3"
-              style={{height: '70px'}}
-              dataPoints={[1, 18, 9, 17, 34, 22, 11]}
-              pointHoverBackgroundColor="info"
-              options={{ elements: { line: { tension: 0.00001 }}}}
-              label="Members"
-              labels="months"
-            />
-          }
-        >
-        </CWidgetDropdown>
-      </CCol>
-    </CRow>
-
-      
-      
-        <CCardGroup className="mb-4">
-          <CWidgetProgressIcon
-            header={dashdetails.Provider_count}
-            text="Providers"
-            color="gradient-info"
-            inverse
-          >
-            <CIcon name="cil-people" height="36" />
-          </CWidgetProgressIcon>
-
-          <CWidgetProgressIcon
-            header={dashdetails.Practitioner_count}
-            text="Practitioners"
-            color="gradient-success"
-            inverse
-          >
-            <CIcon name="cil-userFollow" height="36" />
-          </CWidgetProgressIcon>
-
-          <CWidgetProgressIcon
-            header={dashdetails.Condition_count}
-            text="Condition"
-            color="gradient-warning"
-            inverse
-          >
-            <CIcon name="cil-basket" height="36" />
-          </CWidgetProgressIcon>
-
-          <CWidgetProgressIcon
-            header={dashdetails.Procedure_count}
-            text="Procedures"
+        <CCol sm="6" lg="3">
+          <CWidgetDropdown
             color="gradient-primary"
-            inverse
+            header={dashdetails.Patient_count}
+            text="Total Patients"
+            footerSlot={
+              <ChartLineSimple
+                pointed
+                className="c-chart-wrapper mt-3 mx-3"
+                style={{ height: '70px' }}
+                dataPoints={[65, 59, 84, 84, 51, 55, 40]}
+                pointHoverBackgroundColor="primary"
+                label="Members"
+                labels="months"
+              />
+            }
           >
-            <CIcon name="cil-chartPie" height="36" />
-          </CWidgetProgressIcon>
-
-          <CWidgetProgressIcon
-            header={dashdetails.Vaccines_count}
-            text="Vaccines"
+          </CWidgetDropdown>
+        </CCol>
+        <CCol sm="6" lg="3">
+          <CWidgetDropdown
             color="gradient-danger"
-            inverse
+            header={dashdetails.Critical_Patients}
+            text="Critical Patients"
+            footerSlot={
+              <ChartBarSimple
+                className="mt-3 mx-3"
+                style={{ height: '70px' }}
+                backgroundColor="rgb(250, 152, 152)"
+                label="Members"
+                labels="months"
+              />
+            }
           >
-            <CIcon name="cil-speedometer" height="36" />
-        </CWidgetProgressIcon>
-        </CCardGroup>
-        
+          </CWidgetDropdown>
+        </CCol>
 
-        <CCard>
+        <CCol sm="6" lg="3">
+          <CWidgetDropdown
+            color="gradient-warning"
+            header={dashdetails.Non_Critical_Patients}
+            text="Non - Critical Patients"
+            footerSlot={
+              <ChartLineSimple
+                className="mt-3"
+                style={{ height: '70px' }}
+                backgroundColor="rgba(255,255,255,.2)"
+                dataPoints={[78, 81, 80, 45, 34, 12, 40]}
+                options={{ elements: { line: { borderWidth: 2.5 } } }}
+                pointHoverBackgroundColor="warning"
+                label="Members"
+                labels="months"
+              />
+            }
+          >
+          </CWidgetDropdown>
+        </CCol>
+
+        <CCol sm="6" lg="3">
+          <CWidgetDropdown
+            color="gradient-info"
+            header={dashdetails.Low_Risk_Patients}
+            text="Low Risk Patients"
+            footerSlot={
+              <ChartLineSimple
+                pointed
+                className="mt-3 mx-3"
+                style={{ height: '70px' }}
+                dataPoints={[1, 18, 9, 17, 34, 22, 11]}
+                pointHoverBackgroundColor="info"
+                options={{ elements: { line: { tension: 0.00001 } } }}
+                label="Members"
+                labels="months"
+              />
+            }
+          >
+          </CWidgetDropdown>
+        </CCol>
+      </CRow>
+
+
+
+      <CCardGroup className="mb-4">
+        <CWidgetProgressIcon
+          header={dashdetails.Provider_count}
+          text="Providers"
+          color="gradient-info"
+          inverse
+        >
+          <CIcon name="cil-people" height="36" />
+        </CWidgetProgressIcon>
+
+        <CWidgetProgressIcon
+          header={dashdetails.Practitioner_count}
+          text="Practitioners"
+          color="gradient-success"
+          inverse
+        >
+          <CIcon name="cil-userFollow" height="36" />
+        </CWidgetProgressIcon>
+
+        <CWidgetProgressIcon
+          header={dashdetails.Condition_count}
+          text="Condition"
+          color="gradient-warning"
+          inverse
+        >
+          <CIcon name="cil-basket" height="36" />
+        </CWidgetProgressIcon>
+
+        <CWidgetProgressIcon
+          header={dashdetails.Procedure_count}
+          text="Procedures"
+          color="gradient-primary"
+          inverse
+        >
+          <CIcon name="cil-chartPie" height="36" />
+        </CWidgetProgressIcon>
+
+        <CWidgetProgressIcon
+          header={dashdetails.Vaccines_count}
+          text="Vaccines"
+          color="gradient-danger"
+          inverse
+        >
+          <CIcon name="cil-speedometer" height="36" />
+        </CWidgetProgressIcon>
+      </CCardGroup>
+
+
+      <CCard>
         <CCardBody>
           <CRow>
-              <h2 id="title" className="title" align="center"><strong>Continuous Care</strong></h2>
-              {/* <div className="small text-muted">September 2021</div> */}
+            <h2 id="title" className="title" align="center"><strong>Continuous Care</strong></h2>
+            {/* <div className="small text-muted">September 2021</div> */}
           </CRow>
           {/* <MainChartExample style={{height: '300px', marginTop: '40px'}}/> */}
-          <Iframe width="100%" height="550px" src="https://datastudio.google.com/embed/reporting/c6041d77-a0b2-42dd-86da-6489602b5870/page/tEnnC" frameborder="0" style="border:0" allowfullscreen/>
-          </CCardBody>
-          </CCard>
-          <CCard>
-          <CCardBody>          
-            <CRow>
-              <h2 id="title" className="title" align="center"><strong>Critical Patients</strong></h2>
-              {/* <div className="small text-muted">September 2021</div> */}
+          <Iframe width="100%" height="550px" src="https://datastudio.google.com/embed/reporting/c6041d77-a0b2-42dd-86da-6489602b5870/page/tEnnC" frameborder="0" style="border:0" allowfullscreen />
+        </CCardBody>
+      </CCard>
+      <CCard>
+        <CCardBody>
+          <CRow>
+            <h2 id="title" className="title" align="center"><strong>Critical Patients</strong></h2>
+            {/* <div className="small text-muted">September 2021</div> */}
           </CRow>
           <CRow>
-          <Modal
-          open={modalopen}
-          onClose={modalhandleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          onClick={handleChange}
-        >
-          <Box sx={modalstyle}>
-          <Typography id="modal-modal-description" >
-            {console.log(iframeurl)}
-            {showMessage && <ShowModal1 patientId={iframeurl}/>}
-          </Typography>
-          </Box>
-        </Modal>
-          <Paper style={{ width: '100%', overflow: 'hidden' }}>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder="Search by Name..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            onChange={(e) => { setsearchTerm(e.target.value) }}
-            inputProps={{ 'aria-label': 'search' }}
-          />
-        </div>
-        <TableContainer style={{ maxHeight: 300 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <StyledTableRow style={{ padding: '0px' }}>
-              <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign:'center' }}>Practitioner Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '12%', textAlign:'center' }}>Provider Contact Number</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Last Visit Date</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '22%', textAlign:'center' }}>Address</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '4%' , textAlign:'center'}}>Age</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '12%', textAlign:'center' }}>Patient Contact Number</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign:'center' }}>Personal Info</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody>
-              <>
-                {data.filter(val => {
-                  if (searchTerm === "") {
-                    return val;
-                  }
-                  else if (   (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Encounter_end.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Encounter_start.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Marital_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Medical_Record_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Patient_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Provider_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Social_Security_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.birthdate.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.gender.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.guardian_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.startdate.toLowerCase().includes(searchTerm.toLowerCase())) 
-                  ) {
-                    return val
-                  }
-                 }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    return (
-                      <StyledTableRow key={row.Patient_id}>
-                      <StyledTableCell align="left" component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
-                            style={{ padding: '0px 0px 0px 0px', color: "#0d6efd", width: '10%' }}
-                            onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
-                            onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
-                      </StyledTableCell>
-                      <StyledTableCell align="left"  style={{  width: '10%' }}>{row.Practitioner_name}</StyledTableCell>
-                      <StyledTableCell align="center" style={{  width: '14%' }}>{row.Provider_number}</StyledTableCell>
-                      <StyledTableCell align="left" style={{  width: '8%' }}>{row.startdate}</StyledTableCell>
-                      <StyledTableCell align="center"  style={{  width: '22%' }}>{row.Patient_address}</StyledTableCell>
-                      <StyledTableCell align="center" style={{  width: '4%' }}>{row.Patient_Age}</StyledTableCell>
-                      <StyledTableCell align="center" style={{  width: '14%' }}>{row.Contact_number}</StyledTableCell>
-                      <StyledTableCell align="center" style={{  width: '10%' }}><button type="button"  className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id)}}>View Details</button></StyledTableCell>
-                      </StyledTableRow>
-                    );
-                  })}
-                  </>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 50, 100]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+            <Modal
+              open={modalopen}
+              onClose={modalhandleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              onClick={handleChange}
+            >
+              <Box sx={modalstyle}>
+                <Typography id="modal-modal-description" >
+                  {console.log(iframeurl)}
+                  {showMessage && <ShowModal1 patientId={iframeurl} />}
+                </Typography>
+              </Box>
+            </Modal>
+            <Paper style={{ width: '100%', overflow: 'hidden' }}>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search by Name..."
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  onChange={(e) => { setsearchTerm(e.target.value) }}
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </div>
+              <TableContainer style={{ maxHeight: 300 }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <StyledTableRow style={{ padding: '0px' }}>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Patient Name</StyledTableCell>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Practitioner Name</StyledTableCell>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '12%', textAlign: 'center' }}>Provider Contact Number</StyledTableCell>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '10%' }}>Last Visit Date</StyledTableCell>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '22%', textAlign: 'center' }}>Address</StyledTableCell>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '4%', textAlign: 'center' }}>Age</StyledTableCell>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '12%', textAlign: 'center' }}>Patient Contact Number</StyledTableCell>
+                      <StyledTableCell style={{ fontWeight: 'bold', width: '10%', textAlign: 'center' }}>Personal Info</StyledTableCell>
+                    </StyledTableRow>
+                  </TableHead>
+                  <TableBody>
+                    <>
+                      {data.filter(val => {
+                        if (searchTerm === "") {
+                          return val;
+                        }
+                        else if ((val.Active_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Consent_Form_Text.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Encounter_end_date.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Encounter_start.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Encounter_start_date.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Language.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Marital_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Medical_Record_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Mothers_maiden_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Patient_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          // (val.Provider_number.toLowerCase().includes(searchTerm.toLowerCase())) || 
+                          (val.Remote_Care_Text.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.Social_Security_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.birthdate.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.gender.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          (val.guardian_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                        ) {
+                          return val
+                        }
+                      }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row, index) => {
+                          return (
+                            <StyledTableRow key={row.Patient_id}>
+                              <StyledTableCell align="left" component="th" scope="row" > <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
+                                style={{ padding: '0px 0px 0px 0px', color: "#0d6efd", width: '10%' }}
+                                onMouseOver={function (event) { let target = event.target; target.style.color = '#0d6efd'; target.style.cursor = 'pointer'; }}
+                                onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
+                              </StyledTableCell>
+                              <StyledTableCell align="left" style={{ width: '10%' }}>{row.Practitioner_name}</StyledTableCell>
+                              <StyledTableCell align="center" style={{ width: '14%' }}>{row.Provider_number}</StyledTableCell>
+                              <StyledTableCell align="center" style={{ width: '14%' }}>{row.Encounter_end_date}</StyledTableCell>
+                              <StyledTableCell align="left" style={{ width: '8%' }}>{row.startdate}</StyledTableCell>
+                              <StyledTableCell align="center" style={{ width: '22%' }}>{row.Patient_address}</StyledTableCell>
+                              <StyledTableCell align="center" style={{ width: '4%' }}>{row.Patient_Age}</StyledTableCell>
+                              <StyledTableCell align="center" style={{ width: '14%' }}>{row.Contact_number}</StyledTableCell>
+                              <StyledTableCell align="center" style={{ width: '10%' }}><button type="button" className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id) }}>View Details</button></StyledTableCell>
+                            </StyledTableRow>
+                          );
+                        })}
+                    </>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, 50, 100]}
+              component="div"
+              count={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           </CRow>
         </CCardBody>
       </CCard>
