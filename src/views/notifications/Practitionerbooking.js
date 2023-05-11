@@ -198,14 +198,7 @@ export default function PractitionerBooking() {
   }, []);
   console.log('ayaya', data)
 
-  useEffect(() => {
-    
-    if (checkccfunction() === 1 && isLoad == false) {
-      console.log("this is activated", isLoad)
-      handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
-      // selectpractitioner();
-    }
-  }, []);
+ 
 
   useEffect(() => {
     fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
@@ -220,10 +213,8 @@ export default function PractitionerBooking() {
             uniqueData[row.Practitioner_id] = row;
           }
         });
-
-        const newFinalData = Object.values(uniqueData);
-
-        setfinaldata(newFinalData);
+        // const newFinalData = Object.values(uniqueData);
+        setfinaldata(Object.values(uniqueData));
         setisLoad(false);
       })
       .catch((error) => {
@@ -233,19 +224,33 @@ export default function PractitionerBooking() {
 
   console.log("here is finaldata", finaldata);
 
+  useEffect(() => {
+    // debugger;
+    if (localStorage.getItem('connectedCareValue') === 'Yes') {
+        handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
+        
+        // setTimeout(() => {
+        //   console.log("timeout over")
+        // }, 20000);
+      console.log("this is activated", isLoad)
+      // selectpractitioner();
+    }
+  }, []);
+
   // const redirecttoConsent = () => { };
 
-  const checkccfunction = () => {
-    if (localStorage.getItem('connectedCareValue') === 'Yes') {
-      console.log('ayeayeayeaye',localStorage.getItem('connectedCareValue'))
-      return 1;
-    }
-    else {
-      return 0;
-    }
-  };
+  // const checkccfunction = () => {
+  //   if (localStorage.getItem('connectedCareValue') === 'Yes') {
+  //     console.log('ayeayeayeaye',localStorage.getItem('connectedCareValue'))
+  //     return 1;
+  //   }
+  //   else {
+  //     return 0;
+  //   }
+  // };
 
   const handleDateTimeChange = (newDateTime) => {
+    debugger;
     setSelectedDateTime(""); // reset the selected slot state
 
     if (!newDateTime) {
@@ -294,26 +299,28 @@ export default function PractitionerBooking() {
 
 
   const selectpractitioner = (date, hour, slab) => {
+    debugger;
     const condition = localStorage.getItem("condition_name");
-    // const date = localStorage.getItem("selectedDate");
-    // const hour = localStorage.getItem("selectedHour");
-    // const slab = localStorage.getItem("selectedSlab");
     console.log('justcheck', condition, date, hour, slab);
     let array1 = [];
     let array2 = [];
     let array3 = [];
 
-    array1 = finaldata.filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
-
+    // array1 = (localStorage.getItem("finaldata")).filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
+    array1 = JSON.parse(localStorage.getItem("finaldata"));
+    console.log("finally data aaya",array1, "type of",typeof(array1));
     array2 = data.filter(item => item.Condition_name === condition && item.App_Date === date && item.Timing === hour && item.slot === slab);
 
     // Loop through each element in array1 and check if it exists in array2
+    if(!array1){
+      alert('please refresh the page');
+    }else{
     for (let i = 0; i < array1.length; i++) {
       const found = array2.find(item => item.Practitioner_id === array1[i].Practitioner_id);
       if (!found) {
         array3.push(array1[i]);
       }
-    }
+    }};
 
     console.log("1st array", array1);
     console.log("2nd array", array2);
@@ -370,10 +377,10 @@ export default function PractitionerBooking() {
             openTo="hours"
             ampm={false}
             minutesStep={60}
-            value={checkccfunction() === 1 ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
+            value={(localStorage.getItem('connectedCareValue') === 'Yes')? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
             disablePast={true}
-            disableFuture = {checkccfunction() === 1}
-            disabled =  {checkccfunction() === 1}
+            disableFuture = {localStorage.getItem('connectedCareValue') === 'Yes'}
+            disabled =  {localStorage.getItem('connectedCareValue') === 'Yes'}
             onChange={handleDateTimeChange}
           />
         </DemoContainer>

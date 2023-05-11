@@ -299,7 +299,7 @@ export default function Appointment() {
     localStorage.setItem("Patient_MRN", selectedPatientData[0].Medical_Record_Number);
     localStorage.setItem("Patient_email", "telehealthgcp@gmail.com");
     criticalpatient();
-
+    // localStorage.removeItem('condition_name');
 
   };
 
@@ -478,6 +478,7 @@ export default function Appointment() {
   //   setDeviceId(code);
   // };
   const redirecttoPractitionerbooking = (e, condition, code, speciality) => {
+    // allappointment();
     localStorage.setItem("condition_name", condition);
     localStorage.setItem("condition_code", code);
     localStorage.setItem("condition_speciality", speciality);
@@ -493,14 +494,49 @@ export default function Appointment() {
 
   const handleConnectedCareChange = (event) => {
     setConnectedCareValue(event.target.value);
+   
     localStorage.setItem("connectedCareValue", event.target.value);
     if (personName !== "" || decryptedName !== "") {
       // Allow user to choose for connected care
+      allappointment();
     } else {
 
       alert("Please select a patient first.");
       setConnectedCareValue("");
     }
+  };
+
+  const allappointment = () => {
+    fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
+      .then((response) => response.json())
+      .then((data) => {
+        // Create an object to store the unique data
+        const uniqueData = {};
+        // localStorage.getItem("condition_name");
+        // Loop through the data and add the first entry for each unique practitioner ID
+        data.forEach((row) => {
+          if (!uniqueData[row.Practitioner_id]) {
+            // if (uniqueData[row.Condition_name] ==  localStorage.getItem("condition_name")){
+            uniqueData[row.Practitioner_id] = row;}
+          
+        });
+        // const newFinalData = Object.values(uniqueData);
+        // setfinaldata(Object.values(uniqueData));
+        // setisLoad(false);
+        // localStorage.setItem("finaldata",JSON.stringify(Object.values(uniqueData)));
+        const array1 = Object.values(uniqueData).filter((row) => {
+          if (row.Condition_name === localStorage.getItem("condition_name")){
+          console.log("rowwww inside",row.Condition_name)
+          return row;
+          }
+        });
+        console.log("rowwwwwwwwwwwww",array1)
+          
+        localStorage.setItem("finaldata", JSON.stringify(array1));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleEndDateChange = (event) => {
@@ -655,9 +691,9 @@ export default function Appointment() {
               </CCol>
 
               <div>
-              <p><b>Do you wish to change the end date?</b></p>
                 {vitatrac === 'true' && (
                   <>
+                  <p><b>Do you wish to change the end date?</b></p>
                     <CRow>
                       <CCol>
                         <RadioGroup

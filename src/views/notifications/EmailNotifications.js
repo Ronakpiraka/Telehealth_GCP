@@ -14,6 +14,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import "react-toastify/dist/ReactToastify.css";
 import { alpha } from "@material-ui/core/styles";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from "@material-ui/icons/Search";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import emailjs from "@emailjs/browser";
@@ -97,6 +99,7 @@ export default function EmailNotify() {
   }))(TableRow);
 
   const [data, setdata] = React.useState([]);
+  const [filter, setFilter] = useState('');
   const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState("");
   const [page, setpage] = React.useState(0);
@@ -126,6 +129,8 @@ export default function EmailNotify() {
   //     });
   // }, []);
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -140,7 +145,10 @@ export default function EmailNotify() {
     };
     fetchData();
   }, []);
-  
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
 
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -155,82 +163,6 @@ export default function EmailNotify() {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
   };
-
-  const slottiming = (
-    Time_9_AM_10_AM,
-    Time_10_AM_11_AM,
-    Time_11_AM_12_PM,
-    Time_12_PM_1_PM,
-    Time_1_PM_2_PM,
-    Time_2_PM_3_PM,
-    Time_3_PM_4_PM,
-    Time_4_PM_5_PM
-  ) => {
-    if (Time_9_AM_10_AM === "true") {
-      return "9 AM - 10 AM";
-    } else if (Time_10_AM_11_AM === "true") {
-      return "10 AM - 11 AM";
-    } else if (Time_11_AM_12_PM === "true") {
-      return "11 AM - 12 PM";
-    } else if (Time_12_PM_1_PM === "true") {
-      return "12 PM - 1 PM";
-    } else if (Time_1_PM_2_PM === "true") {
-      return "1 PM - 2 PM";
-    } else if (Time_2_PM_3_PM === "true") {
-      return "2 PM - 3 PM";
-    } else if (Time_3_PM_4_PM === "true") {
-      return "3 PM - 4 PM";
-    } else if (Time_4_PM_5_PM === "true") {
-      return "4 PM - 5 PM";
-    }
-  };
-
-  // const sortedData = data.sort((a, b) => {
-  //   const dateA = new Date(a.App_Date);
-  //   const dateB = new Date(b.App_Date);
-  //   if (dateA < dateB) {
-  //     return 1;
-  //   }
-  //   if (dateA > dateB) {
-  //     return -1;
-  //   }
-
-  //   const slotA = slottiming(
-  //     a.Time_9_AM_10_AM.toString(),
-  //     a.Time_10_AM_11_AM.toString(),
-  //     a.Time_11_AM_12_PM.toString(),
-  //     a.Time_12_PM_1_PM.toString(),
-  //     a.Time_1_PM_2_PM.toString(),
-  //     a.Time_2_PM_3_PM.toString(),
-  //     a.Time_3_PM_4_PM.toString(),
-  //     a.Time_4_PM_5_PM.toString(),
-  //     a.App_Date
-  //   );
-  //   const slotB = slottiming(
-  //     b.Time_9_AM_10_AM.toString(),
-  //     b.Time_10_AM_11_AM.toString(),
-  //     b.Time_11_AM_12_PM.toString(),
-  //     b.Time_12_PM_1_PM.toString(),
-  //     b.Time_1_PM_2_PM.toString(),
-  //     b.Time_2_PM_3_PM.toString(),
-  //     b.Time_3_PM_4_PM.toString(),
-  //     b.Time_4_PM_5_PM.toString(),
-  //     b.App_Date
-  //   );
-  //   if (slotA < slotB) {
-  //     return 1;
-  //   }
-  //   if (slotA > slotB) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-
-  // const today = new Date();
-  // const filteredData = sortedData.filter((row) => {
-  //   const appDate = new Date(row.App_Date);
-  //   return appDate >= today || appDate.toDateString() === today.toDateString(); // only include appointments with today's date or later
-  // });
 
   const riskscore = (Appointment_Status) => {
     if (Appointment_Status === "Pending") {
@@ -270,17 +202,17 @@ export default function EmailNotify() {
     }
   };
 
-  // const handleButtonClick1 = () => {
-  //   history.push("/notifications/past");
-  // };
+  const handleButtonClick1 = () => {
+    history.push("/notifications/past");
+  };
 
-  // const handleButtonClick2 = () => {
-  //   history.push("/notifications/today");
-  // };
+  const handleButtonClick2 = () => {
+    history.push("/notifications/today");
+  };
 
-  // const handleButtonClick3 = () => {
-  //   history.push("/notifications/upcoming");
-  // };
+  const handleButtonClick3 = () => {
+    history.push("/notifications/upcoming");
+  };
 
   const countAppointmentsTodayAndTotal = () => {
     const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
@@ -306,11 +238,7 @@ export default function EmailNotify() {
           </h4>
         </CCol>
       </CRow>
-      {/* <CRow >
-      <CCol xs="4" className="text-left"><button type="button" class="btn btn-danger" onClick={handleButtonClick1} >Go to past appointment</button></CCol>
-      <CCol xs="4" className="text-center"><button type="button" class="btn btn-success" onClick={handleButtonClick2}>Go to today's  appointment</button></CCol>
-      <CCol xs="4" className="text-right"><button type="button" class="btn btn-warning" onClick={handleButtonClick3}>Go to Upcoming Appointment</button></CCol>
-    </CRow><br/> */}
+
       <Paper style={{ width: "100%", overflow: "hidden" }}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
@@ -361,48 +289,24 @@ export default function EmailNotify() {
                 .filter((val) => {
                   if (searchTerm === "") {
                     return val;
-                  } else if (
-                    val.App_Date.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Provider_id.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Provider_name.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Condition_code.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Condition_name.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Patient_name.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Practitioner_name.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Practitioner_Speciality.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.MRN.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    val.practitioner_email
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    val.provider_contact_number
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase()) ||
-                    val.Consent_form_choice.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Patient_email.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    ) ||
-                    val.Practitioner_id.toLowerCase().includes(
-                      searchTerm.toLowerCase()
-                    )
-                  ) {
+                  } else if(
+                      (val.App_Date.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.MRN.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Appointment_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Consent_form_choice.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Patient_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Timing.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                      (val.Slot.toLowerCase().includes(searchTerm.toLowerCase())))
+                  {
                     return val;
                   }
                 })
@@ -439,7 +343,7 @@ export default function EmailNotify() {
                       >
                         <b>{row.App_Date}</b>
                         <br />
-                       {row.Timing}:00 hrs
+                        {row.Timing}:00 hrs
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
