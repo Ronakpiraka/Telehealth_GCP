@@ -305,7 +305,7 @@ export default function Appointment() {
 
   const criticalpatient = () => {
     const mrnno = localStorage.getItem('Patient_MRN');
-    fetch("https://device-data-sh4iojyb3q-uc.a.run.app/")
+    fetch("https://device-data-sh4iojyb3q-uc.a.run.app")
       .then((response) => response.json())
       .then((cricdata) => {
         // console.log("cricdata:", cricdata);
@@ -690,7 +690,7 @@ export default function Appointment() {
                 </div>
               </CCol>
 
-              <div>
+              {/* <div>
                 {vitatrac === 'true' && (
                   <>
                   <p><b>Do you wish to change the end date?</b></p>
@@ -755,12 +755,12 @@ export default function Appointment() {
                                 />
                               </DemoContainer>
                             </LocalizationProvider>
-                            {/* </p> */}
+                           </p> 
                           </div>
                         )}
                       </CCol>
                     </CRow></>
-                )}</div>
+                )}</div> */}
             </CRow>
           </div>
         )}

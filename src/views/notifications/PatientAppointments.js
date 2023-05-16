@@ -372,7 +372,7 @@ export default function EmailNotify(props) {
                         style={{ textAlign: "center", width: "15%" }}
                       >
                         <b>{row.App_Date}</b>
-                        <br />{row.Timing}
+                        <br />{row.Timing}:00 hrs
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}

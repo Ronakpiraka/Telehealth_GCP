@@ -183,45 +183,45 @@ export default function PatientInform() {
 
   // }
   const fetchpatientdata = async () => {
-  const requestOptions = {
-    method: 'GET',
-    // mode:'no-cors'
-  };
-  const accessToken = sessionStorage.getItem("Accesstoken");
-  const response = await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
-    .then((resp) => resp.json())
-    .catch(error => console.log('error', error));
+    const requestOptions = {
+      method: 'GET',
+      // mode:'no-cors'
+    };
+    const accessToken = sessionStorage.getItem("Accesstoken");
+    const response = await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+      .then((resp) => resp.json())
+      .catch(error => console.log('error', error));
 
-  if (response) {
-    const patientIdSet = new Set();
-    const finalData = response.reduce((acc, obj) => {
-      if (!patientIdSet.has(obj.Patient_id)) {
-        patientIdSet.add(obj.Patient_id);
-        return [...acc, obj];
-      } else {
-        const index = acc.findIndex(item => item.Patient_id === obj.Patient_id);
-        const lstEncounter = new Date(acc[index].Encounter_start);
-        const newEncounter = new Date(obj.Encounter_start);
-        if (newEncounter > lstEncounter) {
-          acc[index] = obj;
+    if (response) {
+      const patientIdSet = new Set();
+      const finalData = response.reduce((acc, obj) => {
+        if (!patientIdSet.has(obj.Patient_id)) {
+          patientIdSet.add(obj.Patient_id);
+          return [...acc, obj];
+        } else {
+          const index = acc.findIndex(item => item.Patient_id === obj.Patient_id);
+          const lstEncounter = new Date(acc[index].Encounter_start);
+          const newEncounter = new Date(obj.Encounter_start);
+          if (newEncounter > lstEncounter) {
+            acc[index] = obj;
+          }
+          return acc;
         }
-        return acc;
-      }
-    }, []);
+      }, []);
 
-    // Sort the data based on status and patient name
-    finalData.sort((a, b) => {
-      const nameA = a.Patient_name || '';
-      const nameB = b.Patient_name || '';
-      return nameA.localeCompare(nameB);
-    });
+      // Sort the data based on status and patient name
+      finalData.sort((a, b) => {
+        const nameA = a.Patient_name || '';
+        const nameB = b.Patient_name || '';
+        return nameA.localeCompare(nameB);
+      });
 
-    setdata(finalData);
-    setisLoading(false);
-  }
-};
+      setdata(finalData);
+      setisLoading(false);
+    }
+  };
 
-  
+
 
   const RemoteStatus = (status) => {
     if (status === "Vitals Tracked") {
