@@ -13,6 +13,7 @@ import Iframe from 'react-iframe'
 import ChartLineSimple from '../charts/ChartLineSimple'
 import ChartBarSimple from '../charts/ChartBarSimple'
 import { useHistory, useLocation } from "react-router-dom";
+import CPatient from "../records/CPatients.js";
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
@@ -194,50 +195,50 @@ const Dashboard = () => {
   //     .catch(error => console.log('error', error));
   // };
 
-  useEffect(() => {
-    console.log("hello useeffect")
-    fetchpatientdata();
-  }, []);
+  // useEffect(() => {
+  //   console.log("hello useeffect")
+  //   fetchpatientdata();
+  // }, []);
 
-  const fetchpatientdata = async () => {
-    const requestOptions = {
-      method: 'GET',
-      mode:'no-cors',
-    };
-    const accessToken = sessionStorage.getItem("Accesstoken");
-    const response = await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
-      .then((resp) => resp.json())
-      .catch(error => console.log('error', error));
+  // const fetchpatientdata = async () => {
+  //   const requestOptions = {
+  //     method: 'GET',
+  //     mode:'no-cors',
+  //   };
+  //   const accessToken = sessionStorage.getItem("Accesstoken");
+  //   const response = await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+  //     .then((resp) => resp.json())
+  //     .catch(error => console.log('error', error));
 
-    if (response) {
-      const patientIdSet = new Set();
-      const finalData = response.reduce((acc, obj) => {
-        if (!patientIdSet.has(obj.Patient_id)) {
-          patientIdSet.add(obj.Patient_id);
-          return [...acc, obj];
-        } else {
-          const index = acc.findIndex(item => item.Patient_id === obj.Patient_id);
-          const lstEncounter = new Date(acc[index].Encounter_start);
-          const newEncounter = new Date(obj.Encounter_start);
-          if (newEncounter > lstEncounter) {
-            acc[index] = obj;
-          }
-          return acc;
-        }
-      }, []);
+  //   if (response) {
+  //     const patientIdSet = new Set();
+  //     const finalData = response.reduce((acc, obj) => {
+  //       if (!patientIdSet.has(obj.Patient_id)) {
+  //         patientIdSet.add(obj.Patient_id);
+  //         return [...acc, obj];
+  //       } else {
+  //         const index = acc.findIndex(item => item.Patient_id === obj.Patient_id);
+  //         const lstEncounter = new Date(acc[index].Encounter_start);
+  //         const newEncounter = new Date(obj.Encounter_start);
+  //         if (newEncounter > lstEncounter) {
+  //           acc[index] = obj;
+  //         }
+  //         return acc;
+  //       }
+  //     }, []);
 
-      // Sort the data based on status and patient name
-      finalData.sort((a, b) => {
-        const nameA = a.Patient_name || '';
-        const nameB = b.Patient_name || '';
-        return nameA.localeCompare(nameB);
-      });
+  //     // Sort the data based on status and patient name
+  //     finalData.sort((a, b) => {
+  //       const nameA = a.Patient_name || '';
+  //       const nameB = b.Patient_name || '';
+  //       return nameA.localeCompare(nameB);
+  //     });
 
-      setdata(finalData);
-      // setisLoading(false);
-    }
+  //     setdata(finalData);
+  //     // setisLoading(false);
+  //   }
     
-  };
+  // };
 
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -251,7 +252,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchdashdetails();
-    fetchpatientdata();
+    // fetchpatientdata();
   }, [])
 
   // console.log(dashdetails)
@@ -401,8 +402,10 @@ const Dashboard = () => {
       <CCard>
         <CCardBody>
           <CRow>
+          <CPatient></CPatient></CRow>
+          {/* <CRow>
             <h2 id="title" className="title" align="center"><strong>Critical Patients</strong></h2>
-            {/* <div className="small text-muted">September 2021</div> */}
+            
           </CRow>
           <CRow>
             <Modal
@@ -516,7 +519,7 @@ const Dashboard = () => {
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
-          </CRow>
+          </CRow> */}
         </CCardBody>
       </CCard>
 

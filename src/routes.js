@@ -2,6 +2,7 @@ import React from 'react';
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 const Patients = React.lazy(() => import('./views/records/Patients'));
+const CPatients = React.lazy(() => import('./views/records/CPatients'));
 const Providers = React.lazy(() => import('./views/records/Providers'));
 const PatientDetails = React.lazy(() => import('./views/records/PatientDetails'));
 const Reports = React.lazy(() => import('./views/reports/Reports.js'));
@@ -24,7 +25,7 @@ const EmailNotification = React.lazy(() => import('./views/notifications/EmailNo
 const EmailNotificationspast = React.lazy(()=> import('./views/notifications/EmailNotificationspast'));
 const EmailNotificationstoday = React.lazy(() => import('./views/notifications/EmailNotificationstoday'));
 const EmailNotificationsupcoming = React.lazy(()=> import('./views/notifications/EmailNotificationsupcoming'));
-const PatientAppointments = React.lazy(()=> './views/notifications/PatientAppointments')
+const PatientAppointments = React.lazy(()=> import('./views/notifications/PatientAppointments'));
 const Appointment = React.lazy(()=> import('./views/notifications/appointments'));
 const Practitionerbookings = React.lazy(()=> import('./views/notifications/Practitionerbooking'));
 const CriticalPractitionerbookings = React.lazy(()=> import('./views/notifications/CriticalPractitionerbooking'));
@@ -34,6 +35,7 @@ const routes = [
   // { path: '/login', name: 'Login', component: Login },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/records/patients', name: 'Patients', component: Patients, exact: true },
+  { path: '/records/cpatients', name: 'CPatients', component: CPatients, exact: true },
   { path: '/records/providers', name: 'Providers', component: Providers, exact: true },
   { path: '/records/patientdetails', name: 'Patientdetails', component: PatientDetails, exact: true },
   { path: '/insights', name: 'insights', component: Insights, exact: true },

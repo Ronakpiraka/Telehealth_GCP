@@ -690,7 +690,7 @@ export default function Appointment() {
                 </div>
               </CCol>
 
-              {/* <div>
+              <div>
                 {vitatrac === 'true' && (
                   <>
                   <p><b>Do you wish to change the end date?</b></p>
@@ -755,12 +755,12 @@ export default function Appointment() {
                                 />
                               </DemoContainer>
                             </LocalizationProvider>
-                           </p> 
+                            
                           </div>
                         )}
                       </CCol>
                     </CRow></>
-                )}</div> */}
+                )}</div>
             </CRow>
           </div>
         )}
