@@ -321,7 +321,6 @@ export default function RadioButtonsGroup() {
             <b>Preview Appointment Details</b>
           </Modal.Title>
         </Modal.Header>
-        {/* message = consentstatus() */}
         <Modal.Body>
           <b>Patient Name :</b> {localStorage.getItem("Patient_name")}
           <br />

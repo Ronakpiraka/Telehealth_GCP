@@ -160,47 +160,85 @@ const Dashboard = () => {
       .catch(error => console.log('error', error));
   }
 
-  const fetchpatientdata = async () => {
-     var requestOptions = {
-       method: 'GET',
-       mode : 'no-cors'
-     };
-     var accessToken = sessionStorage.getItem("Accesstoken");
-     await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
-       .then((resp) => resp.json())
-       .then((response) => {
-         let final_data = new Array();
-         let critical_data = new Array();
-         let Patient_id_list = new Array();
-         let Patient_list_index = -1;
-         for (var i=0; i<response.length; i++) {
-           Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id)
-           if (Patient_list_index == -1) {
-             final_data.push(response[i])
-             Patient_id_list.push(response[i].Patient_id)
-           } else {
-             let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start)
-             let new_encounter = new Date(response[i].Encounter_start)
-             if (new_encounter > lst_encounter) {
-               final_data[Patient_list_index] = response[i]
-             }
-           }
-           setdata(final_data)
-         }
-         console.log("Data to be seen: ", final_data)
-        //  for (var i=0; i<final_data.length; i++) {
-        //   if (final_data[i].Remote_Care_Text=='Vitals Tracked')
-        //   {
-        //     critical_data.push(final_data[i])
-        //   }
-        // } 
-        // setdata(critical_data)
-        // console.log("crictical data is here",critical_data)
-       })
-       .catch(error => console.log('error', error));
-    };
+  // const fetchpatientdata = async () => {
+  //   var requestOptions = {
+  //     method: 'GET',
+  //     mode: 'no-cors',
+  //   };
+  //   var accessToken = sessionStorage.getItem("Accesstoken");
+  //   await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+  //     .then((resp) => resp.json())
+  //     .then((response) => {
+  //       if (response && response.length > 0) {
+  //         let final_data = [];
+  //         let critical_data = [];
+  //         let Patient_id_list = [];
+  //         let Patient_list_index = -1;
+  //         for (var i = 0; i < response.length; i++) {
+  //           Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id);
+  //           if (Patient_list_index === -1) {
+  //             final_data.push(response[i]);
+  //             Patient_id_list.push(response[i].Patient_id);
+  //           } else {
+  //             let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start);
+  //             let new_encounter = new Date(response[i].Encounter_start);
+  //             if (new_encounter > lst_encounter) {
+  //               final_data[Patient_list_index] = response[i];
+  //             }
+  //           }
+  //         }
+  //         setdata(final_data);
+  //         console.log("Data to be seen: ", final_data);
+  //       }
+  //     })
+  //     .catch(error => console.log('error', error));
+  // };
 
-  
+  useEffect(() => {
+    console.log("hello useeffect")
+    fetchpatientdata();
+  }, []);
+
+  const fetchpatientdata = async () => {
+    const requestOptions = {
+      method: 'GET',
+      mode:'no-cors',
+    };
+    const accessToken = sessionStorage.getItem("Accesstoken");
+    const response = await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
+      .then((resp) => resp.json())
+      .catch(error => console.log('error', error));
+
+    if (response) {
+      const patientIdSet = new Set();
+      const finalData = response.reduce((acc, obj) => {
+        if (!patientIdSet.has(obj.Patient_id)) {
+          patientIdSet.add(obj.Patient_id);
+          return [...acc, obj];
+        } else {
+          const index = acc.findIndex(item => item.Patient_id === obj.Patient_id);
+          const lstEncounter = new Date(acc[index].Encounter_start);
+          const newEncounter = new Date(obj.Encounter_start);
+          if (newEncounter > lstEncounter) {
+            acc[index] = obj;
+          }
+          return acc;
+        }
+      }, []);
+
+      // Sort the data based on status and patient name
+      finalData.sort((a, b) => {
+        const nameA = a.Patient_name || '';
+        const nameB = b.Patient_name || '';
+        return nameA.localeCompare(nameB);
+      });
+
+      setdata(finalData);
+      // setisLoading(false);
+    }
+    
+  };
+
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
   };
