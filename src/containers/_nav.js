@@ -111,7 +111,7 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'All Appointments',
-        to: '/notifications/email',
+        to: '/notifications/allappointments',
         badge: {
           color: 'primary',
           text: sessionStorage.getItem('appointmentsTotal'),

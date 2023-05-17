@@ -296,9 +296,9 @@ export default function Device() {
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
                   End Date
                 </TableCell>
-                <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
+                {/* <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
                   Change End Date
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </TableHead>
 
@@ -345,11 +345,11 @@ export default function Device() {
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {row.End_Date}
                     </StyledTableCell>
-                    <StyledTableCell style={{ textAlign: "center" }}>
+                    {/* <StyledTableCell style={{ textAlign: "center" }}>
                       <button onClick={() => handleOpenExtendModal(row.End_Date)}>Extend</button>
                       <button onClick={() => handleOpenClosureModal(row.End_Date)}>Closure</button>
-                    </StyledTableCell>
-                    {openExtendModal && (
+                    </StyledTableCell> */}
+                     {openExtendModal && (
                       <div>
                         {/* Place your modal code here
                         <MobileDateTimePicker value={endDate} onChange={handleExtendModalClose} /> */}
@@ -371,7 +371,7 @@ export default function Device() {
                           </DemoContainer>
                         </LocalizationProvider>
                       </div>
-                    )}
+                    )} 
                   </TableRow>
                 ))}
             </TableBody>
