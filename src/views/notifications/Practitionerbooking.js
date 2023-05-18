@@ -142,7 +142,7 @@ export default function PractitionerBooking() {
   // dayjs.extend(localizedFormat);
 
   const [data, setdata] = React.useState([]);
-  
+
   const [isLoad, setisLoad] = useState(true);
   const [isLoading, setisLoading] = useState(true);
   const [finaldata, setfinaldata] = React.useState([]);
@@ -198,7 +198,7 @@ export default function PractitionerBooking() {
   }, []);
   console.log('ayaya', data)
 
- 
+
 
   useEffect(() => {
     fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
@@ -227,11 +227,11 @@ export default function PractitionerBooking() {
   useEffect(() => {
     // debugger;
     if (localStorage.getItem('connectedCareValue') === 'Yes') {
-        handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
-        
-        // setTimeout(() => {
-        //   console.log("timeout over")
-        // }, 20000);
+      handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
+
+      // setTimeout(() => {
+      //   console.log("timeout over")
+      // }, 20000);
       console.log("this is activated", isLoad)
       // selectpractitioner();
     }
@@ -258,13 +258,13 @@ export default function PractitionerBooking() {
       localStorage.removeItem("selectedDateTime");
       return;
     }
-    console.log('newdatetime', newDateTime);  
+    console.log('newdatetime', newDateTime);
     // console.log('selected date time', selectedDateTime);
 
     const today = dayjs().startOf("day");
     const dateTime = newDateTime; // convert the selected date-time to the Indian time zone
     console.log('dateTime', dateTime);
-    
+
     if (dateTime.isBefore(today) || dateTime.isAfter(today.add(2, "month"))) {
       // if the selected date-time is not within the range of today and the next two months
       alert(
@@ -308,25 +308,26 @@ export default function PractitionerBooking() {
 
     // array1 = (localStorage.getItem("finaldata")).filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
     array1 = JSON.parse(localStorage.getItem("finaldata"));
-    console.log("finally data aaya",array1, "type of",typeof(array1));
+    console.log("finally data aaya", array1, "type of", typeof (array1));
     array2 = data.filter(item => item.Condition_name === condition && item.App_Date === date && item.Timing === hour && item.slot === slab);
 
     // Loop through each element in array1 and check if it exists in array2
-    if(!array1){
+    if (!array1) {
       alert('please refresh the page');
-    }else{
-    for (let i = 0; i < array1.length; i++) {
-      const found = array2.find(item => item.Practitioner_id === array1[i].Practitioner_id);
-      if (!found) {
-        array3.push(array1[i]);
+    } else {
+      for (let i = 0; i < array1.length; i++) {
+        const found = array2.find(item => item.Practitioner_id === array1[i].Practitioner_id);
+        if (!found) {
+          array3.push(array1[i]);
+        }
       }
-    }};
+    };
 
     console.log("1st array", array1);
     console.log("2nd array", array2);
     console.log("3rd array", array3);
     setpracdata(array3);
-    localStorage.setItem("prac_map",finalprac)
+    localStorage.setItem("prac_map", finalprac)
     setisLoading(false);
     return array3;
   }
@@ -377,10 +378,10 @@ export default function PractitionerBooking() {
             openTo="hours"
             ampm={false}
             minutesStep={60}
-            value={(localStorage.getItem('connectedCareValue') === 'Yes')? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
+            value={(localStorage.getItem('connectedCareValue') === 'Yes') ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
             disablePast={true}
-            disableFuture = {localStorage.getItem('connectedCareValue') === 'Yes'}
-            disabled =  {localStorage.getItem('connectedCareValue') === 'Yes'}
+            disableFuture={localStorage.getItem('connectedCareValue') === 'Yes'}
+            disabled={localStorage.getItem('connectedCareValue') === 'Yes'}
             onChange={handleDateTimeChange}
           />
         </DemoContainer>
@@ -396,7 +397,7 @@ export default function PractitionerBooking() {
       </div>
 
 
-       <CRow>
+      <CRow>
         <CCol className="navbar justify-content-between">
           <p className="navbar-brand">
             {/* <b>Select Practitioner</b> */}
@@ -418,7 +419,7 @@ export default function PractitionerBooking() {
           }}
         ></LoadingOverlay>
 
-       {finalprac.map((row, index) => {
+        {finalprac.map((row, index) => {
           return (
             <CCol sm="6" md="6" lg="4">
               <CCardGroup
@@ -448,11 +449,11 @@ export default function PractitionerBooking() {
                     style={{ float: "left" }}
                     height="24"
                   />
-                  <h5 style={{textAlign: "left", marginLeft: "25px", color: "indigo"}} > Practitioner: {row.Practitioner_name} </h5>
-                  <h6 style={{textAlign: "left"}}> Provider Name: {row.Provider_name} </h6>
-                  <h6 style={{textAlign: "left"}}> Address: {row.Provider_address} </h6>
-                  <h6 sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between"}} style={{textAlign: "left" }}>
-                    <button type="button" className="btn btn-primary btn-sm" style={{ cursor: "pointer", fontWeight: "bolder", float: "right"}}> Select </button>
+                  <h5 style={{ textAlign: "left", marginLeft: "25px", color: "indigo" }} > Practitioner: {row.Practitioner_name} </h5>
+                  <h6 style={{ textAlign: "left" }}> Provider Name: {row.Provider_name} </h6>
+                  <h6 style={{ textAlign: "left" }}> Address: {row.Provider_address} </h6>
+                  <h6 sx={{ minWidth: "10 rem", display: "flex", justifyContent: "space-between" }} style={{ textAlign: "left" }}>
+                    <button type="button" className="btn btn-primary btn-sm" style={{ cursor: "pointer", fontWeight: "bolder", float: "right" }}> Select </button>
                     Email: {row.practitioner_email}
                   </h6>
                 </CWidgetProgressIcon>

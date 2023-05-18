@@ -2,6 +2,7 @@ import React from 'react';
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 const Patients = React.lazy(() => import('./views/records/Patients'));
+const CPatients = React.lazy(() => import('./views/records/CPatients'));
 const Providers = React.lazy(() => import('./views/records/Providers'));
 const PatientDetails = React.lazy(() => import('./views/records/PatientDetails'));
 const Reports = React.lazy(() => import('./views/reports/Reports.js'));
@@ -20,11 +21,11 @@ const CalendarSchedule = React.lazy(() => import('./views/notifications/Calender
 const AmbulanceService = React.lazy(() => import('./views/services/AmbulanceService'));
 const AmbulanceInform = React.lazy(() => import('./views/services/AmbulanceInform'));
 const Ambulancedetails = React.lazy(() => import('./views/services/AmbulanceDetails'));
-const EmailNotification = React.lazy(() => import('./views/notifications/EmailNotifications'));
-const EmailNotificationspast = React.lazy(()=> import('./views/notifications/EmailNotificationspast'));
-const EmailNotificationstoday = React.lazy(() => import('./views/notifications/EmailNotificationstoday'));
-const EmailNotificationsupcoming = React.lazy(()=> import('./views/notifications/EmailNotificationsupcoming'));
-const PatientAppointments = React.lazy(()=> './views/notifications/PatientAppointments')
+const AllAppointments = React.lazy(() => import('./views/notifications/AllAppointments'));
+const PastAppointments = React.lazy(()=> import('./views/notifications/PastAppointments'));
+const TodayAppointments = React.lazy(() => import('./views/notifications/TodayAppointments'));
+const UpcomingAppointments = React.lazy(()=> import('./views/notifications/UpcomingAppointments'));
+const PatientAppointments = React.lazy(()=> import('./views/notifications/PatientAppointments'));
 const Appointment = React.lazy(()=> import('./views/notifications/appointments'));
 const Practitionerbookings = React.lazy(()=> import('./views/notifications/Practitionerbooking'));
 const CriticalPractitionerbookings = React.lazy(()=> import('./views/notifications/CriticalPractitionerbooking'));
@@ -34,6 +35,7 @@ const routes = [
   // { path: '/login', name: 'Login', component: Login },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/records/patients', name: 'Patients', component: Patients, exact: true },
+  { path: '/records/cpatients', name: 'CPatients', component: CPatients, exact: true },
   { path: '/records/providers', name: 'Providers', component: Providers, exact: true },
   { path: '/records/patientdetails', name: 'Patientdetails', component: PatientDetails, exact: true },
   { path: '/insights', name: 'insights', component: Insights, exact: true },
@@ -49,10 +51,10 @@ const routes = [
   { path: '/reports/PatientDemography', name: 'PatientDemography', component: PatientDemography, exact: true },
   { path: '/reports/PractitionerInsights', name: 'PractitionerInsights', component: PractitionerInsights, exact: true },
   { path: '/reports/PatientCare', name: 'PatientCare', component: PatientCare, exact: true },
-  { path: '/notifications/email', name: 'All Appointments', component: EmailNotification, exact: true },
-  { path: '/notifications/past', name: 'Appointment History', component: EmailNotificationspast, exact: true },
-  { path: '/notifications/today', name: "Today's Appointments", component: EmailNotificationstoday, exact: true },
-  { path: '/notifications/upcoming', name: 'Upcoming Appointments', component: EmailNotificationsupcoming, exact: true },
+  { path: '/notifications/allappointments', name: 'All Appointments', component: AllAppointments, exact: true },
+  { path: '/notifications/past', name: 'Appointment History', component: PastAppointments, exact: true },
+  { path: '/notifications/today', name: "Today's Appointments", component: TodayAppointments, exact: true },
+  { path: '/notifications/upcoming', name: 'Upcoming Appointments', component: UpcomingAppointments, exact: true },
   { path: '/notifications', name: '', component: Notification, exact: true },
   { path: '/notifications/PatientAppointments', name: 'Patient Appointments', component: PatientAppointments, exact: true },
   { path: '/notifications/Consent', name: 'Appointment Booking / Consent', component: Consent , exact: true },

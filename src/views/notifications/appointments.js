@@ -122,6 +122,7 @@ export default function Appointment() {
   }));
 
   const [data, setdata] = React.useState([]);
+  const [alldata, setalldata] = React.useState([]);
   const [searchTerm, setsearchTerm] = React.useState("");
   const classes = useStyles();
   const history = useHistory();
@@ -144,6 +145,8 @@ export default function Appointment() {
   const [deviceIdValue, setDeviceIdValue] = useState("");
   const [newDate, setNewDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [consentgiven, setconsentgiven] = useState("");
+  
   const [endDateOpt, setEndDateOpt] = useState("");
 
   const [showModal, setShowModal] = useState(false);
@@ -315,8 +318,10 @@ export default function Appointment() {
           if (cricdata[i].Patient_MRN === mrnno && cricdata[i].Status === "Active") {
             vitatrack = 'true';
             setDeviceIdValue(cricdata[i].Device_id);
-            localStorage.setItem('devices', deviceIdValue);
+            // localStorage.setItem('devices', deviceIdValue);
+            localStorage.setItem('devices', cricdata[i].Device_id);
             setEndDate(cricdata[i].End_Date);
+            localStorage.setItem('oldenddate', cricdata[i].End_Date);
             // setvitatrac(vitatrack)
             break;
           }
@@ -357,15 +362,89 @@ export default function Appointment() {
     // { code: "528399", Display: "Weight Scale" },
   ];
 
+  // let matchingData = []; // Variable to store the matching data
+
+  // const fetchData = async (MRN) => {
+  //   try {
+  //     const response = await fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
+  //     const jsonData = await response.json();
+
+  //     matchingData = jsonData.filter(row => row.MRN === MRN && row.Connected_Care_Status === 'true' && row.Devices === localStorage.getItem('devices'));
+
+  //     // Optionally, you can perform additional operations with the matching data here
+
+  //     console.log(matchingData);
+  //   } catch (error) {
+  //     console.log('Error fetching data:', error);
+  //   }
+  // };
+
+  // Usage example
+  // console.log(matchingData); // Access the matching data outside the function
+  // useEffect(() => {
+  //    aptdata();
+  // })
+  // const aptdata = async (MRN) => {
+  //   try {
+  //     const response = await fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
+  //     const jsonData = await response.json();
+
+  //     const connectedCareData = jsonData.filter(row => row.MRN === MRN && row.Connected_Care_Status === 'true' && row.Devices === localStorage.getItem('devices'));
+  //     console.log("here is the data from fixed apt",connectedCareData);
+  //   } catch (error) {
+  //     console.log('Error fetching data:', error);
+  //   }
+  // };
+
+  useEffect(() => {
+    fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app")
+      .then((response) => response.json())
+      .then((alldata) => {
+        setalldata(alldata);
+        // console.log("hi data is here", data);
+        console.log("hi all data is here", alldata);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  // console.log("hello here required data" , alldata)
+  const aptdata = () => {
+    // const reqdata = alldata;
+    const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status == true && row.Devices == localStorage.getItem("devices"));
+    localStorage.setItem("Appdate", reqdata[0].App_Date);
+    localStorage.setItem("PracEmail", reqdata[0].practitioner_email);
+    
+    // if (reqdata[0].Consent_form_choice === "Do") {
+    //   setconsentgiven(" give his consent to share your EHR records with practitioner as well as provider .")
+    // }
+    // if (reqdata[0].Consent_form_choice === "Do partial") {
+    //   setconsentgiven(" give his consent to share your EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment ."); 
+    // }
+    // if (reqdata[0].Consent_form_choice === "Do not") {
+    //   setconsentgiven( " will share his records with practitioner during the visit.");
+    // }
+ 
+    const message = localStorage.getItem("Patient_name") + " have this device assigned by " + reqdata[0].Practitioner_name + " on " + reqdata[0].App_Date + " for tracking your vitals for " + reqdata[0].Condition_name + ". Do you wish to change the device subscription end date to " + localStorage.getItem("Enddate") + ". We will share the changed date over mail to "+ localStorage.getItem("Patient_name")+" and "+ reqdata[0].Practitioner_name+ ". "
+    // + localStorage.getItem("Patient_name") + " agreed and " + consentgiven;
+    console.log("hi requiredata is here", reqdata, "mrn from ls", localStorage.getItem("Patient_MRN"), "device id", localStorage.getItem('devices'))
+    console.log(message)
+    return message;
+  };
+  // Usage example
+  // fetchDataAndStoreData(""); // Replace "yourMRNValue" with the actual MRN value you want to fetch the data for
+
+
   const handleExtDateChange = (newDate) => {
     const endDatePlus3Months = dayjs(endDate).add(3, 'months');
-  if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months)) {
-    alert("Please select a date that is greater than enddate ("+endDate+") and not exceed the 3 months from the end date of your Subscription.");
-    setNewDate(null);
-  } else {
-    setNewDate(newDate);
-    localStorage.setItem('Enddate',dayjs(newDate).format('YYYY-MM-DD'));
-  };
+    if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months)) {
+      alert("Please select a date that is greater than enddate (" + endDate + ") and not exceed the 3 months from the end date of your Subscription.");
+      setNewDate(null);
+    } else {
+      setNewDate(newDate);
+      localStorage.setItem('Enddate', dayjs(newDate).format('YYYY-MM-DD'));
+    };
   };
 
   const handleCloDateChange = (newDate) => {
@@ -373,7 +452,7 @@ export default function Appointment() {
     const maxDate = dayjs(endDate);
 
     if (newDate.isBefore(minDate) || newDate.isAfter(maxDate)) {
-      alert("Please select a date that is greater than today and not exceed the end date ("+endDate+") of your Subscription.");
+      alert("Please select a date that is greater than today and not exceed the end date (" + endDate + ") of your Subscription.");
       setNewDate(null);
     } else {
       setNewDate(newDate);
@@ -406,6 +485,57 @@ export default function Appointment() {
     }
   }, [connectedCareValue]);
 
+  const senddatechangerequest = () => {
+    
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    // myHeaders.append("Authorization", `Bearer ${accessToken}`);
+    var raw = {
+      MRN: localStorage.getItem("Patient_MRN"),
+      Devices: localStorage.getItem("devices"),
+      App_Date: localStorage.getItem("Appdate"),
+      Enddate: localStorage.getItem("oldenddate"), 
+      New_closure_date : localStorage.getItem("Enddate"),
+      Patient_email: localStorage.getItem("Patient_email"),
+      Practitioner_email: localStorage.getItem("PracEmail"),
+    };
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(raw),
+      mode: "cors",
+    };
+
+    console.log(raw);
+
+    fetch("https://function-1-sh4iojyb3q-uc.a.run.app", requestOptions)////for raw request
+    // fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
+      .then((response) => {
+        response.json();
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => console.log("error", error));
+
+      redirect();
+  };
+
+  const redirect = () => {
+    if (sessionStorage.getItem("Patient_name") == null) {
+      var url = `/notifications/allappointments`;
+    } else {
+      var url = `/records/providers`;
+      // bucketurl();
+    }
+    // var url = `/bookAppointment`;
+    history.push(`${url}`);
+    localStorage.clear();
+    sessionStorage.removeItem('Patient_name');
+    // sessionStorage.clear();
+    // localStorage.removeItem('Patient_name');
+  };
 
   const assignNewDeviceIdAndShare = () => {
     const newDeviceId = Math.floor(Math.random() * 10000000000000000);
@@ -494,7 +624,7 @@ export default function Appointment() {
 
   const handleConnectedCareChange = (event) => {
     setConnectedCareValue(event.target.value);
-   
+
     localStorage.setItem("connectedCareValue", event.target.value);
     if (personName !== "" || decryptedName !== "") {
       // Allow user to choose for connected care
@@ -505,6 +635,12 @@ export default function Appointment() {
       setConnectedCareValue("");
     }
   };
+
+  // const handleConsentChange = () => {
+    
+    
+  //   localStorage.setItem("consent" , consentgiven);
+  // };
 
   const allappointment = () => {
     fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
@@ -517,21 +653,22 @@ export default function Appointment() {
         data.forEach((row) => {
           if (!uniqueData[row.Practitioner_id]) {
             // if (uniqueData[row.Condition_name] ==  localStorage.getItem("condition_name")){
-            uniqueData[row.Practitioner_id] = row;}
-          
+            uniqueData[row.Practitioner_id] = row;
+          }
+
         });
         // const newFinalData = Object.values(uniqueData);
         // setfinaldata(Object.values(uniqueData));
         // setisLoad(false);
         // localStorage.setItem("finaldata",JSON.stringify(Object.values(uniqueData)));
         const array1 = Object.values(uniqueData).filter((row) => {
-          if (row.Condition_name === localStorage.getItem("condition_name")){
-          console.log("rowwww inside",row.Condition_name)
-          return row;
+          if (row.Condition_name === localStorage.getItem("condition_name")) {
+            console.log("rowwww inside", row.Condition_name)
+            return row;
           }
         });
-        console.log("rowwwwwwwwwwwww",array1)
-          
+        console.log("rowwwwwwwwwwwww", array1)
+
         localStorage.setItem("finaldata", JSON.stringify(array1));
       })
       .catch((error) => {
@@ -685,15 +822,15 @@ export default function Appointment() {
                   {vitatrac === 'false' ? (
                     <p>Your Device ID is: <b>{assignNewDeviceIdAndShare()}</b>. We would be sharing the same over email.</p>
                   ) : (
-                    <b style={{color:'red'}}>Your Device ID is: {deviceIdValue}. Your vitals are already being tracked.<br /> Your subscription ends at {endDate}. Do you wish to change your end date?</b>
+                    <p>Your Device ID is: <b>{deviceIdValue}</b>. Your vitals are already being tracked. Your subscription ends at <b>{endDate}</b>. <br /><br /></p>
                   )}
                 </div>
               </CCol>
 
-              {/* <div>
+              <div>
                 {vitatrac === 'true' && (
                   <>
-                  <p><b>Do you wish to change the end date?</b></p>
+                    <p><b>Do you want to book another Appointment or change the device subscription end date?</b></p>
                     <CRow>
                       <CCol>
                         <RadioGroup
@@ -707,15 +844,16 @@ export default function Appointment() {
                             <CCol></CCol>
 
                             <CRow>
-                              <CCol sm="4" md="6" lg="4">
+                              <CCol sm="4" md="4" lg="4">
+                                <FormControlLabel value="Maybe" control={<Radio />} label="Book Another Appointment" />
+                              </CCol>
+                              <CCol sm="4" md="4" lg="4">
                                 <FormControlLabel value="Yes" control={<Radio />} label="Extend" />
-
                               </CCol>
-
-                              <CCol sm="4" md="6" lg="4">
+                              <CCol sm="4" md="4" lg="4">
                                 <FormControlLabel value="No" control={<Radio />} label="Closure" />
-
                               </CCol>
+
                             </CRow>
                           </CRow>
                         </RadioGroup>
@@ -725,127 +863,147 @@ export default function Appointment() {
                     <CRow>
                       <CCol>
                         {endDateOpt === "Yes" && (
-                          <div>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                              <DemoContainer components={['DateField']}>
-                                <DatePicker
-                                  label="Extended Date"
-                                  value={newDate}
-                                  disablePast={true}
-                                  onChange={handleExtDateChange}
-                                  minDate={dayjs(endDate)}
-                                  maxDate={dayjs(endDate).add(3, 'months')}
-                                />
-                              </DemoContainer>
-                            </LocalizationProvider>
-
+                          <div align="center">
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={['DateField']}>
+                                  <DatePicker
+                                    label="Extended Date"
+                                    value={newDate}
+                                    disablePast={true}
+                                    onChange={handleExtDateChange}
+                                    minDate={dayjs(endDate)}
+                                    maxDate={dayjs(endDate).add(3, 'months')}
+                                  />
+                                </DemoContainer>
+                              </LocalizationProvider>
+                            </div>
+                            <b>{aptdata()}</b><br />
+                            <div>By clicking the submit button your request to change the device subscription end date will be sent.</div>
+                            <button class="btn btn-primary" onClick={senddatechangerequest}>
+                              Submit
+                            </button>
                           </div>
                         )}
                         {endDateOpt === "No" && (
-                          <div>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                              <DemoContainer components={['DateField']}>
-                                <DatePicker
-                                  label="Closure Date"
-                                  value={newDate}
-                                  disablePast={true}
-                                  onChange={handleCloDateChange}
-                                  minDate={dayjs()}
-                                  maxDate={dayjs(endDate)}
-                                />
-                              </DemoContainer>
-                            </LocalizationProvider>
-                           </p> 
+                          <div align="center">
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DemoContainer components={['DateField']}>
+                                  <DatePicker
+                                    label="Closure Date"
+                                    value={newDate}
+                                    disablePast={true}
+                                    onChange={handleCloDateChange}
+                                    minDate={dayjs()}
+                                    maxDate={dayjs(endDate)}
+                                  />
+                                </DemoContainer>
+                              </LocalizationProvider>
+                            </div>
+                            <b>{aptdata()}</b><br />
+                            <div>By clicking the submit button your request to change the device subscription end date will be sent.</div>
+                            <button class="btn btn-primary" onClick={senddatechangerequest}>
+                              Submit
+                            </button>
                           </div>
                         )}
+
                       </CCol>
                     </CRow></>
-                )}</div> */}
+                )}</div>
             </CRow>
           </div>
         )}
-        {/* </div> */}
-      </FormControl>
-      <CRow>
-        <CCol>
-          <span className="navbar justify-content-between">
-            <div
-              sm="4"
-              md="4"
-              lg="3"
-              className="navbar-brand"
-              sx={{ minWidth: 230 }}
-            >
-              <b>Select your Condition:</b>
-            </div>
+        {
+          (connectedCareValue === "No" || vitatrac === 'false' || endDateOpt === "Maybe") && (
+            <div>
+              <CRow>
+                <CCol>
+                  <span className="navbar justify-content-between">
+                    <div
+                      sm="4"
+                      md="4"
+                      lg="3"
+                      className="navbar-brand"
+                      sx={{ minWidth: 230 }}
+                    >
+                      <b>Select your Condition:</b>
+                    </div>
 
-            <div sm="1" md="1" lg="1" className={classes.search}>
-              <div sm="7" md="7" lg="8" className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search by Condition Name..."
-                classes={{ root: classes.inputRoot, input: classes.inputInput }}
-                onChange={(e) => {
-                  setsearchTerm(e.target.value);
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
-          </span>
-        </CCol>
-      </CRow>
-
-      <LoadingOverlay
-        active={isLoading}
-        spinner
-        text="Loading the content..."
-        styles={{
-          height: "50%",
-          spinner: (base) => ({
-            ...base,
-            width: "50px",
-            "& svg circle": {
-              stroke: "rgba(255, 0, 0, 0.5)",
-            },
-          }),
-        }}
-      >
-        <CRow>
-          {condition_name
-            .filter((val) => {
-              if (searchTerm === "") {
-                return val;
-              } else if (
-                val.condition.toLowerCase().includes(searchTerm.toLowerCase())
-              ) {
-                return val;
-              }
-            })
-            .map((row, index) => {
-              return (
-                <CCol sm="12" md="8" lg="4">
-                  <CWidgetDropdown
-                    type="button"
-                    color="gradient-info"
-                    text={row.condition}
-                    onClick={(e) => {
-                      redirecttoPractitionerbooking(e, row.condition, row.code, row.speciality);
-                    }}
-                    style={{
-                      minHeight: "80px",
-                      fontSize: "16px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {" "}
-                    <ArrowForwardIosIcon />
-                  </CWidgetDropdown>
+                    <div sm="1" md="1" lg="1" className={classes.search}>
+                      <div sm="7" md="7" lg="8" className={classes.searchIcon}>
+                        <SearchIcon />
+                      </div>
+                      <InputBase
+                        placeholder="Search by Condition Name..."
+                        classes={{ root: classes.inputRoot, input: classes.inputInput }}
+                        onChange={(e) => {
+                          setsearchTerm(e.target.value);
+                        }}
+                        inputProps={{ "aria-label": "search" }}
+                      />
+                    </div>
+                  </span>
                 </CCol>
-              );
-            })}
-        </CRow>
-      </LoadingOverlay>
+              </CRow>
+
+              <LoadingOverlay
+                active={isLoading}
+                spinner
+                text="Loading the content..."
+                styles={{
+                  height: "50%",
+                  spinner: (base) => ({
+                    ...base,
+                    width: "50px",
+                    "& svg circle": {
+                      stroke: "rgba(255, 0, 0, 0.5)",
+                    },
+                  }),
+                }}
+              >
+                <CRow>
+                  {condition_name
+                    .filter((val) => {
+                      if (searchTerm === "") {
+                        return val;
+                      } else if (
+                        val.condition.toLowerCase().includes(searchTerm.toLowerCase())
+                      ) {
+                        return val;
+                      }
+                    })
+                    .map((row, index) => {
+                      return (
+                        <CCol sm="12" md="8" lg="4">
+                          <CWidgetDropdown
+                            type="button"
+                            color="gradient-info"
+                            text={row.condition}
+                            onClick={(e) => {
+                              redirecttoPractitionerbooking(e, row.condition, row.code, row.speciality);
+                            }}
+                            style={{
+                              minHeight: "80px",
+                              fontSize: "16px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {" "}
+                            <ArrowForwardIosIcon />
+                          </CWidgetDropdown>
+                        </CCol>
+                      );
+                    })}
+                </CRow>
+              </LoadingOverlay>
+            </div>
+          )
+        }
+
+      </FormControl>
+
     </div>
   );
 }

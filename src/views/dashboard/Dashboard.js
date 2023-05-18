@@ -13,6 +13,7 @@ import Iframe from 'react-iframe'
 import ChartLineSimple from '../charts/ChartLineSimple'
 import ChartBarSimple from '../charts/ChartBarSimple'
 import { useHistory, useLocation } from "react-router-dom";
+import CPatient from "../records/CPatients.js";
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
@@ -160,84 +161,49 @@ const Dashboard = () => {
       .catch(error => console.log('error', error));
   }
 
-  // const fetchpatientdata = async () => {
-  //   var requestOptions = {
-  //     method: 'GET',
-  //     mode: 'no-cors',
-  //   };
-  //   var accessToken = sessionStorage.getItem("Accesstoken");
-  //   await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
-  //     .then((resp) => resp.json())
-  //     .then((response) => {
-  //       if (response && response.length > 0) {
-  //         let final_data = [];
-  //         let critical_data = [];
-  //         let Patient_id_list = [];
-  //         let Patient_list_index = -1;
-  //         for (var i = 0; i < response.length; i++) {
-  //           Patient_list_index = Patient_id_list.indexOf(response[i].Patient_id);
-  //           if (Patient_list_index === -1) {
-  //             final_data.push(response[i]);
-  //             Patient_id_list.push(response[i].Patient_id);
-  //           } else {
-  //             let lst_encounter = new Date(final_data[Patient_list_index].Encounter_start);
-  //             let new_encounter = new Date(response[i].Encounter_start);
-  //             if (new_encounter > lst_encounter) {
-  //               final_data[Patient_list_index] = response[i];
-  //             }
-  //           }
-  //         }
-  //         setdata(final_data);
-  //         console.log("Data to be seen: ", final_data);
-  //       }
-  //     })
-  //     .catch(error => console.log('error', error));
-  // };
-
-  useEffect(() => {
-    console.log("hello useeffect")
-    fetchpatientdata();
-  }, []);
-
   const fetchpatientdata = async () => {
     const requestOptions = {
       method: 'GET',
-      mode:'no-cors',
+      // mode:'no-cors'
     };
     const accessToken = sessionStorage.getItem("Accesstoken");
     const response = await fetch("https://patientdata-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
       .catch(error => console.log('error', error));
-
+  
     if (response) {
       const patientIdSet = new Set();
       const finalData = response.reduce((acc, obj) => {
-        if (!patientIdSet.has(obj.Patient_id)) {
-          patientIdSet.add(obj.Patient_id);
-          return [...acc, obj];
-        } else {
-          const index = acc.findIndex(item => item.Patient_id === obj.Patient_id);
-          const lstEncounter = new Date(acc[index].Encounter_start);
-          const newEncounter = new Date(obj.Encounter_start);
-          if (newEncounter > lstEncounter) {
-            acc[index] = obj;
+        if (obj.Remote_Care_Text === 'Vitals Tracked') {
+          if (!patientIdSet.has(obj.Patient_id)) {
+            patientIdSet.add(obj.Patient_id);
+            return [...acc, obj];
+          } else {
+            const index = acc.findIndex(item => item.Patient_id === obj.Patient_id);
+            const lstEncounter = new Date(acc[index].Encounter_start);
+            const newEncounter = new Date(obj.Encounter_start);
+            if (newEncounter > lstEncounter) {
+              acc[index] = obj;
+            }
+            return acc;
           }
+        } else {
           return acc;
         }
       }, []);
-
+  
       // Sort the data based on status and patient name
       finalData.sort((a, b) => {
         const nameA = a.Patient_name || '';
         const nameB = b.Patient_name || '';
         return nameA.localeCompare(nameB);
       });
-
+  
       setdata(finalData);
       // setisLoading(false);
     }
-    
   };
+  
 
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -392,17 +358,17 @@ const Dashboard = () => {
         <CCardBody>
           <CRow>
             <h2 id="title" className="title" align="center"><strong>Continuous Care</strong></h2>
-            {/* <div className="small text-muted">September 2021</div> */}
+           
           </CRow>
-          {/* <MainChartExample style={{height: '300px', marginTop: '40px'}}/> */}
           <Iframe width="100%" height="550px" src="https://datastudio.google.com/embed/reporting/c6041d77-a0b2-42dd-86da-6489602b5870/page/tEnnC" frameborder="0" style="border:0" allowfullscreen />
         </CCardBody>
       </CCard>
       <CCard>
         <CCardBody>
+          {/* <CRow><CPatient></CPatient></CRow> */}
           <CRow>
             <h2 id="title" className="title" align="center"><strong>Critical Patients</strong></h2>
-            {/* <div className="small text-muted">September 2021</div> */}
+            
           </CRow>
           <CRow>
             <Modal
@@ -494,7 +460,6 @@ const Dashboard = () => {
                               <StyledTableCell align="left" style={{ width: '10%' }}>{row.Practitioner_name}</StyledTableCell>
                               <StyledTableCell align="center" style={{ width: '14%' }}>{row.Provider_number}</StyledTableCell>
                               <StyledTableCell align="center" style={{ width: '14%' }}>{row.Encounter_end_date}</StyledTableCell>
-                              <StyledTableCell align="left" style={{ width: '8%' }}>{row.startdate}</StyledTableCell>
                               <StyledTableCell align="center" style={{ width: '22%' }}>{row.Patient_address}</StyledTableCell>
                               <StyledTableCell align="center" style={{ width: '4%' }}>{row.Patient_Age}</StyledTableCell>
                               <StyledTableCell align="center" style={{ width: '14%' }}>{row.Contact_number}</StyledTableCell>

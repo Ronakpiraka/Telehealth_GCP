@@ -56,6 +56,7 @@ export default function RadioButtonsGroup(props) {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
+    handleplatform();
     localStorage.setItem("consentValue", "Do not");
     // localStorage.setItem("connectedCareValue", "False");
     localStorage.setItem("Appointment_Status", "Booked");
@@ -167,6 +168,20 @@ export default function RadioButtonsGroup(props) {
   //   assignNewDeviceIdAndShare();
   //   // console.log(newDeviceId);
   // };
+  const handleplatform = () => {
+    if (sessionStorage.getItem("Patient_name") == null)
+    {
+      localStorage.setItem('platform', 'TELE')
+    }
+    if (sessionStorage.getItem("Patient_name") != null)
+    {
+      localStorage.setItem('platform', 'OPE')
+    }
+    // else
+    // {
+    //   localStorage.setItem('platform', '')
+    // }
+  }
 
   const handleConsentChange = (event) => {
     const value = event.target.value;
@@ -227,6 +242,7 @@ export default function RadioButtonsGroup(props) {
       Devices: localStorage.getItem("devices"),
       Slot:localStorage.getItem("selectedSlab"),
       New_closure_date : localStorage.getItem("Enddate"),
+      Platform : localStorage.getItem("platform")
     };
 
     var requestOptions = {
@@ -302,7 +318,7 @@ export default function RadioButtonsGroup(props) {
   const redirect = () => {
     // senddata();
     if (sessionStorage.getItem("Patient_name") == null) {
-      var url = `/notifications/email`;
+      var url = `/notifications/allappointments`;
     } else {
       var url = `/records/providers`;
       bucketurl();
@@ -345,7 +361,13 @@ export default function RadioButtonsGroup(props) {
           <b>Selected Time :</b> {localStorage.getItem("selectedHour")}
           <br />
           <br />
-          <b>Device ID information: </b> {localStorage.getItem("devices")}
+          <b>Device ID information:</b> {localStorage.getItem("devices")}
+          <br />
+          <br />
+          <b>New_closure_date : {localStorage.getItem("Enddate")}</b>
+          <br />
+          <br />
+          <b>Platform: {localStorage.getItem("platform")}</b>
           <br />
           <br />
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}
