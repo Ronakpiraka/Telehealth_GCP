@@ -242,7 +242,8 @@ export default function RadioButtonsGroup(props) {
       Devices: localStorage.getItem("devices"),
       Slot:localStorage.getItem("selectedSlab"),
       New_closure_date : localStorage.getItem("Enddate"),
-      Platform : localStorage.getItem("platform")
+      Platform : localStorage.getItem("platform"),
+      Apttype : "Appointment",
     };
 
     var requestOptions = {
@@ -358,18 +359,18 @@ export default function RadioButtonsGroup(props) {
           <b>Selected Date :</b> {localStorage.getItem("selectedDate")}
           <br />
           <br />
-          <b>Selected Time :</b> {localStorage.getItem("selectedHour")}
+          <b>Selected Time :</b> {localStorage.getItem("selectedHour")} :00 hrs
           <br />
           <br />
           <b>Device ID information:</b> {localStorage.getItem("devices")}
           <br />
           <br />
-          <b>New_closure_date : {localStorage.getItem("Enddate")}</b>
+          {/* <b>New_closure_date : {localStorage.getItem("Enddate")}</b>
           <br />
           <br />
           <b>Platform: {localStorage.getItem("platform")}</b>
           <br />
-          <br />
+          <br /> */}
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}
           <br />
           <br />

@@ -250,7 +250,7 @@ export default function PractitionerBooking() {
   // };
 
   const handleDateTimeChange = (newDateTime) => {
-    debugger;
+    // debugger;
     setSelectedDateTime(""); // reset the selected slot state
 
     if (!newDateTime) {
@@ -299,7 +299,7 @@ export default function PractitionerBooking() {
 
 
   const selectpractitioner = (date, hour, slab) => {
-    debugger;
+    // debugger;
     const condition = localStorage.getItem("condition_name");
     console.log('justcheck', condition, date, hour, slab);
     let array1 = [];
