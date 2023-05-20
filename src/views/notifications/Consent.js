@@ -42,7 +42,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 // import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 // import { message } from "antd";
 
-export default function RadioButtonsGroup(props) {
+export default function Consent(props) {
 
   const data = props.data;
   const history = useHistory();
@@ -92,7 +92,7 @@ export default function RadioButtonsGroup(props) {
   //   }
   // };
 
-  const handlepreview = async () => {
+  const handlepreview = () => {
     const providername = localStorage.getItem("provider_name");
     const pracname = localStorage.getItem("practitioner_name");
     const date = localStorage.getItem("selectedDate");
@@ -105,22 +105,22 @@ export default function RadioButtonsGroup(props) {
       );
     } else {
       try {
-        // const response = await fetch(
-        //   "https://emailnotifications-sh4iojyb3q-uc.a.run.app"
-        // );
+        // const response = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
+        console.log('data',data)
         const appointments = data;
-        const busyPrac = appointments.find(
-          (a) =>
+        const busyPrac = appointments.find((a) =>
             a.Practitioner_name === pracname &&
             a.App_Date === date &&
             a.Timing === time
         );
+        console.log('busyprac',busyPrac)
         const busyPatient = appointments.find(
           (a) =>
             a.Patient_name === patientname &&
             a.App_Date === date &&
             a.Timing === time
         );
+        console.log('busypatient',busyPatient)
 
         if (busyPrac) {
           alert("Sorry, the practitioner is already busy at that time.");

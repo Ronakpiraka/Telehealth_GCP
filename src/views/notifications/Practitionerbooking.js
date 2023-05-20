@@ -313,7 +313,7 @@ export default function PractitionerBooking() {
 
     // Loop through each element in array1 and check if it exists in array2
     if (!array1) {
-      alert('please refresh the page');
+      console.log('please refresh the page');
     } else {
       for (let i = 0; i < array1.length; i++) {
         const found = array2.find(item => item.Practitioner_id === array1[i].Practitioner_id);
@@ -470,7 +470,7 @@ export default function PractitionerBooking() {
       </CRow>
       <CRow>
         <CCol>
-          <Consent />
+          <Consent data={data}/>
         </CCol>
       </CRow>
     </div>
