@@ -435,7 +435,9 @@ export default function Appointment() {
     // localStorage.setItem("Enddate", reqdata[0].New_closure_date);
     localStorage.setItem("platform", reqdata[0].Platform);
 
-    const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + reqdata[0].App_Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
+    const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
+    
+    // const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + reqdata[0].App_Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
     return message;
   };
 
@@ -601,7 +603,7 @@ export default function Appointment() {
       var url = `/device/devices`;
     } else {
       // bucketurl();
-      var url = `/records/providers`;
+      var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);
