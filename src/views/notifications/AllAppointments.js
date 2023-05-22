@@ -12,6 +12,8 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
+import CallIcon from '@mui/icons-material/Call';
+import EventIcon from '@mui/icons-material/Event';
 import "react-toastify/dist/ReactToastify.css";
 import { alpha } from "@material-ui/core/styles";
 import Select from '@mui/material/Select';
@@ -178,18 +180,7 @@ export default function EmailNotify() {
         </CBadge>
       );
     }
-    if (Appointment_Status == null) {
-      return (
-        <CBadge
-          color="info"
-          className="mfs-auto"
-          fontSize="22px"
-          align="center"
-        >
-          No return
-        </CBadge>
-      );
-    } else {
+    if (Appointment_Status == "Fulfilled") {
       return (
         <CBadge
           color="success"
@@ -197,7 +188,56 @@ export default function EmailNotify() {
           fontSize="22px"
           align="center"
         >
-          Booked
+          Fulfilled
+        </CBadge>
+      );
+    }
+    if (Appointment_Status == "No-show") {
+      return (
+        <CBadge
+          color="Danger" // red
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          No Show
+        </CBadge>
+      );
+    }
+    if (Appointment_Status == null) {
+      return (
+        <CBadge
+          color="secondary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          No return
+        </CBadge>
+      );
+    } 
+    if (Appointment_Status == "Booked") {
+      return (
+        <CBadge
+          color="primary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+         Booked
+        </CBadge>
+      );
+    } 
+    //info, light are available
+    else { 
+      return (
+        <CBadge
+          color="secondary"//grey
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          error
         </CBadge>
       );
     }
@@ -265,7 +305,7 @@ export default function EmailNotify() {
                   <b>Patient Name</b>
                 </TableCell>
                 {/* <TableCell style={{ width: "15%", textAlign: "center" }}>
-                  <b>Patient Devices</b>
+                  <b>Apt type</b>
                 </TableCell> */}
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Condition Name</b>
@@ -290,24 +330,26 @@ export default function EmailNotify() {
                 .filter((val) => {
                   if (searchTerm === "") {
                     return val;
-                  } else if(
-                      (val.App_Date.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.MRN.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Appointment_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Consent_form_choice.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Patient_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Timing.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                      (val.Slot.toLowerCase().includes(searchTerm.toLowerCase())))
-                  {
+                  } else if (
+                    (val.App_Date.toLowerCase().includes(searchTerm.toLowerCase()))
+                     || (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                      //  || (val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.MRN.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Appointment_Status.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Consent_form_choice.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Patient_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                       || (val.Apttype.toLowerCase().includes(searchTerm.toLowerCase())) 
+                       || (val.Timing.toLowerCase().includes(searchTerm.toLowerCase())) 
+                      // (val.Slot.toLowerCase().includes(searchTerm.toLowerCase()))
+                    
+                  ) {
                     return val;
                   }
                 })
@@ -322,7 +364,7 @@ export default function EmailNotify() {
                       {/* <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.Devices[values]}
+                        {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}
                       </StyledTableCell> */}
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
@@ -349,7 +391,7 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)}
+                        {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>

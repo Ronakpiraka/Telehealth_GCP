@@ -15,6 +15,8 @@ import InputBase from "@material-ui/core/InputBase";
 import "react-toastify/dist/ReactToastify.css";
 import { alpha } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import CallIcon from '@mui/icons-material/Call';
+import EventIcon from '@mui/icons-material/Event';
 import TelegramIcon from "@mui/icons-material/Telegram";
 import emailjs from "@emailjs/browser";
 import { CSpinner } from '@coreui/react'
@@ -270,18 +272,7 @@ export default function EmailNotify() {
         </CBadge>
       );
     }
-    if (Appointment_Status == null) {
-      return (
-        <CBadge
-          color="info"
-          className="mfs-auto"
-          fontSize="22px"
-          align="center"
-        >
-          No return
-        </CBadge>
-      );
-    } else {
+    if (Appointment_Status == "Fulfilled") {
       return (
         <CBadge
           color="success"
@@ -289,7 +280,56 @@ export default function EmailNotify() {
           fontSize="22px"
           align="center"
         >
-          Booked
+          Fulfilled
+        </CBadge>
+      );
+    }
+    if (Appointment_Status == "No-show") {
+      return (
+        <CBadge
+          color="Danger" // red
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          No Show
+        </CBadge>
+      );
+    }
+    if (Appointment_Status == null) {
+      return (
+        <CBadge
+          color="secondary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          No return
+        </CBadge>
+      );
+    } 
+    if (Appointment_Status == "Booked") {
+      return (
+        <CBadge
+          color="primary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+         Booked
+        </CBadge>
+      );
+    } 
+    //info, light are available
+    else { 
+      return (
+        <CBadge
+          color="secondary"//grey
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          error
         </CBadge>
       );
     }
@@ -390,14 +430,17 @@ export default function EmailNotify() {
                   (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  // (val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.MRN.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Appointment_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Consent_form_choice.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Patient_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Timing.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Slot.toLowerCase().includes(searchTerm.toLowerCase()))) {
+                  (val.Apttype.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Timing.toLowerCase().includes(searchTerm.toLowerCase())) 
+                  // || (val.Slot.toLowerCase().includes(searchTerm.toLowerCase()))
+                  ) 
+                  {
                     return val;
                   }
                 })
@@ -429,22 +472,12 @@ export default function EmailNotify() {
                       >
                         <b>{row.App_Date}</b>
                         <br />{row.Timing}:00 hrs 
-                        {/* {slottiming(
-                          row.Time_9_AM_10_AM.toString(),
-                          row.Time_10_AM_11_AM.toString(),
-                          row.Time_11_AM_12_PM.toString(),
-                          row.Time_12_PM_1_PM.toString(),
-                          row.Time_1_PM_2_PM.toString(),
-                          row.Time_2_PM_3_PM.toString(),
-                          row.Time_3_PM_4_PM.toString(),
-                          row.Time_4_PM_5_PM.toString(),
-                          row.App_Date
-                        )} */}
+                        
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)}
+                        {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>

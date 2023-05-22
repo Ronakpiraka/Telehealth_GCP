@@ -412,9 +412,15 @@ export default function Appointment() {
   const calldata = () => {
 
     const today = dayjs().add(1, 'hour').startOf('hour');
-    const Date = today.startOf("day").format("YYYY-MM-DD");
-    const [Hour, selectedMinute] = today.format("HH:mm").split(":"); 
+    let date = today.startOf("day");
+    let hour = today.format("HH:mm").split(":")[0];
 
+    if (hour === "00") {
+        date = date.add(1, 'day');
+    }
+
+    const Date = date.format("YYYY-MM-DD");
+    
     // console.log("hi see the dates here", today, selectedDate, selectedHour);
     const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status == true && row.Devices == localStorage.getItem("devices"));
     localStorage.setItem("selectedDate", Date);
@@ -431,12 +437,14 @@ export default function Appointment() {
     localStorage.setItem("Consent_form_choice", reqdata[0].Consent_form_choice);
     localStorage.setItem("consentValue", reqdata[0].Connected_Care_Status);
     localStorage.setItem("Patient_email", reqdata[0].Patient_email);
-    localStorage.setItem("selectedHour", Hour );//take the next hour
+    localStorage.setItem("selectedHour", hour );//take the next hour
     // localStorage.setItem("selectedSlab", reqdata[0].Slot);
     // localStorage.setItem("Enddate", reqdata[0].New_closure_date);
     localStorage.setItem("platform", reqdata[0].Platform);
 
-    const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + reqdata[0].App_Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
+    const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " on " + Date + " at "+ hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
+    
+    // const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + reqdata[0].App_Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
     return message;
   };
 
@@ -602,7 +610,7 @@ export default function Appointment() {
       var url = `/device/devices`;
     } else {
       // bucketurl();
-      var url = `/records/providers`;
+      var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);
@@ -969,7 +977,7 @@ export default function Appointment() {
                               </LocalizationProvider>
                             </div>
                             <b>{aptdata()}</b><br />
-                            <div>By clicking the submit button your request to change the device subscription end date will be sent.</div>
+                            <div>By clicking the submit button your request to change the device subscription end date will be sent.</div><br/>
                             <button class="btn btn-primary" onClick={senddatechangerequest}>
                               Submit
                             </button>
@@ -992,7 +1000,7 @@ export default function Appointment() {
                               </LocalizationProvider>
                             </div>
                             <b>{aptdata()}</b><br />
-                            <div >By clicking the submit button your request to change the device subscription end date will be sent.</div>
+                            <div >By clicking the submit button your request to change the device subscription end date will be sent.</div><br/>
                             <button class="btn btn-primary" onClick={senddatechangerequest}>
                               Submit
                             </button>
@@ -1001,7 +1009,7 @@ export default function Appointment() {
                         { endDateOpt === "Maybe" && (
                           <div align="center">
                           <b>{calldata()}</b><br />
-                            <div>By clicking the submit button your request to an immediate call with the Practitioner.</div>
+                            <div>By clicking the submit button your request to an immediate call with the Practitioner.</div><br/>
                             <button class="btn btn-primary" onClick={senddata}>
                               Submit
                             </button></div>

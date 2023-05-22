@@ -255,6 +255,7 @@ export default function Consent(props) {
 
     console.log(raw);
 
+    // fetch("https://appointment-test-sh4iojyb3q-uc.a.run.app", requestOptions)
     fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
     // fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((response) => {
@@ -266,62 +267,63 @@ export default function Consent(props) {
       .catch((error) => console.log("error", error));
   };
 
-  const bucketurl = () => {
-    const patientMrn = localStorage.getItem("Patient_MRN");
-    const date = localStorage.getItem("date");
-    const time = localStorage.getItem("timeslot");
-    const practitionerid = localStorage.getItem("practitioner_id");
-    const timeslot = "";
-    if (time === "9 AM - 10 AM") {
-      timeslot = "Time_9_AM_10_AM";
-    }
-    if (time === "10 AM - 11 AM") {
-      timeslot = "Time_10_AM_11_AM";
-    }
-    if (time === "11 AM - 12 PM") {
-      timeslot = "Time_11_AM_12_PM";
-    }
-    if (time === "12 PM - 1 PM") {
-      timeslot = "Time_12_PM_1_PM";
-    }
-    if (time === "1 PM - 2 PM") {
-      timeslot = "Time_1_PM_2_PM";
-    }
-    if (time === "2 PM - 3 PM") {
-      timeslot = "Time_2_PM_3_PM";
-    }
-    if (time === "3 PM - 4 PM") {
-      timeslot = "Time_3_PM_4_PM";
-    }
-    if (time === "4 PM - 5 PM") {
-      timeslot = "Time_4_PM_5_PM";
-    }
+ 
+  // const bucketurl = () => {
+  //   const patientMrn = localStorage.getItem("Patient_MRN");
+  //   const date = localStorage.getItem("date");
+  //   const time = localStorage.getItem("timeslot");
+  //   const practitionerid = localStorage.getItem("practitioner_id");
+  //   const timeslot = "";
+  //   if (time == "9 AM - 10 AM") {
+  //     timeslot = "Time_9_AM_10_AM";
+  //   }
+  //   if (time == "10 AM - 11 AM") {
+  //     timeslot = "Time_10_AM_11_AM";
+  //   }
+  //   if (time == "11 AM - 12 PM") {
+  //     timeslot = "Time_11_AM_12_PM";
+  //   }
+  //   if (time == "12 PM - 1 PM") {
+  //     timeslot = "Time_12_PM_1_PM";
+  //   }
+  //   if (time == "1 PM - 2 PM") {
+  //     timeslot = "Time_1_PM_2_PM";
+  //   }
+  //   if (time == "2 PM - 3 PM") {
+  //     timeslot = "Time_2_PM_3_PM";
+  //   }
+  //   if (time == "3 PM - 4 PM") {
+  //     timeslot = "Time_3_PM_4_PM";
+  //   }
+  //   if (time == "4 PM - 5 PM") {
+  //     timeslot = "Time_4_PM_5_PM";
+  //   }
 
     // url = 'gs://telehealth_ope_patient/patient_patientMRN/appdate_timing_pracid/FHIR.'
-    var bucket =
-      "gs://telehealth_ope_patient/patient_" +
-      patientMrn +
-      "/" +
-      date +
-      "_" +
-      timeslot +
-      "_" +
-      practitionerid;
+  //   var bucket =
+  //     "gs://telehealth_ope_patient/patient_" +
+  //     patientMrn +
+  //     "/" +
+  //     date +
+  //     "_" +
+  //     timeslot +
+  //     "_" +
+  //     practitionerid;
 
-    const OPElink = "";
-    //yet to be given;
-    var url = OPElink + "?url=" + bucket;
-    // var url1 = bucket+ OPElink;
-    console.log(url);
-    return url;
-  };
+  //   const OPElink = "";
+  //   //yet to be given;
+  //   var url = OPElink + "?url=" + bucket;
+  //   // var url1 = bucket+ OPElink;
+  //   console.log(url);
+  //   return url;
+  // };
 
   const redirect = () => {
     // senddata();
     if (sessionStorage.getItem("Patient_name") === null) {
       var url = `/notifications/allappointments`;
     } else {
-      var url = `https://encoded-ensign-380910.uc.r.appspot.com/`;
+      var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
       // bucketurl();
     }
     // var url = `/bookAppointment`;
@@ -356,21 +358,15 @@ export default function Consent(props) {
           <b>Practitioner Name:</b> {localStorage.getItem("practitioner_name")}
           <br />
           <br />
-          <b>Selected Date :</b> {localStorage.getItem("selectedDate")}
+          <b>Selected Date:</b> {localStorage.getItem("selectedDate")}
           <br />
           <br />
-          <b>Selected Time :</b> {localStorage.getItem("selectedHour")} :00 hrs
+          <b>Selected Time:</b> {localStorage.getItem("selectedHour")}:00 hrs
           <br />
           <br />
           <b>Device ID information:</b> {localStorage.getItem("devices")}
           <br />
           <br />
-          {/* <b>New_closure_date : {localStorage.getItem("Enddate")}</b>
-          <br />
-          <br />
-          <b>Platform: {localStorage.getItem("platform")}</b>
-          <br />
-          <br /> */}
           <b>Consent :</b> {localStorage.getItem("Appointment_Statusvalue")}
           <br />
           <br />

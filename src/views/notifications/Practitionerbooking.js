@@ -224,18 +224,16 @@ export default function PractitionerBooking() {
 
   console.log("here is finaldata", finaldata);
 
-  useEffect(() => {
-    // debugger;
-    if (localStorage.getItem('connectedCareValue') === 'Yes') {
-      handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
+  // useEffect(() => {
+   
+  //   if (localStorage.getItem('connectedCareValue') === 'Yes') {
+  //     handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
 
-      // setTimeout(() => {
-      //   console.log("timeout over")
-      // }, 20000);
-      console.log("this is activated", isLoad)
-      // selectpractitioner();
-    }
-  }, []);
+      
+  //     console.log("this is activated", isLoad)
+     
+  //   }
+  // }, []);
 
   // const redirecttoConsent = () => { };
 
