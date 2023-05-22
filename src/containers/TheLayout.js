@@ -8,13 +8,15 @@ import {
 import { useLocation } from "react-router-dom";
 
 const TheLayout = () => {
-  const location = useLocation();
-  let paramString = location.search.split('mabc=')[1];
-  console.log(paramString)
+
+  const name = sessionStorage.getItem('Patient_name')
+  // const location = useLocation();
+  // let paramString = location.search.split('mabc=')[1];
+  console.log(name)
 
   return (
     <div className="c-app c-default-layout">
-      { paramString == undefined && (
+      { name === null && (
          <TheSidebar/>
       )}
       <div className="c-wrapper">

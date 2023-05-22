@@ -33,7 +33,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
-
+import 'react-toastify/dist/ReactToastify.css';
 import CryptoJS from "crypto-js";
 import {
   CCard,
@@ -172,7 +172,7 @@ export default function Appointment() {
   console.log(paramString);
 
   useEffect(() => {
-    if (paramString != undefined) {
+    if (paramString !== undefined) {
       try {
         const secretKey = "hellotelehealth";
 
@@ -210,6 +210,7 @@ export default function Appointment() {
     }
   });
 
+  
   useEffect(() => {
     // if (paramString == undefined) {
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
@@ -717,6 +718,7 @@ export default function Appointment() {
     if (personName !== "" || decryptedName !== "") {
       // Allow user to choose for connected care
       allappointment();
+      criticalpatient();
     } else {
 
       alert("Please select a patient first.");

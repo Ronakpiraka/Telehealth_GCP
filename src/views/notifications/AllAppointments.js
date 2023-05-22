@@ -19,6 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from "@material-ui/icons/Search";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import emailjs from "@emailjs/browser";
+import { CSpinner } from '@coreui/react'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory, useLocation } from "react-router-dom";
@@ -368,7 +369,19 @@ export default function EmailNotify() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <LoadingOverlay
+       {isLoading && 
+      <div style={{textAlign:'center'}}>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="secondary" variant="grow"/>
+        <CSpinner color="success" variant="grow"/>
+        <CSpinner color="danger" variant="grow"/>
+        <CSpinner color="warning" variant="grow"/>
+        <CSpinner color="info" variant="grow"/>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="dark" variant="grow"/>
+      </div>
+      }
+      {/* <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -382,7 +395,7 @@ export default function EmailNotify() {
             },
           }),
         }}
-      ></LoadingOverlay>
+      ></LoadingOverlay> */}
       {/* </Content> */}
     </div>
     // </Layout>

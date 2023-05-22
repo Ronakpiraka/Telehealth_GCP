@@ -24,6 +24,7 @@ import { CBadge } from "@coreui/react";
 import "../records/patients.css";
 import LoadingOverlay from "react-loading-overlay";
 import { CCol, CRow } from "@coreui/react";
+import { CSpinner } from '@coreui/react'
 
 export default function EmailNotify() {
   const useStyles = makeStyles((theme) => ({
@@ -465,7 +466,19 @@ export default function EmailNotify() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <LoadingOverlay
+      {isLoading && 
+      <div style={{textAlign:'center'}}>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="secondary" variant="grow"/>
+        <CSpinner color="success" variant="grow"/>
+        <CSpinner color="danger" variant="grow"/>
+        <CSpinner color="warning" variant="grow"/>
+        <CSpinner color="info" variant="grow"/>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="dark" variant="grow"/>
+      </div>
+      }
+      {/* <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -479,7 +492,7 @@ export default function EmailNotify() {
             },
           }),
         }}
-      ></LoadingOverlay>
+      ></LoadingOverlay> */}
       {/* </Content> */}
     </div>
     // </Layout>

@@ -16,9 +16,9 @@ const TheHeaderDropdown = () => {
 
   let name = sessionStorage.getItem('Patient_name');
 
-  const location = useLocation();
-  let paramString = location.search.split('mabc=')[1];
-  console.log(paramString)  
+  // const location = useLocation();
+  // let paramString = location.search.split('mabc=')[1];
+  // console.log(paramString)  
 
 
   return (
@@ -29,11 +29,11 @@ const TheHeaderDropdown = () => {
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
       <span style={{marginRight:'15px'}}>
-        {paramString && (
+        {name && (
           <b>Welcome {name}</b>
         )}
-        {!paramString && (
-        <b>Welcome Ronak</b>
+        {name === null && (
+        <b>Welcome Steve</b>
         )}
       </span>
         <div className="c-avatar">

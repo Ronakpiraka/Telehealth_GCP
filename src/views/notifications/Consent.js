@@ -187,21 +187,21 @@ export default function Consent(props) {
     const value = event.target.value;
     localStorage.setItem("consentValue", value);
     setConsentValue(value);
-    if (event.target.value == "Do") {
+    if (event.target.value === "Do") {
       localStorage.setItem("Appointment_Status", "Pending");
       localStorage.setItem(
         "Appointment_Statusvalue",
         "You agree and give your consent to share your EHR records with practitioner as well as provider ."
       );
     }
-    if (event.target.value == "Do partial") {
+    if (event.target.value === "Do partial") {
       localStorage.setItem("Appointment_Status", "Pending");
       localStorage.setItem(
         "Appointment_Statusvalue",
         "You agree and give your consent to share your EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment ."
       );
     }
-    if (event.target.value == "Do not") {
+    if (event.target.value === "Do not") {
       localStorage.setItem("Appointment_Status", "Booked");
       localStorage.setItem(
         "Appointment_Statusvalue",
@@ -272,28 +272,28 @@ export default function Consent(props) {
     const time = localStorage.getItem("timeslot");
     const practitionerid = localStorage.getItem("practitioner_id");
     const timeslot = "";
-    if (time == "9 AM - 10 AM") {
+    if (time === "9 AM - 10 AM") {
       timeslot = "Time_9_AM_10_AM";
     }
-    if (time == "10 AM - 11 AM") {
+    if (time === "10 AM - 11 AM") {
       timeslot = "Time_10_AM_11_AM";
     }
-    if (time == "11 AM - 12 PM") {
+    if (time === "11 AM - 12 PM") {
       timeslot = "Time_11_AM_12_PM";
     }
-    if (time == "12 PM - 1 PM") {
+    if (time === "12 PM - 1 PM") {
       timeslot = "Time_12_PM_1_PM";
     }
-    if (time == "1 PM - 2 PM") {
+    if (time === "1 PM - 2 PM") {
       timeslot = "Time_1_PM_2_PM";
     }
-    if (time == "2 PM - 3 PM") {
+    if (time === "2 PM - 3 PM") {
       timeslot = "Time_2_PM_3_PM";
     }
-    if (time == "3 PM - 4 PM") {
+    if (time === "3 PM - 4 PM") {
       timeslot = "Time_3_PM_4_PM";
     }
-    if (time == "4 PM - 5 PM") {
+    if (time === "4 PM - 5 PM") {
       timeslot = "Time_4_PM_5_PM";
     }
 
@@ -318,11 +318,11 @@ export default function Consent(props) {
 
   const redirect = () => {
     // senddata();
-    if (sessionStorage.getItem("Patient_name") == null) {
+    if (sessionStorage.getItem("Patient_name") === null) {
       var url = `/notifications/allappointments`;
     } else {
-      var url = `/records/providers`;
-      bucketurl();
+      var url = `https://encoded-ensign-380910.uc.r.appspot.com/`;
+      // bucketurl();
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);
@@ -431,7 +431,7 @@ export default function Consent(props) {
         <CRow><CCol><FormControlLabel value="No" control={<Radio />} label="No" /></CCol></CRow></CRow>
     </RadioGroup>
     <br/>
-    {connectedCareValue == "Yes" && (
+    {connectedCareValue === "Yes" && (
     <div>
       
     <h4 style={{fontFamily:'sans-serif'}}>Do you have a Medical device?</h4><br/>
@@ -487,7 +487,7 @@ export default function Consent(props) {
                 <FormControlLabel
                   value="Do"
                   control={<Radio />}
-                  disabled={sessionStorage.getItem('Patient_name') == null}
+                  disabled={sessionStorage.getItem('Patient_name') === null}
                   label="I give my consent to share my EHR records with practitioner as well as provider ."
                 />
               </CCol>
@@ -500,7 +500,7 @@ export default function Consent(props) {
                 <FormControlLabel
                   value="Do partial"
                   control={<Radio />}
-                  // disabled={sessionStorage.getItem('Patient_name') == null}
+                  // disabled={sessionStorage.getItem('Patient_name') === null}
                   label="I give my consent to share my EHR records with practitioner as well as provider for a period of 15 days post completion of my appointment . "
                 />
               </CCol>

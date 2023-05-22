@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory, useLocation } from "react-router-dom";
 import { CBadge } from "@coreui/react";
 import "../records/patients.css";
+import { CSpinner } from '@coreui/react'
 import LoadingOverlay from "react-loading-overlay";
 import {
   CCol,
@@ -441,7 +442,19 @@ export default function EmailNotify() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <LoadingOverlay
+       {isLoading && 
+      <div style={{textAlign:'center'}}>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="secondary" variant="grow"/>
+        <CSpinner color="success" variant="grow"/>
+        <CSpinner color="danger" variant="grow"/>
+        <CSpinner color="warning" variant="grow"/>
+        <CSpinner color="info" variant="grow"/>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="dark" variant="grow"/>
+      </div>
+      }
+      {/* <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -455,7 +468,7 @@ export default function EmailNotify() {
             },
           }),
         }}
-      ></LoadingOverlay>
+      ></LoadingOverlay> */}
       {/* </Content> */}
     </div>
     // </Layout>

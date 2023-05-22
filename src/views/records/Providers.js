@@ -14,6 +14,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { alpha } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import LoadingOverlay from 'react-loading-overlay';
+import { CSpinner } from '@coreui/react'
 import "./patients.css"; 
 
 import Prow from './Prow';
@@ -235,7 +236,19 @@ export default function ProviderInform() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <LoadingOverlay
+       {isLoading && 
+      <div style={{textAlign:'center'}}>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="secondary" variant="grow"/>
+        <CSpinner color="success" variant="grow"/>
+        <CSpinner color="danger" variant="grow"/>
+        <CSpinner color="warning" variant="grow"/>
+        <CSpinner color="info" variant="grow"/>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="dark" variant="grow"/>
+      </div>
+      }
+      {/* <LoadingOverlay
 						active={isLoading}
 						spinner
 						text='Loading the content...'
@@ -250,7 +263,7 @@ export default function ProviderInform() {
 							})
 						}}
 					>
-					</LoadingOverlay>
+					</LoadingOverlay> */}
       {/* </Content> */}
     </>
     // </Layout>

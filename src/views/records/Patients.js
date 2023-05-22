@@ -20,6 +20,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import "./patients.css";
+import { CSpinner } from '@coreui/react'
 import ShowModal from './showmodal';
 import { CBadge } from '@coreui/react';
 import LoadingOverlay from 'react-loading-overlay';
@@ -343,7 +344,7 @@ export default function PatientInform() {
           />
         </div>
         {/* <div className='tablewrapper'> */}
-        <TableContainer style={{ maxHeight: 260 }}>
+        <TableContainer style={{ maxHeight: 300 }}>
           {/* <TableContainer> */}
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -430,7 +431,19 @@ export default function PatientInform() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <LoadingOverlay
+      {isLoading && 
+      <div style={{textAlign:'center'}}>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="secondary" variant="grow"/>
+        <CSpinner color="success" variant="grow"/>
+        <CSpinner color="danger" variant="grow"/>
+        <CSpinner color="warning" variant="grow"/>
+        <CSpinner color="info" variant="grow"/>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="dark" variant="grow"/>
+      </div>
+      }
+      {/* <LoadingOverlay
         active={isLoading}
         spinner
         text='Loading the content...'
@@ -445,7 +458,7 @@ export default function PatientInform() {
           })
         }}
       >
-      </LoadingOverlay>
+      </LoadingOverlay> */}
     </>
     // </Layout>
   )

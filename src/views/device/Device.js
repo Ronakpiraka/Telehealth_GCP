@@ -23,6 +23,8 @@ import { Modal, Button } from "react-bootstrap";
 // import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import "../records/patients.css";
 import { OneKPlusOutlined } from "@mui/icons-material";
+import { CSpinner } from '@coreui/react'
+import { CBadge } from "@coreui/react";
 
 export default function Device() {
   const useStyles = makeStyles((theme) => ({
@@ -147,8 +149,31 @@ export default function Device() {
     fetchpatientdata();
   }, []);
 
-  const handleSubmit = () => {
-
+  const riskscore = (Appointment_Status) => {
+    if (Appointment_Status === "Active") {
+      return (
+        <CBadge
+          color="success"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          Active
+        </CBadge>
+      );
+    }
+    else{
+      return (
+        <CBadge
+          color="warning"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          Inactive
+        </CBadge>
+      );
+    }
   };
 
   const handleOpenExtendModal = (endDate) => {
@@ -337,7 +362,7 @@ export default function Device() {
                       {row.Patient_name}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
-                      {row.Status}
+                      {riskscore(row.Status)}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {row.Start_Date}
@@ -388,7 +413,19 @@ export default function Device() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <LoadingOverlay
+       {isLoading && 
+      <div style={{textAlign:'center'}}>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="secondary" variant="grow"/>
+        <CSpinner color="success" variant="grow"/>
+        <CSpinner color="danger" variant="grow"/>
+        <CSpinner color="warning" variant="grow"/>
+        <CSpinner color="info" variant="grow"/>
+        <CSpinner color="primary" variant="grow"/>
+        <CSpinner color="dark" variant="grow"/>
+      </div>
+      }
+      {/* <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -402,7 +439,7 @@ export default function Device() {
             },
           }),
         }}
-      ></LoadingOverlay>
+      ></LoadingOverlay> */}
     </>
     // {/* </Layout> */}
   );
