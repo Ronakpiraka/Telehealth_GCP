@@ -33,7 +33,8 @@ const TheHeaderDropdown = () => {
           <b>Welcome {name}</b>
         )}
         {!paramString && (
-        <b>Welcome Ronak</b>
+        // <b>Welcome {localStorage.getItem("Patient_name")} </b>
+        <b>Welcome Steve </b>
         )}
       </span>
         <div className="c-avatar">
