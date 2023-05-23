@@ -461,7 +461,7 @@ export default function Appointment() {
   
   const handleExtDateChange = (newDate) => {
     const endDatePlus3Months = dayjs(endDate).add(3, 'months');
-    if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months)) {
+    if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months)|| (newDate === endDate)) {
       alert("Please select a date that is greater than enddate (" + endDate + ") and not exceed the 3 months from the end date of your Subscription.");
       setNewDate(null);
     } else {
@@ -474,7 +474,7 @@ export default function Appointment() {
     const minDate = dayjs();
     const maxDate = dayjs(endDate);
 
-    if (newDate.isBefore(minDate) || newDate.isAfter(maxDate)) {
+    if (newDate.isBefore(minDate) || newDate.isAfter(maxDate)|| (newDate === endDate)) {
       alert("Please select a date that is greater than today and not exceed the end date (" + endDate + ") of your Subscription.");
       setNewDate(null);
     } else {
@@ -625,7 +625,7 @@ export default function Appointment() {
       var url = `/notifications/allappointments`;
     } else {
       // bucketurl();
-      var url = `/records/providers`;
+      window.location.href = 'https://encoded-ensign-380910.uc.r.appspot.com/#/';
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);

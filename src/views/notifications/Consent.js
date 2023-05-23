@@ -323,7 +323,8 @@ export default function Consent(props) {
     if (sessionStorage.getItem("Patient_name") === null) {
       var url = `/notifications/allappointments`;
     } else {
-      var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
+      // var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
+      window.location.href = 'https://encoded-ensign-380910.uc.r.appspot.com/#/';
       // bucketurl();
     }
     // var url = `/bookAppointment`;
@@ -376,7 +377,7 @@ export default function Consent(props) {
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Submit data
+            Send Request
           </Button>
         </Modal.Footer>
       </Modal>
@@ -483,7 +484,7 @@ export default function Consent(props) {
                 <FormControlLabel
                   value="Do"
                   control={<Radio />}
-                  disabled={sessionStorage.getItem('Patient_name') === null}
+                  // disabled={sessionStorage.getItem('Patient_name') === null}
                   label="I give my consent to share my EHR records with practitioner as well as provider ."
                 />
               </CCol>

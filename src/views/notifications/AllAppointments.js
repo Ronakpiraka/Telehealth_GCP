@@ -139,7 +139,15 @@ export default function EmailNotify() {
       try {
         const response = await fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
         const data = await response.json();
-        setdata(data);
+
+        const sortedData = data.sort((a, b) => {
+          const dateA = new Date(a.App_Date);
+          const dateB = new Date(b.App_Date);
+          return dateB - dateA;
+        });
+  
+        setdata(sortedData);
+        // setdata(data);
         console.log(data);
         setisLoading(false);
       } catch (error) {
@@ -304,9 +312,9 @@ export default function EmailNotify() {
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Patient Name</b>
                 </TableCell>
-                {/* <TableCell style={{ width: "15%", textAlign: "center" }}>
-                  <b>Apt type</b>
-                </TableCell> */}
+                <TableCell style={{ width: "15%", textAlign: "center" }}>
+                  <b>MRN</b>
+                </TableCell>
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Condition Name</b>
                 </TableCell>
@@ -321,6 +329,9 @@ export default function EmailNotify() {
                 </TableCell>
                 <TableCell style={{ width: "10%", textAlign: "center" }}>
                   <b>Status</b>
+                </TableCell>
+                <TableCell style={{ width: "10%", textAlign: "center" }}>
+                  <b>Documents</b>
                 </TableCell>
                 {/* <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell> */}
               </TableRow>
@@ -361,11 +372,12 @@ export default function EmailNotify() {
                       >
                         {row.Patient_name}
                       </StyledTableCell>
-                      {/* <StyledTableCell
+                      <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}
-                      </StyledTableCell> */}
+                        {row.MRN}
+                        {/* {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />} */}
+                      </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
@@ -391,7 +403,13 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}
+                        {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
+                        {row.Connected_Care_Status === true ? "CC" : "NC"}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{ textAlign: "center", width: "10%" }}
+                      >
+                        {riskscore(row.Appointment_Status)} 
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>
