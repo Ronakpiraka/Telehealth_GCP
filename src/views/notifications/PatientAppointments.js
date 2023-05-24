@@ -98,33 +98,12 @@ export default function EmailNotify(props) {
 
   const data = props.data;
   console.log("PA Data", data);
-
-  // const [data, setdata] = React.useState([]);
-  // const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState("");
   const [page, setpage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   // const [ordPlaced, setordPlaced] = React.useState(5);
   const classes = useStyles();
-  // const history = useHistory();
-  // const [isLoading, setisLoading] = useState(true);
-  // const { Header, Sider, Content } = Layout;
-  // const { Search } = Input;
-
-  // useEffect(() => {
-  //   const res = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
-  //     method: "GET",
-  //   })
-  //     .then((resp) => resp.json())
-  //     .then((resp) => {
-  //       setdata(resp);
-  //       console.log(data);
-  //       setisLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+  
 
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -135,70 +114,9 @@ export default function EmailNotify(props) {
     setpage(0);
   };
 
-
-  // const slottiming = (
-  //   Time_9_AM_10_AM,
-  //   Time_10_AM_11_AM,
-  //   Time_11_AM_12_PM,
-  //   Time_12_PM_1_PM,
-  //   Time_1_PM_2_PM,
-  //   Time_2_PM_3_PM,
-  //   Time_3_PM_4_PM,
-  //   Time_4_PM_5_PM
-  // ) => {
-  //   if (Time_9_AM_10_AM === "true") {
-  //     return "9 AM - 10 AM";
-  //   } else if (Time_10_AM_11_AM === "true") {
-  //     return "10 AM - 11 AM";
-  //   } else if (Time_11_AM_12_PM === "true") {
-  //     return "11 AM - 12 PM";
-  //   } else if (Time_12_PM_1_PM === "true") {
-  //     return "12 PM - 1 PM";
-  //   } else if (Time_1_PM_2_PM === "true") {
-  //     return "1 PM - 2 PM";
-  //   } else if (Time_2_PM_3_PM === "true") {
-  //     return "2 PM - 3 PM";
-  //   } else if (Time_3_PM_4_PM === "true") {
-  //     return "3 PM - 4 PM";
-  //   } else if (Time_4_PM_5_PM === "true") {
-  //     return "4 PM - 5 PM";
-  //   }
-  // };
-
-  // const sortedData = data.sort((a, b) => {
-  //   const dateA = new Date(a.App_Date);
-  //   const dateB = new Date(b.App_Date);
-  //   if (dateA < dateB) {
-  //     return 1;
-  //   }
-  //   if (dateA > dateB) {
-  //     return -1;
-  //   }
-
-  //   const slotA = slottiming(
-  //     a.Timing,
-  //     a.App
-  //   );
-  //   const slotB = slottiming(
-  //     b.Timing,
-  //     b.App_Date
-  //   );
-  //   if (slotA < slotB) {
-  //     return 1;
-  //   }
-  //   if (slotA > slotB) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-
-  // const today = new Date();
   const filteredData = data.filter((row) => {
     const mrnNo = localStorage.getItem('Patient_MRN');
     const condition = localStorage.getItem('condition_name');
-    // console.log(row['MRN'],row['Condition_name'],mrnNo,condition,'hiiiiiiiiiiiiiiiiiiiiiiiiiiii')
-    // const appDate = new Date(row.App_Date);
-    // return appDate >= today || appDate.toDateString() === today.toDateString(); // only include appointments with today's date or later
     return row['MRN'] === mrnNo && row['Condition_name'] === condition ;
   });
 
@@ -215,18 +133,7 @@ export default function EmailNotify(props) {
         </CBadge>
       );
     }
-    if (Appointment_Status == null) {
-      return (
-        <CBadge
-          color="info"
-          className="mfs-auto"
-          fontSize="22px"
-          align="center"
-        >
-          No return
-        </CBadge>
-      );
-    } else {
+    if (Appointment_Status == "Fulfilled") {
       return (
         <CBadge
           color="success"
@@ -234,11 +141,61 @@ export default function EmailNotify(props) {
           fontSize="22px"
           align="center"
         >
-          Booked
+          Fulfilled
+        </CBadge>
+      );
+    }
+    if (Appointment_Status == "No-show") {
+      return (
+        <CBadge
+          color="Danger" // red
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          No Show
+        </CBadge>
+      );
+    }
+    if (Appointment_Status == null) {
+      return (
+        <CBadge
+          color="secondary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          No return
+        </CBadge>
+      );
+    } 
+    if (Appointment_Status == "Booked") {
+      return (
+        <CBadge
+          color="primary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+         Booked
+        </CBadge>
+      );
+    } 
+    //info, light are available
+    else { 
+      return (
+        <CBadge
+          color="secondary"//grey
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          error
         </CBadge>
       );
     }
   };
+
 
   if (filteredData.length === 0) {
     return null;

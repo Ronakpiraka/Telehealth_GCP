@@ -580,7 +580,8 @@ export default function Appointment() {
       Enddate: localStorage.getItem("oldenddate"), 
       New_closure_date : localStorage.getItem("Enddate"),
       Patient_email: localStorage.getItem("Patient_email"),
-      Practitioner_email: localStorage.getItem("PracEmail"),
+      // Practitioner_email: localStorage.getItem("PracEmail"),
+      practitioner_email: 'telehealthgcppractitioner@gmail.com',
     };
 
     var requestOptions = {

@@ -113,18 +113,33 @@ export default function EmailNotify() {
   const { Search } = Input;
 
   useEffect(() => {
-    const res = fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
-      method: "GET",
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setdata(resp);
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
+        const data = await response.json();
+        
+        const sortedData = data.sort((a, b) => {
+          const dateA = new Date(a.App_Date);
+          const dateB = new Date(b.App_Date);
+  
+          if (dateB - dateA === 0) {
+            // If App_Date is the same, sort based on Timing (descending order)
+            return b.Timing - a.Timing;
+          } else {
+            // Sort based on App_Date (ascending order)
+            return dateB - dateA;
+          }
+        });
+  
+        setdata(sortedData);
+        // setdata(data);
         console.log(data);
         setisLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
-      });
+      }
+    };
+    fetchData();
   }, []);
 
   const handleChangePage = (event, newPage) => {
@@ -141,75 +156,7 @@ export default function EmailNotify() {
     history.push(`${url}`);
   };
 
-  // const slottiming = (
-  //   Time_9_AM_10_AM,
-  //   Time_10_AM_11_AM,
-  //   Time_11_AM_12_PM,
-  //   Time_12_PM_1_PM,
-  //   Time_1_PM_2_PM,
-  //   Time_2_PM_3_PM,
-  //   Time_3_PM_4_PM,
-  //   Time_4_PM_5_PM
-  // ) => {
-  //   if (Time_9_AM_10_AM === "true") {
-  //     return "9 AM - 10 AM";
-  //   } else if (Time_10_AM_11_AM === "true") {
-  //     return "10 AM - 11 AM";
-  //   } else if (Time_11_AM_12_PM === "true") {
-  //     return "11 AM - 12 PM";
-  //   } else if (Time_12_PM_1_PM === "true") {
-  //     return "12 PM - 1 PM";
-  //   } else if (Time_1_PM_2_PM === "true") {
-  //     return "1 PM - 2 PM";
-  //   } else if (Time_2_PM_3_PM === "true") {
-  //     return "2 PM - 3 PM";
-  //   } else if (Time_3_PM_4_PM === "true") {
-  //     return "3 PM - 4 PM";
-  //   } else if (Time_4_PM_5_PM === "true") {
-  //     return "4 PM - 5 PM";
-  //   }
-  // };
 
-  // const sortedData = data.sort((a, b) => {
-  //   const dateA = new Date(a.App_Date);
-  //   const dateB = new Date(b.App_Date);
-  //   if (dateA < dateB) {
-  //     return -1;
-  //   }
-  //   if (dateA > dateB) {
-  //     return 1;
-  //   }
-
-  //   const slotA = slottiming(
-  //     a.Time_9_AM_10_AM.toString(),
-  //     a.Time_10_AM_11_AM.toString(),
-  //     a.Time_11_AM_12_PM.toString(),
-  //     a.Time_12_PM_1_PM.toString(),
-  //     a.Time_1_PM_2_PM.toString(),
-  //     a.Time_2_PM_3_PM.toString(),
-  //     a.Time_3_PM_4_PM.toString(),
-  //     a.Time_4_PM_5_PM.toString(),
-  //     a.App_Date
-  //   );
-  //   const slotB = slottiming(
-  //     b.Time_9_AM_10_AM.toString(),
-  //     b.Time_10_AM_11_AM.toString(),
-  //     b.Time_11_AM_12_PM.toString(),
-  //     b.Time_12_PM_1_PM.toString(),
-  //     b.Time_1_PM_2_PM.toString(),
-  //     b.Time_2_PM_3_PM.toString(),
-  //     b.Time_3_PM_4_PM.toString(),
-  //     b.Time_4_PM_5_PM.toString(),
-  //     b.App_Date
-  //   );
-  //   if (slotA < slotB) {
-  //     return -1;
-  //   }
-  //   if (slotA > slotB) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
 
   const today = new Date();
   const filteredData = data.filter((row) => {
@@ -400,6 +347,9 @@ export default function EmailNotify() {
                   <b>Patient Name</b>
                 </TableCell>
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
+                  <b>MRN</b>
+                </TableCell>
+                <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Condition Name</b>
                 </TableCell>
                 <TableCell style={{ width: "30%", textAlign: "center" }}>
@@ -413,6 +363,9 @@ export default function EmailNotify() {
                 </TableCell>
                 <TableCell style={{ width: "10%", textAlign: "center" }}>
                   <b>Status</b>
+                </TableCell>
+                <TableCell style={{ width: "10%", textAlign: "center" }}>
+                  <b>Documents</b>
                 </TableCell>
                 {/* <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell> */}
               </TableRow>
@@ -455,6 +408,11 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
+                        {row.MRN}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{ textAlign: "center", width: "15%" }}
+                      >
                         {row.Condition_name}
                       </StyledTableCell>
                       <StyledTableCell
@@ -477,7 +435,13 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}
+                        {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
+                        {row.Connected_Care_Status === true ? "CC" : "NC"}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        style={{ textAlign: "center", width: "10%" }}
+                      >
+                        {riskscore(row.Appointment_Status)} 
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>

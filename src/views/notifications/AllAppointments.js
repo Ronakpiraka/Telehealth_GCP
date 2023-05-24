@@ -139,11 +139,18 @@ export default function EmailNotify() {
       try {
         const response = await fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
         const data = await response.json();
-
+        
         const sortedData = data.sort((a, b) => {
           const dateA = new Date(a.App_Date);
           const dateB = new Date(b.App_Date);
-          return dateB - dateA;
+  
+          if (dateB - dateA === 0) {
+            // If App_Date is the same, sort based on Timing (descending order)
+            return b.Timing - a.Timing;
+          } else {
+            // Sort based on App_Date (ascending order)
+            return dateB - dateA;
+          }
         });
   
         setdata(sortedData);
@@ -184,7 +191,7 @@ export default function EmailNotify() {
           fontSize="22px"
           align="center"
         >
-          Pending
+          -----
         </CBadge>
       );
     }
@@ -376,7 +383,6 @@ export default function EmailNotify() {
                         style={{ textAlign: "center", width: "15%" }}
                       >
                         {row.MRN}
-                        {/* {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />} */}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
@@ -404,7 +410,7 @@ export default function EmailNotify() {
                         style={{ textAlign: "center", width: "10%" }}
                       >
                         {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
-                        {row.Connected_Care_Status === true ? "CC" : "NC"}
+                        {row.Connected_Care_Status === true ? "Vitals Tracked" : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}

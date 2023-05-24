@@ -177,10 +177,7 @@ export default function Consent(props) {
     {
       localStorage.setItem('platform', 'OPE')
     }
-    // else
-    // {
-    //   localStorage.setItem('platform', '')
-    // }
+    
   }
 
   const handleConsentChange = (event) => {
@@ -231,7 +228,8 @@ export default function Consent(props) {
       Practitioner_id: localStorage.getItem("practitioner_id"),
       Practitioner_name: localStorage.getItem("practitioner_name"),
       Practitioner_Speciality: localStorage.getItem("practitioner_speciality"),
-      practitioner_email: localStorage.getItem("practitioner_email"),
+      // practitioner_email: localStorage.getItem("practitioner_email"),
+      practitioner_email: 'telehealthgcppractitioner@gmail.com',
       MRN: localStorage.getItem("Patient_MRN"),
       provider_contact_number: localStorage.getItem("provider_contact_number"),
       Appointment_Status: localStorage.getItem("Appointment_Status"),
@@ -255,7 +253,6 @@ export default function Consent(props) {
 
     console.log(raw);
 
-    // fetch("https://appointment-test-sh4iojyb3q-uc.a.run.app", requestOptions)
     fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
     // fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((response) => {
@@ -323,8 +320,7 @@ export default function Consent(props) {
     if (sessionStorage.getItem("Patient_name") === null) {
       var url = `/notifications/allappointments`;
     } else {
-      // var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
-      window.location.href = 'https://encoded-ensign-380910.uc.r.appspot.com/#/';
+      var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
       // bucketurl();
     }
     // var url = `/bookAppointment`;
@@ -377,7 +373,7 @@ export default function Consent(props) {
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Send Request
+            Send
           </Button>
         </Modal.Footer>
       </Modal>
