@@ -7,7 +7,8 @@ const Providers = React.lazy(() => import('./views/records/Providers'));
 const PatientDetails = React.lazy(() => import('./views/records/PatientDetails'));
 const Reports = React.lazy(() => import('./views/reports/Reports.js'));
 const Insights = React.lazy(() => import('./views/insights/continuous'));
-// const Login = React.lazy(() => import('../src/containers/Userlogin'));
+const Login = React.lazy(() => import('../src/containers/Userlogin'));
+const Logout = React.lazy(() => import('../src/containers/logout'));
 const Continuous = React.lazy(() => import('./views/insights/continuousFrame'));
 const Preventive = React.lazy(() => import('./views/insights/preventiveFrame'));
 const ProviderInsights = React.lazy(() => import('./views/reports/ProviderInsights'));
@@ -32,7 +33,8 @@ const CriticalPractitionerbookings = React.lazy(()=> import('./views/notificatio
 // const Modal = React.lazy(() => import('./views/records/modal.js'));
 const Consent = React.lazy(()=> import('./views/notifications/Consent'));
 const routes = [
-  // { path: '/login', name: 'Login', component: Login },
+  
+  { path: '/logout', name: 'Logout', component: Logout },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/records/patients', name: 'Patients', component: Patients, exact: true },
   { path: '/records/cpatients', name: 'CPatients', component: CPatients, exact: true },

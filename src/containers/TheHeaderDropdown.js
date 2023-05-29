@@ -10,11 +10,15 @@ import {
 import CIcon from '@coreui/icons-react'
 import Avatar from '@material-ui/core/Avatar';
 import img from './1.jpg'
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import Appointment from '../views/notifications/appointments'
+import Logout from './logout'
 
-const TheHeaderDropdown = () => {
-
+const TheHeaderDropdown = (props) => {
+  const Authenticated = sessionStorage.getItem('IsAuthenticated')
+  console.log("HD", Authenticated)
   let name = sessionStorage.getItem('Patient_name');
+  
 
   // const location = useLocation();
   // let paramString = location.search.split('mabc=')[1];
@@ -29,12 +33,18 @@ const TheHeaderDropdown = () => {
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
       <span style={{marginRight:'15px'}}>
-        {name && (
+        {/* {name && (
           <b>Welcome {name}</b>
-        )}
-        {name === null && (
-        <b>Welcome Steve</b>
-        )}
+        )} */}
+        {/* <Appointment decryptedName={handlevariable}/> */}
+        {Authenticated && name === null ? 
+        <b>Welcome Admin</b>
+        :
+        name !== null ? 
+        <b>Welcome {name}</b>
+        :
+        <b>Welcome Guest</b>
+        }
       </span>
         <div className="c-avatar">
         <Avatar alt="Remy Sharp" src={img} />
@@ -51,7 +61,7 @@ const TheHeaderDropdown = () => {
         </CDropdownItem>
         <CDropdownItem>
           <CIcon name="cil-bell" className="mfe-2" />
-          Logout
+          <Logout/>
         </CDropdownItem>
         <CDropdownItem
           header

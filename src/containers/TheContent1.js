@@ -4,10 +4,10 @@ import {
   Route,
   Switch
 } from 'react-router-dom'
-import { CContainer, CFade } from '@coreui/react'
+import { CContainer, CFade } from '@coreui/react';
 
 // routes config
-import routes from '../routes'
+import routes from '../UnAuthRoute'
   
 const loading = (
   <div className="pt-3 text-center">
@@ -16,6 +16,7 @@ const loading = (
 )
 
 const TheContent = () => {  
+  
   return (
     <main className="c-main">
       <CContainer fluid>
@@ -35,7 +36,7 @@ const TheContent = () => {
                 )} />
                 )
             })}
-            <Redirect from="/" to="/dashboard" />
+            <Redirect from="/" to="/login" />
           </Switch>
         </Suspense>
       </CContainer>

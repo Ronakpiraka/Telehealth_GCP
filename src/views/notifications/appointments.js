@@ -611,7 +611,7 @@ export default function Appointment() {
       var url = `/device/devices`;
     } else {
       // bucketurl();
-      var url = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
+      window.location.href = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);
