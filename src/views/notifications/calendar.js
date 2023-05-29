@@ -29,8 +29,8 @@ export default function Calender() {
                 const events = data.map(event => ({
                     Id: event.Patient_id,
                     Subject: 'Online meeting with Practitioner ' + event.Practitioner_name,
-                    StartTime: new Date(parseInt(modifydate(event.App_Date, 'year')), parseInt(modifydate(event.App_Date, 'month')), parseInt(modifydate(event.App_Date, 'date')), parseInt(event.Timing), 0),
-                    EndTime: new Date(parseInt(modifydate(event.App_Date,'year')),parseInt(modifydate(event.App_Date,'month')),parseInt(modifydate(event.App_Date,'date')),parseInt(event.Timing)+1,0),
+                    StartTime: new Date(parseInt(modifydate(event.App_Date, 'year')), parseInt(modifydate(event.App_Date, 'month'))-1, parseInt(modifydate(event.App_Date, 'date')), parseInt(event.Timing), 0),
+                    EndTime: new Date(parseInt(modifydate(event.App_Date,'year')),parseInt(modifydate(event.App_Date,'month'))-1,parseInt(modifydate(event.App_Date,'date')),parseInt(event.Timing)+1,0),
                     Status: 'Incomplete',
                     Priority: 'High',
                     Location: "https://meet.google.com/ypu-vavo-riu",
