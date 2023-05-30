@@ -102,6 +102,7 @@ export default function EmailNotify() {
   }))(TableRow);
 
   const [data, setdata] = React.useState([]);
+  const [opepatientdata,setopepatientdata] = useState([]);
   const [filter, setFilter] = useState('');
   const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState("");
@@ -162,6 +163,7 @@ export default function EmailNotify() {
       }
     };
     fetchData();
+    patientope();
   }, []);
 
   const handleFilterChange = (event) => {
@@ -177,6 +179,31 @@ export default function EmailNotify() {
     setpage(0);
   };
 
+  const patientope = () => {
+    fetch("https://opepatientdata-sh4iojyb3q-uc.a.run.app")
+    .then((response) => response.json())
+    .then((opedata) => {
+      setopepatientdata(opedata);
+      console.log("ope wala data", opedata);
+    })
+    .catch((error) => {
+      console.error(error);
+      setopepatientdata([]);
+    });
+  };
+  
+  const checkpatientope = (MRN) => {
+  
+    let opepatient = 0;
+  
+    for (let i = 0; i < opepatientdata.length; i++) {
+      if (opepatientdata[i].MRN_number === MRN) {
+        opepatient = 1;
+        break;
+      }
+    }
+    return opepatient;
+  } 
   const senddata = (name, doctor, guardian_email) => {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
@@ -394,7 +421,8 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.MRN}
+                        {row.MRN}<br/>
+                        {checkpatientope(row.MRN) === 1 ? <b>(OPE patient)</b> : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}

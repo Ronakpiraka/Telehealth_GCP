@@ -115,6 +115,7 @@ export default function Device() {
   const [endDate, setEndDate] = useState(null);
   const [openClosureModal, setOpenClosureModal] = useState(false);
   const [closureDate, setClosureDate] = useState(null);
+  const [opepatientdata,setopepatientdata] = useState([]);
 
   const classes = useStyles();
 
@@ -147,6 +148,7 @@ export default function Device() {
 
   useEffect(() => {
     fetchpatientdata();
+    patientope();
   }, []);
 
   const riskscore = (Appointment_Status) => {
@@ -176,6 +178,31 @@ export default function Device() {
     }
   };
 
+  const patientope = () => {
+    fetch("https://opepatientdata-sh4iojyb3q-uc.a.run.app")
+    .then((response) => response.json())
+    .then((opedata) => {
+      setopepatientdata(opedata);
+      console.log("ope wala data", opedata);
+    })
+    .catch((error) => {
+      console.error(error);
+      setopepatientdata([]);
+    });
+  };
+  
+  const checkpatientope = (MRN) => {
+  
+    let opepatient = 0;
+  
+    for (let i = 0; i < opepatientdata.length; i++) {
+      if (opepatientdata[i].MRN_number === MRN) {
+        opepatient = 1;
+        break;
+      }
+    }
+    return opepatient;
+  } 
   const handleOpenExtendModal = (endDate) => {
     console.log("inside of Extend modal ", endDate)
     setExtendDate(null); // Reset previous selected date
@@ -357,6 +384,7 @@ export default function Device() {
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {row.Patient_MRN}
+                      {checkpatientope(row.Patient_MRN) === 1 ? <b>(OPE)</b> : ""}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {row.Patient_name}

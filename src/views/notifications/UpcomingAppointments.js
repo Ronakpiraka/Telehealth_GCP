@@ -101,6 +101,7 @@ export default function EmailNotify() {
 
   const [data, setdata] = React.useState([]);
   const [collapsed, setcollapsed] = React.useState(false);
+  const [opepatientdata,setopepatientdata] = useState([]);
   const [searchTerm, setsearchTerm] = React.useState("");
   const [page, setpage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -140,6 +141,7 @@ export default function EmailNotify() {
       }
     };
     fetchData();
+    patientope();
   }, []);
 
   const handleChangePage = (event, newPage) => {
@@ -156,7 +158,31 @@ export default function EmailNotify() {
     history.push(`${url}`);
   };
 
- 
+  const patientope = () => {
+    fetch("https://opepatientdata-sh4iojyb3q-uc.a.run.app")
+    .then((response) => response.json())
+    .then((opedata) => {
+      setopepatientdata(opedata);
+      console.log("ope wala data", opedata);
+    })
+    .catch((error) => {
+      console.error(error);
+      setopepatientdata([]);
+    });
+  };
+  
+  const checkpatientope = (MRN) => {
+  
+    let opepatient = 0;
+  
+    for (let i = 0; i < opepatientdata.length; i++) {
+      if (opepatientdata[i].MRN_number === MRN) {
+        opepatient = 1;
+        break;
+      }
+    }
+    return opepatient;
+  };
 
   const today = new Date();
   const filteredData = data.filter((row) => {
@@ -210,12 +236,24 @@ export default function EmailNotify() {
     if (Appointment_Status === "Pending") {
       return (
         <CBadge
+          color="primary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          Booked
+        </CBadge>
+      );
+    }
+    if (Appointment_Status === "No show") {
+      return (
+        <CBadge
           color="warning"
           className="mfs-auto"
           fontSize="22px"
           align="center"
         >
-          Pending
+          No-Show
         </CBadge>
       );
     }
@@ -408,7 +446,8 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.MRN}
+                        {row.MRN}<br/>
+                        {checkpatientope(row.MRN) === 1 ? <b>(OPE patient)</b> : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
