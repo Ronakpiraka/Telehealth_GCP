@@ -413,7 +413,7 @@ export default function Device() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-       {isLoading && 
+       {/* {isLoading && 
       <div style={{textAlign:'center'}}>
         <CSpinner color="primary" variant="grow"/>
         <CSpinner color="secondary" variant="grow"/>
@@ -424,8 +424,8 @@ export default function Device() {
         <CSpinner color="primary" variant="grow"/>
         <CSpinner color="dark" variant="grow"/>
       </div>
-      }
-      {/* <LoadingOverlay
+      } */}
+      <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -439,7 +439,7 @@ export default function Device() {
             },
           }),
         }}
-      ></LoadingOverlay> */}
+      ></LoadingOverlay>
     </>
     // {/* </Layout> */}
   );

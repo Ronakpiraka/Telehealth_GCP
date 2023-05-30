@@ -461,7 +461,7 @@ export default function EmailNotify() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      {isLoading && 
+      {/* {isLoading && 
       <div style={{textAlign:'center'}}>
         <CSpinner color="primary" variant="grow"/>
         <CSpinner color="secondary" variant="grow"/>
@@ -472,8 +472,8 @@ export default function EmailNotify() {
         <CSpinner color="primary" variant="grow"/>
         <CSpinner color="dark" variant="grow"/>
       </div>
-      }
-      {/* <LoadingOverlay
+      } */}
+      <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -487,7 +487,7 @@ export default function EmailNotify() {
             },
           }),
         }}
-      ></LoadingOverlay> */}
+      ></LoadingOverlay>
       {/* </Content> */}
     </div>
     // </Layout>
