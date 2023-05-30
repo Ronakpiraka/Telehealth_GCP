@@ -128,7 +128,7 @@ export default function Appointment() {
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
   const [PatientName, setPatientName] = React.useState("");
-
+  const [opepatient, setopepatient] = React.useState("");
   const [vitatrac, setvitatrac] = React.useState("");
   const [Patient_id, setPatient_id] = React.useState("");
   const [personName, setPersonName] = React.useState("");
@@ -146,7 +146,7 @@ export default function Appointment() {
   const [newDate, setNewDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [consentgiven, setconsentgiven] = useState("");
-  
+
   const [endDateOpt, setEndDateOpt] = useState("");
 
   const [showModal, setShowModal] = useState(false);
@@ -203,6 +203,7 @@ export default function Appointment() {
         localStorage.setItem("Patient_name", decryptedName);
         sessionStorage.setItem("Patient_name", decryptedName);
         localStorage.setItem("Patient_MRN", decryptedMRN);
+        checkpatientope(decryptedMRN);
         localStorage.setItem("Patient_email", decryptedEmail);
       } catch (err) {
         console.log(err);
@@ -210,7 +211,7 @@ export default function Appointment() {
     }
   });
 
-  
+
   useEffect(() => {
     // if (paramString == undefined) {
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
@@ -303,8 +304,32 @@ export default function Appointment() {
     localStorage.setItem("Patient_MRN", selectedPatientData[0].Medical_Record_Number);
     localStorage.setItem("Patient_email", "telehealthgcp@gmail.com");
     criticalpatient();
+    checkpatientope(selectedPatientData[0].Medical_Record_Number);
     // localStorage.removeItem('condition_name');
 
+  };
+
+  const checkpatientope = (mrnno) => {
+    // const mrnno = localStorage.getItem('Patient_MRN');
+    fetch("https://opepatientdata-sh4iojyb3q-uc.a.run.app")
+      .then((response) => response.json())
+      .then((opedata) => {
+        let opepatient = 'false';
+        localStorage.setItem('platform', 'TELE')
+        for (let i = 0; i < opedata.length; i++) {
+          if (opedata[i].MRN_number === mrnno) {
+            opepatient = 'true';
+            localStorage.setItem('platform', 'OPE')
+            break;
+          }
+        }
+        setopepatient(opepatient)
+        localStorage.setItem('patientstatus', opepatient);
+        console.log("is the patient from ope:", opepatient);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const criticalpatient = () => {
@@ -312,9 +337,7 @@ export default function Appointment() {
     fetch("https://device-data-sh4iojyb3q-uc.a.run.app")
       .then((response) => response.json())
       .then((cricdata) => {
-        // console.log("cricdata:", cricdata);
         let vitatrack = 'false';
-
         for (let i = 0; i < cricdata.length; i++) {
           if (cricdata[i].Patient_MRN === mrnno && cricdata[i].Status === "Active") {
             vitatrack = 'true';
@@ -328,7 +351,7 @@ export default function Appointment() {
         }
         setvitatrac(vitatrack)
         console.log("is the patient vitally tracked:", vitatrack);
-        console.log("vitatrac", vitatrac);
+
       })
       .catch((error) => {
         console.error(error);
@@ -416,11 +439,11 @@ export default function Appointment() {
     let hour = today.format("HH:mm").split(":")[0];
 
     if (hour === "00") {
-        date = date.add(1, 'day');
+      date = date.add(1, 'day');
     }
 
     const Date = date.format("YYYY-MM-DD");
-    
+
     // console.log("hi see the dates here", today, selectedDate, selectedHour);
     const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status == true && row.Devices == localStorage.getItem("devices"));
     localStorage.setItem("selectedDate", Date);
@@ -437,31 +460,31 @@ export default function Appointment() {
     localStorage.setItem("Consent_form_choice", reqdata[0].Consent_form_choice);
     localStorage.setItem("consentValue", reqdata[0].Connected_Care_Status);
     localStorage.setItem("Patient_email", reqdata[0].Patient_email);
-    localStorage.setItem("selectedHour", hour );//take the next hour
+    localStorage.setItem("selectedHour", hour);//take the next hour
     // localStorage.setItem("selectedSlab", reqdata[0].Slot);
     // localStorage.setItem("Enddate", reqdata[0].New_closure_date);
     localStorage.setItem("platform", reqdata[0].Platform);
 
-    const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " on " + Date + " at "+ hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
-    
+    const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " on " + Date + " at " + hour + ":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. "
+
     // const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + reqdata[0].App_Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
     return message;
   };
 
   const aptdata = () => {
-   
+
     const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status == true && row.Devices == localStorage.getItem("devices"));
     localStorage.setItem("Appdate", reqdata[0].App_Date);
     localStorage.setItem("PracEmail", reqdata[0].practitioner_email);
-    const message = localStorage.getItem("Patient_name") + " have this device assigned by " + reqdata[0].Practitioner_name + " on " + reqdata[0].App_Date + " for tracking your vitals for " + reqdata[0].Condition_name + ". Do you wish to change the device subscription end date to " + localStorage.getItem("Enddate") + ". We will share the changed date over mail to "+ localStorage.getItem("Patient_name")+" and "+ reqdata[0].Practitioner_name+ ". " +localStorage.getItem("Patient_name")+ " will share his records with practitioner during the visit."
+    const message = localStorage.getItem("Patient_name") + " have this device assigned by " + reqdata[0].Practitioner_name + " on " + reqdata[0].App_Date + " for tracking your vitals for " + reqdata[0].Condition_name + ". Do you wish to change the device subscription end date to " + localStorage.getItem("Enddate") + ". We will share the changed date over mail to " + localStorage.getItem("Patient_name") + " and " + reqdata[0].Practitioner_name + ". " + localStorage.getItem("Patient_name") + " will share his records with practitioner during the visit."
     console.log("hi requiredata is here", reqdata, "mrn from ls", localStorage.getItem("Patient_MRN"), "device id", localStorage.getItem('devices'))
     console.log(message)
     return message;
   };
-  
+
   const handleExtDateChange = (newDate) => {
     const endDatePlus3Months = dayjs(endDate).add(3, 'months');
-    if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months)|| (newDate === endDate)) {
+    if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months) || (newDate === endDate)) {
       alert("Please select a date that is greater than enddate (" + endDate + ") and not exceed the 3 months from the end date of your Subscription.");
       setNewDate(null);
     } else {
@@ -474,7 +497,7 @@ export default function Appointment() {
     const minDate = dayjs();
     const maxDate = dayjs(endDate);
 
-    if (newDate.isBefore(minDate) || newDate.isAfter(maxDate)|| (newDate === endDate)) {
+    if (newDate.isBefore(minDate) || newDate.isAfter(maxDate) || (newDate === endDate)) {
       alert("Please select a date that is greater than today and not exceed the end date (" + endDate + ") of your Subscription.");
       setNewDate(null);
     } else {
@@ -506,15 +529,15 @@ export default function Appointment() {
   //     localStorage.setItem('devices', '');
   //     localStorage.removeItem('EndDate');
   //   }
-    // else{
-    //   if(vitatrac === 'false'){
-    //     localStorage.setItem('devices', assignNewDeviceIdAndShare())
-    //   }
-    //   else 
-    //   {
-    //     localStorage.setItem('devices',{deviceIdValue})
-    //   }
-    // }
+  // else{
+  //   if(vitatrac === 'false'){
+  //     localStorage.setItem('devices', assignNewDeviceIdAndShare())
+  //   }
+  //   else 
+  //   {
+  //     localStorage.setItem('devices',{deviceIdValue})
+  //   }
+  // }
   // }, [connectedCareValue]);
 
   const senddata = () => {
@@ -538,13 +561,13 @@ export default function Appointment() {
       Appointment_Status: localStorage.getItem("Appointment_Status"),
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,
-      Patient_email: localStorage.getItem("Patient_email"), 
+      Patient_email: localStorage.getItem("Patient_email"),
       Timing: localStorage.getItem("selectedHour"),
       Devices: localStorage.getItem("devices"),
-      Slot:localStorage.getItem("selectedSlab"),
-      New_closure_date : localStorage.getItem("Enddate"),
-      Platform : localStorage.getItem("platform"),
-      Apttype : "Call",
+      Slot: localStorage.getItem("selectedSlab"),
+      New_closure_date: localStorage.getItem("Enddate"),
+      Platform: localStorage.getItem("platform"),
+      Apttype: "Call",
     };
 
     var requestOptions = {
@@ -564,46 +587,51 @@ export default function Appointment() {
         console.log(result);
       })
       .catch((error) => console.log("error", error));
-      redirectpostcricappt();
+    redirectpostcricappt();
   };
 
   const senddatechangerequest = () => {
-    
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    
-    var raw = {
-      Patient_name : localStorage.getItem("Patient_name"),
-      MRN: localStorage.getItem("Patient_MRN"),
-      Devices: localStorage.getItem("devices"),
-      App_Date: localStorage.getItem("Appdate"),
-      Enddate: localStorage.getItem("oldenddate"), 
-      New_closure_date : localStorage.getItem("Enddate"),
-      Patient_email: localStorage.getItem("Patient_email"),
-      // Practitioner_email: localStorage.getItem("PracEmail"),
-      practitioner_email: 'telehealthgcppractitioner@gmail.com',
-    };
+    if (localStorage.getItem("oldenddate") == localStorage.getItem("Enddate")) {
+      alert("End date and new end date can't be the same. Please choose another date to proceed.");
+      setNewDate('')
+    }
+    else {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: JSON.stringify(raw),
-      mode: "cors",
-    };
+      var raw = {
+        Patient_name: localStorage.getItem("Patient_name"),
+        MRN: localStorage.getItem("Patient_MRN"),
+        Devices: localStorage.getItem("devices"),
+        App_Date: localStorage.getItem("Appdate"),
+        Enddate: localStorage.getItem("oldenddate"),
+        New_closure_date: localStorage.getItem("Enddate"),
+        Patient_email: localStorage.getItem("Patient_email"),
+        // Practitioner_email: localStorage.getItem("PracEmail"),
+        practitioner_email: 'telehealthgcppractitioner@gmail.com',
+      };
 
-    console.log(raw);
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify(raw),
+        mode: "cors",
+      };
 
-    fetch("https://device-extension-or-closure-sh4iojyb3q-uc.a.run.app", requestOptions)
+      console.log(raw);
 
-      .then((response) => {
-        response.json();
-      })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => console.log("error", error));
+      fetch("https://device-extension-or-closure-sh4iojyb3q-uc.a.run.app", requestOptions)
+
+        .then((response) => {
+          response.json();
+        })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => console.log("error", error));
 
       redirect();
+    }
   };
 
   const redirect = () => {
@@ -736,8 +764,8 @@ export default function Appointment() {
   };
 
   // const handleConsentChange = () => {
-    
-    
+
+
   //   localStorage.setItem("consent" , consentgiven);
   // };
 
@@ -801,8 +829,7 @@ export default function Appointment() {
         <strong>Book Appointment</strong>
       </h1>
       <br />
-      {/* <Map/> */}
-      {/* <Map1/> */}
+
       <CRow>
         {decryptedName && (
           <>
@@ -823,6 +850,7 @@ export default function Appointment() {
             </CCol>
           </>
         )}
+
         {!decryptedName && (
           <>
             <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
@@ -862,6 +890,9 @@ export default function Appointment() {
             <p className="navbar-brand">
               <b>Medical Record Number: </b>
             </p>
+            {opepatient === 'true' && (
+              <p>Ope Affliated</p>
+            )}
           </span>
         </CCol>
         {!decryptedMRN && (
@@ -879,6 +910,7 @@ export default function Appointment() {
             </span>
           </CCol>
         )}
+
       </CRow>
 
       <CRow>
@@ -978,7 +1010,7 @@ export default function Appointment() {
                               </LocalizationProvider>
                             </div>
                             <b>{aptdata()}</b><br />
-                            <div>By clicking the submit button your request to change the device subscription end date will be sent.</div><br/>
+                            <div>By clicking the submit button your request to change the device subscription end date will be sent.</div><br />
                             <button class="btn btn-primary" onClick={senddatechangerequest}>
                               Submit
                             </button>
@@ -1001,16 +1033,16 @@ export default function Appointment() {
                               </LocalizationProvider>
                             </div>
                             <b>{aptdata()}</b><br />
-                            <div >By clicking the submit button your request to change the device subscription end date will be sent.</div><br/>
+                            <div >By clicking the submit button your request to change the device subscription end date will be sent.</div><br />
                             <button class="btn btn-primary" onClick={senddatechangerequest}>
                               Submit
                             </button>
                           </div>
                         )}
-                        { endDateOpt === "Maybe" && (
+                        {endDateOpt === "Maybe" && (
                           <div align="center">
-                          <b>{calldata()}</b><br />
-                            <div>By clicking the submit button your request to an immediate call with the Practitioner.</div><br/>
+                            <b>{calldata()}</b><br />
+                            <div>By clicking the submit button your request to an immediate call with the Practitioner.</div><br />
                             <button class="btn btn-primary" onClick={senddata}>
                               Submit
                             </button></div>
@@ -1024,7 +1056,7 @@ export default function Appointment() {
           </div>
         )}
         {
-          (connectedCareValue === "No" || vitatrac === 'false' ) && (
+          (connectedCareValue === "No" || vitatrac === 'false') && (
             <div>
               <CRow>
                 <CCol>

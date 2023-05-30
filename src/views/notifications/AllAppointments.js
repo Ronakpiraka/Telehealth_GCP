@@ -186,12 +186,24 @@ export default function EmailNotify() {
     if (Appointment_Status === "Pending") {
       return (
         <CBadge
+          color="primary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          Booked
+        </CBadge>
+      );
+    }
+    if (Appointment_Status === "No show") {
+      return (
+        <CBadge
           color="warning"
           className="mfs-auto"
           fontSize="22px"
           align="center"
         >
-          -----
+          No-Show
         </CBadge>
       );
     }
@@ -280,7 +292,7 @@ export default function EmailNotify() {
     sessionStorage.setItem("appointmentsTotal", countTotal);
     return countTotal;
   };
-
+ 
   return (
     <div>
       <h2 className="title" alignItems="center">
@@ -410,12 +422,12 @@ export default function EmailNotify() {
                         style={{ textAlign: "center", width: "10%" }}
                       >
                         {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
-                        {row.Connected_Care_Status === true ? "Vitals Tracked" : ""}
+                        {row.Connected_Care_Status === true ? "Continuous Care" : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)} 
+                        Documents Awaited 
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>

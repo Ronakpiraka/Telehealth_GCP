@@ -56,7 +56,7 @@ export default function Consent(props) {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    handleplatform();
+    // handleplatform();
     localStorage.setItem("consentValue", "Do not");
     // localStorage.setItem("connectedCareValue", "False");
     localStorage.setItem("Appointment_Status", "Booked");
@@ -168,17 +168,17 @@ export default function Consent(props) {
   //   assignNewDeviceIdAndShare();
   //   // console.log(newDeviceId);
   // };
-  const handleplatform = () => {
-    if (sessionStorage.getItem("Patient_name") == null)
-    {
-      localStorage.setItem('platform', 'TELE')
-    }
-    if (sessionStorage.getItem("Patient_name") != null)
-    {
-      localStorage.setItem('platform', 'OPE')
-    }
+  // const handleplatform = () => {
+  //   if (sessionStorage.getItem("Patient_name") == null)
+  //   {
+  //     localStorage.setItem('platform', 'TELE')
+  //   }
+  //   if (sessionStorage.getItem("Patient_name") != null)
+  //   {
+  //     localStorage.setItem('platform', 'OPE')
+  //   }
     
-  }
+  // }
 
   const handleConsentChange = (event) => {
     const value = event.target.value;
@@ -216,7 +216,7 @@ export default function Consent(props) {
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    // myHeaders.append("Authorization", `Bearer ${accessToken}`);
+    // myHeaders.append("Authorization", `Bearer ${accessToken}`);  
     var raw = {
       Patient_id: localStorage.getItem("Patient_id"),
       App_Date: localStorage.getItem("selectedDate"),

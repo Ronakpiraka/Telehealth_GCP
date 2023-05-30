@@ -436,12 +436,13 @@ export default function EmailNotify() {
                         style={{ textAlign: "center", width: "10%" }}
                       >
                         {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
-                        {row.Connected_Care_Status === true ? "CC" : "NC"}
+                        {row.Connected_Care_Status === true ? "Continuous Care" : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)} 
+                        Documents Awaited 
+                        {/* {riskscore(row.Appointment_Status)}  */}
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>
