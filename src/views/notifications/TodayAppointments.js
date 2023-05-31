@@ -346,9 +346,9 @@ export default function EmailNotify() {
 
   return (
     <div>
-      <h2 className="title" alignItems="center">
+      <h1 className="title" alignItems="center">
         <strong>Today's Appointments</strong>
-      </h2>
+      </h1>
       <CRow>
         <CCol>
           <h4>
@@ -448,7 +448,7 @@ export default function EmailNotify() {
                         style={{ textAlign: "center", width: "15%" }}
                       >
                         {row.MRN}<br/>
-                        {checkpatientope(row.MRN) === 1 ? <b>(OPE patient)</b> : ""}
+                        {checkpatientope(row.MRN) === 1 ? <b>(OPE Affiliated)</b> : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}

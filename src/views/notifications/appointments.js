@@ -891,7 +891,7 @@ export default function Appointment() {
               <b>Medical Record Number: </b>
             </p>
             {opepatient === 'true' && (
-              <p>Ope Affliated</p>
+              <p>OPE Affliated</p>
             )}
           </span>
         </CCol>
@@ -917,7 +917,7 @@ export default function Appointment() {
         <CCol sm="4" md="6" lg="4" sx={{ minWidth: 250 }}>
           <span className="navbar justify-content-between">
             <p className="navbar-brand">
-              <b>Does the patient wants to opt for Connected/ Critical Care?</b>
+              <b>Does the patient needs to opt for Connected / Critical Care?</b>
             </p>
           </span>
         </CCol>
@@ -1068,7 +1068,7 @@ export default function Appointment() {
                       className="navbar-brand"
                       sx={{ minWidth: 230 }}
                     >
-                      <b>Select your Condition:</b>
+                      <b>Select Condition:</b>
                     </div>
 
                     <div sm="1" md="1" lg="1" className={classes.search}>

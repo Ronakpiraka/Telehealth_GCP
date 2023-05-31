@@ -309,6 +309,20 @@ export default function EmailNotify() {
     history.push("/notifications/upcoming");
   };
 
+  const handleConsentChange = (consent) => {
+    let conval = ''
+    if (consent === "Do") {
+      conval = 'Full Consent';
+    }
+    if (consent === "Do partial") {
+      conval = 'Partial Consent';
+    }
+    if (consent === "Do not") {
+      conval = 'No Consent';
+    }
+    return conval;
+  };
+
   const countAppointmentsTodayAndTotal = () => {
     const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
     const appointmentsToday = data.filter(
@@ -322,9 +336,9 @@ export default function EmailNotify() {
  
   return (
     <div>
-      <h2 className="title" alignItems="center">
+      <h1 className="title" alignItems="center">
         <strong>All Appointments</strong>
-      </h2>
+      </h1>
 
       <CRow>
         <CCol>
@@ -422,7 +436,7 @@ export default function EmailNotify() {
                         style={{ textAlign: "center", width: "15%" }}
                       >
                         {row.MRN}<br/>
-                        {checkpatientope(row.MRN) === 1 ? <b>(OPE patient)</b> : ""}
+                        {checkpatientope(row.MRN) === 1 ? <b>(OPE Affiliated)</b> : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
@@ -449,13 +463,15 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
+                        {riskscore(row.Appointment_Status)} 
+                        {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
                         {row.Connected_Care_Status === true ? "Continuous Care" : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        Documents Awaited 
+                        <b>Documents Awaited </b><br/>
+                        {handleConsentChange(row.Consent_form_choice)}
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>
