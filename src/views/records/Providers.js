@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './PatientInfo.css';
 import 'antd/dist/antd.css';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,7 +15,7 @@ import { alpha } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import LoadingOverlay from 'react-loading-overlay';
 import { CSpinner } from '@coreui/react'
-import "./patients.css"; 
+import "./patients.css";
 
 import Prow from './Prow';
 export default function ProviderInform() {
@@ -84,7 +84,7 @@ export default function ProviderInform() {
   const [ordPlaced, setordPlaced] = React.useState(10);
   const [isLoading, setisLoading] = useState(true);
 
-  const uniqueProviderCode = [] 
+  const uniqueProviderCode = []
 
   const classes = useStyles();
 
@@ -117,107 +117,106 @@ export default function ProviderInform() {
     var requestOptions = {
       method: 'GET'
     };
-    
+
     fetch("https://providerdataupdated-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((resp) => resp.json())
-      .then((response) => 
-      {
+      .then((response) => {
         const uniqueData = removeDuplicates(response);
         const sortedData = sortData(uniqueData);
         setdata(sortedData);
         setisLoading(false)
       })
       .catch(error => console.log('error', error));
-    }
-    useEffect(() => { 
-      fetchproviderdata();
-    },[data != null])
+  }
+  useEffect(() => {
+    fetchproviderdata();
+  }, [data != null])
 
-    const removeDuplicates = (response) => {
-      const uniqueData = [];
-      const map = new Map();
-      for (const item of response) {
-        if (!map.has(item.Provider_id + item.Practitioner_id)) {
-          map.set(item.Provider_id + item.Practitioner_id, true);
-          uniqueData.push(item);
-        }
+  const removeDuplicates = (response) => {
+    const uniqueData = [];
+    const map = new Map();
+    for (const item of response) {
+      if (!map.has(item.Provider_id + item.Practitioner_id)) {
+        map.set(item.Provider_id + item.Practitioner_id, true);
+        uniqueData.push(item);
       }
-    return uniqueData;}
+    }
+    return uniqueData;
+  }
 
-    const sortData = (response) => {
-      const sortedData = response.sort((a, b) => {
-        if (a.Provider_name < b.Provider_name) {
-          return -1;
-        }
-        if (a.Provider_name > b.Provider_name) {
-          return 1;
-        }
-        if (a.Practitioner_name < b.Practitioner_name) {
-          return -1;
-        }
-        if (a.Practitioner_name > b.Practitioner_name) {
-          return 1;
-        }
-        return 0;
-      });
-      return sortedData;
-    };
-    
-    return (
-      <>
-        <h2 className="title"><strong>Provider Details</strong></h2>
-          <Paper style={{ width: '100%', overflow: 'hidden' }}>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search by Code..."
-                classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-                onChange={(e)=>{setsearchTerm(e.target.value)}}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-          <TableContainer style={{ maxHeight: 300 }}>
-          
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <StyledTableRow>
-                <StyledTableCell/>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center'}}>Name</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center'}}>Code</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center'}}>Address</StyledTableCell>
-                <StyledTableCell style={{ fontWeight: 'bold', width: '16%'}}>Contact Number</StyledTableCell>
-                </StyledTableRow>
-              </TableHead>
-              <TableBody>
-                {data.filter(val => {
-                  if(searchTerm === "")
-                  {
-                    return val;
-                  }
-                  else if((val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
+  const sortData = (response) => {
+    const sortedData = response.sort((a, b) => {
+      if (a.Provider_name < b.Provider_name) {
+        return -1;
+      }
+      if (a.Provider_name > b.Provider_name) {
+        return 1;
+      }
+      if (a.Practitioner_name < b.Practitioner_name) {
+        return -1;
+      }
+      if (a.Practitioner_name > b.Practitioner_name) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedData;
+  };
+
+  return (
+    <>
+      <h1 className="title"><strong>Provider Details</strong></h1>
+      <Paper style={{ width: '100%', overflow: 'hidden' }}>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            placeholder="Search by Code..."
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            onChange={(e) => { setsearchTerm(e.target.value) }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </div>
+        <TableContainer style={{ maxHeight: 300 }}>
+
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <StyledTableRow>
+                <StyledTableCell />
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Name</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Code</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '28%', textAlign: 'center' }}>Address</StyledTableCell>
+                <StyledTableCell style={{ fontWeight: 'bold', width: '16%' }}>Contact Number</StyledTableCell>
+              </StyledTableRow>
+            </TableHead>
+            <TableBody>
+              {data.filter(val => {
+                if (searchTerm === "") {
+                  return val;
+                }
+                else if ((val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Practitioner_Speciality_1.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                  (val.Provider_address.toLowerCase().includes(searchTerm.toLowerCase()))||
-                  (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase()))||
+                  (val.Provider_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
                   (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase()))
                 ) {
-                  return val        
+                  return val
                 }
               }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((prow, index) => {
-                  if (!uniqueProviderCode.includes(prow.Provider_id)){
+                  if (!uniqueProviderCode.includes(prow.Provider_id)) {
                     uniqueProviderCode.push(prow.Provider_id)
                     return (
                       <React.Fragment>
-                        <Prow key={prow.Provider_id} prow={prow} data={data}/>
+                        <Prow key={prow.Provider_id} prow={prow} data={data} />
                       </React.Fragment>
                     );
                   }

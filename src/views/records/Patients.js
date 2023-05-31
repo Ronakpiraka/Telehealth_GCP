@@ -312,7 +312,10 @@ export default function PatientInform() {
   return (
     <>
       {/* <div style={{ overflowX: "auto" }}> */}
-      <h2 className="title"><strong>Patient Information</strong></h2>
+      <h1 className="title">
+        <strong>Patient Information</strong>
+      </h1>
+      {/* <h2 className="title"><strong>Patient Information</strong></h2> */}
       <Modal
         open={modalopen}
         onClose={modalhandleClose}

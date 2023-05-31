@@ -254,9 +254,9 @@ export default function Device() {
 
   return (
     <>
-      <h2 className="title">
+      <h1 className="title">
         <strong>Device Information</strong>
-      </h2>
+      </h1>
       <Modal open={openExtendModal} onClose={() => setOpenExtendModal(false)}>
         {/* <Modal.Header closeButton>
           <Modal.Title>
@@ -334,10 +334,13 @@ export default function Device() {
                   Device ID
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
-                  Patient_MRN
+                  MRN
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
                   Patient Name
+                </TableCell>
+                <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
+                  Practitioner Name
                 </TableCell>
                 <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>
                   Device Status
@@ -383,11 +386,14 @@ export default function Device() {
                       {row.Device_id}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
-                      {row.Patient_MRN}
-                      {checkpatientope(row.Patient_MRN) === 1 ? <b>(OPE)</b> : ""}
+                      {row.Patient_MRN}<br/>
+                      {checkpatientope(row.Patient_MRN) === 1 ? <b>(OPE Affiliated)</b> : ""}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {row.Patient_name}
+                    </StyledTableCell>
+                    <StyledTableCell style={{ textAlign: "center" }}>
+                      {row.Practitioner_name}
                     </StyledTableCell>
                     <StyledTableCell style={{ textAlign: "center" }}>
                       {riskscore(row.Status)}
