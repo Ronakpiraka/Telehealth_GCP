@@ -102,6 +102,7 @@ export default function EmailNotify() {
   }))(TableRow);
 
   const [data, setdata] = React.useState([]);
+  const [opepatientdata,setopepatientdata] = useState([]);
   const [filter, setFilter] = useState('');
   const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState("");
@@ -162,6 +163,7 @@ export default function EmailNotify() {
       }
     };
     fetchData();
+    patientope();
   }, []);
 
   const handleFilterChange = (event) => {
@@ -177,6 +179,31 @@ export default function EmailNotify() {
     setpage(0);
   };
 
+  const patientope = () => {
+    fetch("https://opepatientdata-sh4iojyb3q-uc.a.run.app")
+    .then((response) => response.json())
+    .then((opedata) => {
+      setopepatientdata(opedata);
+      console.log("ope wala data", opedata);
+    })
+    .catch((error) => {
+      console.error(error);
+      setopepatientdata([]);
+    });
+  };
+  
+  const checkpatientope = (MRN) => {
+  
+    let opepatient = 0;
+  
+    for (let i = 0; i < opepatientdata.length; i++) {
+      if (opepatientdata[i].MRN_number === MRN) {
+        opepatient = 1;
+        break;
+      }
+    }
+    return opepatient;
+  } 
   const senddata = (name, doctor, guardian_email) => {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
@@ -186,12 +213,24 @@ export default function EmailNotify() {
     if (Appointment_Status === "Pending") {
       return (
         <CBadge
+          color="primary"
+          className="mfs-auto"
+          fontSize="22px"
+          align="center"
+        >
+          Booked
+        </CBadge>
+      );
+    }
+    if (Appointment_Status === "No show") {
+      return (
+        <CBadge
           color="warning"
           className="mfs-auto"
           fontSize="22px"
           align="center"
         >
-          -----
+          No-Show
         </CBadge>
       );
     }
@@ -280,7 +319,7 @@ export default function EmailNotify() {
     sessionStorage.setItem("appointmentsTotal", countTotal);
     return countTotal;
   };
-
+ 
   return (
     <div>
       <h2 className="title" alignItems="center">
@@ -382,7 +421,8 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.MRN}
+                        {row.MRN}<br/>
+                        {checkpatientope(row.MRN) === 1 ? <b>(OPE patient)</b> : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
@@ -410,12 +450,12 @@ export default function EmailNotify() {
                         style={{ textAlign: "center", width: "10%" }}
                       >
                         {riskscore(row.Appointment_Status)} {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
-                        {row.Connected_Care_Status === true ? "Vitals Tracked" : ""}
+                        {row.Connected_Care_Status === true ? "Continuous Care" : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)} 
+                        Documents Awaited 
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>
