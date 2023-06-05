@@ -15,14 +15,27 @@ import Appointment from '../views/notifications/appointments'
 import Logout from './logout'
 
 const TheHeaderDropdown = (props) => {
+
+  const [reloadCount, setReloadCount] = useState(0);
   const Authenticated = sessionStorage.getItem('IsAuthenticated')
   console.log("HD", Authenticated)
   let name = sessionStorage.getItem('Patient_name');
-  
+  console.log("HD", name)
 
-  // const location = useLocation();
-  // let paramString = location.search.split('mabc=')[1];
-  // console.log(paramString)  
+  useEffect(()=>{
+    const timer = setTimeout(() => {
+      if (reloadCount < 1) {
+        if (name === null) {
+          window.location.reload();
+          setReloadCount((prevCount) => prevCount + 1);
+        } 
+        else {
+          clearTimeout(timer);
+        }
+      }
+    }, 2000);
+  },[])
+    
 
 
   return (
@@ -33,11 +46,7 @@ const TheHeaderDropdown = (props) => {
     >
       <CDropdownToggle className="c-header-nav-link" caret={false}>
       <span style={{marginRight:'15px'}}>
-        {/* {name && (
-          <b>Welcome {name}</b>
-        )} */}
-        {/* <Appointment decryptedName={handlevariable}/> */}
-        {Authenticated && name === null ? 
+        {Authenticated === true ? 
         <b>Welcome Admin</b>
         :
         name !== null ? 

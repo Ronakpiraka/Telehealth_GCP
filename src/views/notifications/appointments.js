@@ -495,7 +495,7 @@ export default function Appointment() {
     const Date = date.format("YYYY-MM-DD");
 
     // console.log("hi see the dates here", today, selectedDate, selectedHour);
-    const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status == true && row.Devices == localStorage.getItem("devices"));
+    const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status === true && row.Devices === localStorage.getItem("devices"));
     localStorage.setItem("selectedDate", Date);
     localStorage.setItem("provider_id", reqdata[0].Provider_id);
     localStorage.setItem("provider_name", reqdata[0].Provider_name);
@@ -610,7 +610,7 @@ export default function Appointment() {
       provider_contact_number: localStorage.getItem("provider_contact_number"),
       Appointment_Status: localStorage.getItem("Appointment_Status"),
       Consent_form_choice: localStorage.getItem("consentValue"),
-      Connected_Care_Status: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,
+      Connected_Care_Status: localStorage.getItem("connectedCareValue") === "Yes" ? true : false,
       Patient_email: localStorage.getItem("Patient_email"),
       Timing: localStorage.getItem("selectedHour"),
       Devices: localStorage.getItem("devices"),
