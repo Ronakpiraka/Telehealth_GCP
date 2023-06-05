@@ -231,7 +231,7 @@ export default function Consent(props) {
       // practitioner_email: localStorage.getItem("practitioner_email"),
       practitioner_email: 'telehealthgcppractitioner@gmail.com',
       MRN: localStorage.getItem("Patient_MRN"),
-      provider_contact_number: localStorage.getItem("provider_contact_number"),
+      provider_contact_number: localStorage.getItem("provider_contact"),
       Appointment_Status: localStorage.getItem("Appointment_Status"),
       Consent_form_choice: localStorage.getItem("consentValue"),
       Connected_Care_Status: localStorage.getItem("connectedCareValue") == "Yes" ? true : false,

@@ -121,17 +121,21 @@ export default function Appointment() {
     },
   }));
 
-  const [data, setdata] = React.useState([]);
-  const [alldata, setalldata] = React.useState([]);
-  const [searchTerm, setsearchTerm] = React.useState("");
+  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
+  const [uniquePatientData, setUniquePatientData] = useState([]);
+  
+  const [uniquePatientNames, setUniquePatientNames] = useState([]);
+  const [alldata, setalldata] = useState([]);
+  const [searchTerm, setsearchTerm] = useState("");
   const classes = useStyles();
   const history = useHistory();
   const [isLoading, setisLoading] = useState(true);
-  const [PatientName, setPatientName] = React.useState("");
-  const [opepatient, setopepatient] = React.useState("");
-  const [vitatrac, setvitatrac] = React.useState("");
-  const [Patient_id, setPatient_id] = React.useState("");
-  const [personName, setPersonName] = React.useState("");
+  const [PatientName, setPatientName] = useState("");
+  const [opepatient, setopepatient] = useState("");
+  const [vitatrac, setvitatrac] = useState("");
+  const [Patient_id, setPatient_id] = useState("");
+  const [personName, setPersonName] = useState("");
   const [modal, setModal] = useState(false);
   const [MRN, setMRN] = useState("");
   const [patientMrn, setpatientMrn] = useState("");
@@ -146,6 +150,8 @@ export default function Appointment() {
   const [newDate, setNewDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [consentgiven, setconsentgiven] = useState("");
+  const [uniqueData, setUniqueData] = useState([]);
+  // const [uniquePatientName, setuniquePatientName] = useState("");
 
   const [endDateOpt, setEndDateOpt] = useState("");
 
@@ -211,7 +217,51 @@ export default function Appointment() {
     }
   });
 
-
+  // useEffect(() => {
+  //   fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", { method: "GET" })
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       const uniquePatientData = Object.values(response.reduce((acc, row) => {
+  //         const patientId = row.Patient_id;
+  
+  //         if (!acc[patientId] || new Date(row.Encounter_start) > new Date(acc[patientId].Encounter_start)) {
+  //           acc[patientId] = row;
+  //         }
+          
+  //         return acc;
+  //       }, {}));
+  
+  //       uniquePatientData.sort((a, b) => a.Patient_name.localeCompare(b.Patient_name));
+  //       setdata(uniquePatientData);
+  //       setisLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setisLoading(false);
+  //     });
+  // }, []);
+  
+  // useEffect(() => {
+  //   fetch("https://example.com/api/data")
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setData(data);
+  //       for (const row of data) {
+  //         const patientId = row.Patient_id;
+  //         if (!uniquePatientData.some(existingRow => existingRow.Patient_id === patientId)) {
+  //           setUniquePatientData([...uniquePatientData, row]);
+  //         } else {
+  //           const existingRow = uniquePatientData.find(existingRow => existingRow.Patient_id === patientId);
+  //           if (row.Encounter_start > existingRow.Encounter_start) {
+  //             setUniquePatientData(uniquePatientData.filter(existingRow => existingRow.Patient_id !== patientId));
+  //             setUniquePatientData([...uniquePatientData, row]);
+  //           }
+  //         }
+  //       }
+  //       uniquePatientData.sort((a, b) => a.Patient_name.localeCompare(b.Patient_name));
+  //     });
+  // }, []);
+//------------------------------------------------------------------------------
   useEffect(() => {
     // if (paramString == undefined) {
     const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
@@ -237,7 +287,7 @@ export default function Appointment() {
             }
           }
         }
-        setdata(final_data);
+        setData(final_data);
         console.log(data);
         setisLoading(false);
       })
@@ -261,7 +311,7 @@ export default function Appointment() {
       return 0;
     }
   });
-
+// -----------------------------------------------------------------------------
   // const uniquePractitionerName = Array.from(new Set(final_data.map(item => JSON.stringify(item.Practitioner_name)))).map(item => JSON.parse(item));
   // const handleChangePage = (event, newPage) => {
   //   setpage(newPage);
@@ -734,8 +784,8 @@ export default function Appointment() {
   //   setDeviceId(code);
   // };
   const redirecttoPractitionerbooking = (e, condition, code, speciality) => {
-    // allappointment();
     localStorage.setItem("condition_name", condition);
+    allappointment(condition);
     localStorage.setItem("condition_code", code);
     localStorage.setItem("condition_speciality", speciality);
     console.log("connectcare value is ", connectedCareValue);
@@ -754,7 +804,7 @@ export default function Appointment() {
     localStorage.setItem("connectedCareValue", event.target.value);
     if (personName !== "" || decryptedName !== "") {
       // Allow user to choose for connected care
-      allappointment();
+      // allappointment();
       criticalpatient();
     } else {
 
@@ -763,46 +813,80 @@ export default function Appointment() {
     }
   };
 
-  // const handleConsentChange = () => {
+  // useEffect(() => {
+  //   fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
+  //     .then((response) => response.json())
+  //     .then((aptdata) => {
+  //       const uniqueData = {};
 
+  //       aptdata.forEach((row) => {
+  //         if (!uniqueData[row.Condition_Practitioner_Id]) {
+  //           uniqueData[row.Condition_Practitioner_Id] = row;
+  //         }
+  //       });
+  //       setUniqueData(uniqueData);
+  //       console.log("yeh hai uniquedata", uniqueData)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // },[]);
 
-  //   localStorage.setItem("consent" , consentgiven);
-  // };
-
-  const allappointment = () => {
+  useEffect(() => {
     fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
       .then((response) => response.json())
-      .then((data) => {
-        // Create an object to store the unique data
-        const uniqueData = {};
-        // localStorage.getItem("condition_name");
-        // Loop through the data and add the first entry for each unique practitioner ID
-        data.forEach((row) => {
-          if (!uniqueData[row.Practitioner_id]) {
-            // if (uniqueData[row.Condition_name] ==  localStorage.getItem("condition_name")){
-            uniqueData[row.Practitioner_id] = row;
-          }
-
-        });
-        // const newFinalData = Object.values(uniqueData);
-        // setfinaldata(Object.values(uniqueData));
-        // setisLoad(false);
-        // localStorage.setItem("finaldata",JSON.stringify(Object.values(uniqueData)));
-        const array1 = Object.values(uniqueData).filter((row) => {
-          if (row.Condition_name === localStorage.getItem("condition_name")) {
-            console.log("rowwww inside", row.Condition_name)
-            return row;
+      .then((aptdata) => {
+        const uniqueData = [];
+  
+        aptdata.forEach((row) => {
+          if (!uniqueData.some((uniqueRow) => uniqueRow.Condition_Practitioner_Id === row.Condition_Practitioner_Id)) {
+            uniqueData.push(row);
           }
         });
-        console.log("rowwwwwwwwwwwww", array1)
+        
+        setUniqueData(uniqueData);
+        
+        // const uniquePatientData = [];
 
-        localStorage.setItem("finaldata", JSON.stringify(array1));
+        // aptdata.forEach((row) => {
+        //   if (!uniquePatientData.some((uniqueRow) => uniqueRow.Medical_Record_Number === row.Medical_Record_Number)) {
+        //     uniquePatientData.push(row);
+        //   }
+        // });
+        
+        // console.log("unique patient ka pura data",uniquePatientData);
+        
+        // setUniquePatientData(uniquePatientData);
+
+        // const uniquePatientName = Array.from(
+        //   new Set(uniquePatientData.map((item) => JSON.stringify(item)))
+        // ).map((item) => JSON.parse(item)).sort();
+  
+        // setuniquePatientName("unique patient ka names",uniquePatientName)
+
       })
       .catch((error) => {
         console.log(error);
       });
+
+  }, []);
+ 
+  const allappointment = (condition) =>{
+    const array1 = Object.values(uniqueData).filter((row) => {
+      if (row.Condition_name === condition) {
+        // if (row.Condition_name === conditionhere) {
+          console.log("rowwww inside", row.Condition_name)
+        return row;
+      }
+    });
+    console.log("rowwwwwwwwwwwww", array1)
+
+    localStorage.setItem("finaldata", JSON.stringify(array1));
   };
 
+  // const uniquepatientdata = () =>{
+
+  // }
   const handleEndDateChange = (event) => {
     console.log("event option choosen is:", event, "event.target.value", event.target.value);
     setEndDateOpt(event.target.value);
