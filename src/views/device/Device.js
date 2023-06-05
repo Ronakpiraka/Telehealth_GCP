@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { CCol, CRow } from "@coreui/react";
 import Checkbox from "@material-ui/core/Checkbox";
 import TableContainer from "@material-ui/core/TableContainer";
 import TablePagination from "@material-ui/core/TablePagination";
@@ -20,6 +21,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import { Modal, Button } from "react-bootstrap";
+import RefreshIcon from '@mui/icons-material/Refresh';
 // import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import "../records/patients.css";
 import { OneKPlusOutlined } from "@mui/icons-material";
@@ -146,6 +148,12 @@ export default function Device() {
       .catch((error) => console.log("error", error));
   };
 
+  const countdevices = () => {
+    const countTotal = data.length;
+    sessionStorage.setItem("devicecount", countTotal);
+    return countTotal;
+  };
+
   useEffect(() => {
     fetchpatientdata();
     patientope();
@@ -176,6 +184,10 @@ export default function Device() {
         </CBadge>
       );
     }
+  };
+
+  const handlerefresh = () => {
+    window.location.reload();
   };
 
   const patientope = () => {
@@ -257,56 +269,12 @@ export default function Device() {
       <h1 className="title">
         <strong>Device Information</strong>
       </h1>
-      <Modal open={openExtendModal} onClose={() => setOpenExtendModal(false)}>
-        {/* <Modal.Header closeButton>
-          <Modal.Title>
-            <b>Closure Date</b>
-          </Modal.Title>
-        </Modal.Header> */}
-        <Modal.Body>
-          hi hello
-          {/* <MobileDateTimePicker
-            selected={extendDate}
-            onChange={(date) => setExtendDate(date)}
-            minDate={new Date(endDate)}
-            maxDate={new Date(endDate).setMonth(new Date(endDate).getMonth() + 3)}
-          /> */}
-        </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={setOpenExtendModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Submit new Date
-          </Button>
-        </Modal.Footer> */}
-      </Modal>
-
-      <Modal open={openClosureModal} onClose={() => setOpenClosureModal(false)}>
-        {/* <Modal.Header closeButton>
-          <Modal.Title>
-            <b>Closure Date</b>
-          </Modal.Title>
-        </Modal.Header> */}
-        <Modal.Body>
-          hi hello closure
-          
-          {/* <MobileDateTimePicker
-            selected={closureDate}
-            onChange={(date) => setClosureDate(date)}
-            minDate={new Date()}
-            maxDate={new Date(endDate)}
-          /> */}
-        </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={setOpenClosureModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Submit new Date
-          </Button>
-        </Modal.Footer> */}
-      </Modal>
+      <CRow>
+        <CCol><h4><b>Devices Count: {countdevices()}</b></h4></CCol>
+        <CCol  xs="4" className="text-right">
+          <button type="button" class="btn btn-info" onClick={handlerefresh}> Refresh <RefreshIcon /> </button>
+        </CCol>
+      </CRow>
 
       <Paper style={{ width: "100%", overflow: "hidden" }}>
         <div className={classes.search}>

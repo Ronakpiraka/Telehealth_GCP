@@ -146,8 +146,12 @@ export default function PractitionerBooking() {
   const [isLoad, setisLoad] = useState(true);
   const [isLoading, setisLoading] = useState(true);
   const [finaldata, setfinaldata] = React.useState([]);
+  const [practitioners, setpractitioners] = React.useState([]);
   const [finalprac, setpracdata] = React.useState([]);
   const [modal, setModal] = useState(false);
+  const [reloadCount, setReloadCount] = useState(0);
+  const history = useHistory();
+  const [shouldReload, setShouldReload] = useState(true);
   const [selectedDateTime, setSelectedDateTime] = React.useState();
   const [newDateTime, setnewDateTime] = React.useState();
   const [selectedDate, setSelectedDate] = React.useState();
@@ -175,6 +179,22 @@ export default function PractitionerBooking() {
     setModal(!modal);
   };
 
+  // useEffect(() => {
+  //   if (reloadCount < 3) {
+  //     const timer = setTimeout(() => {
+  //       if (!(localStorage.getItem("finaldata")) || (localStorage.getItem("finaldata")).length === 0) {
+  //         window.location.reload();
+  //         setReloadCount((prevCount) => prevCount + 1);
+  //       } else {
+  //         clearTimeout(timer);
+  //       }
+  //     }, 10000);
+  //   } else {
+  //     alert('No practitioner found. Please try again.');
+  //     var url = `/bookAppointment`;
+  //     history.push(`${url}`);
+  //   }
+  // }, [reloadCount]);
 
   useEffect(() => {
     fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app", {
@@ -200,38 +220,82 @@ export default function PractitionerBooking() {
 
 
 
+  // useEffect(() => {
+  //   fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Create an object to store the unique data
+  //       const uniqueData = {};
+
+  //       // Loop through the data and add the first entry for each unique practitioner ID
+  //       data.forEach((row) => {
+  //         if (!uniqueData[row.Practitioner_id]) {
+  //           uniqueData[row.Practitioner_id] = row;
+  //         }
+  //       });
+  //       // const newFinalData = Object.values(uniqueData);
+  //       setfinaldata(Object.values(uniqueData));
+  //       setisLoad(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  // console.log("here is finaldata", finaldata);
   useEffect(() => {
+    const condition = localStorage.getItem("condition_name");
+
     fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app")
       .then((response) => response.json())
       .then((data) => {
-        // Create an object to store the unique data
         const uniqueData = {};
 
-        // Loop through the data and add the first entry for each unique practitioner ID
         data.forEach((row) => {
-          if (!uniqueData[row.Practitioner_id]) {
-            uniqueData[row.Practitioner_id] = row;
+          if (row.Condition_name === condition) {
+            if (!uniqueData[row.Practitioner_id]) {
+              uniqueData[row.Practitioner_id] = row;
+            }
           }
         });
-        // const newFinalData = Object.values(uniqueData);
-        setfinaldata(Object.values(uniqueData));
-        setisLoad(false);
+
+        // const array1 = Object.values(uniqueData);
+        setpractitioners(uniqueData);
+        // localStorage.setItem("finaldata", JSON.stringify(array1));
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  console.log("here is finaldata", finaldata);
 
   useEffect(() => {
-   
+    // reloadpageforprac();
+    // stopReloading();
     if (localStorage.getItem('connectedCareValue') === 'Yes') {
       handleDateTimeChange(dayjs().add(1, 'hour').startOf('hour'));
       console.log("this is activated", isLoad)
     }
   }, []);
 
+
+
+  // useEffect(() => {
+  //   if (shouldReload) {
+  //     const timer = setTimeout(() => {
+  //       window.location.reload();
+  //     }, 10000);
+
+  //     return () => {
+  //       clearTimeout(timer);
+  //     };
+  //   }
+  // }, [shouldReload]);
+
+  // const stopReloading = () => {
+  //   if(localStorage.getItem('finaldata') !== ""){
+  //   setShouldReload(false);}
+  // };
   // const redirecttoConsent = () => { };
 
   // const checkccfunction = () => {
@@ -243,6 +307,20 @@ export default function PractitionerBooking() {
   //     return 0;
   //   }
   // };
+
+  // const reloadpageforprac = () => {
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 10000); 
+  // }
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     window.location.reload();
+  //   }, 10000);
+  //   return () => {
+  //     clearTimeout(timeoutId); // Clear the timeout if the component is unmounted before the timeout completes
+  //   };
+  // }, []);
 
   const handleDateTimeChange = (newDateTime) => {
     // debugger;
@@ -303,12 +381,15 @@ export default function PractitionerBooking() {
 
     // array1 = (localStorage.getItem("finaldata")).filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
     array1 = JSON.parse(localStorage.getItem("finaldata"));
+    // array1 = practitioners;
     console.log("finally data aaya", array1, "type of", typeof (array1));
     array2 = data.filter(item => item.Condition_name === condition && item.App_Date === date && item.Timing === hour && item.slot === slab);
 
     // Loop through each element in array1 and check if it exists in array2
     if (!array1) {
-      console.log('please refresh the page');
+      setTimeout(() => {
+        window.location.reload();
+      }, 10000);
     } else {
       for (let i = 0; i < array1.length; i++) {
         const found = array2.find(item => item.Practitioner_id === array1[i].Practitioner_id);
@@ -460,12 +541,12 @@ export default function PractitionerBooking() {
 
       <CRow>
         <CCol>
-          <PatientAppointment data={data}/>
+          <PatientAppointment data={data} />
         </CCol>
       </CRow>
       <CRow>
         <CCol>
-          <Consent data={data}/>
+          <Consent data={data} />
         </CCol>
       </CRow>
     </div>

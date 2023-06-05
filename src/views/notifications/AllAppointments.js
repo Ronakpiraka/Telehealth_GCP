@@ -24,6 +24,7 @@ import emailjs from "@emailjs/browser";
 import { CSpinner } from '@coreui/react'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { useHistory, useLocation } from "react-router-dom";
 import { CBadge } from "@coreui/react";
 import "../records/patients.css";
@@ -102,7 +103,7 @@ export default function EmailNotify() {
   }))(TableRow);
 
   const [data, setdata] = React.useState([]);
-  const [opepatientdata,setopepatientdata] = useState([]);
+  const [opepatientdata, setopepatientdata] = useState([]);
   const [filter, setFilter] = useState('');
   const [collapsed, setcollapsed] = React.useState(false);
   const [searchTerm, setsearchTerm] = React.useState("");
@@ -140,11 +141,11 @@ export default function EmailNotify() {
       try {
         const response = await fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app");
         const data = await response.json();
-        
+
         const sortedData = data.sort((a, b) => {
           const dateA = new Date(a.App_Date);
           const dateB = new Date(b.App_Date);
-  
+
           if (dateB - dateA === 0) {
             // If App_Date is the same, sort based on Timing (descending order)
             return b.Timing - a.Timing;
@@ -153,7 +154,7 @@ export default function EmailNotify() {
             return dateB - dateA;
           }
         });
-  
+
         setdata(sortedData);
         // setdata(data);
         console.log(data);
@@ -181,21 +182,21 @@ export default function EmailNotify() {
 
   const patientope = () => {
     fetch("https://opepatientdata-sh4iojyb3q-uc.a.run.app")
-    .then((response) => response.json())
-    .then((opedata) => {
-      setopepatientdata(opedata);
-      console.log("ope wala data", opedata);
-    })
-    .catch((error) => {
-      console.error(error);
-      setopepatientdata([]);
-    });
+      .then((response) => response.json())
+      .then((opedata) => {
+        setopepatientdata(opedata);
+        console.log("ope wala data", opedata);
+      })
+      .catch((error) => {
+        console.error(error);
+        setopepatientdata([]);
+      });
   };
-  
+
   const checkpatientope = (MRN) => {
-  
+
     let opepatient = 0;
-  
+
     for (let i = 0; i < opepatientdata.length; i++) {
       if (opepatientdata[i].MRN_number === MRN) {
         opepatient = 1;
@@ -203,7 +204,7 @@ export default function EmailNotify() {
       }
     }
     return opepatient;
-  } 
+  }
   const senddata = (name, doctor, guardian_email) => {
     var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
     history.push(`${url}`);
@@ -269,7 +270,7 @@ export default function EmailNotify() {
           No return
         </CBadge>
       );
-    } 
+    }
     if (Appointment_Status == "Booked") {
       return (
         <CBadge
@@ -278,12 +279,12 @@ export default function EmailNotify() {
           fontSize="22px"
           align="center"
         >
-         Booked
+          Booked
         </CBadge>
       );
-    } 
+    }
     //info, light are available
-    else { 
+    else {
       return (
         <CBadge
           color="secondary"//grey
@@ -323,6 +324,10 @@ export default function EmailNotify() {
     return conval;
   };
 
+  const handlerefresh = () => {
+    window.location.reload();
+  }
+
   const countAppointmentsTodayAndTotal = () => {
     const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
     const appointmentsToday = data.filter(
@@ -333,7 +338,7 @@ export default function EmailNotify() {
     sessionStorage.setItem("appointmentsTotal", countTotal);
     return countTotal;
   };
- 
+
   return (
     <div>
       <h1 className="title" alignItems="center">
@@ -345,6 +350,9 @@ export default function EmailNotify() {
           <h4>
             <b>Total Appointments: {countAppointmentsTodayAndTotal()}</b>
           </h4>
+        </CCol>
+        <CCol  xs="4" className="text-right">
+          <button type="button" class="btn btn-info" onClick={handlerefresh}> Refresh <RefreshIcon /> </button>
         </CCol>
       </CRow>
 
@@ -403,23 +411,23 @@ export default function EmailNotify() {
                     return val;
                   } else if (
                     (val.App_Date.toLowerCase().includes(searchTerm.toLowerCase()))
-                     || (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase()))
-                      //  || (val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.MRN.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Appointment_Status.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Consent_form_choice.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Patient_email.toLowerCase().includes(searchTerm.toLowerCase()))
-                       || (val.Apttype.toLowerCase().includes(searchTerm.toLowerCase())) 
-                       || (val.Timing.toLowerCase().includes(searchTerm.toLowerCase())) 
-                      // (val.Slot.toLowerCase().includes(searchTerm.toLowerCase()))
-                    
+                    || (val.Provider_id.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Provider_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase()))
+                    //  || (val.Practitioner_Speciality.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.MRN.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.practitioner_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Appointment_Status.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Consent_form_choice.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Patient_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Apttype.toLowerCase().includes(searchTerm.toLowerCase()))
+                    || (val.Timing.toLowerCase().includes(searchTerm.toLowerCase()))
+                    // (val.Slot.toLowerCase().includes(searchTerm.toLowerCase()))
+
                   ) {
                     return val;
                   }
@@ -435,7 +443,7 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "15%" }}
                       >
-                        {row.MRN}<br/>
+                        {row.MRN}<br />
                         {checkpatientope(row.MRN) === 1 ? <b>(OPE Affiliated)</b> : ""}
                       </StyledTableCell>
                       <StyledTableCell
@@ -463,14 +471,15 @@ export default function EmailNotify() {
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        {riskscore(row.Appointment_Status)} 
-                        {row.Apttype === "Appointment" ?  <EventIcon /> : <CallIcon />}<br/>
+                        {riskscore(row.Appointment_Status)}
+                        {row.Apttype === "Appointment" ? <EventIcon /> : <CallIcon />}<br />
                         {row.Connected_Care_Status === true ? "Continuous Care" : ""}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
                       >
-                        <b>Documents Awaited </b><br/>
+                        {/* <b>Documents Awaited </b><br/> */}
+                        {row.Document_Status}<br />
                         {handleConsentChange(row.Consent_form_choice)}
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}

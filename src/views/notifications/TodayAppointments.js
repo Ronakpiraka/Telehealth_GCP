@@ -22,6 +22,7 @@ import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory, useLocation } from "react-router-dom";
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { CBadge } from "@coreui/react";
 import "../records/patients.css";
 import LoadingOverlay from "react-loading-overlay";
@@ -332,6 +333,10 @@ export default function EmailNotify() {
     history.push("/notifications/upcoming");
   };
 
+  const handlerefresh = () => {
+    window.location.reload();
+  };
+
   const countAppointmentsTodayAndTotal = () => {
     const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
     const appointmentsToday = data.filter(
@@ -354,6 +359,9 @@ export default function EmailNotify() {
           <h4>
             <b>Appointments Today: {countAppointmentsTodayAndTotal()}</b>
           </h4>
+        </CCol>
+        <CCol  xs="4" className="text-right">
+          <button type="button" class="btn btn-info" onClick={handlerefresh}> Refresh <RefreshIcon /> </button>
         </CCol>
       </CRow>
       {/* <CRow >

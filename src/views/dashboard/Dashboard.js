@@ -368,7 +368,6 @@ const Dashboard = () => {
           {/* <CRow><CPatient></CPatient></CRow> */}
           <CRow>
             <h2 id="title" className="title" align="center"><strong>Critical Patients</strong></h2>
-            
           </CRow>
           <CRow>
             <Modal
