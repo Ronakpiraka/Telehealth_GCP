@@ -22,19 +22,19 @@ const TheHeaderDropdown = (props) => {
   let name = sessionStorage.getItem('Patient_name');
   console.log("HD", name)
 
-  useEffect(()=>{
-    const timer = setTimeout(() => {
-      if (reloadCount < 1) {
-        if (name === null) {
-          window.location.reload();
-          setReloadCount((prevCount) => prevCount + 1);
-        } 
-        else {
-          clearTimeout(timer);
-        }
-      }
-    }, 2000);
-  },[])
+  // useEffect(()=>{
+  //   const timer = setTimeout(() => {
+  //     if (reloadCount < 1) {
+  //       if (name === null) {
+  //         window.location.reload();
+  //         setReloadCount((prevCount) => prevCount + 1);
+  //       } 
+  //       else {
+  //         clearTimeout(timer);
+  //       }
+  //     }
+  //   }, 2000);
+  // },[])
     
 
 
