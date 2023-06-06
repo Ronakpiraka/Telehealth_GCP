@@ -28,13 +28,13 @@ const LoginPage = () => {
 
     if (username === REACT_APP_LOGIN_USERNAME && password === REACT_APP_LOGIN_PASS) {
       // Authentication successful, navigate to dashboard or another page
-      alert("Login successful");
+      // alert("Login successful");
       sessionStorage.setItem('IsAuthenticated',"true");
       var url = '/dashboard'; // Replace with your navigation logic
       history.push(`${url}`);
     } else {
       // Authentication failed, display error message or perform other actions
-      alert('Login failed')
+      alert('Login failed. Please try using Admin credentials')
     }
   };
 

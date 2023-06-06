@@ -351,7 +351,7 @@ export default function EmailNotify() {
             <b>Total Appointments: {countAppointmentsTodayAndTotal()}</b>
           </h4>
         </CCol>
-        <CCol  xs="4" className="text-right">
+        <CCol xs="4" className="text-right">
           <button type="button" class="btn btn-info" onClick={handlerefresh}> Refresh <RefreshIcon /> </button>
         </CCol>
       </CRow>
@@ -500,19 +500,19 @@ export default function EmailNotify() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-       {/* {isLoading && 
-      <div style={{textAlign:'center'}}>
-        <CSpinner color="primary" variant="grow"/>
-        <CSpinner color="secondary" variant="grow"/>
-        <CSpinner color="success" variant="grow"/>
-        <CSpinner color="danger" variant="grow"/>
-        <CSpinner color="warning" variant="grow"/>
-        <CSpinner color="info" variant="grow"/>
-        <CSpinner color="primary" variant="grow"/>
-        <CSpinner color="dark" variant="grow"/>
-      </div>
-      } */}
-      <LoadingOverlay
+      {isLoading &&
+        <div style={{ textAlign: 'center' }}>
+          <CSpinner color="primary" variant="grow" />
+          <CSpinner color="secondary" variant="grow" />
+          <CSpinner color="success" variant="grow" />
+          <CSpinner color="danger" variant="grow" />
+          <CSpinner color="warning" variant="grow" />
+          <CSpinner color="info" variant="grow" />
+          <CSpinner color="primary" variant="grow" />
+          <CSpinner color="dark" variant="grow" />
+        </div>
+      }
+      {/* <LoadingOverlay
         active={isLoading}
         spinner
         text="Loading the content..."
@@ -526,7 +526,7 @@ export default function EmailNotify() {
             },
           }),
         }}
-      ></LoadingOverlay>
+      ></LoadingOverlay> */}
       {/* </Content> */}
     </div>
     // </Layout>
