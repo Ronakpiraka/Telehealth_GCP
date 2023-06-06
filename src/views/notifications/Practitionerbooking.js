@@ -380,7 +380,7 @@ export default function PractitionerBooking() {
     let array3 = [];
 
     // array1 = (localStorage.getItem("finaldata")).filter(row => row.Condition_name === condition && row.Practitioner_Slot === slab);
-    array1 = JSON.parse(localStorage.getItem("finaldata"));
+    array1 = JSON.parse(localStorage.getItem("finaldata")).filter(row => row.Practitioner_Slot === slab);;
     // array1 = practitioners;
     console.log("finally data aaya", array1, "type of", typeof (array1));
     array2 = data.filter(item => item.Condition_name === condition && item.App_Date === date && item.Timing === hour && item.slot === slab);

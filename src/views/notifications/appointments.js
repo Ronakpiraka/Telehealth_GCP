@@ -264,7 +264,8 @@ export default function Appointment() {
 //------------------------------------------------------------------------------
   useEffect(() => {
     // if (paramString == undefined) {
-    const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
+    // const res = fetch("https://appointmentbook-sh4iojyb3q-uc.a.run.app", {
+    const res = fetch("https://patientdata-sh4iojyb3q-uc.a.run.app/", {
       method: "GET",
     })
       .then((resp) => resp.json())
@@ -352,11 +353,10 @@ export default function Appointment() {
     localStorage.setItem("Patient_name", selectedPatientData[0].Patient_name);
     localStorage.setItem("Patient_id", selectedPatientData[0].Patient_id);
     localStorage.setItem("Patient_MRN", selectedPatientData[0].Medical_Record_Number);
-    localStorage.setItem("Patient_email", "telehealthgcp@gmail.com");
+    localStorage.setItem("Patient_email", selectedPatientData[0].guardian_email);// "telehealthgcp@gmail.com"); 
     criticalpatient();
     checkpatientope(selectedPatientData[0].Medical_Record_Number);
     // localStorage.removeItem('condition_name');
-
   };
 
   const checkpatientope = (mrnno) => {
