@@ -363,10 +363,10 @@ export default function EmailNotify() {
                   <b>Appointment Date and Time</b>
                 </TableCell>
                 <TableCell style={{ width: "10%", textAlign: "center" }}>
-                  <b>Status</b>
+                  <b>Appointment Status & Type</b>
                 </TableCell>
                 <TableCell style={{ width: "10%", textAlign: "center" }}>
-                  <b>Documents</b>
+                  <b>Documents Status & Consent</b>
                 </TableCell>
                 {/* <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell> */}
               </TableRow>
