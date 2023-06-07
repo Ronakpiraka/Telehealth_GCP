@@ -704,7 +704,8 @@ export default function Appointment() {
       var url = `/notifications/allappointments`;
     } else {
       // bucketurl();
-      window.location.href = 'https://encoded-ensign-380910.uc.r.appspot.com/#/';
+      // window.location.href = 'https://encoded-ensign-380910.uc.r.appspot.com/#/';
+      window.location.href = `https://patientengagement-373605.uc.r.appspot.com/`;
     }
     // var url = `/bookAppointment`;
     history.push(`${url}`);

@@ -320,7 +320,8 @@ export default function Consent(props) {
     if (sessionStorage.getItem("Patient_name") === null) {
       var url = `/notifications/allappointments`;
     } else {
-      window.location.href = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
+      // window.location.href = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
+      window.location.href = `https://patientengagement-373605.uc.r.appspot.com/`;
       // bucketurl();
     }
     // var url = `/bookAppointment`;
