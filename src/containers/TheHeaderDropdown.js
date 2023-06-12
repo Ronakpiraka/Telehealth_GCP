@@ -14,12 +14,18 @@ import { useLocation, Link } from "react-router-dom";
 import Appointment from '../views/notifications/appointments'
 import Logout from './logout'
 
+
   
   const TheHeaderDropdown = (props) => {
     const Authenticated = sessionStorage.getItem('IsAuthenticated')
     console.log("HD", Authenticated)
     let name = sessionStorage.getItem('Patient_name');
-    // reloadforpatientname(name);
+    
+    // useEffect(() => {
+    //   if (Authenticated && name !== null) {
+    //     window.location.reload();
+    //   }
+    // }, [Authenticated, name]);
 
     return (
     <CDropdown
