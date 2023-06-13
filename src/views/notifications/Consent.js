@@ -378,6 +378,7 @@ export default function Consent(props) {
           </Button>
         </Modal.Footer>
       </Modal>
+      
       <Modal align="center" show={submitted} onHide={handleShowSubmittedModal}>
         <Modal.Header closeButton>
           <Modal.Title>Appointment Request</Modal.Title>
@@ -460,6 +461,8 @@ export default function Consent(props) {
     )}
     <br/>  */}
         {/* <h4 style={{fontFamily:'sans-serif'}}>Consent</h4> */}
+        {(sessionStorage.getItem("Patient_name") !== null) && (
+          <div>
         <CRow>
           <CCol className="navbar justify-content-between">
             <p className="navbar-brand">
@@ -514,6 +517,7 @@ export default function Consent(props) {
           </CRow>
         </RadioGroup>
         <br />
+        </div> )}
         {/* <form className="signature-pad-form">
       <h4 style={{fontFamily:'sans-serif'}}>Signature</h4>
       <CRow><CCol></CCol><CRow><CCol><Signature/></CCol></CRow></CRow>

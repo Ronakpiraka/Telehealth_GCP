@@ -22,9 +22,6 @@ const TheHeaderDropdown = (props) => {
   let name = sessionStorage.getItem('Patient_name');
   console.log("HD", name)
 
-    
-
-
   return (
     <CDropdown
     inNav

@@ -124,7 +124,7 @@ export default function Appointment() {
   const [data, setData] = useState([]);
   // const [data, setData] = useState([]);
   const [uniquePatientData, setUniquePatientData] = useState([]);
-  
+  const [opepatientcounter, setopepatientcounter] = useState('0');
   const [uniquePatientNames, setUniquePatientNames] = useState([]);
   const [alldata, setalldata] = useState([]);
   const [searchTerm, setsearchTerm] = useState("");
@@ -178,10 +178,10 @@ export default function Appointment() {
   console.log(paramString);
 
   useEffect(() => {
+    // setopepatientcounter('0');
     if (paramString !== undefined) {
       try {
         const secretKey = "hellotelehealth";
-
         var mrn = location.search.split("mabc=")[1].split("&")[0];
         setpatientMrn(mrn);
 
@@ -211,6 +211,12 @@ export default function Appointment() {
         localStorage.setItem("Patient_MRN", decryptedMRN);
         checkpatientope(decryptedMRN);
         localStorage.setItem("Patient_email", decryptedEmail);
+        // if (opepatientcounter==='0') {
+        //   setTimeout(() => {
+        //     window.location.reload();
+        //     setopepatientcounter('1');
+        //   }, 1000);
+        // }
       } catch (err) {
         console.log(err);
       }
@@ -380,6 +386,10 @@ export default function Appointment() {
       .catch((error) => {
         console.error(error);
       });
+      // setTimeout(() => {
+      //       window.location.reload();
+      //   //     setopepatientcounter('1');
+      //     }, 1000);
   };
 
   const criticalpatient = () => {
@@ -974,10 +984,10 @@ export default function Appointment() {
           <span className="navbar justify-content-between">
             <p className="navbar-brand">
               <b>Medical Record Number: </b>
+              {opepatient === 'true' && (
+                <b>(OPE Affliated)</b>
+              )}
             </p>
-            {opepatient === 'true' && (
-              <p>OPE Affliated</p>
-            )}
           </span>
         </CCol>
         {!decryptedMRN && (

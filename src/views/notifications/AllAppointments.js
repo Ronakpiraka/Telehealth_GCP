@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Layout, Menu, Input, Calendar } from "antd";
 import "./PatientInfo.css";
 import "antd/dist/antd.css";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Table from "@material-ui/core/Table";
@@ -29,6 +31,10 @@ import { useHistory, useLocation } from "react-router-dom";
 import { CBadge } from "@coreui/react";
 import "../records/patients.css";
 import LoadingOverlay from "react-loading-overlay";
+
+import { Modal, Button } from "react-bootstrap";
+// import { Modal, ModalHeader, Body, ModalFooter, Button } from 'react-bootstrap';
+
 import { CCol, CRow } from "@coreui/react";
 
 export default function EmailNotify() {
@@ -102,7 +108,14 @@ export default function EmailNotify() {
     },
   }))(TableRow);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModal1Open, setIsModal1Open] = useState(false);
+  const [isModal2Open, setIsModal2Open] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [appointmentType, setAppointmentType] = useState("");
+  const [modalData, setModalData] = useState({});
   const [data, setdata] = React.useState([]);
+  const [tabledata, settabledata] = React.useState([]);
   const [opepatientdata, setopepatientdata] = useState([]);
   const [filter, setFilter] = useState('');
   const [collapsed, setcollapsed] = React.useState(false);
@@ -178,6 +191,35 @@ export default function EmailNotify() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setpage(0);
+  };
+
+  const handleFileChange = (e) => {
+    setSelectedFiles([...e.target.files]);
+  };
+  const handleUpload = async () => {
+    if (selectedFiles.length === 0) {
+      alert('Please select files first');
+      return;
+    }
+    const formData = new FormData();
+    selectedFiles.forEach((file) => {
+      formData.append('files', file);
+    });
+    try {
+      // Replace this URL with your server-side endpoint for handling file uploads
+      const response = await fetch('https://your-upload-endpoint.com/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      if (response.ok) {
+        alert('Files uploaded successfully');
+      } else {
+        alert('Failed to upload the files');
+      }
+    } catch (error) {
+      console.error('Error while uploading the files:', error);
+      alert('Error occurred while uploading the files');
+    }
   };
 
   const patientope = () => {
@@ -310,10 +352,28 @@ export default function EmailNotify() {
     history.push("/notifications/upcoming");
   };
 
+  const redirecttodocumentspage = (MRN) => {
+    var url = `/notifications/documents?MRN=${MRN}`;
+    history.push(`${url}`);
+  };
+
   const handleConsentChange = (consent) => {
     let conval = ''
     if (consent === "Do") {
       conval = 'Full Consent';
+    }
+    if (consent === "Do partial") {
+      conval = 'Partial Consent';
+    }
+    if (consent === "Do not") {
+      conval = 'No Consent';
+    }
+    return conval;
+  };
+  const handleConsentCareChange = (consent) => {
+    let conval = ''
+    if (consent === "Do") {
+      conval = 'You have Full Consent';
     }
     if (consent === "Do partial") {
       conval = 'Partial Consent';
@@ -328,12 +388,97 @@ export default function EmailNotify() {
     window.location.reload();
   }
 
-  const countAppointmentsTodayAndTotal = () => {
+  const openopeModal = (rowData) => {
+    // no upload and change
+    setIsModalOpen(true);
+    setModalData(rowData);
+  };
+
+  const closeopeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openncModal = (rowData) => {
+    //change consent modal
+    setIsModal1Open(true);
+    setModalData(rowData);
+  };
+
+  const closencModal = () => {
+    setIsModal1Open(false);
+  };
+  const openteleModal = (rowData) => {
+    setIsModal2Open(true);
+    setModalData(rowData);
+  };
+
+  const closeteleModal = () => {
+    setIsModal2Open(false);
+  };
+
+  const handleAppointmentChange = () => {
+    // setAppointmentType(newValue);
+    if (appointmentType === 'All') {
+      countAppointmentsTotal();
+      settabledata()
+    }
+    if (appointmentType === 'Past') {
+      countAppointmentsPast();
+      settabledata(filteredPastData)
+    }
+    if (appointmentType === 'Today') {
+      countAppointmentsToday();
+      settabledata(filteredtodayData)
+    }
+    if (appointmentType === 'Upcoming') {
+      countAppointmentsUpcoming();
+      settabledata(filteredUpcomingData)
+    }
+
+  };
+
+  const today = new Date();
+
+  const filteredPastData = data.filter((row) => {
+    const appDate = row.App_Date;
+    console.log(appDate, appDate < today)
+    return appDate < (today) ; // only include appointments with today's date or later
+  });
+
+  
+  const countAppointmentsPast = () => {
+    const countTotal = filteredPastData.length;
+    sessionStorage.setItem("appointmentpast", countTotal);
+    return countTotal;
+  };
+
+  const filteredtodayData = data.filter((row) => {
+    const appDate = new Date(row.App_Date);
+    return appDate == today || appDate.toDateString() === today.toDateString(); // only include appointments with today's date or later
+  });
+
+  const countAppointmentsToday = () => {
     const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
-    const appointmentsToday = data.filter(
-      (row) => row.App_Date === today
-    );
-    const countToday = appointmentsToday.length;
+    // const appointmentsToday = data.filter((row) => row.App_Date === today);
+    const countToday = filteredtodayData.length;
+    sessionStorage.setItem("appointmentsToday", countToday);
+    return countToday;
+  };
+
+  const filteredUpcomingData = data.filter((row) => {
+    const appDate = new Date(row.App_Date);
+    return appDate > today; // only include appointments with today's date or later
+  });
+
+  const countAppointmentsUpcoming = () => {
+    const countTotal = filteredUpcomingData.length;
+    sessionStorage.setItem("appointmentsupcoming", countTotal);
+    return countTotal;
+  };
+
+  const countAppointmentsTotal = () => {
+    const today = new Date().toISOString().substr(0, 10); // get today's date in YYYY-MM-DD format
+
     const countTotal = data.length;
     sessionStorage.setItem("appointmentsTotal", countTotal);
     return countTotal;
@@ -342,13 +487,55 @@ export default function EmailNotify() {
   return (
     <div>
       <h1 className="title" alignItems="center">
-        <strong>All Appointments</strong>
+        <strong>Appointments</strong>
       </h1>
+
+      <Tabs value={appointmentType} onChange={handleAppointmentChange} centered>
+        <Tab value = "All" label="All" />
+        <Tab value = "Past" label="Past" />
+        <Tab value = "Today" label="Today" />
+        <Tab value = "Upcoming" label="Upcoming" />
+      </Tabs>
+
+      <Modal show={isModalOpen} toggle={closeopeModal}>
+        <Modal.Header style={{ display: "flex", alignItems: "center", justifyContent: "center" }} toggle={closeopeModal}>OPE Patient Document Status</Modal.Header>
+        <Modal.Body>
+          {/* Render modal content using the modalData */}
+          This is ope patient.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button color="primary" onClick={closeopeModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={isModal1Open} toggle={closencModal}>
+        <Modal.Header style={{ display: "flex", alignItems: "center", justifyContent: "center" }} toggle={closencModal}>Telehealth Patient Document Status</Modal.Header>
+        <Modal.Body>
+          this patient have no consent
+        </Modal.Body>
+        <Modal.Footer>
+          <Button color="primary" onClick={closencModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={isModal2Open} toggle={closeteleModal}>
+        <Modal.Header style={{ display: "flex", alignItems: "center", justifyContent: "center" }} toggle={closeteleModal}>Telehealth Patient Document Status(Upload Docs)</Modal.Header>
+        <Modal.Body>
+          {/* this patient gave full/partial consent */}
+          <h5 align="center">Upload Documents</h5>
+          <div align="center">
+            <input type="file" multiple onChange={handleFileChange} />
+            <button onClick={handleUpload}>Upload</button></div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button color="primary" onClick={closeteleModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
 
       <CRow>
         <CCol>
           <h4>
-            <b>Total Appointments: {countAppointmentsTodayAndTotal()}</b>
+            <b>Total Appointments: {countAppointmentsTotal()}</b>
           </h4>
         </CCol>
         <CCol xs="4" className="text-right">
@@ -401,11 +588,13 @@ export default function EmailNotify() {
                 <TableCell style={{ width: "10%", textAlign: "center" }}>
                   <b>Documents Status & Consent</b>
                 </TableCell>
-                {/* <TableCell style={{ width: '13%', textAlign: 'center'}}>Actions</TableCell> */}
+                <TableCell style={{ width: "10%", textAlign: "center" }}>
+                  <b>Beta testing</b>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data
+              {tabledata
                 .filter((val) => {
                   if (searchTerm === "") {
                     return val;
@@ -482,6 +671,35 @@ export default function EmailNotify() {
                         {row.Document_Status}<br />
                         {handleConsentChange(row.Consent_form_choice)}
                       </StyledTableCell>
+                      <StyledTableCell
+                        style={{ textAlign: "center", width: "15%" }}
+                      >
+                        {/* <button type="button" class="btn btn-primary" onClick={() => openncModal(row)}>Check status&nbsp;<TelegramIcon /></button> */}
+                        {checkpatientope(row.MRN) === 1 ? (
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => openopeModal(row)}
+                          >
+                            Check status <TelegramIcon />
+                          </button>
+                        ) : row.Consent_form_choice === 'Do not' ? (
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => openncModal(row)}
+                          >
+                            Check status <TelegramIcon />
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => openteleModal(row)}
+                          >
+                            Check status <TelegramIcon />
+                          </button>)}
+                      </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
                     </StyledTableRow>
                   );
@@ -494,7 +712,7 @@ export default function EmailNotify() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
         component="div"
-        count={data.length}
+        count={tabledata.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -512,23 +730,7 @@ export default function EmailNotify() {
           <CSpinner color="dark" variant="grow" />
         </div>
       }
-      {/* <LoadingOverlay
-        active={isLoading}
-        spinner
-        text="Loading the content..."
-        styles={{
-          height: "100%",
-          spinner: (base) => ({
-            ...base,
-            width: "50px",
-            "& svg circle": {
-              stroke: "rgba(255, 0, 0, 0.5)",
-            },
-          }),
-        }}
-      ></LoadingOverlay> */}
-      {/* </Content> */}
+
     </div>
-    // </Layout>
   );
 }

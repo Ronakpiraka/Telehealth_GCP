@@ -142,7 +142,7 @@ export default function PractitionerBooking() {
   // dayjs.extend(localizedFormat);
 
   const [data, setdata] = React.useState([]);
-
+  const [pincode, setPincode] = useState('');
   const [isLoad, setisLoad] = useState(true);
   const [isLoading, setisLoading] = useState(true);
   const [finaldata, setfinaldata] = React.useState([]);
@@ -157,7 +157,7 @@ export default function PractitionerBooking() {
   const [selectedDate, setSelectedDate] = React.useState();
   const [selectedTime, setSelectedTime] = React.useState();
   const [timeslot, settimeslot] = React.useState([]);
-  const [pincode, setPincode] = useState('');
+  // const [pincode, setPincode] = useState('');
   // const [selectedCard, setSelectedCard] = useState(null);
   // const history = useHistory();
   const [providername, setProvidername] = useState();
@@ -371,6 +371,11 @@ export default function PractitionerBooking() {
     selectpractitioner(selectedDate, selectedHour, slab);
   };
 
+  // const handlezipSubmit = (e) => {  
+  //   e.preventDefault();
+  //   // console.log('zip', zip);
+  //   // localStorage.setItem("zip", zip);
+  // };
 
   const selectpractitioner = (date, hour, slab) => {
     // debugger;
