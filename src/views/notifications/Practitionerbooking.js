@@ -169,7 +169,8 @@ export default function PractitionerBooking() {
   const [matchedSlot, setMatchedSlot] = useState("");
   const [locations, setlocations] = useState("");
   const [enteredTime, setEnteredTime] = useState("");
-
+  const [zipCode, setZipCode] = useState('');
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
 
   var stat, flags, Pname, conditionName;
   const location = useLocation();
@@ -410,6 +411,29 @@ export default function PractitionerBooking() {
 
   console.log('final prac data', finalprac);
 
+  const handleSearch = () => {
+    // Use a geocoding API to convert the ZIP code to coordinates
+    // For example, you can use the Google Geocoding API
+
+    // Replace 'YOUR_API_KEY' with your actual API key
+    const apiKey = process.env.REACT_APP_MAP_API_KEY;
+
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${apiKey}`
+    )
+      .then(response => response.json())
+      .then(data => {
+        const { lat, lng } = data.results[0].geometry.location;
+        setCoordinates({ lat, lng });
+        console.log(coordinates)
+        localStorage.setItem("CoordinatesLat",lat)
+        localStorage.setItem("CoordinatesLng",lng)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      })
+    }
+
   // const handlezipSubmit = (e) => {
   //   e.preventDefault();
   //   console.log(pincode); // replace with your desired action, e.g. submit to server
@@ -445,13 +469,15 @@ export default function PractitionerBooking() {
       </CRow>
       <br />
       <h4 style={{ color: "indigo" }}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("condition_speciality")}</h4>
-      {/* localStorage.setItem("practitioner_speciality", row.Practitioner_Speciality); */}
 
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <CRow>
+        <CCol>
+        <LocalizationProvider dateAdapter={AdapterDayjs} >
         <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
           <MobileDateTimePicker
             label={'Date & Time'}
             openTo="hours"
+            className="datetime-picker-container"
             ampm={false}
             minutesStep={60}
             value={(localStorage.getItem('connectedCareValue') === 'Yes') ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
@@ -462,15 +488,28 @@ export default function PractitionerBooking() {
           />
         </DemoContainer>
       </LocalizationProvider>
+      </CCol>
 
-      <br />
-      <div>
+      <CCol>
+        <input
+          type="text"
+          placeholder="Enter ZIP code"
+          value={zipCode}
+          onChange={event => setZipCode(event.target.value)}
+          className="zipcode-input"
+        />
+        <button className="location-search-button" onClick={handleSearch}>Search
+        <img src="https://www.freepnglogos.com/uploads/search-png/search-icon-clip-art-clkerm-vector-clip-art-online-22.png"  alt="Location Pin" className="location-pin-image" />
+        </button>
+      </CCol>
+      </CRow>
+      <br/><br/>
+     
         <Map
           containerElement={<div style={{ height: `500px`, width: "100%" }} />}
           mapElement={<div style={{ height: `100%` }} />}
           markers={finalprac}
         />
-      </div>
 
 
       <CRow>

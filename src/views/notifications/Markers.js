@@ -17,18 +17,34 @@ const API_KEY = process.env.REACT_APP_MAP_API_KEY;
 
 const Map = withScriptjs(withGoogleMap(props => {
   const [selectedMarker, setSelectedMarker] = useState(null)
+
   return (
+    
     <GoogleMap
       defaultZoom={8}
       defaultCenter={{ lat: 42.407211, lng: -71.382439 }}
     >
+      <>
       {props.markers.map(marker => (
         <Marker
           key={marker.id}
           position={{ lat: marker.Provider_lat, lng: marker.Provider_long }}
           onClick={() => setSelectedMarker(marker)}
+          icon={{
+            url: 'https://png.pngtree.com/png-clipart/20221222/original/pngtree-hospital-medical-or-clinic-location-icon-navigation-pin-png-image_8795914.png',
+            scaledSize: new window.google.maps.Size(40, 40) // Adjust the dimensions as needed
+          }}
         />
       ))}
+      
+      <Marker position={{ lat: props.cordLat, lng: props.cordLng}}
+      icon={{
+        url: 'https://www.pngkit.com/png/full/28-286293_blue-map-pin-blue-google-maps-marker.png',
+        scaledSize: new window.google.maps.Size(40, 60) // Adjust the dimensions as needed
+      }}
+      /> 
+
+      </>
        {selectedMarker && (
           <InfoWindow
             position={{ lat: selectedMarker.Provider_lat, lng: selectedMarker.Provider_long }}
@@ -88,7 +104,8 @@ const Map = withScriptjs(withGoogleMap(props => {
 
 const MapComponent = (props) => {
   const data = props.markers;
-  console.log(data);
+  const coordLat = localStorage.getItem('CoordinatesLat');
+  const coordLng = localStorage.getItem('CoordinatesLng');
   return (
     <Map
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${API_KEY}`}
@@ -96,6 +113,8 @@ const MapComponent = (props) => {
       containerElement={<div style={{ height: '500px' }} />}
       mapElement={<div style={{ height: '100%' }} />}
       markers={data}
+      cordLat={parseFloat(coordLat)}
+      cordLng={parseFloat(coordLng)}
     />
   );
 };

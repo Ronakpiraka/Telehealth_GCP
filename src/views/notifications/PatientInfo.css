@@ -29,3 +29,81 @@
     font-size: 14px;
     border: 1px;
   }
+
+  .zipcode-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 400px;
+  }
+  
+  .zipcode-input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .datetime-picker-container {
+    width: 50%;
+    height: 100%;
+  }
+  
+  .datetime-picker-input {
+    width: 200px;
+    max-width: 400px; 
+  }
+  
+  .location-search-container {
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+  }
+  
+  .location-search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    flex-grow: 1;
+  }
+  
+  .location-search-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .location-search-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .location-search-button {
+    /* display: flex; */
+    align-items: center;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .location-pin-image {
+    width: 20px;
+    height: 20px;
+    margin: 0px 5px;
+  }
+
+  
+  
+  
+  
+  
+  
+  
+  
