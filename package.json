@@ -83,9 +83,12 @@
     "react-select": "^5.7.0",
     "react-signature-canvas": "^1.0.6",
     "react-toastify": "^8.0.2",
+    "react-tooltip": "^5.13.2",
+    "reactour": "^1.19.0",
     "redux": "^4.0.5",
     "rxjs": "^7.3.0",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "styled-components": "^6.0.0-rc.3"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",

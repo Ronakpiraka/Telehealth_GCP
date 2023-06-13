@@ -334,7 +334,7 @@ export default function Consent(props) {
 
   return (
     <>
-      <Modal show={showModal} onHide={handlepreview}>
+      <Modal show={showModal} onHide={handleclosemodal}>
         <Modal.Header closeButton>
           <Modal.Title>
             <b>Preview Appointment Details</b>

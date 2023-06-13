@@ -151,14 +151,10 @@ export default function Appointment() {
   const [endDate, setEndDate] = useState("");
   const [consentgiven, setconsentgiven] = useState("");
   const [uniqueData, setUniqueData] = useState([]);
-  // const [uniquePatientName, setuniquePatientName] = useState("");
-
   const [endDateOpt, setEndDateOpt] = useState("");
-
   const [showModal, setShowModal] = useState(false);
   const [deviceId, setDeviceId] = useState(0);
   const [deviceIdPromptOpen, setDeviceIdPromptOpen] = useState();
-  // const [connectedCareValue, setConnectedCareValue] = useState("No");
   const [orderDetails, setOrderDetails] = useState("");
   const [conditionName, setConditionName] = React.useState([]);
   const [page, setpage] = React.useState(0);
