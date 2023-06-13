@@ -32,8 +32,10 @@ import TableCell from '@material-ui/core/TableCell';
 import { CBadge } from '@coreui/react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import { array } from 'prop-types'
-
+import { array } from 'prop-types';
+import Tour from 'reactour';
+import InfoIcon from "@material-ui/icons/Info";
+import Fab from '@mui/material/Fab';
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 // const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
@@ -130,6 +132,55 @@ const Dashboard = () => {
   const [showMessage, setshowMessage] = useState(true);
   const [iframeurl, setiframeurl] = useState();
   var url;
+  const [isTourOpen, setIsTourOpen] = useState(false);
+
+  const handleTourToggle = () => {
+    setIsTourOpen(!isTourOpen);
+  };
+
+  const steps = [
+    {
+      selector: '.element-one',
+      content: ()=>(
+        <div>
+          <center><h4>Welcome</h4></center>
+          <p>Welcome to the dashboard tour! This dashboard provides an overview of the data and allows you to manage various aspects of our application.</p>
+          <img width="250px" height="200px" src="https://cdn.dribbble.com/users/1081864/screenshots/3344868/healthcare_800x600_newcolors.gif" alt=""/>
+        </div>
+      )
+    },
+    {
+      selector: '.element-two',
+      content:()=>(
+        <div>
+          <center><h4>Dashboard Overview</h4></center>
+          <p>This section provides an overview of key metrics and data points relevant to your application. You can quickly grasp the current status.</p>
+          {/* <img width="250px" height="200px" src="https://media2.giphy.com/media/3oKIPEqDGUULpEU0aQ/giphy.gif" alt=""/> */}
+        </div>
+      )
+    },
+    {
+      selector: '.element-three',
+      content: ()=>(
+        <div>
+          <center><h4>Interactive Charts</h4></center>
+          <p>The dashboard includes interactive charts and graphs that visually represent your data. Hover over data points to view specific details, and use the chart controls to customize the view.</p>
+          {/* <image src="https://clipart-library.com/data_images/402769.png" alt="image"/> */}
+        </div>
+      ),
+    },
+    {
+      selector:'.element-four',
+      content: ()=>(
+        <div>
+          <center><h4>Congratulations!</h4></center>
+          <p>You have completed the dashboard tour. Feel free to explore and interact with the various features to make the most of your dashboard experience.</p>
+          <image src="https://clipart-library.com/data_images/402769.png" alt="image"/>
+        </div>
+      ),
+    }
+    // Add more steps as needed
+  ];
   const modalhandleOpen = (event) => {
     setmodalopen(true);
     setshowMessage(true);
@@ -223,6 +274,19 @@ const Dashboard = () => {
   // console.log(dashdetails)
   return (
     <>
+      <Box>
+       <Fab variant="extended" onClick={handleTourToggle}>
+        <InfoIcon/> Start Tour 
+      </Fab>
+      </Box>
+      
+      <Tour
+        steps={steps}
+        isOpen={isTourOpen}
+        onRequestClose={handleTourToggle}
+      />
+      <br/>
+      <div className='element-two'>
       <CRow>
         <CCol sm="6" lg="3">
           <CWidgetDropdown
@@ -304,8 +368,6 @@ const Dashboard = () => {
         </CCol>
       </CRow>
 
-
-
       <CCardGroup className="mb-4">
         <CWidgetProgressIcon
           header={dashdetails.Provider_count}
@@ -352,20 +414,20 @@ const Dashboard = () => {
           <CIcon name="cil-speedometer" height="36" />
         </CWidgetProgressIcon>
       </CCardGroup>
+      </div>
 
-
-      <CCard>
+      <div className="element-three">
+      <CCard >
         <CCardBody>
           <CRow>
             <h2 id="title" className="title" align="center"><strong>Continuous Care</strong></h2>
-           
           </CRow>
-          <Iframe width="100%" height="550px" src="https://datastudio.google.com/embed/reporting/c6041d77-a0b2-42dd-86da-6489602b5870/page/tEnnC" frameborder="0" style="border:0" allowfullscreen />
+          <Iframe  width="100%" height="550px" src="https://datastudio.google.com/embed/reporting/c6041d77-a0b2-42dd-86da-6489602b5870/page/tEnnC" frameborder="0" style="border:0" allowfullscreen />
         </CCardBody>
       </CCard>
+      </div>
       <CCard>
         <CCardBody>
-          {/* <CRow><CPatient></CPatient></CRow> */}
           <CRow>
             <h2 id="title" className="title" align="center"><strong>Critical Patients</strong></h2>
           </CRow>
