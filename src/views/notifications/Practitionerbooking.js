@@ -33,9 +33,8 @@ import Map from './Markers'
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
-// import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
-// import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-// import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import Tour from 'reactour';
+import InfoIcon from "@material-ui/icons/Info";
 import {
   Modal,
   CCard,
@@ -48,8 +47,10 @@ import {
   CCardText,
 } from "@coreui/react";
 import DatePicker from 'react-datepicker/dist/react-datepicker';
+import Button from '@mui/material/Button';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Day } from "@syncfusion/ej2-schedule";
+import Box from '@material-ui/core/Box';
 
 export default function PractitionerBooking() {
   const useStyles = makeStyles((theme) => ({
@@ -171,6 +172,11 @@ export default function PractitionerBooking() {
   const [enteredTime, setEnteredTime] = useState("");
   const [zipCode, setZipCode] = useState('');
   const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  const [isTourOpen, setIsTourOpen] = useState(false);
+
+  const handleTourToggle = () => {
+    setIsTourOpen(!isTourOpen);
+  };
 
   var stat, flags, Pname, conditionName;
   const location = useLocation();
@@ -179,6 +185,50 @@ export default function PractitionerBooking() {
   const toggle = () => {
     setModal(!modal);
   };
+
+  const steps = [
+    {
+      selector: '.element-one',
+      content: ()=>(
+        <div>
+          <center><h4>Appointment Booking</h4></center>
+          <p>Book your Appointment by selecting your practitioner and availability date</p>
+          {/* <img width="250px" height="200px" src="https://cdn.dribbble.com/users/1081864/screenshots/3344868/healthcare_800x600_newcolors.gif" alt=""/> */}
+        </div>
+      )
+    },
+    {
+      selector: '.element-two',
+      content:()=>(
+        <div>
+          <center><h4>Select Availability</h4></center>
+          <p>This section allows you to select your Booking Date and Time</p>
+          {/* <img width="250px" height="200px" src="https://media2.giphy.com/media/3oKIPEqDGUULpEU0aQ/giphy.gif" alt=""/> */}
+        </div>
+      )
+    },
+    {
+      selector: '.element-three',
+      content: ()=>(
+        <div>
+          <center><h4>Provide Zip Code</h4></center>
+          <p>Enter your zipcode and choose your nearby Providers on Map</p>
+          {/* <image src="https://clipart-library.com/data_images/402769.png" alt="image"/> */}
+        </div>
+      ),
+    },
+    {
+      selector:'.element-four',
+      content: ()=>(
+        <div>
+          <center><h4>Select your Practitioner</h4></center>
+          <p>You can also select your Practitioner from the available list.</p>
+          <image src="https://clipart-library.com/data_images/402769.png" alt="image"/>
+        </div>
+      ),
+    }
+    
+  ];
 
   // useEffect(() => {
   //   if (reloadCount < 3) {
@@ -464,7 +514,16 @@ export default function PractitionerBooking() {
           </CButton>
         </CModalFooter>
       </CModal>
-
+      <Box>
+        <Button variant="contained" endIcon={<InfoIcon />} onClick={handleTourToggle}>
+          Start Tour
+        </Button>
+      </Box>
+      <Tour
+        steps={steps}
+        isOpen={isTourOpen}
+        onRequestClose={handleTourToggle}
+      />
       <CRow>
         <CCol>
           <h1 className="title">
@@ -474,7 +533,7 @@ export default function PractitionerBooking() {
       </CRow>
       <br />
       <h4 style={{ color: "indigo" }}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("condition_speciality")}</h4>
-
+    
       <CRow>
         <CCol>
         <LocalizationProvider dateAdapter={AdapterDayjs} >
@@ -482,7 +541,7 @@ export default function PractitionerBooking() {
           <MobileDateTimePicker
             label={'Date & Time'}
             openTo="hours"
-            className="datetime-picker-container"
+            className="datetime-picker-container element-two"
             ampm={false}
             minutesStep={60}
             value={(localStorage.getItem('connectedCareValue') === 'Yes') ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
@@ -501,7 +560,7 @@ export default function PractitionerBooking() {
           placeholder="Enter ZIP code"
           value={zipCode}
           onChange={event => setZipCode(event.target.value)}
-          className="zipcode-input"
+          className="zipcode-input element-three"
         />
         <button className="location-search-button" onClick={handleSearch}>Search
         <img src="https://www.freepnglogos.com/uploads/search-png/search-icon-clip-art-clkerm-vector-clip-art-online-22.png"  alt="Location Pin" className="location-pin-image" />
@@ -541,7 +600,7 @@ export default function PractitionerBooking() {
 
         {finalprac.map((row, index) => {
           return (
-            <CCol sm="6" md="6" lg="4">
+            <CCol sm="6" md="6" lg="4" className="element-four">
               <CCardGroup
                 className="mb-4"
                 style={{
@@ -582,7 +641,6 @@ export default function PractitionerBooking() {
           );
         })}
       </CRow>
-
       <CRow>
         <CCol>
           <PatientAppointment data={data} />

@@ -414,13 +414,6 @@ export default function Appointment() {
       });
   };
 
-  // Example usage:
-  // criticalpatient("123456789");  // Replace with a valid MRN value
-
-
-  // const slots = [{ slot: '9 AM - 10 AM' }, { slot: '10 AM - 11 AM' }, { slot: '11 AM - 12 PM' }, { slot: '12 PM - 1 PM' }, { slot: '1 PM - 2 PM' }, { slot: '2 PM - 3 PM' }, { slot: '3 PM - 4 PM' }, { slot: '4 PM - 5 PM' }];
-
-
   const device_details = [
     { code: "528388", Display: "Pulse Oximeter" },
     // { code: "528391", Display: "Blood Pressure Cuff" },
@@ -475,6 +468,12 @@ export default function Appointment() {
   //   }
   // };
 
+  const showToastMessage = () => {
+    toast.success('Email Sent Successfully to your inbox !', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
   useEffect(() => {
     fetch("https://emailnotifications-sh4iojyb3q-uc.a.run.app")
       .then((response) => response.json())
@@ -522,7 +521,6 @@ export default function Appointment() {
     localStorage.setItem("platform", reqdata[0].Platform);
 
     const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " on " + Date + " at " + hour + ":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. "
-
     // const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + reqdata[0].App_Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
     return message;
   };
@@ -643,11 +641,13 @@ export default function Appointment() {
         console.log(result);
       })
       .catch((error) => console.log("error", error));
-    redirectpostcricappt();
+      
+      showToastMessage();
+      redirectpostcricappt();
   };
 
   const senddatechangerequest = () => {
-    if (localStorage.getItem("oldenddate") == localStorage.getItem("Enddate")) {
+    if (localStorage.getItem("oldenddate") === localStorage.getItem("Enddate")) {
       alert("End date and new end date can't be the same. Please choose another date to proceed.");
       setNewDate('')
     }
@@ -677,7 +677,6 @@ export default function Appointment() {
       console.log(raw);
 
       fetch("https://device-extension-or-closure-sh4iojyb3q-uc.a.run.app", requestOptions)
-
         .then((response) => {
           response.json();
         })
@@ -685,7 +684,8 @@ export default function Appointment() {
           console.log(result);
         })
         .catch((error) => console.log("error", error));
-
+      
+      showToastMessage();
       redirect();
     }
   };

@@ -33,11 +33,11 @@ import { CBadge } from '@coreui/react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { array } from 'prop-types';
+import Button from '@mui/material/Button';
 import Tour from 'reactour';
 import InfoIcon from "@material-ui/icons/Info";
-import Fab from '@mui/material/Fab';
+
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
-// const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
 const Dashboard = () => {
   const StyledTableCell = withStyles((theme) => ({
@@ -274,11 +274,11 @@ const Dashboard = () => {
   // console.log(dashdetails)
   return (
     <>
-      <Box>
-       <Fab variant="extended" onClick={handleTourToggle}>
-        <InfoIcon/> Start Tour 
-      </Fab>
-      </Box>
+    <Box>
+        <Button variant="contained" endIcon={<InfoIcon />} onClick={handleTourToggle}>
+        Start Tour
+      </Button>
+    </Box>
       
       <Tour
         steps={steps}

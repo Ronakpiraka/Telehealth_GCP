@@ -180,9 +180,9 @@ export default function EmailNotify() {
     patientope();
   }, []);
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
-  };
+  // const handleFilterChange = (event) => {
+  //   setFilter(event.target.value);
+  // };
 
   const handleChangePage = (event, newPage) => {
     setpage(newPage);
@@ -236,9 +236,7 @@ export default function EmailNotify() {
   };
 
   const checkpatientope = (MRN) => {
-
     let opepatient = 0;
-
     for (let i = 0; i < opepatientdata.length; i++) {
       if (opepatientdata[i].MRN_number === MRN) {
         opepatient = 1;
@@ -247,10 +245,10 @@ export default function EmailNotify() {
     }
     return opepatient;
   }
-  const senddata = (name, doctor, guardian_email) => {
-    var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
-    history.push(`${url}`);
-  };
+  // const senddata = (name, doctor, guardian_email) => {
+  //   var url = `/notifications?Patient_name=${name}&doctor=${doctor}`;
+  //   history.push(`${url}`);
+  // };
 
   const riskscore = (Appointment_Status) => {
     if (Appointment_Status === "Pending") {
@@ -277,7 +275,7 @@ export default function EmailNotify() {
         </CBadge>
       );
     }
-    if (Appointment_Status == "Fulfilled") {
+    if (Appointment_Status === "Fulfilled") {
       return (
         <CBadge
           color="success"
@@ -301,7 +299,7 @@ export default function EmailNotify() {
         </CBadge>
       );
     }
-    if (Appointment_Status == null) {
+    if (Appointment_Status === null) {
       return (
         <CBadge
           color="secondary"
@@ -313,7 +311,7 @@ export default function EmailNotify() {
         </CBadge>
       );
     }
-    if (Appointment_Status == "Booked") {
+    if (Appointment_Status === "Booked") {
       return (
         <CBadge
           color="primary"
@@ -329,7 +327,7 @@ export default function EmailNotify() {
     else {
       return (
         <CBadge
-          color="secondary"//grey
+          color="secondary"
           className="mfs-auto"
           fontSize="22px"
           align="center"
@@ -340,22 +338,22 @@ export default function EmailNotify() {
     }
   };
 
-  const handleButtonClick1 = () => {
-    history.push("/notifications/past");
-  };
+  // const handleButtonClick1 = () => {
+  //   history.push("/notifications/past");
+  // };
 
-  const handleButtonClick2 = () => {
-    history.push("/notifications/today");
-  };
+  // const handleButtonClick2 = () => {
+  //   history.push("/notifications/today");
+  // };
 
-  const handleButtonClick3 = () => {
-    history.push("/notifications/upcoming");
-  };
+  // const handleButtonClick3 = () => {
+  //   history.push("/notifications/upcoming");
+  // };
 
-  const redirecttodocumentspage = (MRN) => {
-    var url = `/notifications/documents?MRN=${MRN}`;
-    history.push(`${url}`);
-  };
+  // const redirecttodocumentspage = (MRN) => {
+  //   var url = `/notifications/documents?MRN=${MRN}`;
+  //   history.push(`${url}`);
+  // };
 
   const handleConsentChange = (consent) => {
     let conval = ''
@@ -370,19 +368,19 @@ export default function EmailNotify() {
     }
     return conval;
   };
-  const handleConsentCareChange = (consent) => {
-    let conval = ''
-    if (consent === "Do") {
-      conval = 'You have Full Consent';
-    }
-    if (consent === "Do partial") {
-      conval = 'Partial Consent';
-    }
-    if (consent === "Do not") {
-      conval = 'No Consent';
-    }
-    return conval;
-  };
+  // const handleConsentCareChange = (consent) => {
+  //   let conval = ''
+  //   if (consent === "Do") {
+  //     conval = 'You have Full Consent';
+  //   }
+  //   if (consent === "Do partial") {
+  //     conval = 'Partial Consent';
+  //   }
+  //   if (consent === "Do not") {
+  //     conval = 'No Consent';
+  //   }
+  //   return conval;
+  // };
 
   const handlerefresh = () => {
     window.location.reload();
@@ -416,26 +414,26 @@ export default function EmailNotify() {
     setIsModal2Open(false);
   };
 
-  const handleAppointmentChange = () => {
-    // setAppointmentType(newValue);
-    if (appointmentType === 'All') {
-      countAppointmentsTotal();
-      settabledata()
-    }
-    if (appointmentType === 'Past') {
-      countAppointmentsPast();
-      settabledata(filteredPastData)
-    }
-    if (appointmentType === 'Today') {
-      countAppointmentsToday();
-      settabledata(filteredtodayData)
-    }
-    if (appointmentType === 'Upcoming') {
-      countAppointmentsUpcoming();
-      settabledata(filteredUpcomingData)
-    }
+  // const handleAppointmentChange = () => {
+  //   // setAppointmentType(newValue);
+  //   if (appointmentType === 'All') {
+  //     countAppointmentsTotal();
+  //     settabledata()
+  //   }
+  //   if (appointmentType === 'Past') {
+  //     countAppointmentsPast();
+  //     settabledata(filteredPastData)
+  //   }
+  //   if (appointmentType === 'Today') {
+  //     countAppointmentsToday();
+  //     settabledata(filteredtodayData)
+  //   }
+  //   if (appointmentType === 'Upcoming') {
+  //     countAppointmentsUpcoming();
+  //     settabledata(filteredUpcomingData)
+  //   }
 
-  };
+  // };
 
   const today = new Date();
 
@@ -490,12 +488,12 @@ export default function EmailNotify() {
         <strong>Appointments</strong>
       </h1>
 
-      <Tabs value={appointmentType} onChange={handleAppointmentChange} centered>
+      {/* <Tabs value={appointmentType} onChange={handleAppointmentChange} centered>
         <Tab value = "All" label="All" />
         <Tab value = "Past" label="Past" />
         <Tab value = "Today" label="Today" />
         <Tab value = "Upcoming" label="Upcoming" />
-      </Tabs>
+      </Tabs> */}
 
       <Modal show={isModalOpen} toggle={closeopeModal}>
         <Modal.Header style={{ display: "flex", alignItems: "center", justifyContent: "center" }} toggle={closeopeModal}>OPE Patient Document Status</Modal.Header>
@@ -589,12 +587,12 @@ export default function EmailNotify() {
                   <b>Documents Status & Consent</b>
                 </TableCell>
                 <TableCell style={{ width: "10%", textAlign: "center" }}>
-                  <b>Beta testing</b>
+                  <b>View Documents</b>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {tabledata
+              {data
                 .filter((val) => {
                   if (searchTerm === "") {
                     return val;
@@ -616,7 +614,6 @@ export default function EmailNotify() {
                     || (val.Apttype.toLowerCase().includes(searchTerm.toLowerCase()))
                     || (val.Timing.toLowerCase().includes(searchTerm.toLowerCase()))
                     // (val.Slot.toLowerCase().includes(searchTerm.toLowerCase()))
-
                   ) {
                     return val;
                   }
@@ -681,7 +678,7 @@ export default function EmailNotify() {
                             className="btn btn-primary"
                             onClick={() => openopeModal(row)}
                           >
-                            Check status <TelegramIcon />
+                            Check status 
                           </button>
                         ) : row.Consent_form_choice === 'Do not' ? (
                           <button
@@ -689,7 +686,7 @@ export default function EmailNotify() {
                             className="btn btn-primary"
                             onClick={() => openncModal(row)}
                           >
-                            Check status <TelegramIcon />
+                            Check status 
                           </button>
                         ) : (
                           <button
@@ -697,7 +694,7 @@ export default function EmailNotify() {
                             className="btn btn-primary"
                             onClick={() => openteleModal(row)}
                           >
-                            Check status <TelegramIcon />
+                            Check status 
                           </button>)}
                       </StyledTableCell>
                       {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
@@ -712,13 +709,28 @@ export default function EmailNotify() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
         component="div"
-        count={tabledata.length}
+        count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      {isLoading &&
+       <LoadingOverlay
+        active={isLoading}
+        spinner
+        text="Loading the content..."
+        styles={{
+          height: "100%",
+          spinner: (base) => ({
+            ...base,
+            width: "50px",
+            "& svg circle": {
+              stroke: "rgba(255, 0, 0, 0.5)",
+            },
+          }),
+        }}
+      ></LoadingOverlay>
+      {/* {isLoading &&
         <div style={{ textAlign: 'center' }}>
           <CSpinner color="primary" variant="grow" />
           <CSpinner color="secondary" variant="grow" />
@@ -729,7 +741,7 @@ export default function EmailNotify() {
           <CSpinner color="primary" variant="grow" />
           <CSpinner color="dark" variant="grow" />
         </div>
-      }
+      } */}
 
     </div>
   );

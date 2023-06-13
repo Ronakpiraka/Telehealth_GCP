@@ -369,31 +369,32 @@ export default function PatientInform() {
                   if (searchTerm === "") {
                     return val;
                   }
-                  else if ((val.Active_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Consent_Form_Text.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Encounter_end_date.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Encounter_start.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Encounter_start_date.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Language.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Marital_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Medical_Record_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Mothers_maiden_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Patient_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                  else if (
+                    (val.Active_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Condition_code.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Condition_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Consent_Form_Text.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Contact_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Encounter_end_date.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Encounter_start.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Encounter_start_date.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Language.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Marital_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Medical_Record_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Mothers_maiden_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Patient_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Practitioner_email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Practitioner_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    (val.Practitioner_name.toLowerCase().includes(searchTerm.toLowerCase())) 
                     // (val.Provider_number.toLowerCase().includes(searchTerm.toLowerCase())) || 
-                    (val.Remote_Care_Text.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.Social_Security_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.birthdate.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.gender.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    (val.guardian_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                    // (val.Remote_Care_Text.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.Social_Security_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.birthdate.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.gender.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    // (val.guardian_email.toLowerCase().includes(searchTerm.toLowerCase()))
                   ) {
                     return val
                   }
