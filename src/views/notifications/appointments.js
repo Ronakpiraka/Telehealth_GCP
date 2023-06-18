@@ -34,6 +34,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import 'react-toastify/dist/ReactToastify.css';
+import Table from 'react-bootstrap/Table';
+import TableBody from '@material-ui/core/TableBody';
 import CryptoJS from "crypto-js";
 import {
   CCard,
@@ -44,6 +46,9 @@ import {
   CRow,
   CWidgetProgressIcon,
 } from "@coreui/react";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Stack from '@mui/material/Stack';
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -469,7 +474,7 @@ export default function Appointment() {
   // };
 
   const showToastMessage = () => {
-    toast.success('Email Sent Successfully to your inbox !', {
+    toast.success('Email Sent Successfully to your inbox', {
         position: toast.POSITION.TOP_RIGHT
     });
   };
@@ -520,6 +525,37 @@ export default function Appointment() {
     // localStorage.setItem("Enddate", reqdata[0].New_closure_date);
     localStorage.setItem("platform", reqdata[0].Platform);
 
+
+    if(reqdata) {
+			return (
+        <>
+        <tr>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Patient MRN</b></th>
+					<td style={{ height: '0px' }}>{localStorage.getItem("Patient_MRN")}</td>
+				</tr>
+				<tr>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Patient Name</b></th>
+					<td style={{ height: '0px' }}>{localStorage.getItem("Patient_name")}</td>
+				</tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Practitioner Name</b></th>
+          <td style={{ height: '0px' }}>{reqdata[0].Practitioner_name}</td>
+        </tr>
+        <tr>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Device ID</b></th>
+					<td style={{ height: '0px' }}>{localStorage.getItem('devices')}</td>
+				</tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Condition Name</b></th>
+          <td style={{ height: '0px' }}>{reqdata[0].Condition_name}</td>
+        </tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Summary</b></th>
+          <td style={{ height: '0px' }}>Your call will be scheduled with the practitioner today, Please check your mail for further details.</td>
+        </tr>
+      </>
+			)
+		}
     const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " on " + Date + " at " + hour + ":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. "
     // const message = localStorage.getItem("Patient_name") + " your appointment is schedule with the practitioner " + reqdata[0].Practitioner_name + " today " + reqdata[0].App_Date + " at "+ Hour +":00 hrs for " + reqdata[0].Condition_name + ". Please press submit to confirm the same. " 
     return message;
@@ -527,18 +563,58 @@ export default function Appointment() {
 
   const aptdata = () => {
 
-    const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status == true && row.Devices == localStorage.getItem("devices"));
+    const reqdata = alldata.filter(row => row.MRN === localStorage.getItem("Patient_MRN") && row.Connected_Care_Status === true && row.Devices === localStorage.getItem("devices"));
     localStorage.setItem("Appdate", reqdata[0].App_Date);
     localStorage.setItem("PracEmail", reqdata[0].practitioner_email);
-    const message = localStorage.getItem("Patient_name") + " have this device assigned by " + reqdata[0].Practitioner_name + " on " + reqdata[0].App_Date + " for tracking your vitals for " + reqdata[0].Condition_name + ". Do you wish to change the device subscription end date to " + localStorage.getItem("Enddate") + ". We will share the changed date over mail to " + localStorage.getItem("Patient_name") + " and " + reqdata[0].Practitioner_name + ". " + localStorage.getItem("Patient_name") + " will share his records with practitioner during the visit."
-    console.log("hi requiredata is here", reqdata, "mrn from ls", localStorage.getItem("Patient_MRN"), "device id", localStorage.getItem('devices'))
-    console.log(message)
-    return message;
+    if(reqdata) {
+			return (
+        <>
+        <tr>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Patient MRN</b></th>
+					<td style={{ height: '0px' }}>{localStorage.getItem("Patient_MRN")}</td>
+				</tr>
+				<tr>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Patient Name</b></th>
+					<td style={{ height: '0px' }}>{localStorage.getItem("Patient_name")}</td>
+				</tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Practitioner Name</b></th>
+          <td style={{ height: '0px' }}>{reqdata[0].Practitioner_name}</td>
+        </tr>
+        <tr>
+					<th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Device ID</b></th>
+					<td style={{ height: '0px' }}>{localStorage.getItem('devices')}</td>
+				</tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Device Assignment Date</b></th>
+          <td style={{ height: '0px' }}>{reqdata[0].App_Date}</td>
+        </tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Device End Date</b></th>
+          <td style={{ height: '0px' }}>{localStorage.getItem("Enddate")}</td>
+        </tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Condition Name</b></th>
+          <td style={{ height: '0px' }}>{reqdata[0].Condition_name}</td>
+        </tr>
+        <tr>
+          <th style={{ height: '0px', fontWeight: 'bold', width: "30%" }}><b>Summary</b></th>
+          <td style={{ height: '0px' }}>You are choosing to update your Device Subscription Enddate, Please check your mail for futher details.</td>
+        </tr>
+      </>
+			)
+		}
+    // const message = localStorage.getItem("Patient_name") + " have this device assigned by " + reqdata[0].Practitioner_name + " on " + reqdata[0].App_Date + " for tracking your vitals for " + reqdata[0].Condition_name + ". Do you wish to change the device subscription end date to " + localStorage.getItem("Enddate") + ". We will share the changed date over mail to " + localStorage.getItem("Patient_name") + " and " + reqdata[0].Practitioner_name + ". " + localStorage.getItem("Patient_name") + " will share his records with practitioner during the visit."
+    // console.log("hi requiredata is here", reqdata, "mrn from ls", localStorage.getItem("Patient_MRN"), "device id", localStorage.getItem('devices'))
+    // console.log(message)
+    
+    // return message;
   };
 
   const handleExtDateChange = (newDate) => {
     const endDatePlus3Months = dayjs(endDate).add(3, 'months');
     if (newDate.isBefore(endDate) || newDate.isAfter(endDatePlus3Months) || (newDate === endDate)) {
+      
       alert("Please select a date that is greater than enddate (" + endDate + ") and not exceed the 3 months from the end date of your Subscription.");
       setNewDate(null);
     } else {
@@ -649,6 +725,10 @@ export default function Appointment() {
   const senddatechangerequest = () => {
     if (localStorage.getItem("oldenddate") === localStorage.getItem("Enddate")) {
       alert("End date and new end date can't be the same. Please choose another date to proceed.");
+      setNewDate('')
+    }
+    else if(localStorage.getItem("Enddate") === null){
+      alert("Please Choose Your Device End Date before Submitting");
       setNewDate('')
     }
     else {
@@ -1100,7 +1180,16 @@ export default function Appointment() {
                                 </DemoContainer>
                               </LocalizationProvider>
                             </div>
-                            <b>{aptdata()}</b><br />
+                            <div className="col-lg-12 col-md-12 place-order" style={{textAlign:'left', marginTop:'5px' }}>
+                              <div className="padding-bottom20">
+                                <Table striped bordered hover>
+                                  <TableBody>
+                                    {aptdata()}
+                                  </TableBody>
+                                </Table>
+                              </div>
+                            </div>
+                            <br />
                             <div>By clicking the submit button your request to change the device subscription end date will be sent.</div><br />
                             <button class="btn btn-primary" onClick={senddatechangerequest}>
                               Submit
@@ -1123,7 +1212,16 @@ export default function Appointment() {
                                 </DemoContainer>
                               </LocalizationProvider>
                             </div>
-                            <b>{aptdata()}</b><br />
+                            <div className="col-lg-12 col-md-12 place-order" style={{textAlign:'left', marginTop:'5px' }}>
+                              <div className="padding-bottom20">
+                                <Table striped bordered hover>
+                                  <TableBody>
+                                    {aptdata()}
+                                  </TableBody>
+                                </Table>
+                              </div>
+                            </div>
+                            <br />
                             <div >By clicking the submit button your request to change the device subscription end date will be sent.</div><br />
                             <button class="btn btn-primary" onClick={senddatechangerequest}>
                               Submit
@@ -1132,7 +1230,16 @@ export default function Appointment() {
                         )}
                         {endDateOpt === "Maybe" && (
                           <div align="center">
-                            <b>{calldata()}</b><br />
+                              <div className="col-lg-12 col-md-12 place-order" style={{textAlign:'left', marginTop:'5px' }}>
+                              <div className="padding-bottom20">
+                                <Table striped bordered hover>
+                                  <TableBody>
+                                    {calldata()}
+                                  </TableBody>
+                                </Table>
+                              </div>
+                            </div>
+                            <br />
                             <div>By clicking the submit button your request to an immediate call with the Practitioner.</div><br />
                             <button class="btn btn-primary" onClick={senddata}>
                               Submit
@@ -1189,7 +1296,7 @@ export default function Appointment() {
                     ...base,
                     width: "50px",
                     "& svg circle": {
-                      stroke: "rgba(255, 0, 0, 0.5)",
+                      stroke: "rgba(255, 0, 0, 1)",
                     },
                   }),
                 }}

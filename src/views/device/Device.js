@@ -27,6 +27,7 @@ import "../records/patients.css";
 import { OneKPlusOutlined } from "@mui/icons-material";
 import { CSpinner } from '@coreui/react'
 import { CBadge } from "@coreui/react";
+import Skeleton from '@mui/material/Skeleton';
 
 export default function Device() {
   const useStyles = makeStyles((theme) => ({
@@ -272,7 +273,7 @@ export default function Device() {
       <CRow>
         <CCol><h4><b>Devices Count: {countdevices()}</b></h4></CCol>
         <CCol  xs="4" className="text-right">
-          <button type="button" class="btn btn-info" onClick={handlerefresh}> Refresh <RefreshIcon /> </button>
+          <button type="button" class="btn btn-info" onClick={handlerefresh}> Refresh <RefreshIcon /></button><br/>
         </CCol>
       </CRow>
 
@@ -400,7 +401,8 @@ export default function Device() {
                       </div>
                     )} 
                   </TableRow>
-                ))}
+                ))
+                }
             </TableBody>
 
           </Table>
@@ -437,7 +439,7 @@ export default function Device() {
             ...base,
             width: "50px",
             "& svg circle": {
-              stroke: "rgba(255, 0, 0, 0.5)",
+              stroke: "rgba(255, 0, 0, 1)",
             },
           }),
         }}

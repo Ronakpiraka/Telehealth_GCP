@@ -15,6 +15,7 @@ import { alpha } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import LoadingOverlay from 'react-loading-overlay';
 import { CSpinner } from '@coreui/react'
+import Skeleton from '@mui/material/Skeleton';
 import "./patients.css";
 
 import Prow from './Prow';
@@ -211,7 +212,18 @@ export default function ProviderInform() {
                   return val
                 }
               }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((prow, index) => {
+                .length === 0 ? (
+                <StyledTableRow>
+                  <td colSpan="9" style={{ textAlign: 'center' }}>
+                    <Skeleton />
+                    <Skeleton animation="wave" />
+                    <Skeleton animation={false} />
+                    <Skeleton animation="wave" />
+                  </td>
+                </StyledTableRow>
+                )
+                : (
+                data.map((prow, index) => {
                   if (!uniqueProviderCode.includes(prow.Provider_id)) {
                     uniqueProviderCode.push(prow.Provider_id)
                     return (
@@ -221,6 +233,7 @@ export default function ProviderInform() {
                     );
                   }
                 })
+                )
               }
             </TableBody>
           </Table>
@@ -257,7 +270,7 @@ export default function ProviderInform() {
 								...base,
 								width: '50px',
 								'& svg circle': {
-									stroke: 'rgba(255, 0, 0, 0.5)'
+									stroke: 'rgba(255, 0, 0, 1)'
 								}
 							})
 						}}

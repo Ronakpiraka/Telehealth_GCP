@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './LoginPage.css'; // Import CSS file for the login page styles
 import {useHistory, useLocation} from "react-router-dom";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Stack from '@mui/material/Stack';
 import { useContext } from 'react';
 // import {UserContext} from '../App';
 
@@ -34,7 +37,13 @@ const LoginPage = () => {
       history.push(`${url}`);
     } else {
       // Authentication failed, display error message or perform other actions
-      alert('Login failed. Please try using Admin credentials')
+      // alert('Login failed. Please try using Admin credentials')
+      <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        Login failed. Please try using Admin credentials
+      </Alert>
+      </Stack>
     }
   };
 

@@ -175,7 +175,8 @@ const Dashboard = () => {
         <div>
           <center><h4>Congratulations!</h4></center>
           <p>You have completed the dashboard tour. Feel free to explore and interact with the various features to make the most of your dashboard experience.</p>
-          <image src="https://clipart-library.com/data_images/402769.png" alt="image"/>
+          {/* <image src="https://clipart-library.com/data_images/402769.png" alt="image"/> */}
+          <center><button className='btn btn-primary' onClick={handleTourToggle}>Close Tour</button></center>
         </div>
       ),
     }
@@ -274,12 +275,13 @@ const Dashboard = () => {
   // console.log(dashdetails)
   return (
     <>
-    <Box>
+    <div>
+      <Box>
         <Button variant="contained" endIcon={<InfoIcon />} onClick={handleTourToggle}>
-        Start Tour
-      </Button>
-    </Box>
-      
+          Dashboard Tour
+        </Button>
+      </Box>
+    </div>
       <Tour
         steps={steps}
         isOpen={isTourOpen}

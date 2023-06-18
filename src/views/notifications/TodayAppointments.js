@@ -444,7 +444,13 @@ export default function EmailNotify() {
                     return val;
                   }
                 })
-                .map((row, index) => {
+                .length === 0 ? (
+                  <StyledTableRow>
+                    <td colSpan="8" style={{ textAlign: 'center' }}>No Appointments scheduled for today</td>
+                  </StyledTableRow>
+                ): 
+                (
+                filteredData.map((row, index) => {
                   return (
                     <StyledTableRow>
                       <StyledTableCell
@@ -496,6 +502,7 @@ export default function EmailNotify() {
                     </StyledTableRow>
                   );
                 })
+                )
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
             </TableBody>
           </Table>
@@ -532,7 +539,7 @@ export default function EmailNotify() {
             ...base,
             width: "50px",
             "& svg circle": {
-              stroke: "rgba(255, 0, 0, 0.5)",
+              stroke: "rgba(255, 0, 0, 1)",
             },
           }),
         }}

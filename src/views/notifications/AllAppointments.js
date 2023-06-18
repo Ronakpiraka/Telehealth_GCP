@@ -31,7 +31,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { CBadge } from "@coreui/react";
 import "../records/patients.css";
 import LoadingOverlay from "react-loading-overlay";
-
+import Encounter from './Encounter'
 import { Modal, Button } from "react-bootstrap";
 // import { Modal, ModalHeader, Body, ModalFooter, Button } from 'react-bootstrap';
 
@@ -405,6 +405,7 @@ export default function EmailNotify() {
   const closencModal = () => {
     setIsModal1Open(false);
   };
+
   const openteleModal = (rowData) => {
     setIsModal2Open(true);
     setModalData(rowData);
@@ -563,6 +564,8 @@ export default function EmailNotify() {
             <TableHead>
               <TableRow>
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
+                </TableCell>
+                <TableCell style={{ width: "15%", textAlign: "center" }}>
                   <b>Patient Name</b>
                 </TableCell>
                 <TableCell style={{ width: "15%", textAlign: "center" }}>
@@ -620,85 +623,9 @@ export default function EmailNotify() {
                 })
                 .map((row, index) => {
                   return (
-                    <StyledTableRow>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "15%" }}
-                      >
-                        {row.Patient_name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "15%" }}
-                      >
-                        {row.MRN}<br />
-                        {checkpatientope(row.MRN) === 1 ? <b>(OPE Affiliated)</b> : ""}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "15%" }}
-                      >
-                        {row.Condition_name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "30%" }}
-                      >
-                        {row.Provider_name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "15%" }}
-                      >
-                        {row.Practitioner_name}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "15%" }}
-                      >
-                        <b>{row.App_Date}</b>
-                        <br />
-                        {row.Timing}:00 hrs
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "10%" }}
-                      >
-                        {riskscore(row.Appointment_Status)}
-                        {row.Apttype === "Appointment" ? <EventIcon /> : <CallIcon />}<br />
-                        {row.Connected_Care_Status === true ? "Continuous Care" : ""}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "10%" }}
-                      >
-                        {/* <b>Documents Awaited </b><br/> */}
-                        {row.Document_Status}<br />
-                        {handleConsentChange(row.Consent_form_choice)}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        style={{ textAlign: "center", width: "15%" }}
-                      >
-                        {/* <button type="button" class="btn btn-primary" onClick={() => openncModal(row)}>Check status&nbsp;<TelegramIcon /></button> */}
-                        {checkpatientope(row.MRN) === 1 ? (
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => openopeModal(row)}
-                          >
-                            Check status 
-                          </button>
-                        ) : row.Consent_form_choice === 'Do not' ? (
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => openncModal(row)}
-                          >
-                            Check status 
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => openteleModal(row)}
-                          >
-                            Check status 
-                          </button>)}
-                      </StyledTableCell>
-                      {/* <StyledTableCell style={{ textAlign: 'center'}} key={index}> <button key={index} type="button" class="btn btn-primary" onClick={() => sendemail(row.Patient_name, row.Practitioner_name,row.Guardian_Email,row.Provider_name,row.Provider_contact_number,row.practitioner_email)}>Send &nbsp;<TelegramIcon/></button></StyledTableCell> */}
-                    </StyledTableRow>
+                    <React.Fragment>
+                      <Encounter key={row.Patient_id} row={row} data={data} />
+                    </React.Fragment>
                   );
                 })
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
@@ -725,7 +652,7 @@ export default function EmailNotify() {
             ...base,
             width: "50px",
             "& svg circle": {
-              stroke: "rgba(255, 0, 0, 0.5)",
+              stroke: "rgba(255, 0, 0, 1)",
             },
           }),
         }}

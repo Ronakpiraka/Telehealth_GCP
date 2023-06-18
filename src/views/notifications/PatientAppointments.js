@@ -366,7 +366,7 @@ export default function EmailNotify(props) {
             ...base,
             width: "50px",
             "& svg circle": {
-              stroke: "rgba(255, 0, 0, 0.5)",
+              stroke: "rgba(255, 0, 0, 1)",
             },
           }),
         }}

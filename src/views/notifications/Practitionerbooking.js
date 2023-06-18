@@ -189,7 +189,7 @@ export default function PractitionerBooking() {
   const steps = [
     {
       selector: '.element-one',
-      content: ()=>(
+      content: () => (
         <div>
           <center><h4>Appointment Booking</h4></center>
           <p>Book your Appointment by selecting your practitioner and availability date</p>
@@ -199,7 +199,7 @@ export default function PractitionerBooking() {
     },
     {
       selector: '.element-two',
-      content:()=>(
+      content: () => (
         <div>
           <center><h4>Select Availability</h4></center>
           <p>This section allows you to select your Booking Date and Time</p>
@@ -209,7 +209,7 @@ export default function PractitionerBooking() {
     },
     {
       selector: '.element-three',
-      content: ()=>(
+      content: () => (
         <div>
           <center><h4>Provide Zip Code</h4></center>
           <p>Enter your zipcode and choose your nearby Providers on Map</p>
@@ -218,16 +218,25 @@ export default function PractitionerBooking() {
       ),
     },
     {
-      selector:'.element-four',
-      content: ()=>(
+      selector: '.element-four',
+      content: () => (
         <div>
           <center><h4>Select your Practitioner</h4></center>
           <p>You can also select your Practitioner from the available list.</p>
-          <image src="https://clipart-library.com/data_images/402769.png" alt="image"/>
+        </div>
+      ),
+    },
+    {
+      selector: '.element-five',
+      content: () => (
+        <div>
+          <center><h4>Congratulations</h4></center>
+          <p>You can Book your appointment now.</p>
+          <center><button className='btn btn-primary' onClick={handleTourToggle}>Close Tour</button></center>
         </div>
       ),
     }
-    
+
   ];
 
   // useEffect(() => {
@@ -481,13 +490,13 @@ export default function PractitionerBooking() {
         const { lat, lng } = data.results[0].geometry.location;
         setCoordinates({ lat, lng });
         console.log(coordinates)
-        localStorage.setItem("CoordinatesLat",lat)
-        localStorage.setItem("CoordinatesLng",lng)
+        localStorage.setItem("CoordinatesLat", lat)
+        localStorage.setItem("CoordinatesLng", lng)
       })
       .catch(error => {
         console.error('Error:', error);
       })
-    }
+  }
 
   // const handlezipSubmit = (e) => {
   //   e.preventDefault();
@@ -516,7 +525,7 @@ export default function PractitionerBooking() {
       </CModal>
       <Box>
         <Button variant="contained" endIcon={<InfoIcon />} onClick={handleTourToggle}>
-          Start Tour
+          Booking Help
         </Button>
       </Box>
       <Tour
@@ -533,47 +542,51 @@ export default function PractitionerBooking() {
       </CRow>
       <br />
       <h4 style={{ color: "indigo" }}>Condition Name : {localStorage.getItem("condition_name")} , Practitioner Speciality : {localStorage.getItem("condition_speciality")}</h4>
-    
+
       <CRow>
         <CCol>
-        <LocalizationProvider dateAdapter={AdapterDayjs} >
-        <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
-          <MobileDateTimePicker
-            label={'Date & Time'}
-            openTo="hours"
-            className="datetime-picker-container element-two"
-            ampm={false}
-            minutesStep={60}
-            value={(localStorage.getItem('connectedCareValue') === 'Yes') ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
-            disablePast={true}
-            disableFuture={localStorage.getItem('connectedCareValue') === 'Yes'}
-            disabled={localStorage.getItem('connectedCareValue') === 'Yes'}
-            onChange={handleDateTimeChange}
-          />
-        </DemoContainer>
-      </LocalizationProvider>
-      </CCol>
+          <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <DemoContainer components={['MobileDateTimePicker', 'MobileDateTimePicker']}>
+              <MobileDateTimePicker
+                label={'Date & Time'}
+                openTo="hours"
+                className="datetime-picker-container element-two"
+                ampm={false}
+                minutesStep={60}
+                value={(localStorage.getItem('connectedCareValue') === 'Yes') ? dayjs().add(1, 'hour').startOf('hour') : newDateTime}
+                disablePast={true}
+                disableFuture={localStorage.getItem('connectedCareValue') === 'Yes'}
+                disabled={localStorage.getItem('connectedCareValue') === 'Yes'}
+                onChange={handleDateTimeChange}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+        </CCol>
 
-      <CCol>
-        <input
-          type="text"
-          placeholder="Enter ZIP code"
-          value={zipCode}
-          onChange={event => setZipCode(event.target.value)}
-          className="zipcode-input element-three"
-        />
-        <button className="location-search-button" onClick={handleSearch}>Search
-        <img src="https://www.freepnglogos.com/uploads/search-png/search-icon-clip-art-clkerm-vector-clip-art-online-22.png"  alt="Location Pin" className="location-pin-image" />
-        </button>
-      </CCol>
+        <CCol>
+          <div>
+            <input
+              type="text"
+              placeholder="Enter ZIP code"
+              value={zipCode}
+              onChange={event => setZipCode(event.target.value)}
+              className="zipcode-input element-three"
+            />
+
+            <button className="location-search-button" onClick={handleSearch}>Search
+              <img src="https://www.freepnglogos.com/uploads/search-png/search-icon-clip-art-clkerm-vector-clip-art-online-22.png" alt="Location Pin" className="location-pin-image" />
+            </button>
+          </div>
+          <h6 style={{color:'red', marginLeft:'5px'}}>Enter your Zip code to check your nearest provider</h6>
+        </CCol>
       </CRow>
-      <br/><br/>
-     
-        <Map
-          containerElement={<div style={{ height: `500px`, width: "100%" }} />}
-          mapElement={<div style={{ height: `100%` }} />}
-          markers={finalprac}
-        />
+      <br /><br />
+
+      <Map
+        containerElement={<div style={{ height: `500px`, width: "100%" }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+        markers={finalprac}
+      />
 
 
       <CRow>
@@ -592,7 +605,7 @@ export default function PractitionerBooking() {
               ...base,
               width: "50px",
               "& svg circle": {
-                stroke: "rgba(255, 0, 0, 0.5)",
+                stroke: "rgba(255, 0, 0, 1)",
               },
             }),
           }}

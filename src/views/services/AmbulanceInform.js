@@ -191,12 +191,12 @@ const StyledTableRow = withStyles((theme) => ({
             : rows
           ).map((row) => (
             <StyledTableRow key={row.no}>
-              <StyledTableCell>
+              <StyledTableCell  style={{color:'blue'}}>
               <a
                 onClick={(e) => { redirectToPatientDetails(e, row.no)}}
                 target="_blank"
-                onMouseOver={function (event) { let target = event.target; target.style.color = 'blue'; target.style.cursor = 'pointer'; }}
-                onMouseOut={function (event) { let target = event.target; target.style.color = 'black'; }}
+                onMouseOver={function (event) { let target = event.target; target.style.color = 'black'; target.style.cursor = 'pointer'; }}
+                onMouseOut={function (event) { let target = event.target; target.style.color = 'blue'; }}
                 >
                 {row.no}
                 </a>

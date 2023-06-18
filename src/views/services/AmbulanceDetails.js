@@ -23,7 +23,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import DepartureBoardIcon from '@material-ui/icons/DepartureBoard';
 import AirlineSeatIndividualSuiteIcon from '@material-ui/icons/AirlineSeatIndividualSuite';
-import Maps from './Maps'
+import Map from '../notifications/Map1'
+
 import {
     CButton,
     CCard,
@@ -55,7 +56,7 @@ import {
     CSelect,
     CRow,
     CSwitch
-  } from '@coreui/react'
+} from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -167,29 +168,12 @@ export default function PatientDetails(props) {
         return (
             <React.Fragment>
 			<section className="content" style={{ padding: '10px 10px 10px 10px', margin: '0px 0px 0px 0px', width: '100%', minHeight: 'calc(70vh - 65px)' }}>
-					{/* <LoadingOverlay
-						active={false}
-						spinner
-						text='Loading the content...'
-						styles={{
-							height: "100%",
-							spinner: (base) => ({
-								...base,
-								width: '50px',
-								'& svg circle': {
-									stroke: 'rgba(255, 0, 0, 0.5)'
-								}
-							})
-						}}
-					>
-					</LoadingOverlay> */}
-			
-            
+		
 			<h4 style={{ fontSize: '18px', fontWeight: 'bold',padding: '15px' }}>
 				Ambulance Details : 
             </h4>
             <div>
-                {/* <Maps/> */}
+                <Map/>
             </div>
 		</section>
             

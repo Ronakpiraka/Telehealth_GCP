@@ -24,6 +24,7 @@ import { CSpinner } from '@coreui/react'
 import ShowModal from './showmodal';
 import { CBadge } from '@coreui/react';
 import LoadingOverlay from 'react-loading-overlay';
+import Skeleton from '@mui/material/Skeleton';
 
 export default function PatientInform() {
   const StyledTableCell = withStyles((theme) => ({
@@ -346,9 +347,7 @@ export default function PatientInform() {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-        {/* <div className='tablewrapper'> */}
         <TableContainer style={{ maxHeight: 300 }}>
-          {/* <TableContainer> */}
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <StyledTableRow style={{ padding: '0px' }}>
@@ -382,7 +381,7 @@ export default function PatientInform() {
                     // (val.Marital_Status.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     // (val.Medical_Record_Number.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     // (val.Mothers_maiden_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                    // (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
+                    (val.Patient_Age.toString().toLowerCase().includes(searchTerm.toLowerCase())) ||
                     // (val.Patient_address.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     // (val.Patient_id.toLowerCase().includes(searchTerm.toLowerCase())) ||
                     (val.Patient_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -398,9 +397,10 @@ export default function PatientInform() {
                   ) {
                     return val
                   }
-                }).sort(RemoteStatus)
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
+                })
+                .sort(RemoteStatus)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
                     return (
                       <StyledTableRow key={row.Patient_id}>
                         <StyledTableCell component="th" scope="row" style={{ textAlign: 'center' }}> <a data-patient-id={row.Patient_id} onClick={modalhandleOpen} target="_blank"
@@ -409,7 +409,7 @@ export default function PatientInform() {
                           onMouseOut={function (event) { let target = event.target; target.style.color = '#0d6efd'; }}>{row.Patient_name}</a>
                         </StyledTableCell>
                         <StyledTableCell style={{ width: '10%', textAlign: 'center' }}>{row.Practitioner_name}</StyledTableCell>
-                        <StyledTableCell style={{ width: '10%', textAlign: 'center' }}>{row.Provider_number}</StyledTableCell>
+                        <StyledTableCell style={{ width: '10%', textAlign: 'center' }}>{row.Provider_number ? row.Provider_number : "NA"}</StyledTableCell>
                         <StyledTableCell style={{ width: '10%', textAlign: 'center' }}>{row.Encounter_end_date}</StyledTableCell>
                         <StyledTableCell style={{ width: '20%', textAlign: 'center' }}>{row.Patient_address}</StyledTableCell>
                         <StyledTableCell style={{ width: '10%', textAlign: 'center' }}>{row.Patient_Age}</StyledTableCell>
@@ -418,14 +418,12 @@ export default function PatientInform() {
                         <StyledTableCell style={{ width: '10%', textAlign: 'center' }}><button type="button" className="btn btn-primary btn-sm" onClick={(e) => { redirectToPatientDetails(e, row.Patient_id) }}>View Details</button></StyledTableCell>
                       </StyledTableRow>
                     );
-                  })}
+                })}
               </>
             </TableBody>
           </Table>
         </TableContainer>
-        {/* </div> */}
       </Paper>
-      {/* </div> */}
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
         component="div"
@@ -435,29 +433,18 @@ export default function PatientInform() {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      {/* {isLoading && 
-      <div style={{textAlign:'center'}}>
-        <CSpinner color="primary" variant="grow"/>
-        <CSpinner color="secondary" variant="grow"/>
-        <CSpinner color="success" variant="grow"/>
-        <CSpinner color="danger" variant="grow"/>
-        <CSpinner color="warning" variant="grow"/>
-        <CSpinner color="info" variant="grow"/>
-        <CSpinner color="primary" variant="grow"/>
-        <CSpinner color="dark" variant="grow"/>
-      </div>
-      } */}
       <LoadingOverlay
         active={isLoading}
         spinner
         text='Loading the content...'
         styles={{
           height: "100%",
+          color: "black",
           spinner: (base) => ({
             ...base,
             width: '50px',
             '& svg circle': {
-              stroke: 'rgba(255, 0, 0, 0.5)'
+              stroke: 'rgba(255, 0, 0, 1)'
             }
           })
         }}

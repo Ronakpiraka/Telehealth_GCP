@@ -31,7 +31,7 @@ const TheHeaderDropdown = (props) => {
       <CDropdownToggle className="c-header-nav-link" caret={false}>
       <span style={{marginRight:'15px'}}>
         {Authenticated && name === null? 
-        <b>Welcome Admin</b>
+        <b>Welcome Telehealth Admin</b>
         :
         name !== null ?
         <b>Welcome {name}</b>

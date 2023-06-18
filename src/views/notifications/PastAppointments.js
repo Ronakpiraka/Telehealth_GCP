@@ -399,7 +399,13 @@ export default function EmailNotify() {
                     return val;
                   }
                 })
-                .map((row, index) => {
+                .length === 0 ? (
+                  <StyledTableRow>
+                    <td colSpan="8" style={{ textAlign: 'center' }}>No Appointments Available</td>
+                  </StyledTableRow>
+                ): 
+                (
+                filteredData.map((row, index) => {
                   return (
                     <StyledTableRow>
                       <StyledTableCell
@@ -433,17 +439,6 @@ export default function EmailNotify() {
                       >
                         <b>{row.App_Date}</b>
                         <br />{row.Timing}:00 hrs 
-                        {/* {slottiming(
-                          row.Time_9_AM_10_AM.toString(),
-                          row.Time_10_AM_11_AM.toString(),
-                          row.Time_11_AM_12_PM.toString(),
-                          row.Time_12_PM_1_PM.toString(),
-                          row.Time_1_PM_2_PM.toString(),
-                          row.Time_2_PM_3_PM.toString(),
-                          row.Time_3_PM_4_PM.toString(),
-                          row.Time_4_PM_5_PM.toString(),
-                          row.App_Date
-                        )} */}
                       </StyledTableCell>
                       <StyledTableCell
                         style={{ textAlign: "center", width: "10%" }}
@@ -461,6 +456,7 @@ export default function EmailNotify() {
                     </StyledTableRow>
                   );
                 })
+                )
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
             </TableBody>
           </Table>
@@ -497,7 +493,7 @@ export default function EmailNotify() {
             ...base,
             width: "50px",
             "& svg circle": {
-              stroke: "rgba(255, 0, 0, 0.5)",
+              stroke: "rgba(255, 0, 0, 1)",
             },
           }),
         }}

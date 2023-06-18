@@ -141,17 +141,17 @@ export default function Consent(props) {
   };
 
   const handleclosemodal = () => {
-    setShowModal(!modal);
+    setShowModal(false);
   };
   const handleSubmit = () => {
     // handlepreview();
-    setShowModal(!modal);
+    setShowModal(false);
     setSubmitted(true);
     senddata();
   };
 
   const handleShowSubmittedModal = () => {
-    setShowModal(!modal);
+    // setShowModal(!modal);
     setSubmitted(false);
     redirect();
   };
@@ -254,7 +254,6 @@ export default function Consent(props) {
     console.log(raw);
 
     fetch("https://function-2-sh4iojyb3q-uc.a.run.app", requestOptions)
-    // fetch("https://appointment-booking-sh4iojyb3q-uc.a.run.app", requestOptions)
       .then((response) => {
         response.json();
       })
@@ -316,20 +315,14 @@ export default function Consent(props) {
   // };
 
   const redirect = () => {
-    // senddata();
     if (sessionStorage.getItem("Patient_name") === null) {
       var url = `/notifications/allappointments`;
     } else {
-      // window.location.href = `https://encoded-ensign-380910.uc.r.appspot.com/#/`;
       window.location.href = `https://patientengagement-373605.uc.r.appspot.com/`;
-      // bucketurl();
     }
-    // var url = `/bookAppointment`;
     history.push(`${url}`);
     localStorage.clear();
     sessionStorage.removeItem('Patient_name');
-    // sessionStorage.clear();
-    // localStorage.removeItem('Patient_name');
   };
 
   return (
